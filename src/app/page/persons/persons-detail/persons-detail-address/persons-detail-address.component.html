@@ -1,0 +1,144 @@
+<ng-template #shareAddress let-modal let-c="close">
+  <div class="modal-header bg-custom-grey">
+    <h2 class="modal-title">การนำข้อมูลไปใช้</h2>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true" class="text-default"> <i class="fa fa-times"></i> </span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-bordered" cellspacing="0" role="grid">
+          <thead>
+            <tr role="row">
+              <th class="text-center bg-custom-green"> วันที่สร้าง </th>
+              <th class="text-center bg-custom-green"> ผู้แจ้ง </th>
+              <th class="text-center bg-custom-green"> ข้อมูล </th>
+              <th class="text-center bg-custom-green"> สถานะ </th>
+              <th class="text-center bg-custom-green"> หมายเหตุ </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white">
+            <tr *ngFor="let data of checkaddressList; let i = index" class="text-center">
+              <td>{{data.CreateDate | date: 'dd/MM/yyyy'}}</td>
+              <td>{{data.FullnameTh}}</td>
+              <td>{{data.Detail}}</td>
+              <td>
+                <p *ngIf="data.IsActive == 1">เปิดใช้งาน</p>
+                <p *ngIf="data.IsActive == 0">ปิดใช้งาน</p>
+              </td>
+              <td> </td>
+            </tr>
+            <tr *ngIf="checkaddressList.length == 0">
+              <td class="text-center" colspan="5">ไม่พบข้อมูล</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary btn-round" (click)="closeModal()">ยกเลิก</button>
+  </div>
+</ng-template>
+
+<ng-template #insertShareAddress let-modal let-c="close">
+  <div class="modal-header bg-custom-grey">
+    <h5 class="modal-title">เพิ่มข้อมูลการแจ้งการนำข้อมูลไปใช้</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true" class="text-default"> <i class="fa fa-times"></i> </span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="shareAddressForm">
+      <div class="row">
+        <div class="col-md">
+          <div class="form-group">
+            <label>สถานะการใช้งาน</label>
+            <select class="form-control ">
+              <option [value]="1">ผู้รับปลายทางไม่อยู่ตามที่จัดส่ง</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>หมายเหตุ</label>
+            <textarea type="text" class="form-control " formControlName="Detail"></textarea>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success btn-round" (click)="submit()">บันทึก</button>
+    <button type="button" class="btn btn-outline-secondary btn-round" (click)="closeModal()">ยกเลิก</button>
+  </div>
+</ng-template>
+
+<div *ngIf="addressList.length > 0">
+  <div class="card shadow mt-3" *ngFor="let addressForm of addressList">
+    <div class="card-header">
+      <div class="row justify-content-between">
+        <div class="form-group">
+          <h5 *ngIf="addressForm.TypeAddress == 1" class="font-weight-bold text-orange">
+            <img class="icon-customer mr-2" src="../../../../assets/icon-customer/icon-yello/address.png">
+            <label>ที่อยู่ตามทะเบียนบ้าน</label>
+          </h5>
+          <h5 *ngIf="addressForm.TypeAddress == 2" class="font-weight-bold text-orange">
+            <img class="icon-customer mr-2" src="../../../../assets/icon-customer/icon-yello/persons-id.png">
+            <label>ที่อยู่ตามบัตรประชาชน</label>
+          </h5>
+          <h5 *ngIf="addressForm.TypeAddress == 3" class="font-weight-bold text-orange">
+            <img class="icon-customer mr-2" src="../../../../assets/icon-customer/icon-yello/address.png">
+            <label>ที่อยู่ปัจจุบัน</label>
+          </h5>
+          <h5 *ngIf="addressForm.TypeAddress == 4" class="font-weight-bold text-orange">
+            <img class="icon-customer mr-2" src="../../../../assets/icon-customer/icon-yello/position.png">
+            <label>ที่อยู่จัดส่งเอกสาร</label>
+          </h5>
+        </div>
+        <div class="form-group mr-4">
+          <a href="javascript:void(0)" (click)="openModal(shareAddress,addressForm)">
+            <i class="fa fa-exclamation-triangle"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group row">
+                  <label class="text-orange col-md-2">เลขที่:</label>
+                  <label class="col-md-4">{{addressForm.HouseNumber}}</label>
+                  <label class="text-orange col-md-2">ถนน:</label>
+                  <label class="col-md-4">{{addressForm.Road}}</label>
+                </div>
+                <div class="form-group row">
+                  <label class="text-orange col-md-2">ตำบล/แขวง:</label>
+                  <label class="col-md-4">{{addressForm.Subdistrict}}</label>
+                  <label class="text-orange col-md-2">อำเภอ:</label>
+                  <label class="col-md-4">{{addressForm.District}}</label>
+                </div>
+                <div class="form-group row">
+                  <label class="text-orange col-md-2">จังหวัด:</label>
+                  <label class="col-md-4">{{addressForm.Province}}</label>
+                  <label class="text-orange col-md-2">รหัสไปรษณีย์:</label>
+                  <label class="col-md-4"> {{addressForm.Zipcode}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group mt-2 row">
+              <label class="text-orange col-md-12 text-right">วันที่แก้ไขล่าสุด:
+                {{addressForm.UpdateDate | date: 'dd/MM/yyyy'}}
+                <a href="javascript:void(0)" class="ml-2" (click)="insertModalShare(insertShareAddress,addressForm)">
+                  <i class="fa fa-bars"></i>
+                </a>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

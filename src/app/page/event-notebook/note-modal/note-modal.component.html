@@ -1,0 +1,36 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{title}}</h4>
+  <a class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true" class="text-default"> <i class="fa fa-times"></i> </span>
+  </a>
+</div>
+<div class="modal-body">
+  <form [formGroup]="noteForm">
+    <div class="row">
+      <div class="col-md-12">
+        <div class=" alert alert-danger" role="alert" *ngIf="alertValid">
+          กรุณากรอกข้อมูลให้ครบถ้วน
+        </div>
+        <div class="form-group">
+          <label>บุคคล<span class="text-danger">*</span>
+          </label>
+          <ng-multiselect-dropdown [data]="personList" [settings]="dropdownSettings"
+            [formControl]="noteForm.controls['Person']">
+          </ng-multiselect-dropdown>
+        </div>
+        <div class="form-group">
+          <label>ชื่อบันทึก <span class="important">*</span></label>
+          <input type="text" class="form-control" formControlName="NoteName" placeholder="">
+        </div>
+        <div class="form-group">
+          <label>รายละเอียด <span class="important">*</span></label>
+          <textarea type="text" class="form-control" formControlName="Description" placeholder="" rows="4"></textarea>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-success btn-round" (click)="submit()">บันทึก</button>
+  <button type="button" class="btn btn-outline-secondary btn-round" (click)="closeModal()">ยกเลิก</button>
+</div>

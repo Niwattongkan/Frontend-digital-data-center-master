@@ -1,0 +1,84 @@
+.sidenav {
+  padding-top: 500px;
+}
+
+#mySidenav {
+  overflow-y: auto;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin-top: 200px;
+  width: 200px;
+  position: fixed;
+}
+
+#mySidenav a {
+  position: absolute;
+  left: -120px;
+  transition: 0.3s;
+  padding: 15px;
+  width: 200px;
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+  border-radius: 0 5px 5px 0;
+}
+
+#mySidenav a:hover {
+  left: 0;
+}
+
+#profile {
+  top: 20px;
+  background-color: #4caf50;
+  border: 3px solid #ff6600;
+}
+
+#contact {
+  top: 86px;
+  background-color: #4caf50;
+  border: 3px solid #ff6600;
+}
+
+#coordinate {
+  top: 152px;
+  background-color: #4caf50;
+  border: 3px solid #ff6600;
+}
+
+#account {
+  top: 218px;
+  background-color: #4caf50;
+  border: 3px solid #ff6600;
+}
+
+#favorite {
+  top: 284px;
+  background-color: #4caf50;
+  border: 3px solid #ff6600;
+}
+
+#position {
+  top: 350px;
+  background-color: #4caf50;
+  border: 3px solid #ff6600;
+}
+
+#address {
+  top: 416px;
+  background-color: #4caf50;
+  border: 3px solid #ff6600;
+}
+
+.img-flex {
+  width: 35px;
+  height: 30px;
+  /* padding: 10px; */
+  margin-left: 110px !important;
+}
+
+.img-name {
+  margin-left: -80px !important;
+}

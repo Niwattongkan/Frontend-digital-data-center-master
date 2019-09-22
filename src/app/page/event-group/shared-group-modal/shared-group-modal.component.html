@@ -1,0 +1,55 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">แชร์กลุ่ม</h4>
+  <a class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true" class="text-default"> <i class="fa fa-times"></i> </span>
+  </a>
+</div>
+<div class="modal-body">
+  <form [formGroup]="shareForm">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row form-group">
+          <div class="col-md-12">
+            <label>แชร์กับ</label>
+            <select class="form-control " (change)="changeMode($event.target.value)">
+              <option [value]="1">บุคคล</option>
+              <option [value]="2">กลุ่มบุคคล</option>
+            </select>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-md-12" *ngIf="typePerson == 1">
+            <ng-multiselect-dropdown [data]="personList" [settings]="dropdownSettings" formControlName="Person">
+            </ng-multiselect-dropdown>
+          </div>
+          <div class="col-md-12" *ngIf="typePerson == 2">
+            <select class="form-control  mb-4" (change)="selectGroup($event.target.value)">
+              <option *ngFor="let data of contactGroupList" [value]="data.GroupUserId">
+                {{ data.Person[0].GroupUserName }}</option>
+            </select>
+          </div>
+          <div class="col-md-12" *ngIf="typePerson == 2">
+            <ng-multiselect-dropdown [data]="personGroupList" [settings]="dropdownSettings2" formControlName="Group">
+            </ng-multiselect-dropdown>
+          </div>
+        </div>
+        <div class="row form-group">
+          <div class="col-md-6">
+            <label>วันที่เริ่มแชร์</label>
+            <my-date-picker-th [options]="myDatePickerOptions" formControlName="StartDate">
+            </my-date-picker-th>
+          </div>
+          <div class="col-md-6">
+            <label>วันที่สิ้นสุด</label>
+            <my-date-picker-th [options]="myDatePickerOptions" formControlName="EndDate">
+            </my-date-picker-th>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-success btn-round" (click)="submit()">บันทึก</button>
+  <button type="button" class="btn btn-outline-secondary btn-round" (click)="closeModal()">ยกเลิก</button>
+</div>

@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <a class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true" class="text-default"> <i class="fa fa-times"></i> </span>
+  </a>
+</div>
+<div class="modal-body">
+  <form [formGroup]="boardForm">
+    <div class="row">
+      <div class="col-md">
+        <div class="form-group">
+          <label>ชื่อกลุ่มสิทธิ์ <span class="important">*</span></label>
+          <input type="text" class="form-control " placeholder="" formControlName="BoardName">
+        </div>
+        <div class="form-group">
+          <label>บุคคล <span class="important">*</span></label>
+          <ng-multiselect-dropdown [data]="personList" [settings]="dropdownSettings" formControlName="Person">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-success btn-round" (click)="submit()">บันทึก</button>
+  <button type="button" class="btn btn-outline-secondary btn-round" (click)="closeModal()">ยกเลิก</button>
+</div>

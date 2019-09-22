@@ -1,0 +1,66 @@
+<div class="container mt-2">
+  <div class="row mb-2">
+    <div class="col-md-6">
+      <span class="text-orange text-bold mr-4"> ชื่อองค์กร: </span>
+      <a href="javascript:void(0)" routerLink="/organizations/detail/{{data.CorporationId}}"
+        ngbTooltip="รายละเอียดข้อมูลองค์กร">
+        {{data.CorporationName}}
+      </a>
+    </div>
+    <div class="col-md-6 d-flex justify-content-between">
+      <span class="text-orange text-bold mr-4"> อยู่ภายใต้องค์กร: </span>
+      <label> {{data.Parent}}</label>
+      <a *ngIf="currentPath != '/home'" href="javascript:void(0)" class="ml-auto"
+        routerLink="/organizations/insert/{{data.CorporationId}}" ngbTooltip="แก้ไขข้อมูลองค์กร">
+        <i class="fas fa-pencil-alt fa-lg"></i>
+      </a>
+      <a *ngIf="currentPath == '/home'" href="javascript:void(0)" class="ml-auto"
+        routerLink="/organizations/insert/{{data.CorporationId}}" ngbTooltip="ดูรายละเอียดข้อมูลองค์กร">
+        <i class="fas fa-eye fa-lg"></i>
+      </a>
+      <!-- <a href="javascript:void(0)" (click)="deleteCorporation(data)" ngbTooltip="ลบข้อมูลองค์กร">
+        <i class="fas fa-trash fa-lg"></i>
+      </a> -->
+    </div>
+  </div>
+  <div class="row mb-2" *ngIf="data.CorporationAddressList">
+    <div class="col-md-12" *ngIf="data.CorporationAddressList.length > 0">
+      <span class="text-orange text-bold mr-4"> ที่ตั้ง: </span>
+      <!-- <label> {{showAddress(data.CorporationAddressList[0])}}</label> -->
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-md-12">
+      <span class="text-orange text-bold mr-4"> เลขประจำตัวผู้เสียภาษี: </span>
+      <label> {{data.TaxNo}}</label>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-md-10" *ngIf="organizationContact.length > 0">
+      <span class="text-orange text-bold mr-4"> เบอร์โทร: </span>
+      <span *ngIf="organizationContact[0].TypeContactId == 2"> {{organizationContact[0].Contact}}</span>
+      <span *ngIf="organizationContact[0].TypeContactId != 2"> -</span>
+    </div>
+    <div class="col-md-10" *ngIf="organizationContact.length == 0">
+      <span class="text-orange text-bold mr-4"> เบอร์โทร: </span>
+      <span> -</span>
+    </div>
+    <div class="col-md-2" *ngIf="currentPath == '/home'">
+      <div *ngIf="dataTable.length > 0" class="icon-box d-flex ml-auto">
+        <a href="javascript:void(0)" *ngIf="dataTable.length > 0" class="ml-auto" (click)="isCollapsed = !isCollapsed"
+          [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample" ngbTooltip="รายละเอียดข้อมูลองค์กร">
+          <i class="fas fa-angle-double-down fa-lg" *ngIf="!isCollapsed"></i>
+          <i class="fas fa-angle-double-up fa-lg" *ngIf="isCollapsed"></i>
+        </a>
+      </div>
+    </div>
+    <div class="col-md-2 icon-box d-flex ml-auto" *ngIf="currentPath != '/home'">
+      <a href="javascript:void(0)" class="ml-auto" (click)="deleteCorporation(data)" ngbTooltip="ลบข้อมูลองค์กร">
+        <i class="fas fa-trash fa-lg"></i>
+      </a>
+    </div>
+  </div>
+  <div *ngIf="dataTable.length > 0" class="collapse" [ngbCollapse]="isCollapsed">
+    <app-data-table [data]="dataTable" [headerTable]="headerTable" [wrapper]="false"> </app-data-table>
+  </div>
+</div>

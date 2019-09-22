@@ -1,0 +1,72 @@
+<div class="modal-header bg-custom-grey">
+  <h5 class="modal-title">เพิ่มประวัติการศึกษา</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true" class="text-default"> <i class="fa fa-times"></i> </span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="educationForm">
+    <div class="row">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-10 alert alert-danger" role="alert" *ngIf="alertValid">
+            กรุณากรอกข้อมูลให้ครบถ้วน
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 text-right">
+            <label>
+              ปีที่สำเร็จการศึกษา<span class="important">*</span>:
+            </label>
+          </div>
+          <div class="col-md-3">
+            <div class="input-group input-group-sm mb-3">
+              <input type="text" class="form-control" formControlName="GraduationYear">
+            </div>
+          </div>
+          <div class="col-md-3 text-right">
+            <label>
+              สถาบันการศึกษา<span class="important">*</span>:
+            </label>
+          </div>
+          <div class="col-md-3">
+            <ng-multiselect-dropdown [data]="academyList" [formControl]="educationForm.controls['AcademyId']"
+              [settings]="dropdownSettings">
+            </ng-multiselect-dropdown>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-3 text-right">
+            <label>
+              วุฒิการศึกษา<span class="important">*</span>:
+            </label>
+          </div>
+          <div class="col-md-3">
+            <div class="input-group input-group-sm mb-3">
+              <select class="form-control" formControlName="Degree">
+                <option [value]="1">ปริญาตรี</option>
+                <option [value]="2">ปริญาโท</option>
+                <option [value]="3">ปริญาเอก</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3 text-right">
+            <label>
+              สาขา<span class="important">*</span>:
+            </label>
+          </div>
+          <div class="col-md-3">
+            <div class="input-group input-group-sm mb-3">
+              <input type="text" class="form-control" formControlName="Major">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-success btn-round" (click)="submit()">บันทึก</button>
+  <button type="button" class="btn btn-outline-secondary btn-round" (click)="closeModal()">ยกเลิก</button>
+</div>

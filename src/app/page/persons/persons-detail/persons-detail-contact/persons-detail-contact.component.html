@@ -1,0 +1,77 @@
+<div class="card shadow">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-12">
+        <h5 class="font-weight-bold text-orange">
+          <img class="icon-customer mr-2" src="../../../../assets/icon-customer/icon-yello/contact.png">
+          <label>ข้อมูลการติดต่อ </label>
+        </h5>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group container">
+          <label class="text-orange">เบอร์โทร :</label>
+          <label class="ml-3" *ngIf="contactNumberList.length > 0">
+            <p *ngFor="let contact of contactNumberList">{{contact.Contact + ' '}}</p>
+          </label>
+          <label class="ml-3" *ngIf="contactNumberList.length == 0">-</label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group container">
+          <label class="text-orange">โทรสาร :</label>
+          <label class="ml-3" *ngIf="contactFaxList.length > 0">
+            <p *ngFor="let contact of contactFaxList">{{contact.Contact + ' '}}</p>
+          </label>
+          <label class="ml-3" *ngIf="contactFaxList.length > 0">-</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group container">
+          <label class="text-orange">E-mail :</label>
+          <label class="ml-3" *ngIf="contactEmailList.length > 0">
+            <p *ngFor="let contact of contactEmailList">{{contact.Contact + ' '}}</p>
+          </label>
+          <label class="ml-3" *ngIf="contactEmailList.length == 0">-</label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group container">
+          <label class="text-orange">Line :</label>
+          <label class="ml-3" *ngIf="contacLinetList.length > 0">
+            <p *ngFor="let contact of contacLinetList">{{contact.Contact + ' '}}</p>
+          </label>
+          <label class="ml-3" *ngIf="contacLinetList.length == 0">-</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row form-group container">
+          <label class="text-orange col-md">ติดต่อทาง Social media :
+            <label *ngIf="contactFacebookList.length > 0">
+              <a *ngFor="let contact of contactFacebookList" href="{{contact.Contact}}">
+                <img src="../../../../assets/icon-customer/icon-yello/Facebook.png" class="icon-size p-1">
+              </a>
+            </label>
+            <label *ngIf="contactTwitterList.length > 0">
+              <a *ngFor="let contact of contactTwitterList" href="{{contact.Contact}}">
+                <img src="../../../../assets/icon-customer/icon-yello/Twitter.png" class="icon-size p-1">
+              </a>
+            </label>
+            <label *ngIf="contactInstagramList.length > 0">
+              <a *ngFor="let contact of contactInstagramList" href="{{contact.Contact}}">
+                <img src="../../../../../assets/icon-customer/icon-yello/Instargram.png" class="icon-size p-1">
+              </a>
+            </label>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

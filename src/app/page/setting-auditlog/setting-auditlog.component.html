@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="card shadow">
+    <div class="card-header">
+      <h2>Audit Log</h2>
+    </div>
+    <div class="card-body">
+      <div class="row mt-4 mb-4">
+        <div class="col-md-12">
+          <div class="container">
+            <div class="row justify-content-md-center">
+              <!-- <input type="text" class="col-md-3 form-control " placeholder="ชื่อผู้แก้ไข"
+                [(ngModel)]="personName" name="personName" />
+              <div class="col-md-3 input-group">
+                <input class="form-control " placeholder="ตั้งแต่วันที่" name="dp1"
+                  [(ngModel)]="startDate" ngbDatepicker #d1="ngbDatepicker">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="d1.toggle()" type="button">
+                    <i class="fa fa-clock"></i>
+                  </button>
+                </div>
+              </div> -->
+              <!-- <div class="col-md-3 input-group">
+                <input class="form-control " placeholder="ถึงวันที่" name="dp1" [(ngModel)]="endDate"
+                  ngbDatepicker #d2="ngbDatepicker">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" (click)="d2.toggle()" type="button">
+                    <i class="fa fa-clock"></i>
+                  </button>
+                </div>
+              </div> -->
+              <div class="col-md-12 input-group">
+                <input type="text" class="form-control " placeholder="กรอกข้อมูลเพื่อค้นหา" aria-label="Search"
+                  aria-describedby="basic-addon2" [(ngModel)]="searchData" name="searchData">
+                <div class="input-group-append">
+                  <button class="btn btn-success" type="button" (click)="onSearchData()">
+                    <i class="fas fa-search fa-md"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <table class="table table-bordered" cellspacing="0" role="grid">
+        <thead class="bg-custom-green text-white">
+          <tr role="row">
+            <th *ngFor="let header of headers" class="text-center">
+              {{ header }}
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white">
+          <tr *ngFor="let data of authloglist | paginate: { itemsPerPage: 10, currentPage: page }" class="text-center">
+            <td>{{ data.UpdateDate | date: 'dd/MM/yyyy'}}</td>
+            <td>{{ data.UpdateMenu }}</td>
+            <td>{{ data.UpdateField }}</td>
+            <td>{{ data.DataOriginal }}</td>
+            <td>{{ data.UpdateData }}</td>
+            <td>{{ data.UpdateBy }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-between">
+        <span>แสดงทั้งหมด {{authloglist.length}} รายการ</span>
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,74 @@
+<div class="row mb-2">
+  <div class="col-md text-center">
+    <app-stepper [stepList]="stepList"></app-stepper>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-8">
+    <div class="form-group">
+      <div class="container">
+        <div class="row mb-2">
+          <h2 class="col-md-6">ประวัติการทำงาน</h2>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-bordered" cellspacing="0" role="grid">
+              <thead class="text-white">
+                <tr role="row">
+                  <th class="text-center bg-custom-green"> ระยะเวลา </th>
+                  <th class="text-center bg-custom-green"> ชื่อองค์กร </th>
+                  <th class="text-center bg-custom-green"> ตำแหน่ง </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white">
+                <tr *ngFor="let data of workingPerson; let i = index" class="text-center">
+                  <td>{{data.StartMonth | date: 'dd/MM/yyyy'}} ถึง {{data.EndMonth | date: 'dd/MM/yyyy'}}</td>
+                  <td>{{data.CorporationName}}</td>
+                  <td>{{data.Position}}</td>
+                </tr>
+                <tr *ngIf="workingPerson.length == 0">
+                  <td class="text-center" colspan="3">ไม่พบข้อมูล</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="container">
+        <div class="row mb-2">
+          <h2 class="col-md-6">ประวัติการทำงาน สสส.</h2>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-bordered" cellspacing="0" role="grid">
+              <thead class="text-white">
+                <tr role="row">
+                  <th class="text-center bg-custom-green"> ระยะเวลา </th>
+                  <th class="text-center bg-custom-green"> ชื่อองค์กร </th>
+                  <th class="text-center bg-custom-green"> ตำแหน่ง </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white">
+                <tr *ngFor="let data of workingCorporation; let i = index" class="text-center">
+                  <td>{{data.StartMonth | date: 'dd/MM/yyyy'}} ถึง {{data.EndMonth | date: 'dd/MM/yyyy'}}</td>
+                  <td>สสส.</td>
+                  <td>{{data.Position}}</td>
+                </tr>
+                <tr *ngIf="workingCorporation.length == 0">
+                  <td class="text-center" colspan="3">ไม่พบข้อมูล</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <app-loging></app-loging>
+  </div>
+</div>

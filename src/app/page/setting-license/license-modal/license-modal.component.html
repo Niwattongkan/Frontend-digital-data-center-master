@@ -1,0 +1,82 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <a class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true" class="text-default"> <i class="fa fa-times"></i> </span>
+  </a>
+</div>
+<div class="modal-body">
+  <form [formGroup]="licenseForm">
+    <div class="row">
+      <div class="col-md">
+        <div class="form-group">
+          <label>ชื่อสิทธ์การใช้งาน</label>
+          <input type="text" class="form-control" [formControl]="permissionForm.controls['PermissionName']">
+        </div>
+        <div class="form-group">
+          <label>ผู้มีสิทธ์ใช้งาน</label>
+          <ng-multiselect-dropdown [data]="personList" [settings]="dropdownSettings"
+            [formControl]="permissionForm.controls['Persons']">
+          </ng-multiselect-dropdown>
+        </div>
+        <div class="form-group" *ngIf="!data">
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table table-bordered">
+                <thead>
+                  <tr role="row">
+                    <th class="text-center">เมนู</th>
+                    <th class="text-center">ทั้งหมด</th>
+                    <th class="text-center">ดู</th>
+                    <th class="text-center">เพิ่มข้อมูล</th>
+                    <th class="text-center">แก้ไขข้อมูล</th>
+                    <th class="text-center">ลบข้อมูล</th>
+                    <th class="text-center">นำเข้าข้อมูล</th>
+                    <th class="text-center">ส่งออกข้อมูล</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white">
+                  <tr *ngFor="let role of rolelist; let i = index" class="text-center">
+                    <td>
+                      {{role.MenuName}}
+                    </td>
+                    <td style="width: 20px;">
+                      <input id="view + {{i}}" type="checkbox" [(ngModel)]="role.All" (change)="selectAll(i, $event.target.value)">
+                    </td>
+                    <td style="width: 20px;">
+                      <input id="view + {{i}}" type="checkbox" [(ngModel)]="role.View"
+                        [ngModelOptions]="{standalone: true}">
+                    </td>
+                    <td style="width: 20px;">
+                      <input id="insert + {{i}}" type="checkbox" [(ngModel)]="role.Add"
+                        [ngModelOptions]="{standalone: true}">
+                    </td>
+                    <td style="width: 20px;">
+                      <input id="edit + {{i}}" type="checkbox" [(ngModel)]="role.Edit"
+                        [ngModelOptions]="{standalone: true}">
+                    </td>
+                    <td style="width: 20px;">
+                      <input id="delete + {{i}}" type="checkbox" [(ngModel)]="role.Delete"
+                        [ngModelOptions]="{standalone: true}">
+                    </td>
+                    <td style="width: 20px;">
+                      <input id="delete + {{i}}" type="checkbox" [(ngModel)]="role.Import"
+                        [ngModelOptions]="{standalone: true}">
+                    </td>
+                    <td style="width: 20px;">
+                      <input id="delete + {{i}}" type="checkbox" [(ngModel)]="role.Export"
+                        [ngModelOptions]="{standalone: true}">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-success btn-round" (click)="submit()">บันทึก</button>
+  <button type="button" class="btn btn-outline-secondary btn-round" (click)="closeModal()">ยกเลิก</button>
+</div>

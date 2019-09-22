@@ -1,0 +1,37 @@
+<div class="row mb-2">
+  <div class="col-md text-center">
+    <app-stepper [stepList]="stepList"></app-stepper>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-2">
+    <div id="mySidenav">
+      <a *ngFor="let step of cardIcon" class="row" (click)="scroll(step.icon)" [id]="step.id">
+        <div class="col-md-6">
+          <img class="img-flex" src="../../../../assets/icon-customer/icon-white/{{step.icon}}.png">
+        </div>
+        <div class="col-md-6">
+          <span class="img-name">{{step.name}}</span>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <persons-detail-profile class="scroll-person" [inputForm]="profile" (onDelete)="deletePersonal($event)">
+    </persons-detail-profile>
+    <persons-detail-contact class="scroll-contact" [personId]="personId"></persons-detail-contact>
+    <persons-detail-coordinate class="scroll-coordinate" [personId]="personId"></persons-detail-coordinate>
+    <persons-detail-favorite class="scroll-favorite" [inputForm]="favorite"></persons-detail-favorite>
+    <persons-detail-account class="scroll-account" [inputForm]="account"></persons-detail-account>
+    <persons-detail-position class="scroll-position" [personId]="personId"></persons-detail-position>
+    <persons-detail-address class="scroll-address" [inputForm]="address"></persons-detail-address>
+  </div>
+  <div class="col-md-2">
+    <div class="lock-step">
+      <app-loging [personId]="personId"></app-loging>
+    </div>
+  </div>
+</div>
+<a class="scroll-to-top rounded" href="javascript:void(0)" (click)="scroll('top')" style="display: inline;">
+  <i class="fas fa-angle-up"></i>
+</a>

@@ -1,0 +1,61 @@
+import { Component, OnInit } from '@angular/core';
+
+import { OrganizationService } from '../../../shared/services/organization.service';
+
+import { alertDeleteEvent } from '../../../shared/library/alert';
+
+@Component({
+  selector: 'app-organizations-list',
+  templateUrl: './organizations-list.component.html',
+  styleUrls: ['./organizations-list.component.css']
+})
+export class OrganizationsListComponent implements OnInit {
+
+  public page: Number
+  public organizationList: any = []
+  public inputSearch = ''
+  constructor(
+    private organizationService: OrganizationService
+  ) { }
+
+  async ngOnInit() {
+    this.organizationList = this.mapCorperation((await this.organizationService.getOrganizationAll().toPromise()).data)
+  }
+
+  public mapCorperation(corperationList) {
+    corperationList.map(async data => {
+      data.CorporationAddress = []
+
+      let CorporationContact = (await this.organizationService.getserchcorporationcontact(data.CorporationId).toPromise()).data
+      let CorporationAddress = (await this.organizationService.getserchcorporationaddress(data.CorporationId).toPromise()).data
+      let ParentName = ((await this.organizationService.getCorporation(data.ParentId).toPromise()).data[0]).CorporationName
+
+      data.ParentName = ParentName
+      data.CorporationContactList = CorporationContact
+      data.CorporationAddressList = CorporationAddress
+
+    })
+    return corperationList
+  }
+
+  public async delete(data) {
+    return alertDeleteEvent().then(async confirm => {
+      if (confirm.value) {
+        await this.organizationService.deleteCorporation(data.CorporationId).toPromise()
+        await this.organizationService.deleteCorporationAddress(data.CorporationAddressId).toPromise()
+        await this.organizationService.deleteCorporationContact(data.CorporationContactId).toPromise()
+        this.organizationList = this.mapCorperation((await this.organizationService.getOrganizationAll().toPromise()).data)
+      }
+    })
+  }
+
+  async onSearchData() {
+    this.organizationList = this.mapCorperation((await this.organizationService.getOrganizationAll().toPromise()).data)
+    if (this.inputSearch != '') {
+      this.organizationList = this.organizationList.filter(corperation => {
+        return corperation.CorporationName.includes(this.inputSearch) ||
+          corperation.TaxNo.includes(this.inputSearch)
+      });
+    }
+  }
+}

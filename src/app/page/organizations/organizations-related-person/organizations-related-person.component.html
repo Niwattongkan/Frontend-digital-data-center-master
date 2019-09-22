@@ -1,0 +1,49 @@
+<div class="row mb-2">
+  <div class="col-md text-center">
+    <app-stepper [stepList]="stepList"></app-stepper>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row mb-3">
+    <div class="col-md">
+      <div class="row">
+        <h4 class="font-weight-bold">
+          บุคคลที่เกี่ยวข้อง
+        </h4>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-bordered" cellspacing="0" role="grid">
+            <thead>
+              <tr role="row">
+                <th class="text-center bg-custom-green"> ชื่อ-นามสกุล </th>
+                <th class="text-center bg-custom-green"> เบอร์โทร </th>
+                <th class="text-center bg-custom-green"> ตำแหน่ง </th>
+                <th class="text-center bg-custom-green"> ระยะเวลา </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white">
+              <tr *ngFor="let data of bursariesPerson  | paginate: { itemsPerPage: 10, currentPage: page }"
+                class="text-center">
+                <td class="text-left">{{data.FullnameTh}}</td>
+                <td>
+                  <div *ngIf="data.TypeContactId == 2">{{data.Contact}}</div>
+                </td>
+                <td>{{data.Position}}</td>
+                <td>{{data.StartMonth | date: 'dd/MM/yyyy'}} ถึง {{data.EndMonth | date: 'dd/MM/yyyy'}}</td>
+              </tr>
+              <tr *ngIf="bursariesPerson.length == 0">
+                <td class="text-center" colspan="4">ไม่พบข้อมูล</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-between">
+            <span>แสดงทั้งหมด {{bursariesPerson.length}} รายการ</span>
+            <pagination-controls (pageChange)="page = $event"></pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

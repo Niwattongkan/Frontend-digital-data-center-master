@@ -1,0 +1,141 @@
+<div class="form-group scroll-profile">
+  <div class="card shadow">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-6">
+          <h5 class="font-weight-bold text-orange">
+            <label>ข้อมูลส่วนตัว</label>
+          </h5>
+        </div>
+        <div class="col-md-6 text-right" *ngIf="personId">
+          <button class="btn btn-success mr-2" routerLink="/persons/insert/{{personId}}">
+            <i class="fas fa-pencil-alt mr-1"></i>แก้ไขข้อมูล
+          </button>
+          <!-- <button class="btn btn-outline-secondary" (click)="onDelete.emit(personId)">
+            <i class="fas fa-trash mr-1"></i>ลบข้อมูล
+          </button> -->
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-6 row">
+              <div class="col-md-12">
+                <h5 class="font-weight-bold text-orange">ชื่อ (ไทย)</h5>
+              </div>
+              <div class="container">
+                <div class="col-md-12 mt-4">
+                  <div class="form-group">
+                    <label class="text-orange"> ชื่อ-สกุล: </label>
+                    <label class="ml-2">{{profileForm.FullnameTh}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 row">
+              <div class="col-md-12">
+                <h5 class="font-weight-bold text-orange">ชื่อ (อังกฤษ)</h5>
+              </div>
+              <div class="container">
+                <div class="col-md-12 mt-4">
+                  <div class="form-group">
+                    <label class="text-orange"> Full name:</label>
+                    <label class="ml-2"> {{profileForm.FullnameEn}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <img *ngIf="!profileForm.PathPhoto" class="rounded-circle" style="width: 130px; height: 130px;"
+            src="https://www.aa-hc.org/wp-content/uploads/2014/12/person-icon.png">
+          <img *ngIf="profileForm.PathPhoto" class="rounded-circle" style="width: 130px; height: 130px;" [src]="imageProfile">
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="row">
+        <div class="container">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="form-group">
+                  <label class="text-orange">เลขบัตรประจำตัวประชาชน: </label>
+                  <label class="ml-3">{{profileForm.IdCard}}</label>
+                </div>
+              </div>
+              <div class="col-md-4"></div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="text-orange">เลขประจำตัวหนังสือเดินทาง: </label>
+                  <label class="ml-3">{{profileForm.Passport}}</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label class="text-orange">ใบอนุญาตเลขที่: </label>
+                  <label class="ml-3">{{profileForm.WorkPermitNo}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="row">
+        <div class="container">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label class="col-md-5 text-orange">วัน/เดือน/ปี/เกิด:</label>
+                  <label class="ml-3">{{setYear(profileForm.Birthday) | date: 'dd/MM/yyyy'}}</label>
+                </div>
+              </div>
+              <div class="col-md-7 row ">
+                <div class="col-md-6 form-group">
+                  <label class="text-orange">อายุ :</label>
+                  <label class="ml-3">{{showAge(profileForm.Birthday)}} ปี</label>
+                </div>
+                <div class="col-md-6 form-group">
+                  <label class="text-orange">เพศ :</label>
+                  <label class="ml-3">{{profileForm.Sex}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="container">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="text-orange">ศาสนา :</label>
+                  <label class="ml-3">{{profileForm.Religion}}</label>
+                </div>
+              </div>
+              <div class="col-md-4 form-group">
+                <label class="text-orange">สัญชาติ :</label>
+                <label class="ml-3">{{profileForm.Nationality}}</label>
+              </div>
+              <div class="col-md-4 form-group">
+                <label class="text-orange">เชื้อชาติ :</label>
+                <label class="ml-3">{{profileForm.EthnicityId}}</label>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="text-orange">สถานภาพการสมรส :</label>
+                  <label class="ml-3">{{profileForm.Marital}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

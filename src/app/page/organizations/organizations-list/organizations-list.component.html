@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="card shadow">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-md-6">
+          <h2 class="text-bold">
+            ข้อมูลองค์กร
+          </h2>
+        </div>
+        <div class="col-md-6 text-right">
+          <button class="btn btn-success" routerLink="/organizations/insert" ngbTooltip="เพิ่มข้อมูลองค์กร">
+            <i class="fas fa-plus mr-1"></i>เพิ่มข้อมูลองค์กร
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row mt-4 mb-4">
+        <div class="col-md-12">
+          <div class="input-group input-group-alternative">
+            <input type="text" class="form-control" placeholder="กรอกข้อมูลองค์กรเพื่อค้นหา"
+              aria-label="Search" aria-describedby="basic-addon2" [(ngModel)]="inputSearch">
+            <div class="input-group-append">
+              <button class="btn btn-success" type="button" (click)="onSearchData()" ngbTooltip="ค้นหาข้อมูลองค์กร">
+                <i class="fas fa-search fa-md"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card shadow mt-2" *ngFor="let organization of organizationList; let i = index">
+    <div class="card-body">
+      <card-organization [data]="organization" (onDelete)="delete($event)"></card-organization>
+    </div>
+  </div>
+</div>

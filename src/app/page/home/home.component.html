@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="card shadows">
+    <div class="card-header">
+      <h2 class="text-bold"> หน้าแรก </h2>
+    </div>
+    <div class="card-body">
+      <div class="row mb-4">
+        <div class="col-md-12">
+          <div class="input-group input-group-alternative">
+            <input type="text" class="form-control" placeholder="กรอกข้อมูลเพื่อค้นหา" [(ngModel)]="inputSearch">
+            <div class="input-group-append">
+              <button class="btn btn-success" type="button" (click)="onSearchData()" (keyup.enter)="onSearchData()"
+                ngbTooltip="ค้นหาข้อมูล">
+                <i class="fas fa-search fa-md"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row text-category">
+        <div class="col-md-12">
+          <div class="row text-orange">
+            <div class="col-md-1">
+              ประเภท:
+            </div>
+            <div class="col-md-11">
+              <div class="row">
+                <div *ngFor="let check of typeCheck; let i = index;"
+                  class="custom-control custom-control-alternative custom-checkbox mr-4">
+                  <input type="checkbox" class="custom-control-input" [id]="i" [checked]="check.status"
+                    (click)="onSelectedType(i,check)">
+                  <label class="custom-control-label" [for]="i">{{check.name}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="listStatus == 0">
+    <div class="card shadow mt-2" *ngFor="let person of personList | paginate: { itemsPerPage: 10, currentPage: page }">
+      <div class="card-body">
+        <card-person [data]="person"></card-person>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between mt-4">
+      <span>แสดงทั้งหมด {{personList.length}} รายการ</span>
+      <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+  </div>
+  <div *ngIf="listStatus == 1">
+    <div class="card shadow mt-2"
+      *ngFor="let organization of organizationList | paginate: { itemsPerPage: 10, currentPage: page }">
+      <div class="card-body">
+        <card-organization [data]="organization"></card-organization>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between mt-4">
+      <span>แสดงทั้งหมด {{organizationList.length}} รายการ</span>
+      <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+  </div>
+  <div *ngIf="listStatus == 2">
+    <div class="card shadow mt-2"
+      *ngFor="let program of programList | paginate: { itemsPerPage: 10, currentPage: page }">
+      <div class="card-body">
+        <card-program [data]="program"></card-program>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between mt-4">
+      <span>แสดงทั้งหมด {{programList.length}} รายการ</span>
+      <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+  </div>
+</div>

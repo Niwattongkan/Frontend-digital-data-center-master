@@ -1,0 +1,61 @@
+<div class="card shadow mb-3">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-6">
+        <h5 class="font-weight-bold text-orange">
+          <img class="icon-customer" src="../../../assets/icon-customer/icon-yello/contact.png" />
+          ข้อมูลการติดต่อองค์กร
+        </h5>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row px-5 mb-3">
+      <div class="col-md-6">
+        <div class="row form-group">
+          <label class="col-md-5  text-orange">เบอร์โทร:</label>
+          <label class="col-md-6">
+            <p *ngFor="let data of contactForm.ContactNumber">{{data}}</p>
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row form-group">
+          <label class="col-md-5  text-orange">โทรสาร:</label>
+          <label class="col-md-6">
+            <p *ngFor="let data of contactForm.ContactFax">{{data}}</p>
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row form-group">
+          <label class="col-md-5  text-orange">Email:</label>
+          <label class="col-md-6">
+            <p *ngFor="let data of contactForm.ContactEmail">{{data}}</p>
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row form-group">
+          <label class="col-md-5  text-orange">Website:</label>
+          <label class="col-md-6">
+            <p *ngFor="let data of contactForm.ContactWeb">{{data}}</p>
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row form-group">
+          <label class="col-md-5  text-orange">Line ID:</label>
+          <label class="col-md-6">
+            <p *ngFor="let data of contactForm.ContactLine">{{data}}</p>
+          </label>
+        </div>
+      </div>
+      <label class="col-md-12 text-orange">ติดต่อทาง Solcial media:
+        <img src="../../../../assets/icon-customer/icon-yello/Facebook.png" class="icon-social p-1" />
+        <img src="../../../../assets/icon-customer/icon-yello/Twitter.png" class="icon-social p-1" />
+        <img src="../../../../assets/icon-customer/icon-yello/Instagram.png" class="icon-social p-1" />
+      </label>
+    </div>
+  </div>
+</div>

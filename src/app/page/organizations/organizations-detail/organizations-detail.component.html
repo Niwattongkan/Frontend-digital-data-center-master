@@ -1,0 +1,22 @@
+<div class="row mb-2">
+  <div class="col-md text-center">
+    <app-stepper [stepList]="stepList"></app-stepper>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+    <organizations-detail-profile [inputForm]="profile"></organizations-detail-profile>
+    <organizations-detail-contact [inputForm]="contact"></organizations-detail-contact>
+    <organizations-detail-address [inputForm]="address"></organizations-detail-address>
+  </div>
+  <div class="col-md-2">
+    <app-loging></app-loging>
+  </div>
+</div>
+
+
+<a class="scroll-to-top rounded" href="javascript:void(0)" (click)="scroll('top')" style="display: inline;">
+  <i class="fas fa-angle-up"></i>
+</a>

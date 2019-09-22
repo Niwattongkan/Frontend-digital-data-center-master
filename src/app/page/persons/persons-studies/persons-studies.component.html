@@ -1,0 +1,46 @@
+<div class="row mb-2">
+  <div class="col-md text-center">
+    <app-stepper [stepList]="stepList"></app-stepper>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-8">
+    <div class="form-group">
+      <div class="container">
+        <div class="row mb-2">
+          <h2 class="col-md-6">ประวัติการศึกษา</h2>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-bordered" cellspacing="0" role="grid">
+              <thead class="text-white">
+                <tr role="row">
+                  <th class="text-center bg-custom-green"> ปีที่สำเร็จการศึกษา </th>
+                  <th class="text-center bg-custom-green"> สถาบันการศึกษา </th>
+                  <th class="text-center bg-custom-green"> วุฒิการศึกษา </th>
+                  <th class="text-center bg-custom-green"> สาขา </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white">
+                <tr *ngFor="let data of personStudy; let i = index" class="text-center">
+                  <td>{{data.GraduationYear}}</td>
+                  <td>{{data.Academy}}</td>
+                  <td>{{data.Degree == 1 ? 'ปริญญาตรี' : data.Degree == 2 ? 'ปริญญาโท' : 'ปริญญาเอก'}}</td>
+                  <td>{{data.Major}}</td>
+                </tr>
+                <tr *ngIf="personStudy.length == 0">
+                  <td class="text-center" colspan="4">ไม่พบข้อมูล</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <app-loging></app-loging>
+  </div>
+</div>

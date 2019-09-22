@@ -1,0 +1,115 @@
+<div class="modal-header bg-custom-grey">
+  <h2 class="modal-title">เพิ่มข้อมูลที่อยู่</h2>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true" class="text-default"> <i class="fa fa-times"></i> </span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="addressForm">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-10 alert alert-danger" role="alert" *ngIf="alertValid">
+          กรุณากรอกข้อมูลให้ครบถ้วน
+        </div>
+      </div>
+      <div class="row mb-2">
+        <label class="col-md-2 text-right"> ประเภทที่อยู่<span class="text-danger">*</span>: </label>
+        <div class="col-md-6">
+          <div class="input-group input-group-sm mb-3">
+            <select class="form-control" formControlName="TypeAddress">
+              <option [value]="1">ตามทะเบียนบ้าน</option>
+              <option [value]="2">ตามบัตรประชาชน</option>
+              <option [value]="3">ตามที่อยู่ปัจจุบัน</option>
+              <option [value]="4">ตามที่อยู่จัดส่ง</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <label class="col-md-2 text-right"> อาคาร:</label>
+        <div class="col-md-4">
+          <div class="input-group input-group-sm mb-3">
+            <input type="text" class="form-control" formControlName="Building">
+          </div>
+        </div>
+        <div class="col-md-2 text-right">
+          <label> ชั้น: </label>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group input-group-sm mb-3">
+            <input type="text" class="form-control" formControlName="Floor">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <label class="col-md-2 text-right"> ห้อง:</label>
+        <div class="col-md-4">
+          <div class="input-group input-group-sm mb-3">
+            <input type="text" class="form-control" formControlName="Room">
+          </div>
+        </div>
+        <label class="col-md-2 text-right"> เลขที่<span class="text-danger">*</span>:</label>
+        <div class="col-md-4">
+          <div class="input-group input-group-sm mb-3">
+            <input type="text" class="form-control" formControlName="HouseNumber">
+          </div>
+        </div>
+        <div class="col-md-2 text-right">
+          <label> ถนน<span class="text-danger">*</span>: </label>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group input-group-sm mb-3">
+            <input type="text" class="form-control" formControlName="Road">
+          </div>
+        </div>
+        <label class="col-md-2 text-right"> ตรอก/ซอย<span class="text-danger">*</span>:</label>
+        <div class="col-md-4">
+          <div class="input-group input-group-sm mb-3">
+            <input type="text" class="form-control" formControlName="Soi">
+          </div>
+        </div>
+        <label class="col-md-2 text-right"> จังหวัด<span class="text-danger">*</span>: </label>
+        <div class="col-md-4">
+          <div class="input-group input-group-sm mb-3">
+            <select class="form-control" formControlName="Province">
+              <option value="">--จังหวัด--</option>
+              <option *ngFor="let data of province" [value]="data.Name">{{data.Name}}</option>
+            </select>
+          </div>
+        </div>
+        <label class="col-md-2 text-right"> อำเภอ/เขต<span class="text-danger">*</span>:</label>
+        <div class="col-md-4">
+          <div class="input-group input-group-sm mb-3">
+            <select class="form-control" formControlName="District">
+              <option value="">--อำเภอ/เขต--</option>
+              <option *ngFor="let data of district" [value]="data.Name">{{data.Name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-2 text-right">
+          <label> ตำบล/แขวง<span class="text-danger">*</span>:</label>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group input-group-sm mb-3">
+            <select class="form-control" formControlName="Subdistrict">
+              <option value="">--ตำบล/แขวง--</option>
+              <option *ngFor="let data of subdistrict" [value]="data.Name">{{data.Name}}</option>
+            </select>
+          </div>
+        </div>
+        <label class="col-md-2 text-right">รหัสไปรษณีย์<span class="text-danger">*</span>: </label>
+        <div class="col-md-4">
+          <div class="input-group input-group-sm mb-3">
+            <input type="text" class="form-control" formControlName="Zipcode">
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-success btn-round" (click)="submit()">บันทึก</button>
+  <button type="button" class="btn btn-outline-secondary btn-round" (click)="closeModal()">ยกเลิก</button>
+</div>

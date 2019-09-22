@@ -1,0 +1,35 @@
+<div class="card shadow mt-3">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-12">
+        <h5 class="font-weight-bold text-orange">
+          <img class="icon-customer mr-2" src="../../../../assets/icon-customer/icon-yello/position.png">
+          <label>ตำแหน่งที่เกี่ยวกับ สสส </label>
+        </h5>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-bordered" cellspacing="0" role="grid">
+          <thead>
+            <tr role="row">
+              <th class="text-center bg-custom-green"> ระยะเวลา </th>
+              <th class="text-center bg-custom-green"> ตำแหน่ง </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white">
+            <tr *ngFor="let data of workingCorporation; let i = index" class="text-center">
+              <td>{{data.StartMonth | date: 'dd/MM/yyyy'}} ถึง {{data.EndMonth | date: 'dd/MM/yyyy'}}</td>
+              <td>{{data.Position}}</td>
+            </tr>
+            <tr *ngIf="workingCorporation.length == 0">
+              <td class="text-center" colspan="4">ไม่พบข้อมูล</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

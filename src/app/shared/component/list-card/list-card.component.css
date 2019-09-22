@@ -1,0 +1,21 @@
+.card-size {
+    width: 70px;
+    height: 60px;
+    border-color: rgb(131, 178, 185);
+    border-width: 5px;
+}
+
+.nav-color {
+    background-image: linear-gradient(white, white);
+}
+
+.img-flex {
+    align-items: center;
+    width: 55px;
+    height: 50px;
+    /* padding: 10px; */
+    padding-left: 10px;  
+    padding-right: 10px; 
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

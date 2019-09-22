@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-lg navbar-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav justify-content-center d-flex flex-fill text-center">
+      <li routerLinkActive="active" class="nav-item">
+        <a class="text-menu" routerLink="/home">
+          <span>หน้าแรก</span>
+        </a>
+      </li>
+      <li routerLinkActive="active" class="nav-item">
+        <a class="text-menu" routerLink="/persons">
+          <span>ข้อมูลบุคคล</span>
+        </a>
+      </li>
+      <li routerLinkActive="active" class="nav-item">
+        <a class="text-menu" routerLink="/organizations">
+          <span>ข้อมูลองค์กร</span>
+        </a>
+      </li>
+      <li routerLinkActive="active" class="nav-item">
+        <a class="text-menu" routerLink="/program">
+          <span>ข้อมูลโครงการ</span>
+        </a>
+      </li>
+      <li routerLinkActive="active" class="nav-item dropdown">
+        <a class="text-menu dropdown-hover" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="dropdown-toggle">รายงาน</span>
+        </a>
+        <div class="dropdown-menu">
+          <a routerLink="/report/searching-personal" class="dropdown-item">รายงานการสืบค้นข้อมูลบุคคล</a>
+          <a routerLink="/report/searching-corperation" class="dropdown-item">รายงานการสืบค้นข้อมูลองค์กร</a>
+          <a routerLink="/report/searching-board" class="dropdown-item">รายงานการสืบค้นข้อมูลคณะกรรมการ</a>
+          <a routerLink="/report/using" class="dropdown-item">รายงานผู้ใช้งานระบบ</a>
+          <a routerLink="/report/note" class="dropdown-item">รายงานบันทึกจากฝ่ายเลขา</a>
+        </div>
+      </li>
+      <li routerLinkActive="active" class="nav-item dropdown">
+        <a class="text-menu dropdown-hover" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <span class="dropdown-toggle">กิจกรรม</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a routerLink="/event/notebook" class="dropdown-item">สมุดบันทึก</a>
+          <a routerLink="/event/group" class="dropdown-item">จัดการกลุ่ม</a>
+        </div>
+      </li>
+      <li routerLinkActive="active" class="nav-item dropdown">
+        <a class="text-menu dropdown-hover" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span class="dropdown-toggle">ตั้งค่า</span>
+        </a>
+        <div class="dropdown-menu">
+          <a routerLink="/setting/users" class="dropdown-item">กลุ่มผู้ใช้งาน</a>
+          <a routerLink="/setting/permission" class="dropdown-item">กลุ่มจำกัดสิทธิ์</a>
+          <a routerLink="/setting/auditlog" class="dropdown-item">Audit Log</a>
+          <a routerLink="/setting/license" class="dropdown-item">จัดการสิทธิ์การใช้งาน</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

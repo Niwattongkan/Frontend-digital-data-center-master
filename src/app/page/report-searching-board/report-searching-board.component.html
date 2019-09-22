@@ -1,0 +1,76 @@
+<div class="row justify-content-center">
+    <div class="col-md-10 mb-2">
+        <div class="card shadows">
+            <div class="card-header">
+                <h2 class="text-bold"> รายงานการสืบค้นข้อมูลคณะกรรมการ </h2>
+            </div>
+            <div class="card-body">
+                <div [formGroup]="searchform" class="container">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="input-group-sm row">
+                                <label class="col-md-3 text-right">ชื่อ-นามสกุล</label>
+                                <input type="text" class="form-control col-md-9" formControlName="Name">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group-sm row">
+                                <label class="col-md-3 text-right">ชื่อกลุ่ม</label>
+                                <input type="text" class="form-control col-md-9" formControlName="BoardName">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group text-right">
+                        <button type="button" class="btn btn-success" (click)="searchReport()">ค้นหา
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-10">
+        <table class="table table-bordered">
+            <thead class="bg-custom-green text-white">
+                <tr role="row">
+                    <th class="text-center">
+                        ชื่อ-นามสกุล
+                    </th>
+                    <th class="text-center">
+                        ชื่อกลุ่ม
+                    </th>
+                    <th class="text-center">
+                        เบอร์โทร
+                    </th>
+                    <th class="text-center">
+                        ที่อยู่
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white">
+                <tr *ngFor="let data of reportList | paginate: { itemsPerPage: 10, currentPage: page }"
+                    class="text-center">
+                    <td>
+                        {{data.FullnameTh}}
+                    </td>
+                    <td>
+                        {{data.BoardName}}
+                    </td>
+                    <td>
+                        {{data.Contact}}
+                    </td>
+                    <td>
+                        {{showAddress(data)}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-between">
+            <span>แสดงทั้งหมด {{reportList.length}} รายการ</span>
+            <pagination-controls (pageChange)="page = $event"></pagination-controls>
+        </div>
+    </div>
+</div>

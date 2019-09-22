@@ -1,0 +1,1 @@
+export {MyDatePickerTHModule} from "./dist/my-date-picker.module";

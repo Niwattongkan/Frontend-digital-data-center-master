@@ -1,0 +1,58 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+  <a class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true" class="text-default"> <i class="fa fa-times"></i> </span>
+  </a>
+</div>
+<div class="modal-body">
+  <form [formGroup]="groupUserForm">
+    <div class="row">
+      <div class="col-md">
+        <div class="form-group">
+          <label>ชื่อกลุ่มผู้ใช้งาน
+            <span class="important">*</span>
+          </label>
+          <input type="text" class="form-control " formControlName="GroupUserName">
+        </div>
+        <div class="form-group">
+          <label>ชื่อบุคคล <span class="important">*</span></label>
+          <ng-multiselect-dropdown [data]="personList" [settings]="dropdownSettings"
+            [formControl]="groupUserForm.controls['Person']">
+          </ng-multiselect-dropdown>
+        </div>
+        <div class="form-group">
+          <table class="table table-bordered">
+            <thead class="bg-custom-green text-white">
+              <tr role="row">
+                <th class="text-center"> ชื่อผู้ใช้งาน</th>
+                <th class="text-center"> กลุ่มสิทธิ์ </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white">
+              <tr *ngFor="let data of Person; let i = index;">
+                <td>{{ data.FullnameTh }}</td>
+                <td>
+                  <select class="form-control" (change)="selectedBoard(i, $event.target.value)">
+                      <option value="">--เลือกกลุ่มสิทธิ์--</option>
+                    <option *ngFor="let data of boardList" [value]="data.BoardId">{{data.BoardName}}</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- <div class="form-group">
+          <label>กลุ่มสิทธิ์</label>
+          <select class="form-control" formControlName="GroupUserId">
+            <option value="">--เลือกกลุ่มสิทธิ์--</option>
+            <option *ngFor="let data of groupUsersList" [value]="data.GroupUserId">{{data.GroupUserName}}</option>
+          </select>
+        </div> -->
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-success btn-round" (click)="submit()">บันทึก</button>
+  <button type="button" class="btn btn-outline-secondary btn-round" (click)="closeModal()">ยกเลิก</button>
+</div>

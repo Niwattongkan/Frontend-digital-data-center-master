@@ -1,0 +1,18 @@
+<div class="row mb-2">
+  <div class="col-md text-center">
+    <app-stepper [stepList]="stepList"></app-stepper>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-8">
+    <div class="form-group">
+      <h2 class="mb-2 ml-4">ข้อมูลครอบครัว</h2>
+      <app-data-table [headerTable]="headerTable" [data]="dataTable" [wrapper]="fasle"></app-data-table>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <app-loging></app-loging>
+  </div>
+</div>

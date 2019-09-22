@@ -1,0 +1,75 @@
+<ng-template #insertModal let-modal>
+  <setting-permission-modal (onSubmit)="insertPermission($event)"></setting-permission-modal>
+</ng-template>
+
+<div class="container">
+  <div class="card shadow">
+    <div class="card-header">
+      <h2>
+        กลุ่มจำกัดสิทธิ์
+      </h2>
+    </div>
+    <div class="card-body">
+      <div class="row mt-4 mb-4">
+        <div class="col-md-12">
+          <div class="input-group">
+            <input type="text" class="form-control " placeholder="กรอกข้อมูลเพื่อค้นหากลุ่มจำกัดสิทธิ์"
+              aria-label="Search" aria-describedby="basic-addon2" [(ngModel)]="inputSearch">
+            <div class="input-group-append">
+              <button class="btn btn-success" type="button" (click)="onSearchData()">
+                <i class="fas fa-search fa-md"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row mt-4">
+    <div class="col-md-12 text-right">
+      <button class="btn btn-success ml-2" (click)="openModal(insertModal)">
+        <i class="fas fa-plus"></i>
+        สร้างกลุ่มจำกัดสิทธิ์
+      </button>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <table class="table table-bordered" cellspacing="0" role="grid">
+        <thead class="bg-custom-green text-white">
+          <tr role="row">
+            <th *ngFor="let header of headers" class="text-center">
+              {{ header }}
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white">
+          <tr *ngFor="let data of boardList | paginate: { itemsPerPage: 10, currentPage: page };" class="text-center">
+            <td>{{ data.Person[0].BoardName }}</td>
+            <td>
+              <p *ngFor="let person of data.Person"> {{person.FullnameTh }}</p>
+            </td>
+            <td>
+              <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2" (click)="openModal(editModal)" (click)="boardOrigin = data">
+                <i class="fas fa-pencil-alt"></i>
+              </a>
+              <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm" (click)="delete(data)">
+                <i class="fas fa-trash"></i>
+              </a>
+            </td>
+            <ng-template #editModal let-modal>
+              <setting-permission-modal [data]="data" (onSubmit)="editPermission($event)"></setting-permission-modal>
+            </ng-template>
+          </tr>
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-between">
+        <span>แสดงทั้งหมด {{boardList.length}} รายการ</span>
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

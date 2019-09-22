@@ -1,0 +1,21 @@
+.icon-image {
+    width: 50px;
+    height: 50px;
+}
+
+
+a {
+    color: #e49227;
+    border-bottom: 4px solid #e49227;
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
+a:hover {
+    color: #027070;
+    border-bottom: 4px solid #027070;
+}
+
+a:active {
+    border-bottom: 8px solid #e49227 !important;
+}

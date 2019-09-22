@@ -1,0 +1,30 @@
+<div class="card shadow mt-3">
+  <div class="card-header">
+    <div class="row">
+      <div class="col-md-12">
+        <h5 class="text-bold text-orange">
+          <img class="icon-customer mr-2" src="../../../../assets/icon-customer/icon-yello/coordinate.png">
+          <label>ข้อมูลผู้ประสานงาน</label>
+        </h5>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 mb-3">
+          <label class="text-orange"> ชื่อ-สกุล :</label>
+          <label class="ml-3">{{coordinateName}}</label>
+        </div>
+        <div class="col-md-6">
+          <label class="text-orange"> เบอร์โทร :</label>
+          <label *ngFor="let contact of contactNumberList">{{contact.Contact}}</label>
+        </div>
+        <div class="col-md-6">
+          <label class="text-orange"> Email :</label>
+          <label *ngFor="let contact of contactEmailList">{{contact.Contact}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<ul class="navbar-nav">
+  <li *ngFor="let card of card; let i = index" class="mb-1">
+    <div class="card shadow card-size bg-warning">
+      <a href="javascript:void(0)" (click)="nextStep(i,card)">
+          <img class="img-flex" src="../../../../assets/icon-customer/icon-white/{{card.icon}}.png">
+      </a>
+    </div>
+  </li>
+</ul>

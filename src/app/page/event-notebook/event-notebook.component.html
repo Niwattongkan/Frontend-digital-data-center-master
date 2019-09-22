@@ -1,0 +1,108 @@
+<ng-template #insertModal let-modal>
+  <event-note-modal (onSubmit)="insertNote($event)"></event-note-modal>
+</ng-template>
+
+<div class="container">
+  <div class="card shadow">
+    <div class="card-header">
+      <h2>สมุดบันทึก</h2>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="input-group input-group-alternative">
+            <input type="text" class="form-control" placeholder="กรอกชื่อ-นามสกุล เพื่อค้นหา" aria-label="Search"
+              aria-describedby="basic-addon2" [(ngModel)]="inputSearch" (keyup.enter)="onSearchData()">
+            <div class="input-group-append">
+              <button class="btn btn-success" type="button" (click)="onSearchData()">
+                <i class="fas fa-search fa-md"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row mt-4">
+    <div class="col-md-12 text-right">
+      <button class="btn btn-success ml-2" (click)="openModal(insertModal, 'md')">
+        <i class="fas fa-plus"></i>
+        สร้างบันทึกใหม่
+      </button>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <table class="table table-bordered" cellspacing="0" role="grid">
+        <thead class="bg-custom-green text-white">
+          <tr role="row">
+            <!-- <th class="text-center" scope="col" style="background-color: #ffbb00">
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1"></label>
+              </div>
+            </th> -->
+            <th *ngFor="let header of headers" class="text-center" scope="col">
+              {{ header }}
+            </th>
+          </tr>
+        </thead>
+        <tbody class="bg-white">
+          <tr *ngFor="let data of noteList | paginate: { itemsPerPage: 10, currentPage: page }; let i = index"
+            class="text-center">
+            <!-- <td>
+              <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1"></label>
+              </div>
+            </td> -->
+            <td class="text-left">{{ data.FullnameTh }}</td>
+            <td class="text-left">{{ data.NoteName }}</td>
+            <td class="text-left">{{ data.Description }}</td>
+            <td>{{ findPersonDetail(data.CreateBy) }}</td>
+            <td>{{ data.CreateDate | date: 'dd/MM/yyyy' }}</td>
+            <td>
+              <!-- <a href="javascript:void(0)">
+                <i class="fas fa-eye" (click)="openModal(detailsharedModal, 'lg')"></i>
+              </a> -->
+              <a href="javascript:void(0)" (click)="openModal(detailsharedModal, 'lg')">
+                บันทึก
+              </a>
+            </td>
+            <td>
+              <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm mr-2"
+                (click)="openModal(sharedModal, 'md')">
+                <i class="fas fa-share-alt"></i>
+              </a>
+              <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
+                (click)="openModal(editModal, 'md')" (click)="noteOrigin = data">
+                <i class="fas fa-pencil-alt"></i>
+              </a>
+              <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm mr-2" (click)="delete(data.NoteId)">
+                <i class="fas fa-trash"></i>
+              </a>
+            </td>
+            <ng-template #sharedModal let-modal>
+              <shared-note-modal [data]="data" (onSubmit)="updateShareNote($event)"></shared-note-modal>
+            </ng-template>
+            <ng-template #detailsharedModal let-modal>
+              <detail-modal [noteId]="data.NoteId"></detail-modal>
+            </ng-template>
+            <ng-template #editModal let-modal>
+              <event-note-modal [data]="data" (onSubmit)="updateNote($event)"></event-note-modal>
+            </ng-template>
+          </tr>
+          <tr *ngIf="noteList.length == 0">
+            <td class="text-center" colspan="10">ไม่พบข้อมูล </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-between">
+        <span>แสดงทั้งหมด {{noteList.length}} รายการ</span>
+        <pagination-controls (pageChange)="page = $event"></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

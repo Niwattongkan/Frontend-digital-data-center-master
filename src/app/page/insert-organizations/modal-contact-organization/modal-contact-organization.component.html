@@ -1,0 +1,96 @@
+<div class="modal-header bg-custom-grey">
+  <h5 class="modal-title">เพิ่มข้อมูลการติดต่อ</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true" class="text-default"> <i class="fa fa-times"></i> </span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="contactForm">
+    <div class="row">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-10 alert alert-danger" role="alert" *ngIf="alertValid">
+            กรุณากรอกข้อมูลให้ครบถ้วน
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-hover" style="border: 1px solid #ccc;">
+            <thead class="set-head">
+              <tr>
+                <th scope="col">
+                  ประเภท
+                </th>
+                <th scope="col">
+                  รายละเอียดข้อมูล
+                </th>
+                <th scope="col">
+                  ความสำคัญ
+                </th>
+                <th scope="col">
+                  เพิ่มข้อมูล
+                </th>
+              </tr>
+            </thead>
+            <tbody class="set-body">
+              <tr>
+                <td>
+                  <div class="input-group input-group-sm mb-3">
+                    <select class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                      formControlName="TypeContactId">
+                      <option [value]="1">อีเมล์</option>
+                      <option [value]="2">เบอร์โทร</option>
+                      <option [value]="3">Line</option>
+                      <option [value]="4">Facebook</option>
+                      <option [value]="5">Twitter</option>
+                      <option [value]="6">Instagram</option>
+                      <option [value]="7">โทรสาร</option>
+                    </select>
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group input-group-sm mb-3">
+                    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                      formControlName="Contact">
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group input-group-sm mb-3">
+                    <select class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                      formControlName="Importance">
+                      <option [value]="1">ข้อมูลหลัก</option>
+                      <option [value]="2">ข้อมูลรอง</option>
+                    </select>
+                  </div>
+                </td>
+                <td class="table-success" style="cursor: pointer;" (click)="insertColumn()">
+                  <i class="fas fa-plus-square icon-prop">
+                  </i>
+                </td>
+              </tr>
+              <tr *ngFor="let data of contactList; let i = index">
+                <td>
+                  <label *ngIf="data.TypeContactId == 1">อีเมล์</label>
+                  <label *ngIf="data.TypeContactId == 2">เบอร์โทร</label>
+                </td>
+                <td>
+                  {{data.Contact}}
+                </td>
+                <td>
+                  <label *ngIf="data.Importance == 1">ข้อมูลหลัก</label>
+                  <label *ngIf="data.Importance == 2">ข้อมูลรอง</label>
+                </td>
+                <td class="table-success" style="cursor: pointer;" (click)="deletetColumn(i)">
+                  <i class="fas fa-times icon-prop"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-success btn-round" (click)="submit()">บันทึก</button>
+  <button type="button" class="btn btn-outline-secondary btn-round" (click)="closeModal()">ยกเลิก</button>
+</div>

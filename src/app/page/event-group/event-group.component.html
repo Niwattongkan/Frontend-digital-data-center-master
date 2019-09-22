@@ -1,0 +1,117 @@
+<ng-template #insertModal let-modal>
+  <event-group-modal [data]="data" (onSubmit)="insertGroup($event)"></event-group-modal>
+</ng-template>
+
+<div class="container">
+  <div class="card shadow">
+    <div class="card-header">
+      <h2>
+        กลุ่มการจัดส่งเอกสาร
+      </h2>
+    </div>
+    <div class="card-body">
+      <div class="row mt-4 mb-4">
+        <div class="col-md-12">
+          <div class="input-group input-group-alternative">
+            <input type="text" class="form-control" placeholder="กรอกข้อมูลเพื่อค้นหา" name="inputSearch"
+              [(ngModel)]="inputSearch" (keyup.enter)="onSearchData()">
+            <div class="input-group-append">
+              <button class="btn btn-success" type="button" (click)="onSearchData()">
+                <i class="fas fa-search fa-md"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12">
+          <button class="btn btn-success px-4 fa-pull-right" type="button" (click)="openModal(insertModal)">
+            <i class="fas fa-plus"></i> สร้างกลุ่มการจัดส่งเอกสาร
+          </button>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-12">
+          <table class="table table-bordered" cellspacing="0" role="grid">
+            <thead class="bg-custom-green text-white">
+              <tr role="row">
+                <th *ngFor="let header of headers" class="text-center">
+                  {{ header }}
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white">
+              <tr *ngFor="let data of eventGroupList | paginate: { itemsPerPage: 10, currentPage: page }; let i = index"
+                class="text-center">
+                <td>{{ data.Person[0].CreateDate | date: 'dd/MM/yyyy'}}</td>
+                <td>{{ data.Person[0].GroupName }}</td>
+                <td>
+                  <p *ngFor="let person of data.Person">
+                    {{ person.FullnameTh }}
+                  </p>
+                </td>
+                <td>{{ findPersonDetail(data.Person[0].CreateBy) }}</td>
+                <td>
+                  <a href="javascript:void(0)" class="dropdown-toggle btn btn-outline-warning btn-sm"
+                    data-toggle="dropdown">
+                    <i class="fas fa-download"></i>
+                  </a>
+                  <div class="dropdown-menu">
+                    <button class="dropdown-item" (click)="exportExcel(data)">
+                      <i class="fas fa-file-excel"></i>
+                      Excel
+                    </button>
+                    <button class="dropdown-item" (click)="exportPDF(data)">
+                      <i class="far fa-file-pdf"></i> PDF
+                    </button>
+                  </div>
+                </td>
+                <td>
+                  <a href="javascript:void(0)" class="btn btn-outline-info btn-sm mr-2"
+                    (click)="openModal(copyModal, 'md')">
+                    <i class="far fa-copy"></i>
+                  </a>
+                  <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm mr-2"
+                    (click)="openModal(sharedModal, 'md')">
+                    <i class="fas fa-share-alt"></i>
+                  </a>
+                  <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
+                    (click)="openModal(editModal, 'md')" (click)="eventGroupOrigin = data">
+                    <i class="fas fa-pencil-alt"></i>
+                  </a>
+                  <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm"
+                    (click)="delete(data.ContactGroupId)">
+                    <i class="fas fa-trash"></i>
+                  </a>
+                  <!-- <a href="javascript:void(0)">
+                    <i class="far fa-copy icon" (click)="openModal(copyModal, 'lg')"></i>
+                  </a> -->
+                </td>
+                <ng-template #copyModal let-modal>
+                  <copy-group-modal [data]="data" (onSubmit)="insertGroup($event)"></copy-group-modal>
+                </ng-template>
+                <ng-template #editModal let-modal>
+                  <event-group-modal [data]="data" (onSubmit)="updateGroup($event)"></event-group-modal>
+                </ng-template>
+                <ng-template #sharedModal let-modal>
+                  <shared-group-modal [data]="data" (onSubmit)="shareGroup($event)"></shared-group-modal>
+                </ng-template>
+              </tr>
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-between">
+            <span>แสดงทั้งหมด {{eventGroupList.length}} รายการ</span>
+            <pagination-controls (pageChange)="page = $event"></pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

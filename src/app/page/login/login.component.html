@@ -1,0 +1,66 @@
+<div class="bg-login">
+  <div class="container">
+    <div class="row ">
+      <div class="col-md"></div>
+      <div class="col-md-5">
+        <div class="padding-layout">
+          <div class="card shadows">
+            <form class="container-fluid">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-md">
+                    <div class="alert alert-danger" *ngIf="alertUser" role="alert">
+                      Username หรือ Password ไม่ถูกต้อง
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md">
+                    <img class="img-fluid img-logo" src="/assets/image/logo-ddc.png">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <input type="text" class="form-control" placeholder="Username">
+                </div>
+              </div>
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <input type="password" class="form-control" placeholder="Password">
+                </div>
+              </div>
+              <div class="form-group mb-4">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="custom-control custom-checkbox mb-3">
+                      <input class="custom-control-input" id="customCheck3" type="checkbox">
+                      <label class="custom-control-label" for="customCheck3">Remember</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="text-right">
+                      <a href="javascript:void(0)" (click)="openModal(forgetPassword)">Forget password</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex justify-content-center mb-4">
+                <button type="submit" class="btn bg-custom-orange text-white" routerLink="/home">
+                  <div class="container">
+                    LOGIN
+                  </div>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md"></div>
+    </div>
+  </div>
+
+  <ng-template #forgetPassword let-modal>
+    <forget-password-modal></forget-password-modal>
+  </ng-template>
+</div>

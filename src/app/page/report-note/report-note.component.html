@@ -1,0 +1,91 @@
+<div class="row justify-content-center">
+  <div class="col-md-10 mb-2">
+    <div class="card shadows">
+      <div class="card-header">
+        <h2 class="text-bold"> รายงานบันทึกจากฝ่ายเลขา </h2>
+      </div>
+      <div class="card-body">
+        <div [formGroup]="searchform" class="container">
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <div class="input-group-sm row">
+                <label class="col-md-3 text-right">ชื่อสมุดบันทึก</label>
+                <input type="text" class="form-control col-md-9"  formControlName="Notename">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group-sm row">
+                <label class="col-md-3 text-right">ชื่อผู้สร้างสมุดบันทึก</label>
+                <input type="text" class="form-control col-md-9"  formControlName="Name">
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-center mt-4 mb-4">
+            <div class="col-md-6">
+              <div class="input-group-sm row">
+                <label class="col-md-3 text-right">วันที่เริ่มต้น</label>
+                <my-date-picker-th class="col-md-9" [options]="myDatePickerOptions" formControlName="StartDate">
+                </my-date-picker-th>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group-sm row">
+                <label class="col-md-3 text-right">วันที่สิ้นสุด</label>
+                <my-date-picker-th class="col-md-9" [options]="myDatePickerOptions" formControlName="EndDate">
+                </my-date-picker-th>
+              </div>
+            </div>
+          </div>
+          <div class="form-group text-right">
+            <button type="button" class="btn btn-success" (click)="searchReport()">ค้นหา
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row justify-content-center mt-4">
+  <div class="col-md-10">
+    <table class="table table-bordered">
+      <thead class="bg-custom-green text-white">
+        <tr role="row">
+          <th class="text-center">
+            ชื่อสมุดบันทึก
+          </th>
+          <th class="text-center">
+            รายละเอียด
+          </th>
+          <th class="text-center">
+            ชื่อบุคคล
+          </th>
+          <th class="text-center">
+            วันที่สร้าง
+          </th>
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        <tr *ngFor="let data of reportList | paginate: { itemsPerPage: 10, currentPage: page }" class="text-center">
+          <td>
+            {{data.Notename}}
+          </td>
+          <td>
+            {{data.Detail}}
+          </td>
+          <td>
+            {{data.Name}}
+          </td>
+          <td>
+            {{data.CreateDate | date: "dd/MM/yyyy"}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-between">
+      <span>แสดงทั้งหมด {{reportList.length}} รายการ</span>
+      <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+<div class="container mt-2">
+  <div class="row">
+    <div class="col-md-2">
+      <ngx-avatar *ngIf="data.PathPhoto" [src]="imagePerson" size="120" [round]="true">
+      </ngx-avatar>
+      <ngx-avatar *ngIf="!data.PathPhoto" src="https://www.aa-hc.org/wp-content/uploads/2014/12/person-icon.png" size="120" [round]="true">
+      </ngx-avatar>
+    </div>
+    <div class="col-md-10">
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <span class="text-orange text-bold mr-4"> ชื่อ-สกุล: </span>
+          <a *ngIf="currentPath != '/home'" routerLink="/persons/detail/{{data.PersonId}}">
+            {{data.FullnameTh}}
+          </a>
+          <label *ngIf="currentPath == '/home'">
+            {{data.FullnameTh}}
+          </label>
+        </div>
+        <div class="col-md-6 d-flex justify-content-between">
+          <span class="text-orange text-bold mr-4">เบอร์โทรศัพท์: </span>
+          <span *ngFor="let contact of data.ContactList">
+            <label *ngIf="contact.TypeContactId == 2">{{contact.Contact + ' '}}</label>
+          </span>
+          <a href="javascript:void(0)" *ngIf="currentPath != '/home'" class="d-flex ml-auto"
+            routerLink="/persons/insert/{{data.PersonId}}" ngbTooltip="แก้ไขข้อมูลบุคคล">
+            <i class="fas fa-pencil-alt fa-lg"></i>
+          </a>
+          <a href="javascript:void(0)" *ngIf="currentPath == '/home'" class="d-flex ml-auto"
+            routerLink="/persons/detail/{{data.PersonId}}" ngbTooltip="รายละเอียดข้อมูลบุคคล">
+            <i class="fas fa-eye fa-lg"></i>
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <span class="text-orange text-bold mr-4">อีเมล์: </span>
+          <span *ngFor="let contact of data.ContactList">
+            <label *ngIf="contact.TypeContactId == 1">{{contact.Contact + ' '}}</label>
+          </span>
+        </div>
+        <div class="col-md-5">
+          <span class="text-orange text-bold mr-4"> ตำแหน่ง: </span>
+          <span *ngFor="let position of data.PositionList;let i = index">
+            <label>{{ (i > 0 ? ', ' : '') + position.Position}} ({{ getYear(position.StartYear)}})</label>
+          </span>
+        </div>
+        <div class="col-md-1 justify-content-end">
+          <div *ngIf="data.PersonAddress && currentPath == '/home'">
+            <div *ngIf="data.PersonAddress.length > 0" class="icon-box d-flex ml-auto">
+              <a href="javascript:void(0)" class="ml-auto" (click)="isCollapsed = !isCollapsed"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"
+                ngbTooltip="รายละเอียดข้อมูลที่อยู่บุคคล">
+                <i class="fas fa-angle-double-down fa-lg" *ngIf="!isCollapsed"></i>
+                <i class="fas fa-angle-double-up fa-lg" *ngIf="isCollapsed"></i>
+              </a>
+            </div>
+          </div>
+          <div *ngIf="currentPath != '/home'" class="icon-box d-flex ml-auto">
+            <a href="javascript:void(0)" class="ml-auto" (click)="deletePerson(data.PersonId)"
+              ngbTooltip="ลบข้อมูลบุคคล">
+              <i class="fas fa-trash fa-lg"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row">
+        <div class="col-md-12">
+          <span class="text-orange text-bold mr-4">เบอร์โทรศัพท์: </span>
+          <span *ngFor="let contact of data.ContactList">
+            <label *ngIf="contact.TypeContactId == 2">{{contact.Contact + ' '}}</label>
+          </span>
+          <div *ngIf="currentPath != '/home'" class="col-md-4 row justify-content-end">
+          <a href="javascript:void(0)" (click)="deletePerson(data.PersonId)" ngbTooltip="ลบข้อมูลบุคคล">
+            <i class="fas fa-trash fa-lg"></i>
+          </a>
+        </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <div class="mt-4" *ngIf="data.PersonAddress">
+    <div *ngIf="data.PersonAddress.length > 0" class="collapse" [ngbCollapse]="isCollapsed">
+      <div class="card card-body shadow mb-2" *ngFor="let address of data.PersonAddress">
+        <div class="row">
+          <label class="col-md-2 text-orange"> ประเภทที่อยู่ </label>
+          <label class="col-md-10">
+            {{ 
+              address.AddressType == 1 ? "ตามทะเบียนบ้าน" :
+              address.AddressType == 2 ? "ตามบัตรประชาชน" :
+              address.AddressType == 3 ? "ตามที่อยู่ปัจจุบัน" : "ตามที่อยู่จัดส่ง"
+            }}
+          </label>
+        </div>
+        <div class="row">
+          <label class="col-md-2 text-orange"> ที่อยู่ </label>
+          <label class="col-md-10">
+            {{showAddress(address)}}
+          </label>
+        </div>
+        <div class="row icon-box d-flex justify-content-end">
+          <label>Update: {{address.UpdateDate | date: 'dd/MM/yyyy'}}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

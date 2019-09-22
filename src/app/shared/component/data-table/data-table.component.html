@@ -1,0 +1,71 @@
+<div class="card-header py-3" *ngIf="header">
+  <h6 class="m-0 font-weight-bold text-primary">{{title}}</h6>
+</div>
+<div class="card-body">
+  <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
+    <div class="row" *ngIf="wrapper">
+      <div class="col-sm-12 col-md-6">
+        <label>Search:
+          <input type="search" (change)="searchValue($event.target.value)"
+            class="form-control form-control-sm search-width" placeholder="ค้นหา . . . .">
+        </label>
+      </div>
+      <div class="col-sm-12 col-md-6 text-right">
+        <label>Show
+          <select [(ngModel)]="pageSize" (change)="setPageSize()" aria-controls="dataTable"
+            class="custom-select custom-select-sm form-control form-control-sm page-size">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select> entries
+        </label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid"
+          aria-describedby="dataTable_info" style="width: 100%;">
+          <thead>
+            <tr role="row">
+              <th *ngFor="let header of headerTable" class="sorting bg-custom-green text-white text-center" tabindex="0"
+                aria-controls="dataTable" rowspan="1" colspan="1"
+                aria-label="Position: activate to sort column ascending" style="width: 195px;">{{header}}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of dataList" role="row" class="odd bg-white">
+              <td *ngFor="let header of headerData">{{data[header] || ''}}</td>
+            </tr>
+            <tr *ngIf="dataList.length == 0" class="odd bg-white">
+              <td class="text-center" [attr.colspan]="headerTable.length">ไม่พบข้อมูล</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="wrapper" class="row">
+      <div class="col-sm-12 col-md-5">
+        <div class="dataTables_info" id="dataTable_info" role="status" aria-live="polite">กำลังแสดง
+          {{ totalItem > 0 ? (currentPage - 1)*pageSize + 1 : totalItem}} ถึง
+          {{ (totalItem/pageSize - 1) >= currentPage - 1 ?  currentPage*pageSize : totalItem }} จาก {{totalItem}}
+          รายการ
+        </div>
+      </div>
+      <div class="col-sm-12 col-md-7">
+        <ul class="pagination pagin-align">
+          <li *ngIf="pager.length > 0" class="paginate_button page-item previous"
+            [ngClass]="{disabled: currentPage === 1}">
+            <a (click)="selectPreviousPage()" class="page-link">Previous</a>
+          <li *ngFor="let page of pager" class="paginate_button page-item" [ngClass]="{active: currentPage === page}">
+            <a (click)="selectPagination(page)" class="page-link">{{page}}</a>
+          </li>
+          <li *ngIf="pager.length > 0" class="paginate_button page-item next"
+            [ngClass]="{disabled: currentPage === this.pager.length}">
+            <a (click)="selectNextPage()" class="page-link">Next</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

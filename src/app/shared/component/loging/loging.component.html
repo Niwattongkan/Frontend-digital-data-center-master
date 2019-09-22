@@ -1,0 +1,25 @@
+<div class="row">
+  <div class="col-sm-12">
+    <table class="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0" role="grid"
+      aria-describedby="dataTable_info" style="width: 100%;">
+      <thead>
+        <tr role="row">
+          <th class="bg-custom-green text-white" tabindex="0" aria-controls="dataTable" rowspan="1" colspan="1"
+            aria-label="Position: activate to sort column ascending" style="width: 195px;">ประวัติการแก้ไข
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of editlogPersonlist" role="row" class="odd bg-white">
+          <td class="text-size">
+            <label class="text-left">{{ data.UpdateDate | date: 'dd/MM/yyyy'}}</label>
+            <label class="text-rigth"></label>
+          </td>
+        </tr>
+        <tr class="odd" *ngIf="editlogPersonlist.length == 0">
+          <td class="text-center" [attr.colspan]="2">ไม่พบข้อมูล</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

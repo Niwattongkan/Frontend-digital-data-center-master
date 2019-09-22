@@ -1,0 +1,31 @@
+.padding-layout {
+  padding-top: 100px;
+  background-color: whitesmoke !important;
+}
+
+.img-logo {
+  height: 200px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.login-image {
+  background-image: url("https://simg.kapook.com/o/photo/425/kapook_world-422891.jpg");
+  background-position: center;
+  position: relative;
+  background-size: cover;
+}
+
+.bg-login {
+  /* background: linear-gradient(to bottom right, rgb(59, 245, 167) 0, #ff9900 100%) !important; */
+  height: 500px;
+  width: 100%;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+}

@@ -1,0 +1,150 @@
+<div class="modal-header bg-custom-grey">
+  <h5 class="modal-title">เพิ่มข้อมูลผู้ประสานงาน</h5>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true" class="text-default"> <i class="fa fa-times"></i> </span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="coordinatorForm">
+    <div class="row">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-10 alert alert-danger" role="alert" *ngIf="alertValid">
+            กรุณากดเพิ่มข้อมูลก่อนบันทึก
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 text-right">
+            <label>คำนำหน้าชื่อ:</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group input-group-sm mb-3">
+              <select class="form-control" formControlName="CoordinatorTitle" [attr.disabled]="titleCheck ? '' : null">
+                <option value="">--เลือกคำนำหน้าชื่อ--</option>
+                <option value="นาย">นาย</option>
+                <option value="นางสาว">นางสาว</option>
+                <option value="นาง">นาง</option>
+              </select>
+            </div>
+          </div>
+          <div class="custom-control custom-checkbox col-md-2 text-right" style="text-align: center;">
+            <input type="checkbox" class="custom-control-input" id="modal-contact" (change)="titleCheck = !titleCheck">
+            <label class="custom-control-label" for="modal-contact">อื่น ๆ</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group input-group-sm mb-3">
+              <input type="text" class="form-control" formControlName="CoordinatorTitle"
+                [attr.disabled]="titleCheck ? null : ''">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 text-right">
+            <label>
+              ชื่อ<span class="important">*</span>:
+            </label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group input-group-sm mb-3">
+              <input type="text" class="form-control" formControlName="CoordinatorFirstName">
+            </div>
+          </div>
+          <div class="col-md-2 text-right">
+            <label>
+              นามสกุล<span class="important">*</span> :
+            </label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group input-group-sm mb-3">
+              <input type="text" class="form-control" formControlName="CoordinatorLastName">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="container">
+            <div class="table-responsive">
+              <table class="table table-hover" style="border: 1px solid #ccc;">
+                <thead class="set-head">
+                  <tr>
+                    <th scope="col">
+                      ประเภท
+                    </th>
+                    <th scope="col">
+                      รายละเอียดข้อมูล
+                    </th>
+                    <th scope="col">
+                      ความสำคัญ
+                    </th>
+                    <th scope="col">
+                      เพิ่มข้อมูล
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="set-body" [formGroup]="contactCoordinator">
+                  <tr>
+                    <td>
+                      <div class="input-group input-group-sm mb-3">
+                        <select class="form-control" formControlName="TypeContactId">
+                          <option [value]="1">อีเมล์</option>
+                          <option [value]="2">เบอร์โทร</option>
+                          <option [value]="3">Line</option>
+                          <option [value]="4">Facebook</option>
+                          <option [value]="5">Twitter</option>
+                          <option [value]="6">Instagram</option>
+                          <option [value]="7">โทรสาร</option>
+                        </select>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input-group input-group-sm mb-3">
+                        <input type="text" class="form-control" formControlName="Contact">
+                      </div>
+                    </td>
+                    <td>
+                      <div class="input-group input-group-sm mb-3">
+                        <select class="form-control" formControlName="Importance">
+                          <option value="1">ข้อมูลหลัก</option>
+                          <option value="2">ข้อมูลรอง</option>
+                        </select>
+                      </div>
+                    </td>
+                    <td class="table-success" style="cursor: pointer;" (click)="insertColumn()">
+                      <i class="fas fa-plus-square icon-prop">
+                      </i>
+                    </td>
+                  </tr>
+                  <tr *ngFor="let data of coordinateList; let i = index">
+                    <td>
+                      <label *ngIf="data.TypeContactId == 1">อีเมล์</label>
+                      <label *ngIf="data.TypeContactId == 2">เบอร์โทร</label>
+                      <label *ngIf="data.TypeContactId == 3">Line</label>
+                      <label *ngIf="data.TypeContactId == 4">Facebook</label>
+                      <label *ngIf="data.TypeContactId == 5">Twitter</label>
+                      <label *ngIf="data.TypeContactId == 6">Instagram</label>
+                      <label *ngIf="data.TypeContactId == 7">โทรสาร</label>
+                    </td>
+                    <td>
+                      {{data.Contact}}
+                    </td>
+                    <td>
+                      {{data.Importance}}
+                    </td>
+                    <td class="table-success" style="cursor: pointer;" (click)="deletetColumn(i)">
+                      <i class="fas fa-times icon-prop"></i>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-success btn-round" (click)="submit()">บันทึก</button>
+  <button type="button" class="btn btn-outline-secondary btn-round" (click)="closeModal()">ยกเลิก</button>
+</div>

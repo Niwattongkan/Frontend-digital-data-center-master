@@ -1,0 +1,138 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import url("https://fonts.googleapis.com/css?family=Kanit|Prompt");
+
+@import '~bs-stepper/dist/css/bs-stepper.min.css';
+
+* {
+  font-family: "Prompt", sans-serif;
+  font-size: 16px;
+}
+
+body {
+  background-color: whitesmoke !important;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+input[type="text"].search-input {
+  width: 95%;
+  height: calc(2.25rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-clip: padding-box;
+  border: #ff9900 dotted 2px;
+  border-radius: 0.35rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.card {
+  border-radius: 0px !important;
+}
+
+button {
+  border-radius: 0px !important;
+}
+
+.shadows {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 8px 0 rgba(0, 0, 0, 0.19);
+}
+
+.form-control {
+  color: black !important;
+  font-size: 15px !important;
+}
+
+::placeholder {
+  color: #8898aa !important;
+}
+
+.search-box {
+  border: gray dotted 2px;
+  border-radius: 5px;
+  padding: 25px;
+}
+
+.modal-header {
+  background-color: #ff9900;
+  color: white;
+  border: #29acb6;
+}
+
+.modal-content {
+  animation-name: example;
+  animation-duration: 0.3s;
+}
+
+.lock-step {
+  position: fixed;
+  top: 30%;
+  overflow-y: auto;
+  z-index: 1;
+}
+
+.scroll-to-top {
+  z-index: 5 !important;
+}
+
+.icon-customer {
+  width: 40px;
+  height: 40px;
+}
+
+table .table-bordered {
+  border-radius: 85px !important;
+}
+
+.table-bordered th {
+  border: 1px solid #f3ddd0 !important;
+}
+
+.table-bordered td {
+  border: 1px solid #f3ddd0 !important;
+}
+
+thead tr th {
+  background-color: #ff9900 !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+}
+
+thead tr td {
+  font-size: 16px !important;
+}
+
+.modal-title {
+  color: white;
+}
+
+@keyframes example {
+  0% {
+    transform: scale(0.5);
+  }
+  75% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+/* 
+.ng-invalid:not(form)  {
+  border-left: 5px solid red;
+} */
+
+.bg-custom-orange {
+  background-color: #ff6600 !important;
+}
+
+a.bg-custom-orange:hover,
+a.bg-custom-orange:focus,
+button.bg-custom-orange:hover,
+button.bg-custom-orange:focus {
+  background-color: #ff9900 !important;
+}
+
+.text-bold {
+  font-weight: bold;
+}

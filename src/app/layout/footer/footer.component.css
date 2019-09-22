@@ -1,0 +1,10 @@
+footer {
+  background-color: rgb(184, 183, 183);
+  color: white;
+  padding-top: 10px;
+  margin-top: 15rem;
+  z-index: -5;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}

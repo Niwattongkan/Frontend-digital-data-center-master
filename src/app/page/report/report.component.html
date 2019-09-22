@@ -1,0 +1,83 @@
+<div class="row justify-content-center">
+    <div class="col-md-10 mb-2">
+        <div class="card">
+            <div class="card-header">
+                <h2>รายงาน</h2>
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-center mt-4 mb-4">
+                    <div class="col-md-3">
+                        <div class="input-group input-group-sm">
+                            <select class="form-control" [(ngModel)]="reportType" name="report">
+                                <option [value]="1">รายงานสถิติบุคคล</option>
+                                <option [value]="2">รายงานสถิติคณะกรรมการ</option>
+                                <option [value]="3">รายงานการเข้าใช้งาน</option>
+                                <option [value]="4">รายงานกลุ่มรายชื่อ</option>
+                                <option [value]="5">รายงานกลุ่มผู้ใช้งาน</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <my-date-picker-th [options]="myDatePickerOptions" [(ngModel)]="startDate">
+                        </my-date-picker-th>
+                    </div>
+                    <div class="col-md-3">
+                        <my-date-picker-th [options]="myDatePickerOptions" [(ngModel)]="endDate">
+                        </my-date-picker-th>
+                    </div>
+                    <button class="col-md-1 btn btn-success" (click)="searchReport()" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-body">
+                <div class="row justify-content-center mt-4 mb-4">
+                    <div class="col-md-10">
+                        <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [customColors]="customColors"
+                            [results]="multi" [gradient]="gradient" [xAxis]="showXAxis" [yAxis]="showYAxis"
+                            [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+                            [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" (select)="onSelect($event)">
+                        </ngx-charts-bar-vertical>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row justify-content-center mt-4">
+    <div class="col-md-10">
+        <table class="table table-bordered">
+            <thead class="bg-custom-green text-white">
+                <tr role="row">
+                    <th class="text-center">
+                        วันที่
+                    </th>
+                    <th class="text-center">
+                        ผู้ใช้งาน
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white">
+                <tr *ngFor="let data of reportList | paginate: { itemsPerPage: 10, currentPage: page }"
+                    class="text-center">
+                    <td>
+                        {{data.CreateDate | date: "dd/MM/yyyy"}}
+                    </td>
+                    <td>
+                        {{data.FullnameTh}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-between">
+            <span>แสดงทั้งหมด {{reportList.length}} รายการ</span>
+            <pagination-controls (pageChange)="page = $event"></pagination-controls>
+        </div>
+    </div>
+</div>

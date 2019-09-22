@@ -1,0 +1,40 @@
+<div class="modal-header">
+  <h4 class="modal-title">สมุดบันทึก</h4>
+  <a class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true" class="text-default"> <i class="fa fa-times"></i> </span>
+  </a>
+</div>
+<div class="modal-body">
+  <div class="table-responsive">
+    <table class="table table-bordered" cellspacing="0" role="grid">
+      <thead class="bg-custom-green text-white text-center">
+        <tr role="row">
+          <th> วันที่เริ่มแชร์ </th>
+          <th> วันที่สิ้นสุดการแชร์ </th>
+          <th> ชื่อสมุดบันทึก </th>
+          <th> รายละเอียด </th>
+          <th> ผู้สร้าง </th>
+          <th> แชร์กับ </th>
+          <th> รายชื่อ </th>
+        </tr>
+      </thead>
+      <tbody class="bg-white">
+        <tr *ngFor="let data of noteList; let i = index" class="text-center">
+          <td>{{data.StartDate | date: 'dd/MM/yyyy'}}</td>
+          <td>{{data.EndDate | date: 'dd/MM/yyyy'}}</td>
+          <td>{{data.NoteName}}</td>
+          <td>{{data.Description}}</td>
+          <td>{{data.CreateBy}}</td>
+          <td>บุคคล</td>
+          <td>{{data.FullnameTh}}</td>
+        </tr>
+        <tr class="text-center" *ngIf="noteList.length == 0">
+          <td colspan="8">ไม่พบข้อมูล</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-secondary btn-round" (click)="closeModal()">ยกเลิก</button>
+</div>

@@ -1,0 +1,13 @@
+.page-size {
+  width: auto;
+}
+
+.search-width {
+  text-align: left;
+  display: inline-block;
+  width: auto;
+}
+
+.pagin-align {
+  justify-content: flex-end;
+}

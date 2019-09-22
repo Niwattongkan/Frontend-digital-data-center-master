@@ -1,0 +1,55 @@
+nav {
+  height: 45px;
+}
+
+.padding-logo {
+  padding-top: 60px;
+}
+
+.item {
+  padding: 8px;
+}
+
+.img-logo {
+  position: relative;
+  top: -45px;
+  width: 100%;
+  height: 140px;
+  z-index: -1;
+}
+
+.img-profile {
+  height: 35px;
+}
+
+a:hover {
+  text-decoration: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.flex-text {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* 
+.navbar {
+  background-image: url("/assets/image/header.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  top: 0;
+  left: 0;
+  right: 0;
+  position: relative;
+  width: 100%;
+  height: 120px;
+}
+
+.navbar-header {
+  position: absolute;
+  top: 15px;
+  right: 0;
+  padding-right: 10px;
+} */
