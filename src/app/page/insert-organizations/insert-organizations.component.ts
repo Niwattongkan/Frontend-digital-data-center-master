@@ -336,7 +336,7 @@ export class InsertOrganizationsComponent implements OnInit {
 
     if (validForm(this.corperationForm).length > 0) {
       this.alertValid = true;
-      return window.scroll(0, 300);;
+      return window.scroll(0, 300);
     }
 
     this.corperationId ? this.update() : this.Insert()
@@ -350,11 +350,11 @@ export class InsertOrganizationsComponent implements OnInit {
 
     if (validForm(this.addressForm).length > 0) {
       this.alertValid = true;
-      return window.scroll(0, 300);;
+      return window.scroll(0, 300);
     }
     if (validForm(this.addressContactForm).length > 0) {
       this.alertValid = true;
-      return window.scroll(0, 300);;
+      return window.scroll(0, 300);
     }
 
     this.corperationId ? this.update() : this.Insert()
@@ -364,5 +364,5 @@ export class InsertOrganizationsComponent implements OnInit {
     return this.stepper.next();
   }
 
-  
+
 }

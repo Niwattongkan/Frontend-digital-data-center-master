@@ -25,15 +25,13 @@ export class OrganizationsListComponent implements OnInit {
   public mapCorperation(corperationList) {
     corperationList.map(async data => {
       data.CorporationAddress = []
-
-      let CorporationContact = (await this.organizationService.getserchcorporationcontact(data.CorporationId).toPromise()).data
-      let CorporationAddress = (await this.organizationService.getserchcorporationaddress(data.CorporationId).toPromise()).data
-      let ParentName = ((await this.organizationService.getCorporation(data.ParentId).toPromise()).data[0]).CorporationName
-
+      const CorporationContact = (await this.organizationService.getserchcorporationcontact(data.CorporationId).toPromise()).data
+      const CorporationAddress = (await this.organizationService.getserchcorporationaddress(data.CorporationId).toPromise()).data
+      const ParentName = (await this.organizationService.getCorporation(data.CorporationId).toPromise()) != null ?
+      ((await this.organizationService.getCorporation(data.CorporationId).toPromise()).data[0]).CorporationName : null
       data.ParentName = ParentName
       data.CorporationContactList = CorporationContact
       data.CorporationAddressList = CorporationAddress
-
     })
     return corperationList
   }
