@@ -15,7 +15,6 @@ import { mapPersons } from '../../shared/library/mapList';
 export class ReportNoteComponent implements OnInit {
 
   public searchform: FormGroup
-
   public reportType = 1
   public page = 1
 
@@ -29,10 +28,17 @@ export class ReportNoteComponent implements OnInit {
     private formBuilder: FormBuilder,
     private reportService: ReportService
   ) {
-    this.searchform = this.setSerachForm()
+    this.searchform = this.setSerachForm();
   }
 
   async ngOnInit() {
+    let data = this.searchform.value;
+    if(data.StartDate !== null){
+      data.StartDate = this.convertObjDate(data.StartDate);
+    }
+    if(data.EndDate !== null){
+      data.EndDate = this.convertObjDate(data.EndDate);
+    }
     let result = ((await this.reportService.getreportnote(this.searchform.value).toPromise()).data)
     this.reportList = mapPersons(result)
   }

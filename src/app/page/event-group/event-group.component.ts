@@ -41,9 +41,12 @@ export class EventGroupComponent implements OnInit {
   async ngOnInit() {
     this.personList = this.mapPersons((await this.personsService.getallperson().toPromise()).data)
     this.eventGroupList = this.groupData((await this.contactGroupService.getContactGroupAll().toPromise()).data)
-    // await this.eventGroupList.map(async element => {
-    //   element.Persons = await this.mapPersons((await this.contactGroupService.getpersoncontactgroup(element.ContactGroupId).toPromise()).data)
-    // });
+     await this.eventGroupList.map(async element => {
+      element.Person = await this.mapPersons(element.Person);
+     });
+
+
+    console.log(this.personList)
     console.log(this.eventGroupList)
   }
 
@@ -108,7 +111,7 @@ export class EventGroupComponent implements OnInit {
   public findPersonDetail(id) {
     let result = this.personList.find(person => {
       return person.PersonId == id;
-    })
+    });
     return result ? result.FullnameTh : '-'
   }
 
