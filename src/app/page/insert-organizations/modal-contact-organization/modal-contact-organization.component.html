@@ -71,6 +71,11 @@
                 <td>
                   <label *ngIf="data.TypeContactId == 1">อีเมล์</label>
                   <label *ngIf="data.TypeContactId == 2">เบอร์โทร</label>
+                  <label *ngIf="data.TypeContactId == 3">Line</label>
+                  <label *ngIf="data.TypeContactId == 4">Facebook</label>
+                  <label *ngIf="data.TypeContactId == 5">Twitter</label>
+                  <label *ngIf="data.TypeContactId == 6">Instagram</label>
+                  <label *ngIf="data.TypeContactId == 7">โทรสาร</label>
                 </td>
                 <td>
                   {{data.Contact}}

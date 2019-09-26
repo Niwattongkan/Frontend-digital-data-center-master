@@ -15,7 +15,6 @@ export class OrganizationsDetailContactComponent {
 
   async ngOnChanges() {
     this.contactForm = this.inputForm ? this.inputForm : {}
-    console.log(this.contactForm)
   }
 
 }
