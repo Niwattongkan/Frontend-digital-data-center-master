@@ -7,10 +7,19 @@
       <div class="card-body">
         <div [formGroup]="searchform" class="container">
           <div class="row justify-content-center mb-4">
-            <div class="col-md-12">
+            <div class="col-md-6">
               <div class="input-group-sm row">
                 <label class="col-md-3 text-right">ชื่อ-นามสกุล</label>
                 <input type="text" class="form-control col-md-9" placeholder="" formControlName="Name">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group-sm row">
+                <label class="col-md-3 text-right">สถานะการทำงาน</label>
+                <select  class="form-control col-md-9" formControlName="Status">
+                  <option [value]="1">ชาย</option>
+                  <option [value]="2">หญิง</option>
+                </select>
               </div>
             </div>
           </div>

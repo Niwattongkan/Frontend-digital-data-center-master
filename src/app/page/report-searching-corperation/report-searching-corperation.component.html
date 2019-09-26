@@ -7,7 +7,7 @@
             <div class="card-body">
                 <div class="container" [formGroup]="searchform">
                     <div class="row justify-content-center mb-4">
-                        <div class="col-md-8">
+                        <div class="col-md-12">
                             <div class="input-group-sm row">
                                 <label class="col-md-2 text-right">ชื่อองค์กร</label>
                                 <input type="text" class="form-control col-md-10" formControlName="CorporationName">
@@ -15,16 +15,16 @@
                         </div>
                     </div>
                     <div class="row justify-content-center mb-4">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="input-group-sm row">
-                                <label class="col-md-4 text-right">ปีที่เริ่มงาน</label>
-                                <input type="text" class="form-control col-md-8" formControlName="StartYear">
+                                <label class="col-md-4 text-right"> อยู่ภายใต้องค์กร</label>
+                                <input type="text" class="form-control col-md-8" formControlName="Parent">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="input-group-sm row">
-                                <label class="col-md-4 text-right">ตำแหน่ง</label>
-                                <input type="text" class="form-control col-md-8" formControlName="Position">
+                                <label class="col-md-4 text-right">ชื่อบุคคลในองค์กร</label>
+                                <input type="text" class="form-control col-md-8" formControlName="FullnameTh">
                             </div>
                         </div>
                     </div>
