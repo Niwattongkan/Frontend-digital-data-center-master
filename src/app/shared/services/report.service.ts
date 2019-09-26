@@ -45,9 +45,15 @@ export class ReportService {
   
   getreportnote(data): Observable<any> {
     let params = new URLSearchParams();
+    if(data.Name !== ''){
     params.append("Name", data.Name)
+    }
+    if(data.StrDate !== null){
     params.append("StartDate", data.StrDate)
+    }
+    if(data.EndDate !== null){
     params.append("EndDate", data.EndDate)
+    }
     return this.apiService.get(`getreportuserlog?` + params.toString());
   }
 
