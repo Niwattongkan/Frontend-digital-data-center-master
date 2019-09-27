@@ -182,12 +182,16 @@ export class InsertOrganizationsComponent implements OnInit {
 
   public async deleteContact(index) {
     if (this.corperationId) {
-      let model = this.contactList[index]
+      const model = this.contactList[index]
       model.CorporationId = Number(this.corperationId);
       model.PersonAddressId ? await this.organizationService.deleteCorporationContact(model.CorporationContactId).toPromise() : false
     }
     this.contactList.splice(index, 1);
   }
+
+  public async deleteWorking(index) {
+
+    }
 
   public async updateContact(value) {
     for (let index = 0; index < value.length; index++) {
@@ -202,11 +206,14 @@ export class InsertOrganizationsComponent implements OnInit {
 
         this.contactList = (await this.organizationService.getcorporationcontact(this.corperationId).toPromise()).data || []
         this.corperationForm = this.corperationId ? await this.setCorperation(result) : await this.setCorperation(null)
+        alertEvent("บันทึกข้อมูลสำเร็จ", "success")
 
       } else {
         if (this.corperationId) {
           value[index].CorporationId = Number(this.corperationId);
           await this.organizationService.insertCorporationContact(value[index]).toPromise()
+          alertEvent("บันทึกข้อมูลสำเร็จ", "success")
+
         }
         this.contactList.push(value[index])
       }

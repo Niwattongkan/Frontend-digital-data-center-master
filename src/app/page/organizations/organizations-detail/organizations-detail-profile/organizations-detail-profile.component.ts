@@ -34,7 +34,6 @@ export class OrganizationsDetailProfileComponent {
 
 
   setCoreration(data) {
-    console.log(data)
     return data ? {
       CorporationName: data.CorporationName,
       Parent: data.Parent,

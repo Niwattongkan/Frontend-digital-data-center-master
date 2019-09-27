@@ -18,7 +18,7 @@ export class ProgramDetailComponent implements OnInit {
 
   public programDetailForm: any = {};
   public programContactForm: any = {};
-  public programContactBursaryForm: any = {};
+  public projectPersonContact: any = {};
   public programContactManagerForm: any = {};
   public programAddress: any = {};
   public corpatationList: any = []
@@ -49,20 +49,17 @@ export class ProgramDetailComponent implements OnInit {
     let resultProgram = this.programId ? (await this.programService.getDetailProject(this.programId).toPromise()).data : {}
     let resultPurchase = this.purchaseId ? (await this.programService.getDetailPurchase(this.purchaseId).toPromise()).data : {}
 
-    let check = this.programId ? this.programId : this.purchaseId
+    const check = this.programId ? this.programId : this.purchaseId
     this.purchaseProjectManagercontact = (await this.programService.getdetailPurchaseProjectManagercontact(check).toPromise()).data[0]
     this.purchaseProjectManageraddress = (await this.programService.getdetailPurchaseProjectManageraddress(check).toPromise()).data[0]
-    console.log(resultProgram)
-    console.log(resultPurchase)
     this.programDetailForm = this.programId ? resultProgram ? resultProgram[0] : {} : this.purchaseId ? resultPurchase ? resultPurchase[0] : {} : {}
 
 
     this.programContactForm = await this.setContact()
     this.programAddress = await this.setAddress()
-    console.log(this.programAddress)
-    console.log(this.programContactForm)
-    // this.programContactBursaryForm = await this.setContactBursary(this.program)
-    // this.programContactManagerForm = await this.setContactManager(this.program)
+    this.projectPersonContact = await this.projectPersonContact(check)
+    this.programContactManagerForm = await this.setContactManager(this.program)
+
   }
 
   private async setAddress() {
@@ -111,10 +108,9 @@ export class ProgramDetailComponent implements OnInit {
     return model
   }
 
-  private setContactBursary(data) {
-    return {
-
-    }
+   private async showprojectPersonContact(data) {
+    const projectPersonContact = (await this.programService.getprojectpersoncontact(data).toPromise()).data
+    return {}
   }
 
   private setContactManager(data) {
