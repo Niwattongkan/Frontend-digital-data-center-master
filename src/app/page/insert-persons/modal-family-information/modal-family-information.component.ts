@@ -4,6 +4,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { validForm } from '../../../shared/library/form';
+import {PersonsService} from '../../../shared/services/persons.service';
 
 @Component({
   selector: 'modal-family-information',
@@ -19,20 +20,23 @@ export class ModalFamilyInformationComponent implements OnInit {
   public titleThCheck = false;
   public alertValid = false;
   public familyForm: FormGroup
-
+  public tiltelFamily;
   constructor(
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
+    private personsService: PersonsService
+
   ) {
     this.familyForm = this.setFamily(null)
+
   }
 
   ngOnInit() {
     this.familyForm = this.data ? this.setFamily(this.data) : this.setFamily(null)
+    this.isUpdate(this.data)
   }
 
   submit() {
-    console.log(validForm(this.familyForm))
     if (validForm(this.familyForm).length > 0) {
       this.alertValid = true;
       return;
@@ -46,7 +50,6 @@ export class ModalFamilyInformationComponent implements OnInit {
   }
 
   private setFamily(data) {
-    console.log(data)
     return data ? this.formBuilder.group({
       FamilyId: [data.FamilyId],
       Relation: [data.Relation, [Validators.required]],
@@ -64,6 +67,10 @@ export class ModalFamilyInformationComponent implements OnInit {
         LastNameTh: ["", [Validators.required]],
         Contact: [""],
       })
+  }
+  private async isUpdate(data) {
+    const isUpdateFamily  = (await this.personsService.getFamilyById(data.FamilyId).toPromise()).data
+    this.tiltelFamily = (isUpdateFamily) ? 'แก้ไขข้อมูลสมาชิกในครอบครัว' : 'เพิ่มข้อมูลสมาชิกในครอบครัว';
   }
 
 

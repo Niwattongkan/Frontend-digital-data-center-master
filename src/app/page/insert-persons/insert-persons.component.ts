@@ -85,7 +85,7 @@ export class InsertPersonsComponent implements OnInit {
 
     let resultPerson = this.personId ? (await this.personsService.getDetailById(this.personId).toPromise()).data[0] : null
     let resultImage = this.personId ? (await this.personsService.getphotoperson(this.personId).toPromise()).data : null
-
+    console.log('resultImage  ' +  resultImage)
     this.imagePreview = resultImage ? resultImage[0] : null
 
     this.corperationList = (await this.organizationService.getOrganizationAll().toPromise()).data
@@ -282,14 +282,14 @@ export class InsertPersonsComponent implements OnInit {
 
   public async updateFamily(value) {
     if (value.FamilyId) {
-      let model = value
+      const model = value
       model.PersonId = Number(this.personId);
       await this.personsService.updateFamily(model).toPromise()
       this.familyList = (await this.personsService.getFamilyById(this.personId).toPromise()).data
     } else {
       if (this.personId) {
         value.PersonId = Number(this.personId);
-        let result = (await this.personsService.insertFamily(value).toPromise()).data
+        const result = (await this.personsService.insertFamily(value).toPromise()).data
         alertEvent("บันทึกข้อมูลสำเร็จ", "success")
         this.familyList.push(value)
       }
