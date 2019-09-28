@@ -64,8 +64,8 @@ export class ReportSearchingCorperationComponent implements OnInit {
   public setSerachForm() {
     return this.formBuilder.group({
       CorporationName: [""],
-      StartYear: [new Date().getFullYear()],
-      Position: [""],
+      Parent: [""],
+      FullnameTh: [""]
     })
   }
 }

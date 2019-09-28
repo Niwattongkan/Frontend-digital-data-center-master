@@ -11,13 +11,16 @@
                             <div class="col-md-6">
                                 <div class="input-group-sm row">
                                     <label class="col-md-3 text-right">ชื่อ-นามสกุล</label>
-                                    <input type="text" class="form-control col-md-9" formControlName="Name">
+                                    <input type="text" class="form-control
+                                        col-md-9" formControlName="Name">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="input-group-sm row">
                                     <label class="col-md-3 text-right">องค์กร</label>
-                                    <input type="text" class="form-control col-md-9" formControlName="CorporationName">
+                                    <input type="text" class="form-control
+                                        col-md-9"
+                                        formControlName="CorporationName">
                                 </div>
                             </div>
                         </div>
@@ -25,18 +28,22 @@
                             <div class="col-md-6">
                                 <div class="input-group-sm row">
                                     <label class="col-md-3 text-right">ปีที่เริ่มงาน</label>
-                                    <input type="number" class="form-control col-md-9" formControlName="StartYear">
+                                    <input type="number" class="form-control
+                                        col-md-9" formControlName="StartYear">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="input-group-sm row">
                                     <label class="col-md-3 text-right">ตำแหน่ง</label>
-                                    <input type="text" class="form-control col-md-9" formControlName="Position">
+                                    <input type="text" class="form-control
+                                        col-md-9" formControlName="Position">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group text-right">
-                            <button type="button" class="btn btn-success" (click)="searchReport()">ค้นหา
+                            
+                            <button type="button" class="btn btn-success"
+                                (click)="searchReport()">ค้นหา
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>
@@ -46,7 +53,25 @@
         </div>
     </div>
 </div>
-
+<div class="row justify-content-center mt-4">
+    <div class="col-md-10 text-right">
+        <!-- <button type="button" class="btn btn-link" (click)="exportExcel()">Excel</button>
+        | <button type="button" class="btn btn-link" (click)="exportPDF()">PDF</button> -->
+        <a href="javascript:void(0)" class="dropdown-toggle btn btn-outline-warning btn-sm"
+        data-toggle="dropdown">
+        Export <i class="fas fa-download"></i>
+      </a>
+      <div class="dropdown-menu">
+        <button class="dropdown-item" (click)="exportExcel(reportList);">
+          <i class="fas fa-file-excel"></i>
+          Excel
+        </button>
+        <button class="dropdown-item" (click)="exportPDF(reportList);">
+          <i class="far fa-file-pdf"></i> PDF
+        </button>
+      </div>
+    </div>
+</div>
 <div class="row justify-content-center mt-4">
     <div class="col-md-10">
         <table class="table table-bordered">
@@ -67,7 +92,8 @@
                 </tr>
             </thead>
             <tbody class="bg-white">
-                <tr *ngFor="let data of reportList | paginate: { itemsPerPage: 10, currentPage: page }"
+                <tr *ngFor="let data of reportList | paginate: { itemsPerPage:
+                    10, currentPage: page }"
                     class="text-center">
                     <td>{{data.FullnameTh}}</td>
                     <td>{{data.Position}}</td>
@@ -81,7 +107,7 @@
         </table>
         <div class="d-flex justify-content-between">
             <span>แสดงทั้งหมด {{reportList.length}} รายการ</span>
-            <pagination-controls (pageChange)="page = $event"></pagination-controls>
+            <pagination-controls (pageChange)="page= $event"></pagination-controls>
         </div>
     </div>
 </div>

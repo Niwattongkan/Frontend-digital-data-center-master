@@ -112,6 +112,7 @@ export class InsertPersonsComponent implements OnInit {
     }
 
     this.profileForm.value['Birthday'] = this.setDate(this.profileForm.value.Birthday)
+    this.profileForm.value['Birthday'] = this.setDate(this.profileForm.value.Birthday)
     if (this.personId) {
       await this.personsService.updatePerson(this.profileForm.value).toPromise()
       this.updateLog(this.profileForm.value)
@@ -428,9 +429,9 @@ export class InsertPersonsComponent implements OnInit {
   public onImageChange(file: Event) {
     this.imageProfile = <File>file.target['files'][0];
     this.previewImage(this.imageProfile)
-    var reader = new FileReader();
-    let temp = reader.readAsBinaryString(<File>file.target['files'][0]);
-    return this.profileForm.controls['PathPhoto'].setValue(temp);
+  //  var reader = new FileReader();
+   // let temp = reader.readAsBinaryString(<File>file.target['files'][0]);
+    return this.profileForm.controls['PathPhoto'].setValue(this.imageProfile);
   }
 
   private previewImage(file) {
