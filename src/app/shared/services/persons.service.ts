@@ -14,7 +14,7 @@ export class PersonsService {
     var formData = new FormData();
     let key = Object.keys(data);
     for (let index = 0; index < key.length; index++) {
-      formData.append(key[index], (data[key[index]]) + "");
+      formData.append(key[index], (data[key[index]]));
     }
     formData.append("CreateBy", `${1}`);
     formData.append("UpdateBy", `${1}`);
