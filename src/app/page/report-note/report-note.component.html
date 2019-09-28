@@ -69,13 +69,13 @@
       <tbody class="bg-white">
         <tr *ngFor="let data of reportList | paginate: { itemsPerPage: 10, currentPage: page }" class="text-center">
           <td>
-            {{data.Notename}}
+            {{data.NoteName}}
           </td>
           <td>
-            {{data.Detail}}
+            {{data.Description}}
           </td>
           <td>
-            {{data.Name}}
+            {{data.FullnameTh == "" ?  "-" : data.FullnameTh}}
           </td>
           <td>
             {{data.CreateDate | date: "dd/MM/yyyy"}}
