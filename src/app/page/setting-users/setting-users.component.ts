@@ -19,7 +19,7 @@ export class SettingUsersComponent implements OnInit {
   public page: number;
   public groupUsersList: any = [];
   public groupUsersOrigin: any;
-  public inputSearch = ''
+  public inputSearch = '';
 
   constructor(
     private spinnerService: Ng4LoadingSpinnerService,
@@ -30,22 +30,22 @@ export class SettingUsersComponent implements OnInit {
 
   async ngOnInit() {
     this.spinnerService.show();
-    this.groupUsersList = mapPersons((await this.groupUserService.getallgroupuser().toPromise()).data)
+    this.groupUsersList = mapPersons((await this.groupUserService.getallgroupuser().toPromise()).data);
     this.spinnerService.hide();
   }
 
   async onSearchData() {
     this.spinnerService.show();
-    this.groupUsersList = mapPersons((await this.groupUserService.getallgroupuser().toPromise()).data)
+    this.groupUsersList = mapPersons((await this.groupUserService.getallgroupuser().toPromise()).data);
     if (this.inputSearch != '') {
       this.groupUsersList = this.groupUsersList.filter(group => {
         return (String(group.FullnameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
           (String(group.GroupUserName).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
-          (String(group.BoardName).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase())
+          (String(group.BoardName).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase());
       });
     }
     this.spinnerService.hide();
-    return this.page = 1
+    return this.page = 1;
   }
 
   // public groupData(data) {
@@ -60,17 +60,17 @@ export class SettingUsersComponent implements OnInit {
   // }
 
   async updateLog(note) {
-    this.groupUsersOrigin.Person[0].BoardName != note.BoardName ? await this.auditLogService("ชื่อกลุ่มสิทธิ์", this.groupUsersOrigin.Person[0].BoardName, note.BoardName) : null
+    this.groupUsersOrigin.Person[0].BoardName != note.BoardName ? await this.auditLogService('ชื่อกลุ่มสิทธิ์', this.groupUsersOrigin.Person[0].BoardName, note.BoardName) : null;
   }
 
   async auditLogService(field, origin, update) {
     await this.authlogService.insertAuditlog({
       UpdateDate: new Date(),
-      UpdateMenu: "กลุ่มผู้ใช้งาน",
+      UpdateMenu: 'กลุ่มผู้ใช้งาน',
       UpdateField: field,
       DataOriginal: origin,
       UpdateData: update,
-    }).toPromise()
+    }).toPromise();
   }
 
   public openModal(content, size) {
@@ -78,55 +78,55 @@ export class SettingUsersComponent implements OnInit {
   }
 
   public async insertGroupUser(data) {
-    let result = (await this.groupUserService.insertgroupuser({ GroupUserName: data.GroupUserName }).toPromise()).data[0]
+    const result = (await this.groupUserService.insertgroupuser({ GroupUserName: data.GroupUserName }).toPromise()).data[0];
 
     for (let index = 0; index < data.Person.length; index++) {
-      let model = {
+      const model = {
         GroupUserId: result.GroupUserId,
         PersonId: data.Person[index].PersonId,
-      }
-      let resultPerson = (await this.groupUserService.insertgroupuserperson(model).toPromise()).data[0]
+      };
+      const resultPerson = (await this.groupUserService.insertgroupuserperson(model).toPromise()).data[0];
       await this.groupUserService.insertmanagegroup({
         GroupUserPersonalId: resultPerson.GroupUserPersonalId,
         BoardId: data.Person[index].BoardId,
-      }).toPromise()
+      }).toPromise();
     }
-    this.groupUsersList = mapPersons((await this.groupUserService.getallgroupuser().toPromise()).data)
+    this.groupUsersList = mapPersons((await this.groupUserService.getallgroupuser().toPromise()).data);
   }
 
   public async updateGroupUser(data) {
-    console.log(data)
-    let groupName = {
+    const groupName = {
       GroupUserId: data.GroupUserId,
       GroupUserName: data.GroupUserName,
-      CreateDate: "2019-05-31 08:08:04"
-    }
+      CreateDate: '2019-05-31 08:08:04'
+    };
     // await this.updateLog(data)
-    await this.groupUserService.updategroupuser(groupName).toPromise()
-    await this.groupUserService.deletegroupuserperson(data.GroupUserId).toPromise()
+    await this.groupUserService.updategroupuser(groupName).toPromise();
     for (let index = 0; index < data.Person.length; index++) {
-      let model = {
+      const model = {
         GroupUserId: data.GroupUserId,
-        PersonId: data.Person[index].PersonId,
-      }
-      await this.groupUserService.insertgroupuserperson(model).toPromise()
+        GroupUserName: data.GroupUserName,
+        UpdateBy: 1,
+        IsActive: 1
+      };
+      await this.groupUserService.updategroupuser(model).toPromise();
     }
-    this.groupUsersList = mapPersons((await this.groupUserService.getallgroupuser().toPromise()).data)
+    this.groupUsersList = mapPersons((await this.groupUserService.getallgroupuser().toPromise()).data);
   }
 
   editGroupUser() {
-    
+
   }
 
   delete(data) {
     return alertDeleteEvent().then(async confirm => {
       if (confirm.value) {
-        await this.groupUserService.deletegroupuser(data.GroupUserId, '').toPromise()
-        await this.groupUserService.deletegroupuserperson(data.GroupUserPersonalId).toPromise()
-        this.groupUsersList = mapPersons((await this.groupUserService.getallgroupuser().toPromise()).data)
-        return alertEvent("ลบข้อมูลสำเร็จ", "success")
+        await this.groupUserService.deletegroupuser(data.GroupUserId, '').toPromise();
+        await this.groupUserService.deletegroupuserperson(data.GroupUserPersonalId).toPromise();
+        this.groupUsersList = mapPersons((await this.groupUserService.getallgroupuser().toPromise()).data);
+        return alertEvent('ลบข้อมูลสำเร็จ', 'success');
       }
-    })
+    });
   }
 
 }
