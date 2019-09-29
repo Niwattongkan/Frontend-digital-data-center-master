@@ -31,7 +31,23 @@
         </div>
     </div>
 </div>
-
+<div class="row justify-content-center mt-4">
+    <div class="col-md-10 text-right">
+        <a href="javascript:void(0)" class="dropdown-toggle btn btn-outline-warning btn-sm"
+        data-toggle="dropdown">
+        Export <i class="fas fa-download"></i>
+      </a>
+      <div class="dropdown-menu">
+        <button class="dropdown-item" (click)="exportExcel(reportList);">
+          <i class="fas fa-file-excel"></i>
+          Excel
+        </button>
+        <!-- <button class="dropdown-item" (click)="exportPDF(reportList);">
+          <i class="far fa-file-pdf"></i> PDF
+        </button> -->
+      </div>
+    </div>
+</div>
 <div class="row justify-content-center mt-4">
     <div class="col-md-10">
         <table class="table table-bordered">

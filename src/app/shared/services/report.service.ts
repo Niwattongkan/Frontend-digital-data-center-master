@@ -63,15 +63,18 @@ export class ReportService {
 
   getreportnote(data): Observable<any> {
     let params = new URLSearchParams();
-    if (data.Name !== "") {
-      params.append("Name", data.Name);
-    }
-    if (data.StartDate !== null) {
-      params.append("StartDate", data.StartDate);
-    }
-    if (data.EndDate !== null) {
-      params.append("EndDate", data.EndDate);
-    }
-    return this.apiService.get(`getreportuserlog?` + params.toString());
+    // if (data.Name !== "") {
+       params.append("NoteName", data.NoteName);
+    // }
+    // if(data.CreateBy !== "") {
+       params.append("CreateBy", data.CreateBy);
+    // }
+    // if (data.StartDate !== null) {
+       params.append("StartDate", data.StartDate);
+    // }
+    // if (data.EndDate !== null) {
+       params.append("EndDate", data.EndDate);
+    // }
+    return this.apiService.get(`getreportnote?` + params.toString());
   }
 }

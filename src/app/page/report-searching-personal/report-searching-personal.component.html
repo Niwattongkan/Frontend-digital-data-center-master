@@ -66,9 +66,9 @@
           <i class="fas fa-file-excel"></i>
           Excel
         </button>
-        <button class="dropdown-item" (click)="exportPDF(reportList);">
+        <!-- <button class="dropdown-item" (click)="exportPDF(reportList);">
           <i class="far fa-file-pdf"></i> PDF
-        </button>
+        </button> -->
       </div>
     </div>
 </div>
@@ -110,4 +110,33 @@
             <pagination-controls (pageChange)="page= $event"></pagination-controls>
         </div>
     </div>
+</div>
+
+<div id="printpdf" style="display: none">
+    <table class="table table-bordered">
+        <thead class="bg-custom-green text-white">
+            <tr role="row">
+                <th class="text-center">
+                    ชื่อ-นามสกุล
+                </th>
+                <th class="text-center">
+                    ตำแหน่ง
+                </th>
+                <th class="text-center">
+                    เบอร์โทร
+                </th>
+                <th class="text-center">
+                    ที่อยู่
+                </th>
+            </tr>
+        </thead>
+        <tbody class="bg-white">
+            <tr *ngFor="let data of reportList" class="text-center">
+                <td>{{data.FullnameTh}}</td>
+                <td>{{data.Position}}</td>
+                <td>{{data.Contact}}</td>
+                <td>{{showAddress(data)}}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>

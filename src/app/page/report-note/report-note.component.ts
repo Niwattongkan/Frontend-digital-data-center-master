@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { IMyOptions } from "mydatepicker-th";
 // import * as moment from "moment";
 import { ReportService } from "../../shared/services/report.service";
-
+import { ExcelService } from "../../shared/services/excel.service";
 import { mapPersons } from "../../shared/library/mapList";
 
 @Component({
@@ -24,7 +24,8 @@ export class ReportNoteComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private reportService: ReportService
+    private reportService: ReportService,
+    private excelService: ExcelService
   ) {
     this.searchform = this.setSerachForm();
   }
@@ -85,12 +86,12 @@ export class ReportNoteComponent implements OnInit {
     if (data.StartDate !== null) {
       data.StartDate = this.setDate(data.StartDate.date);
     } else {
-      data.StartDate = null;
+      data.StartDate = "";
     }
     if (data.EndDate !== null) {
       data.EndDate = this.setDate(data.EndDate.date);
     } else {
-      data.EndDate = null;
+      data.EndDate = "";
     }
 
     let result = (await this.reportService.getreportnote(data).toPromise())
@@ -100,8 +101,8 @@ export class ReportNoteComponent implements OnInit {
 
   public setSerachForm() {
     return this.formBuilder.group({
-      Name: [""],
-      Notename: [""],
+      CreateBy: [""],
+      NoteName: [""],
       StartDate: [this.setDateEdit(new Date())],
       EndDate: [this.setDateEdit(new Date())]
     });
@@ -128,6 +129,25 @@ export class ReportNoteComponent implements OnInit {
       month.substr(month.length - 2, month.length) +
       "-" +
       day.substr(day.length - 2, day.length)
+    );
+  }
+
+
+
+  public exportExcel(data) {
+    console.log(data);
+    let exportGroup = [];
+    data.forEach(element => {
+      exportGroup.push({
+        "ชื่อสมุดบันทึก": element.NoteName,
+        "รายละเอียด": element.Description,
+        "ชื่อบุคคล": element.FristNameTh,
+         "วันที่สร้าง": element.CreateDate
+      });
+    });
+    return this.excelService.exportAsExcelFile(
+      exportGroup,
+      "searching-personal"
     );
   }
 }

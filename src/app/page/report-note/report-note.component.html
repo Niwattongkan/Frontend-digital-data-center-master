@@ -10,13 +10,13 @@
             <div class="col-md-6">
               <div class="input-group-sm row">
                 <label class="col-md-4 text-right">ชื่อสมุดบันทึก</label>
-                <input type="text" class="form-control col-md-8"  formControlName="Notename">
+                <input type="text" class="form-control col-md-8"  formControlName="NoteName">
               </div>
             </div>
             <div class="col-md-6">
               <div class="input-group-sm row">
                 <label class="col-md-4 text-right">ชื่อผู้สร้างสมุดบันทึก</label>
-                <input type="text" class="form-control col-md-8"  formControlName="Name">
+                <input type="text" class="form-control col-md-8"  formControlName="CreateBy">
               </div>
             </div>
           </div>
@@ -48,6 +48,23 @@
 </div>
 
 <div class="row justify-content-center mt-4">
+  <div class="col-md-10 text-right">
+      <a href="javascript:void(0)" class="dropdown-toggle btn btn-outline-warning btn-sm"
+      data-toggle="dropdown">
+      Export <i class="fas fa-download"></i>
+    </a>
+    <div class="dropdown-menu">
+      <button class="dropdown-item" (click)="exportExcel(reportList);">
+        <i class="fas fa-file-excel"></i>
+        Excel
+      </button>
+      <!-- <button class="dropdown-item" (click)="exportPDF(reportList);">
+        <i class="far fa-file-pdf"></i> PDF
+      </button> -->
+    </div>
+  </div>
+</div>
+<div class="row justify-content-center mt-4">
   <div class="col-md-10">
     <table class="table table-bordered">
       <thead class="bg-custom-green text-white">
@@ -69,13 +86,13 @@
       <tbody class="bg-white">
         <tr *ngFor="let data of reportList | paginate: { itemsPerPage: 10, currentPage: page }" class="text-center">
           <td>
-            {{data.Notename}}
+            {{data.NoteName}}
           </td>
           <td>
-            {{data.Detail}}
+            {{data.Description}}
           </td>
           <td>
-            {{data.Name}}
+            {{data.FristNameTh}}
           </td>
           <td>
             {{data.CreateDate | date: "dd/MM/yyyy"}}

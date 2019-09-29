@@ -5,7 +5,7 @@ import { IMyOptions } from 'mydatepicker-th';
 import { ReportService } from '../../shared/services/report.service';
 
 import { mapPersons } from '../../shared/library/mapList';
-
+import { ExcelService } from "../../shared/services/excel.service";
 
 @Component({
   selector: 'app-report-searching-board',
@@ -27,7 +27,8 @@ export class ReportSearchingBoardComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private reportService: ReportService
+    private reportService: ReportService,
+    private excelService: ExcelService
   ) {
     this.searchform = this.setSerachForm()
   }
@@ -67,5 +68,23 @@ export class ReportSearchingBoardComponent implements OnInit {
 
   public convertObjDate(date) {
     return date.year + '-' + date.month + '-' + date.day
+  }
+
+
+  public exportExcel(data) {
+    console.log(data);
+    let exportGroup = [];
+    data.forEach(element => {
+      exportGroup.push({
+        "ชื่อ-นามสกุล": element.FullnameTh,
+        "ชื่อกลุ่ม": element.BoardName,
+        "เบอร์โทร": element.Contact,
+         "ที่อยู่": this.showAddress(element)
+      });
+    });
+    return this.excelService.exportAsExcelFile(
+      exportGroup,
+      "searching-personal"
+    );
   }
 }

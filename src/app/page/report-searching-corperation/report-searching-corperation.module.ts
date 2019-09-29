@@ -5,7 +5,7 @@ import { RoutingModule } from './report-searching-corperation.routing';
 import { ReportSearchingCorperationComponent } from './report-searching-corperation.component';
 
 import { ReportService } from '../../shared/services/report.service';
-
+import { ExcelService } from '../../shared/services/excel.service';
 @NgModule({
   declarations: [ReportSearchingCorperationComponent],
   imports: [
@@ -13,7 +13,8 @@ import { ReportService } from '../../shared/services/report.service';
     RoutingModule
   ],
   providers: [
-    ReportService
+    ReportService,
+    ExcelService
   ]
 })
 export class ReportSearchingCorperationModule { }

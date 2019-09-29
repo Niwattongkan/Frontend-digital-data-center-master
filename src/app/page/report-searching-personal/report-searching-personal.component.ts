@@ -5,7 +5,8 @@ import { ExcelService } from "../../shared/services/excel.service";
 import { ReportService } from "../../shared/services/report.service";
 
 import jsPDF from "jspdf";
-import "jspdf-autotable";
+ import "jspdf-autotable";
+// import "jspdf-customfonts";
 import { mapPersons } from "../../shared/library/mapList";
 
 @Component({
@@ -97,9 +98,9 @@ export class ReportSearchingPersonalComponent implements OnInit {
     data.forEach(element => {
       exportGroup.push({
         "ชื่อ-นามสกุล": element.FullnameTh,
-        ตำแหน่ง: element.Position,
-        เบอร์โทร: element.Contact,
-        ที่อยู่: this.showAddress(element)
+        "ตำแหน่ง": element.Position,
+        "เบอร์โทร": element.Contact,
+         "ที่อยู่": this.showAddress(element)
       });
     });
     return this.excelService.exportAsExcelFile(
@@ -108,31 +109,42 @@ export class ReportSearchingPersonalComponent implements OnInit {
     );
   }
 
-  public exportPDF(data) {
-    console.log(data);
-    let exportGroup = [];
-    data.forEach(element => {
-      // element.ContactGroupId = value.ContactGroupId;
-      exportGroup.push({
-        name: element.FullnameTh,
-        Position: element.Position,
-        Contact: element.Contact,
-        Address: this.showAddress(element)
-      });
-    });
+  public exportPDF() {
+    //console.log(data);
+    // let exportGroup = [];
+    // data.forEach(element => {
+    //   // element.ContactGroupId = value.ContactGroupId;
+    //   exportGroup.push({
+    //     name: element.FullnameTh,
+    //     Position: element.Position,
+    //     Contact: element.Contact,
+    //     Address: this.showAddress(element)
+    //   });
+    // });
 
     var doc = new jsPDF("p", "pt");
-    doc.addFont('ComicSansMS', 'Comic Sans', 'normal');
-    doc.setFont('Comic Sans');
-    doc.autoTable({
-      columns: [
-        { header: "ชื่อ-นามสกุล", dataKey: "name" },
-        { header: "ตำแหน่ง", dataKey: "Position" },
-        { header: "เบอร์โทร", dataKey: "Contact" },
-        { header: "ที่อยู่", dataKey: "Address" }
-      ],
-      body: exportGroup
-    });
-    doc.save("searching-personal.pdf");
+    // var doc = new jsPDF();
+    //doc.addFileToVFS('Kanit-Regular.ttf','');
+    //  doc.addFont('Kanit-Regular.ttf', 'custom', 'normal');
+    ///doc.setFont('custom');
+    // doc.text(15, 15, 'ภาษาไทย');
+    const printContent = document.getElementById("printpdf")[0];
+    doc.fromHTML(
+      printContent,
+      15,
+      0.5);
+      doc.save("searching-personal.pdf");
+    
+
+    // doc.autoTable({
+    //   columns: [
+    //     { header: "ชื่อ-นามสกุล", dataKey: "name" },
+    //     { header: "ตำแหน่ง", dataKey: "Position" },
+    //     { header: "เบอร์โทร", dataKey: "Contact" },
+    //     { header: "ที่อยู่", dataKey: "Address" }
+    //   ],
+    //   body: exportGroup
+    // });
+  
   }
 }

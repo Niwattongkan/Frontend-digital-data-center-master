@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { IMyOptions } from 'mydatepicker-th';
-
+import { ExcelService } from "../../shared/services/excel.service";
 import { ReportService } from '../../shared/services/report.service';
 
 import { mapPersons } from '../../shared/library/mapList';
@@ -29,7 +29,8 @@ export class ReportSearchingCorperationComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private reportService: ReportService
+    private reportService: ReportService,
+    private excelService: ExcelService
   ) {
     this.searchform = this.setSerachForm()
   }
@@ -58,6 +59,23 @@ export class ReportSearchingCorperationComponent implements OnInit {
   public async searchReport() {
     let result = ((await this.reportService.getreportcorporation(this.searchform.value).toPromise()).data)
     this.reportList = result ? mapPersons(result) : []
+  }
+
+  public exportExcel(data) {
+    console.log(data);
+    let exportGroup = [];
+    data.forEach(element => {
+      exportGroup.push({
+        "ชื่อองค์กร": element.CorporationName,
+        "อยู่ภายใต้องค์กร": element.Parent,
+        "บุคคลในองค์กร": element.FullnameTh,
+        "ที่อยู่องค์กร": this.showAddress(element)
+      });
+    });
+    return this.excelService.exportAsExcelFile(
+      exportGroup,
+      "searching-personal"
+    );
   }
 
 
