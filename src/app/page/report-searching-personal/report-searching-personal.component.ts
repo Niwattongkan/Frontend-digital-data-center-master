@@ -118,7 +118,11 @@ export class ReportSearchingPersonalComponent implements OnInit {
       });
     });
 
-    const pdf = new jsPDF('p', 'pt');
+
+    const pdf = new jsPDF({
+      unit: 'pt',
+      orientation: 'p',
+    });
     pdf.addFileToVFS('ConsolasHex.ttf',
     // ttf font file converted to base64
     // following is Consolas with only hex digit glyphs defined (0-9, A-F)

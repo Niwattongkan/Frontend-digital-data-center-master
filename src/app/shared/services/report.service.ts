@@ -56,16 +56,10 @@ export class ReportService {
 
   getreportnote(data): Observable<any> {
     const params = new URLSearchParams();
-      params.append('Name', data.Name ? data.Name : '');
-    if (data.Note !== ''){
-      params.append('Note' , data.Notename);
-    }
-    if (data.StartDate !== null) {
+      params.append('CreateBy', data.Name ? data.Name : '');
+      params.append('NoteName' , data.Notename);
       params.append('StrDate', data.StartDate);
-    }
-    if (data.EndDate !== null) {
       params.append('EndDate', data.EndDate);
-    }
     return this.apiService.get(`getreportnote?` + params.toString());
   }
 
