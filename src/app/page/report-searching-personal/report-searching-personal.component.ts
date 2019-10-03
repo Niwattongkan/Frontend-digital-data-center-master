@@ -1,18 +1,19 @@
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder } from "@angular/forms";
-import { IMyOptions } from "mydatepicker-th";
-import { ExcelService } from "../../shared/services/excel.service";
-import { ReportService } from "../../shared/services/report.service";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { IMyOptions } from 'mydatepicker-th';
+import { ExcelService } from '../../shared/services/excel.service';
+import { ReportService } from '../../shared/services/report.service';
 
 import jsPDF from "jspdf";
  import "jspdf-autotable";
 // import "jspdf-customfonts";
 import { mapPersons } from "../../shared/library/mapList";
 
+
 @Component({
-  selector: "app-report-searching-personal",
-  templateUrl: "./report-searching-personal.component.html",
-  styleUrls: ["./report-searching-personal.component.css"]
+  selector: 'app-report-searching-personal',
+  templateUrl: './report-searching-personal.component.html',
+  styleUrls: ['./report-searching-personal.component.css']
 })
 export class ReportSearchingPersonalComponent implements OnInit {
   public searchform: FormGroup;
@@ -23,7 +24,7 @@ export class ReportSearchingPersonalComponent implements OnInit {
   public reportList: any = [];
 
   public myDatePickerOptions: IMyOptions = {
-    dateFormat: "dd/mm/yyyy"
+    dateFormat: 'dd/mm/yyyy'
   };
 
   constructor(
@@ -35,29 +36,29 @@ export class ReportSearchingPersonalComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let result = (await this.reportService
+    const result = (await this.reportService
       .getreportperson(this.searchform.value)
       .toPromise()).data;
     this.reportList = mapPersons(result);
   }
 
   public showAddress(value) {
-    let Building = value.Building ? "อาคาร " + value.Building + " " : "";
-    let Floor = value.Floor ? "ชั้น " + value.Floor + " " : "";
-    let Room = value.Room ? "ห้อง " + value.Room + " " : "";
-    let HouseNumber = value.HouseNumber
-      ? "เลขที่ " + value.HouseNumber + " "
-      : "";
-    let Road = value.Road ? "ถนน " + value.Road + " " : "";
-    let Soi = value.Soi ? "ซอย " + value.Soi + " " : "";
-    let Province =
-      value.Province != "" ? "จังหวัด " + value.Province + " " : "";
-    let Subdistrict =
-      value.Subdistrict != "" ? "ตำบล/แขวง " + value.Subdistrict + " " : "";
-    let District =
-      value.District != "" ? "อำเภอ/เขต " + value.District + " " : "";
-    let Zipcode =
-      value.Zipcode != "" ? "รหัสไปรษณีย์ " + value.Zipcode + " " : "";
+    const Building = value.Building ? 'อาคาร ' + value.Building + ' ' : '';
+    const Floor = value.Floor ? 'ชั้น ' + value.Floor + ' ' : '';
+    const Room = value.Room ? 'ห้อง ' + value.Room + ' ' : '';
+    const HouseNumber = value.HouseNumber
+      ? 'เลขที่ ' + value.HouseNumber + ' '
+      : '';
+    const Road = value.Road ? 'ถนน ' + value.Road + ' ' : '';
+    const Soi = value.Soi ? 'ซอย ' + value.Soi + ' ' : '';
+    const Province =
+      value.Province != '' ? 'จังหวัด ' + value.Province + ' ' : '';
+    const Subdistrict =
+      value.Subdistrict != '' ? 'ตำบล/แขวง ' + value.Subdistrict + ' ' : '';
+    const District =
+      value.District != '' ? 'อำเภอ/เขต ' + value.District + ' ' : '';
+    const Zipcode =
+      value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
     return (
       Building +
       Floor +
@@ -73,41 +74,42 @@ export class ReportSearchingPersonalComponent implements OnInit {
   }
 
   public async searchReport() {
-    let result = (await this.reportService
-      .getreportperson(this.searchform.value)
-      .toPromise()).data;
+    const result = (await this.reportService.getreportperson(this.searchform.value).toPromise()).data;
     this.reportList = mapPersons(result);
+
   }
 
   public setSerachForm() {
     return this.formBuilder.group({
-      Name: [""],
-      CorporationName: [""],
+      Name: [''],
+      CorporationName: [''],
       StartYear: [new Date().getFullYear()],
-      Position: [""]
+      Position: ['ba']
     });
   }
 
   public convertObjDate(date) {
-    return date.year + "-" + date.month + "-" + date.day;
+    return date.year + '-' + date.month + '-' + date.day;
   }
 
   public exportExcel(data) {
-    console.log(data);
-    let exportGroup = [];
+    const exportGroup = [];
     data.forEach(element => {
       exportGroup.push({
+
         "ชื่อ-นามสกุล": element.FullnameTh,
         "ตำแหน่ง": element.Position,
         "เบอร์โทร": element.Contact,
          "ที่อยู่": this.showAddress(element)
+
       });
     });
     return this.excelService.exportAsExcelFile(
       exportGroup,
-      "searching-personal"
+      'searching-personal'
     );
   }
+
 
   public exportPDF() {
     //console.log(data);
@@ -146,5 +148,6 @@ export class ReportSearchingPersonalComponent implements OnInit {
     //   body: exportGroup
     // });
   
+
   }
 }

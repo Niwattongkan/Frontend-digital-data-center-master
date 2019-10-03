@@ -1,15 +1,15 @@
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder } from "@angular/forms";
-import { IMyOptions } from "mydatepicker-th";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { IMyOptions } from 'mydatepicker-th';
 
-import { ReportService } from "../../shared/services/report.service";
+import { ReportService } from '../../shared/services/report.service';
 
-import { mapPersons } from "../../shared/library/mapList";
+import { mapPersons } from '../../shared/library/mapList';
 
 @Component({
-  selector: "app-report-using",
-  templateUrl: "./report-using.component.html",
-  styleUrls: ["./report-using.component.css"]
+  selector: 'app-report-using',
+  templateUrl: './report-using.component.html',
+  styleUrls: ['./report-using.component.css']
 })
 export class ReportUsingComponent implements OnInit {
   public searchform: FormGroup;
@@ -29,37 +29,38 @@ export class ReportUsingComponent implements OnInit {
   gradient = false;
   showLegend = true;
   showXAxisLabel = true;
-  xAxisLabel = "Country";
+  xAxisLabel = 'Country';
   showYAxisLabel = true;
-  yAxisLabel = "Population";
+  yAxisLabel = 'Population';
   colorScheme = {
-    domain: ["#5AA454", "#A10A28", "#C7B42C", "#AAAAAA"]
+    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
   customColors = [
     {
-      name: "france",
-      value: "#0000ff"
+      name: 'france',
+      value: '#0000ff'
     }
   ];
 
   autoScale = true;
 
   public myDatePickerOptions: IMyOptions = {
-    dateFormat: "dd/mm/yyyy"
+    dateFormat: 'dd/mm/yyyy'
   };
 
   constructor(
     private formBuilder: FormBuilder,
     private reportService: ReportService
   ) {
+  }
+
+  async ngOnInit() {
     this.searchform = this.setSerachForm();
   }
 
-  async ngOnInit() {}
-
   public async searchReport() {
-    let data = this.searchform.value;
+    const data = this.searchform.value;
 
     if (data.StartDate !== null) {
       data.StartDate = this.setDate(data.StartDate.date);
@@ -71,34 +72,33 @@ export class ReportUsingComponent implements OnInit {
     } else {
       data.EndDate = null;
     }
-    let result = (await this.reportService.getreportuserlog(data).toPromise())
-      .data;
-    this.reportList = result ? this.groupData(result) : [];
-    let temp = [];
+    const result = (await this.reportService.getreportuserlog(data).toPromise()).data;
+    this.reportList = result
+    const temp = [];
     this.reportList.map(element => {
       temp.push({
         name: element.CreateDate,
-        value: element.data.length
+        value: element.data.size
       });
     });
     this.multi = [...temp];
 
-    this.xAxisLabel = "วันที่";
-    this.yAxisLabel = "ผู้มาใช้ระบบ";
+    this.xAxisLabel = 'วันที่';
+    this.yAxisLabel = 'ผู้มาใช้ระบบ';
   }
 
   public setSerachForm() {
     return this.formBuilder.group({
-      Name: [""],
-      Status: [""],
+      Name: [''],
+      Status: [''],
       StartDate: [this.setDateEdit(new Date())],
       EndDate: [this.setDateEdit(new Date())]
     });
   }
 
   public groupData(data) {
-    let groups = data.reduce(function(obj, item) {
-      let customDate = item.CreateDate.split(" ");
+    const groups = data.reduce(function(obj, item) {
+      const customDate = item.CreateDate.split(' ');
       obj[customDate[0]] = obj[customDate[0]] || [];
       obj[customDate[0]].push(item);
       return obj;
@@ -109,7 +109,7 @@ export class ReportUsingComponent implements OnInit {
   }
 
   private setDateEdit(data) {
-    let tempDate = new Date(data);
+    const tempDate = new Date(data);
     return {
       date: {
         year: tempDate.getFullYear(),
@@ -119,14 +119,14 @@ export class ReportUsingComponent implements OnInit {
     };
   }
   public setDate(date) {
-    let year = date.year;
-    let month = "000" + date.month;
-    let day = "000" + date.day;
+    const year = date.year;
+    const month = '000' + date.month;
+    const day = '000' + date.day;
     return (
       year +
-      "-" +
+      '-' +
       month.substr(month.length - 2, month.length) +
-      "-" +
+      '-' +
       day.substr(day.length - 2, day.length)
     );
   }

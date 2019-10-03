@@ -85,7 +85,6 @@ export class InsertPersonsComponent implements OnInit {
 
     let resultPerson = this.personId ? (await this.personsService.getDetailById(this.personId).toPromise()).data[0] : null
     let resultImage = this.personId ? (await this.personsService.getphotoperson(this.personId).toPromise()).data : null
-    console.log('resultImage  ' +  resultImage)
     this.imagePreview = resultImage ? resultImage[0] : null
 
     this.corperationList = (await this.organizationService.getOrganizationAll().toPromise()).data
@@ -93,7 +92,6 @@ export class InsertPersonsComponent implements OnInit {
     this.profileForm = await this.setProfile(resultPerson)
     this.personId ? await this.setList() : null
     this.academyList = (await this.dropdownService.getacademyAll().toPromise()).data
-
 
     this.spinnerService.hide();
   }

@@ -22,7 +22,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let data of bursariesPerson; let i = index" class="text-center bg-white">
-            <td>{{ data.Year }}</td>
+            <td>{{ data.Year.substr(0,4) }}</td>
             <td>{{ data.ProjectNo }}</td>
             <td>{{ data.ProjectName }}</td>
             <td>{{ data.CorporationName }}</td>

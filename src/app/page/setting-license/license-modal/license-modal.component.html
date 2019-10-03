@@ -24,20 +24,20 @@
               <table class="table table-bordered">
                 <thead>
                   <tr role="row">
-                    <th class="text-center">เมนู</th>
-                    <th class="text-center">ทั้งหมด</th>
-                    <th class="text-center">ดู</th>
-                    <th class="text-center">เพิ่มข้อมูล</th>
-                    <th class="text-center">แก้ไขข้อมูล</th>
-                    <th class="text-center">ลบข้อมูล</th>
-                    <th class="text-center">นำเข้าข้อมูล</th>
-                    <th class="text-center">ส่งออกข้อมูล</th>
+                    <th class="text-center"><p style="font-size: 13px">เมนู</p></th>
+                    <th class="text-center"><p style="font-size: 13px">ทั้งหมด</p></th>
+                    <th class="text-center"><p style="font-size: 13px">ดู</p></th>
+                    <th class="text-center"><p style="font-size: 13px">เพิ่มข้อมูล</p></th>
+                    <th class="text-center"><p style="font-size: 13px">แก้ไขข้อมูล</p></th>
+                    <th class="text-center"><p style="font-size: 13px">ลบข้อมูล</p></th>
+                    <th class="text-center"><p style="font-size: 13px">นำเข้าข้อมูล</p></th>
+                    <th class="text-center"><p style="font-size: 13px">ส่งออกข้อมูล</p></th>
                   </tr>
                 </thead>
                 <tbody class="bg-white">
                   <tr *ngFor="let role of rolelist; let i = index" class="text-center">
                     <td>
-                      {{role.MenuName}}
+                      <p style="font-size: 10px">{{role.MenuName}}</p>
                     </td>
                     <td style="width: 20px;">
                       <input id="view + {{i}}" type="checkbox" [(ngModel)]="role.All" (change)="selectAll(i, $event.target.value)">

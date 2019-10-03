@@ -92,8 +92,8 @@
             {{data.Description}}
           </td>
           <td>
-            {{data.FristNameTh}}
-          </td>
+            {{data.FullnameTh == "" ?  "-" : data.FullnameTh}}
+         </td>
           <td>
             {{data.CreateDate | date: "dd/MM/yyyy"}}
           </td>

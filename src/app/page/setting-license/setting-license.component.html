@@ -50,7 +50,7 @@
           <tr *ngFor="let data of roleList | paginate: { itemsPerPage: 10, currentPage: page }" class="text-center">
             <td>{{ data.PermissionName }}</td>
             <td>
-              <span class="block" *ngFor="let person of data.Persons">{{person.FullnameTh}}</span>   
+              <span class="block" *ngFor="let person of data.Persons">{{person.FullnameTh}}</span>
             </td>
             <td>
               <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"

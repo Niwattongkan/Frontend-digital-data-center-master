@@ -32,8 +32,14 @@ a:hover {
   padding-left: 10px;
   padding-right: 10px;
 }
-
-/* 
+.parent{
+}
+.over-img{
+  position: absolute;
+  top: 80%;
+  left: 20%;
+}
+/*
 .navbar {
   background-image: url("/assets/image/header.jpg");
   background-position: center;
