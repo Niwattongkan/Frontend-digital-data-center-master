@@ -53,10 +53,10 @@ export class ModalFamilyInformationComponent implements OnInit {
     return data ? this.formBuilder.group({
       FamilyId: [data.FamilyId],
       Relation: [data.Relation, [Validators.required]],
-      TitleNameTh: [data.TitleNameTh, [Validators.required]],
+      TitleNameTh: [data.TitleNameTh1, [Validators.required]],
       TitleNameOtherTh: [data.TitleNameOtherTh],
-      FristNameTh: [data.FristNameTh, [Validators.required]],
-      LastNameTh: [data.LastNameTh, [Validators.required]],
+      FristNameTh: [data.FristNameTh1, [Validators.required]],
+      LastNameTh: [data.LastNameTh1, [Validators.required]],
       Contact: [data.Contact],
     }) :
       this.formBuilder.group({

@@ -93,8 +93,6 @@ export class ModalAddressInformationComponent implements OnInit {
       this.alertValid = true;
       return;
     }
-    console.log(this.addressForm.value)
-
     this.onSubmit.emit(this.addressForm.value)
     return this.modalService.dismissAll()
   }

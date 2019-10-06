@@ -63,9 +63,7 @@ export class HomeComponent implements OnInit {
 
       const workperson = (await this.personsService.getworkperson(data.PersonId).toPromise()).data;
       const workcontact = (await this.personsService.getcontactperson(data.PersonId).toPromise()).data;
-      const tempImg = (await this.personsService.getphotoperson(data.PersonId).toPromise()).data;
 
-      data.imagePerson = tempImg ? true : false;
       data.FullnameTh = first && last ? title + first + ' ' + last : '';
       data.FullnameEn = firstEn && lastEn ? titleEn + firstEn + ' ' + lastEn : '';
       data.ContactList = workcontact;
@@ -76,7 +74,6 @@ export class HomeComponent implements OnInit {
     });
     return personList;
   }
-
   public mapCorperation(corperationList) {
     corperationList.map(async data => {
       data.CorporationAddress = [];
@@ -123,14 +120,15 @@ export class HomeComponent implements OnInit {
     if (this.typeCheck[0].status == true) {
       this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data);
       this.listStatus = 0;
-      // tslint:disable-next-line:triple-equals
       if (this.inputSearch != '') {
+        this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data)
+
         const seachPerson = this.personList.filter(person => {
           return (String(person.FristNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
             (String(person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
-            (String(person.Contact)).includes(this.inputSearch);
+            (String(person.Contact)).includes(this.inputSearch)
         });
-        this.personList = seachPerson.length > 1 ? seachPerson : await this.mapPerson((await this.personsService.getsearchpersoncontact(this.inputSearch).toPromise()).data);
+        this.personList = seachPerson.length > 0 ? seachPerson : await this.mapPerson((await this.personsService.getsearchpersoncontact(this.inputSearch).toPromise()).data)
       }
     } else if (this.typeCheck[1].status == true) {
       this.listStatus = 1;

@@ -172,9 +172,10 @@
                       <ngx-avatar *ngIf="!imagePreview" size="120"
                         src="http://icons.iconarchive.com/icons/graphicloads/flat-finance/256/person-icon.png"
                         (clickOnAvatar)="selectNewAvatar()"></ngx-avatar>
-                      <img *ngIf="imagePreview" class="rounded-circle" style="width: 120px; height: 120px;"
-                        [src]="imagePreview" data-holder-rendered="true" for="customFile">
+                      <ngx-avatar *ngIf="imagePreview" [src]="imagePerson" size="120" [round]="true">
+                        </ngx-avatar>
                       <input type="file" class="mt-4" (change)="onImageChange($event)">
+
                     </div>
                   </div>
                   <div class="container">
@@ -510,7 +511,7 @@
                     <!-- <td> </td> -->
                     <td>{{data.Contact}}</td>
                     <td>
-                      <label *ngIf="data.TypeContactId == 1">อีเมล์</label>
+                      <label *ngIf="data.TypeContactId == 1">อีเมล</label>
                       <label *ngIf="data.TypeContactId == 2">เบอร์โทร</label>
                       <label *ngIf="data.TypeContactId == 3">Line</label>
                       <label *ngIf="data.TypeContactId == 4">Facebook</label>
@@ -564,7 +565,7 @@
                   <tr *ngFor="let data of coordinateList; let i = index" class="text-center">
                     <td>{{data.TitleNameTh}} {{data.FristNameTh}} {{data.LastNameTh}}</td>
                     <td>
-                      <label *ngIf="data.TypeContactId == 1">อีเมล์</label>
+                      <label *ngIf="data.TypeContactId == 1">อีเมล</label>
                       <label *ngIf="data.TypeContactId == 2">เบอร์โทร</label>
                       <label *ngIf="data.TypeContactId == 3">Line</label>
                       <label *ngIf="data.TypeContactId == 4">Facebook</label>

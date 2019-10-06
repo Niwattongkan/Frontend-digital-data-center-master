@@ -9,7 +9,7 @@
     <div class="col-md-10">
       <div class="row mb-4">
         <div class="col-md-6">
-          <span class="text-orange text-bold mr-4"> ชื่อ-สกุล: </span>
+          <span class="text-orange text-bold mr-4"> ชื่อ-สกุล:  {{data.FullnameTh}}</span>
           <a *ngIf="currentPath != '/home'" routerLink="/persons/detail/{{data.PersonId}}">
             {{data.FullnameTh}}
           </a>
@@ -34,7 +34,7 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-          <span class="text-orange text-bold mr-4">อีเมล์: </span>
+          <span class="text-orange text-bold mr-4">อีเมล: </span>
           <span *ngFor="let contact of data.ContactList">
             <label *ngIf="contact.TypeContactId == 1">{{contact.Contact + ' '}}</label>
           </span>
@@ -85,7 +85,7 @@
         <div class="row">
           <label class="col-md-2 text-orange"> ประเภทที่อยู่ </label>
           <label class="col-md-10">
-            {{ 
+            {{
               address.AddressType == 1 ? "ตามทะเบียนบ้าน" :
               address.AddressType == 2 ? "ตามบัตรประชาชน" :
               address.AddressType == 3 ? "ตามที่อยู่ปัจจุบัน" : "ตามที่อยู่จัดส่ง"

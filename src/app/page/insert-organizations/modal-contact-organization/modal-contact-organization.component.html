@@ -37,7 +37,7 @@
                   <div class="input-group input-group-sm mb-3">
                     <select class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
                       formControlName="TypeContactId">
-                      <option [value]="1">อีเมล์</option>
+                      <option [value]="1">อีเมล</option>
                       <option [value]="2">เบอร์โทร</option>
                       <option [value]="3">Line</option>
                       <option [value]="4">Facebook</option>
@@ -69,7 +69,7 @@
               </tr>
               <tr *ngFor="let data of contactList; let i = index">
                 <td>
-                  <label *ngIf="data.TypeContactId == 1">อีเมล์</label>
+                  <label *ngIf="data.TypeContactId == 1">อีเมล</label>
                   <label *ngIf="data.TypeContactId == 2">เบอร์โทร</label>
                   <label *ngIf="data.TypeContactId == 3">Line</label>
                   <label *ngIf="data.TypeContactId == 4">Facebook</label>

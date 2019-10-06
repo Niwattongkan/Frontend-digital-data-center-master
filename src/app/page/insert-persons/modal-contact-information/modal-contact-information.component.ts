@@ -68,7 +68,7 @@ export class ModalContactInformationComponent implements OnInit {
       return;
     }
     this.onSubmit.emit(this.contactList)
-    return this.modalService.dismissAll()
+    this.modalService.dismissAll()
   }
 
   closeModal() {

@@ -84,7 +84,7 @@ export class ReportSearchingPersonalComponent implements OnInit {
       Name: [''],
       CorporationName: [''],
       StartYear: [new Date().getFullYear()],
-      Position: ['ba']
+      Position: ['']
     });
   }
 
@@ -136,7 +136,7 @@ export class ReportSearchingPersonalComponent implements OnInit {
       15,
       0.5);
       doc.save("searching-personal.pdf");
-    
+
 
     // doc.autoTable({
     //   columns: [
@@ -147,7 +147,7 @@ export class ReportSearchingPersonalComponent implements OnInit {
     //   ],
     //   body: exportGroup
     // });
-  
+
 
   }
 }
