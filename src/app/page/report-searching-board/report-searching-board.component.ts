@@ -6,6 +6,9 @@ import { ReportService } from '../../shared/services/report.service';
 
 import { mapPersons } from '../../shared/library/mapList';
 import { ExcelService } from "../../shared/services/excel.service";
+import { PdfService } from "../../shared/services/pdf.service";
+import * as jsPDF from "jspdf";
+import "jspdf-autotable";
 
 @Component({
   selector: 'app-report-searching-board',
@@ -28,7 +31,8 @@ export class ReportSearchingBoardComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private reportService: ReportService,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private pdfService :PdfService,
   ) {
     this.searchform = this.setSerachForm()
   }
@@ -84,7 +88,44 @@ export class ReportSearchingBoardComponent implements OnInit {
     });
     return this.excelService.exportAsExcelFile(
       exportGroup,
-      "searching-personal"
+      "report-board"
     );
   }
+  public exportPDF(data) {
+    let exportGroup = [];
+    data.forEach(element => {
+      exportGroup.push({
+        FullnameTh: element.FullnameTh,
+        BoardName: element.BoardName,
+        Contact: element.Contact,
+        Address: this.showAddress(element)
+      });
+    });
+
+    var doc = new jsPDF("p", "pt", "a4");
+    doc = this.pdfService.exportAsPdfile(doc);
+    doc.setFont("Kanit-Regular");
+     doc.setFontType("normal");
+     doc.autoTable({
+      styles: { font: "Kanit-Regular", fontSize: 7},
+      headerStyles: { fontStyle: 'Kanit-Regular' },
+      columnStyles: {
+        0: {columnWidth: 100},
+        1: {columnWidth: 60},
+        2: {columnWidth: 'auto'},
+        3: {columnWidth: 'auto'},
+        // etc
+      },
+      columns: [
+        { title: "ชื่อ-นามสกุล", dataKey: "FullnameTh" },
+        { title: "ชื่อกลุ่ม", dataKey: "BoardName" },
+        { title: "เบอร์โทร", dataKey: "Contact" },
+        { title: "ที่อยู่", dataKey: "Address" }
+      ],
+
+      body: exportGroup
+    });
+    doc.save("report-board.pdf");
+  }
+
 }

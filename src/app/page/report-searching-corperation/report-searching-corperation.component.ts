@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { IMyOptions } from 'mydatepicker-th';
 import { ExcelService } from "../../shared/services/excel.service";
 import { ReportService } from '../../shared/services/report.service';
+import { PdfService } from "../../shared/services/pdf.service";
+import * as jsPDF from "jspdf";
+import "jspdf-autotable";
 
 import { mapPersons } from '../../shared/library/mapList';
 
@@ -30,7 +33,8 @@ export class ReportSearchingCorperationComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private reportService: ReportService,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private pdfService :PdfService,
   ) {
     this.searchform = this.setSerachForm();
   }
@@ -74,10 +78,38 @@ export class ReportSearchingCorperationComponent implements OnInit {
     });
     return this.excelService.exportAsExcelFile(
       exportGroup,
-      "searching-personal"
+      "report-corporation"
     );
   }
+  public exportPDF(data) {
+    let exportGroup = [];
+    data.forEach(element => {
+      exportGroup.push({
+        CorporationName: element.CorporationName,
+        Parent: element.Parent,
+        FullnameTh: element.FullnameTh,
+        Address: this.showAddress(element)
+      });
+    });
 
+    var doc = new jsPDF("p", "pt", "a4");
+    doc = this.pdfService.exportAsPdfile(doc);
+    doc.setFont("Kanit-Regular");
+     doc.setFontType("normal");
+     doc.autoTable({
+      styles: { font: "Kanit-Regular", fontSize: 7 , columnWidth: 'auto'},
+      headerStyles: { fontStyle: 'Kanit-Regular' },
+      columns: [
+        { title: "ชื่อองค์กร", dataKey: "CorporationName" },
+        { title: "อยู่ภายใต้องค์กร", dataKey: "Parent" },
+        { title: "บุคคลในองค์กร", dataKey: "FullnameTh" },
+        { title: "ที่อยู่องค์กร", dataKey: "Address" }
+      ],
+
+      body: exportGroup
+    });
+    doc.save("report-corporation.pdf");
+  }
 
   public setSerachForm() {
     return this.formBuilder.group({
