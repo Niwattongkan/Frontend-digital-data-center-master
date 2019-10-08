@@ -1,30 +1,30 @@
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, Validators, FormBuilder } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
-import { IMyOptions } from "mydatepicker-th";
-import Stepper from "bs-stepper";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { IMyOptions } from 'mydatepicker-th';
+import Stepper from 'bs-stepper';
 
-import { OrganizationService } from "../../shared/services/organization.service";
-import { PersonsService } from "../../shared/services/persons.service";
-import { DropdownService } from "../../shared/services/dropdown.service";
-import { Ng4LoadingSpinnerService } from "ng4-loading-spinner";
-import { AuthlogService } from "../../shared/services/authlog.service";
+import { OrganizationService } from '../../shared/services/organization.service';
+import { PersonsService } from '../../shared/services/persons.service';
+import { DropdownService } from '../../shared/services/dropdown.service';
+import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { AuthlogService } from '../../shared/services/authlog.service';
 
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { alertEvent, alertDeleteEvent } from "../../shared/library/alert";
-import { calulateAge } from "../../shared/library/date";
-import { validForm } from "../../shared/library/form";
+import { alertEvent, alertDeleteEvent } from '../../shared/library/alert';
+import { calulateAge } from '../../shared/library/date';
+import { validForm } from '../../shared/library/form';
 
 @Component({
-  selector: "app-insert-persons",
-  templateUrl: "./insert-persons.component.html",
-  styleUrls: ["./insert-persons.component.css"]
+  selector: 'app-insert-persons',
+  templateUrl: './insert-persons.component.html',
+  styleUrls: ['./insert-persons.component.css']
 })
 export class InsertPersonsComponent implements OnInit {
   public alertValid = false;
-  public mode = "";
-  public title = "";
+  public mode = '';
+  public title = '';
 
   public profileForm: FormGroup;
   public profileOriginForm: any;
@@ -42,13 +42,13 @@ export class InsertPersonsComponent implements OnInit {
   public bursaryList = [];
   public workingList = [];
   public academyList = [];
-  public imagePerson = "";
+  public imagePerson = '';
 
 
  // checkTitleTh = '';
-  //checkTitleEn = '';
-  titleNameThCheck: boolean = false;
-  titleNameEnCheck: boolean = false;
+  // checkTitleEn = '';
+  titleNameThCheck = false;
+  titleNameEnCheck = false;
 
   // customCheck = false;
   // customCheck1 = false;
@@ -56,7 +56,7 @@ export class InsertPersonsComponent implements OnInit {
   public imgURL: any;
 
   public myDatePickerOptions: IMyOptions = {
-    dateFormat: "dd/mm/yyyy"
+    dateFormat: 'dd/mm/yyyy'
   };
 
   private stepper: Stepper;
@@ -74,15 +74,15 @@ export class InsertPersonsComponent implements OnInit {
   ) {
     this.profileForm = this.setProfile(null);
     this.profileOriginForm = this.profileForm.value;
-    this.personId = this.activatedRoute.snapshot.paramMap.get("id");
-    this.mode = this.personId ? "Edit" : "Insert";
-    this.title = this.personId ? "แก้ไขข้อมูลบุคคล" : "เพิ่มข้อมูลบุคคล";
+    this.personId = this.activatedRoute.snapshot.paramMap.get('id');
+    this.mode = this.personId ? 'Edit' : 'Insert';
+    this.title = this.personId ? 'แก้ไขข้อมูลบุคคล' : 'เพิ่มข้อมูลบุคคล';
   }
 
   async ngOnInit() {
     this.spinnerService.show();
 
-    this.stepper = new Stepper(document.querySelector("#stepper1"), {
+    this.stepper = new Stepper(document.querySelector('#stepper1'), {
       linear: false,
       animation: true
     });
@@ -103,14 +103,14 @@ export class InsertPersonsComponent implements OnInit {
       .toPromise()).data;
     const resultImage = this.personId
       ? (this.imagePerson =
-          "http://qdoc.ecmxpert.com:8008/api/uapi/q/ddc/getphotoperson?PersonId=" +
+          'http://qdoc.ecmxpert.com:8008/api/uapi/q/ddc/getphotoperson?PersonId=' +
           this.personId)
       : null;
     this.imagePreview = resultImage ? resultImage[0] : null;
     this.spinnerService.hide();
     if (
-      this.profileForm.value["TitleNameOther"] !== null &&
-      this.profileForm.value["TitleNameOther"] !== ""
+      this.profileForm.value['TitleNameOther'] !== null &&
+      this.profileForm.value['TitleNameOther'] !== ''
     ) {
     //  this.checkTitleTh = 'checked';
       this.titleNameThCheck = true;
@@ -120,8 +120,8 @@ export class InsertPersonsComponent implements OnInit {
     }
 
     if (
-      this.profileForm.value["TitleNameEnOther"] !== null &&
-      this.profileForm.value["TitleNameEnOther"] !== ""
+      this.profileForm.value['TitleNameEnOther'] !== null &&
+      this.profileForm.value['TitleNameEnOther'] !== ''
     ) {
     //  this.checkTitleEn = 'checked';
       this.titleNameEnCheck = true;
@@ -132,7 +132,7 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   get getIdCard() {
-    return this.profileForm.get("email");
+    return this.profileForm.get('email');
   }
 
   public async submitPerson() {
@@ -144,10 +144,10 @@ export class InsertPersonsComponent implements OnInit {
       return window.scroll(0, 300);
     }
 
-    this.profileForm.value["Birthday"] = this.setDate(
+    this.profileForm.value['Birthday'] = this.setDate(
       this.profileForm.value.Birthday
     );
-    this.profileForm.value["Birthday"] = this.setDate(
+    this.profileForm.value['Birthday'] = this.setDate(
       this.profileForm.value.Birthday
     );
     if (this.personId) {
@@ -162,9 +162,9 @@ export class InsertPersonsComponent implements OnInit {
       this.insertPerson(person);
     }
     this.spinnerService.hide();
-    alertEvent("บันทึกข้อมูลสำเร็จ", "success");
+    alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
 
-    return this.router.navigate(["/persons"]);
+    return this.router.navigate(['/persons']);
   }
 
   public async insertPerson(person) {
@@ -205,11 +205,11 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   async updateLog(person) {
-    const currentMenu = "เพิ่ม/แก้ไข ข้อมูลบุคคล";
+    const currentMenu = 'เพิ่ม/แก้ไข ข้อมูลบุคคล';
     this.profileOriginForm.TitleNameTh != person.TitleNameTh
       ? await this.auditLogService(
           currentMenu,
-          "คำนำหน้าชื่อ (ไทย)",
+          'คำนำหน้าชื่อ (ไทย)',
           this.profileOriginForm.TitleNameTh,
           person.TitleNameTh
         )
@@ -217,7 +217,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.FristNameTh != person.FristNameTh
       ? await this.auditLogService(
           currentMenu,
-          "ชื่อ (ไทย)",
+          'ชื่อ (ไทย)',
           this.profileOriginForm.FristNameTh,
           person.FristNameTh
         )
@@ -225,7 +225,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.LastNameTh != person.LastNameTh
       ? await this.auditLogService(
           currentMenu,
-          "นามสกุล (ไทย)",
+          'นามสกุล (ไทย)',
           this.profileOriginForm.LastNameTh,
           person.LastNameTh
         )
@@ -233,7 +233,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.TitleNameEn != person.TitleNameEn
       ? await this.auditLogService(
           currentMenu,
-          "คำนำหน้าชื่อ (อังกฤษ)",
+          'คำนำหน้าชื่อ (อังกฤษ)',
           this.profileOriginForm.TitleNameEn,
           person.TitleNameEn
         )
@@ -241,7 +241,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.FristNameEn != person.FristNameEn
       ? await this.auditLogService(
           currentMenu,
-          "ชื่อ (อังกฤษ)",
+          'ชื่อ (อังกฤษ)',
           this.profileOriginForm.FristNameEn,
           person.FristNameEn
         )
@@ -249,7 +249,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.LastNameEn != person.LastNameEn
       ? await this.auditLogService(
           currentMenu,
-          "นามสกุล (อังกฤษ)",
+          'นามสกุล (อังกฤษ)',
           this.profileOriginForm.LastNameEn,
           person.LastNameEn
         )
@@ -257,7 +257,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.IdCard != person.IdCard
       ? await this.auditLogService(
           currentMenu,
-          "เลขบัตรประจำตัวประชาชน",
+          'เลขบัตรประจำตัวประชาชน',
           this.profileOriginForm.IdCard,
           person.IdCard
         )
@@ -265,7 +265,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.Passport != person.Passport
       ? await this.auditLogService(
           currentMenu,
-          "เลขหนังสือเดินทาง",
+          'เลขหนังสือเดินทาง',
           this.profileOriginForm.Passport,
           person.Passport
         )
@@ -273,7 +273,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.WorkPermitNo != person.WorkPermitNo
       ? await this.auditLogService(
           currentMenu,
-          "ใบอนุญาตเลขที่",
+          'ใบอนุญาตเลขที่',
           this.profileOriginForm.WorkPermitNo,
           person.WorkPermitNo
         )
@@ -281,7 +281,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.Birthday != person.Birthday
       ? await this.auditLogService(
           currentMenu,
-          "วันเกิด",
+          'วันเกิด',
           this.profileOriginForm.Birthday,
           person.Birthday
         )
@@ -289,7 +289,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.Sex != person.Sex
       ? await this.auditLogService(
           currentMenu,
-          "เพศ",
+          'เพศ',
           this.profileOriginForm.Sex,
           person.Sex
         )
@@ -297,7 +297,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.Religion != person.Religion
       ? await this.auditLogService(
           currentMenu,
-          "ศาสนา",
+          'ศาสนา',
           this.profileOriginForm.Religion,
           person.Religion
         )
@@ -305,7 +305,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.Nationality != person.Nationality
       ? await this.auditLogService(
           currentMenu,
-          "สัญชาติ",
+          'สัญชาติ',
           this.profileOriginForm.Nationality,
           person.Nationality
         )
@@ -313,7 +313,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.EthnicityId != person.EthnicityId
       ? await this.auditLogService(
           currentMenu,
-          "เชื้อชาติ",
+          'เชื้อชาติ',
           this.profileOriginForm.EthnicityId,
           person.EthnicityId
         )
@@ -321,7 +321,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.Marital != person.Marital
       ? await this.auditLogService(
           currentMenu,
-          "สถานภาพการสมรส",
+          'สถานภาพการสมรส',
           this.profileOriginForm.Marital,
           person.Marital
         )
@@ -329,7 +329,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.FavoriteFood != person.FavoriteFood
       ? await this.auditLogService(
           currentMenu,
-          "อาหารที่ชอบ",
+          'อาหารที่ชอบ',
           this.profileOriginForm.FavoriteFood,
           person.FavoriteFood
         )
@@ -337,7 +337,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.FoodDislike != person.FoodDislike
       ? await this.auditLogService(
           currentMenu,
-          "อาหารที่ไม่ชอบ",
+          'อาหารที่ไม่ชอบ',
           this.profileOriginForm.FoodDislike,
           person.FoodDislike
         )
@@ -345,7 +345,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.AllergicFood != person.AllergicFood
       ? await this.auditLogService(
           currentMenu,
-          "อาหารที่แพ้",
+          'อาหารที่แพ้',
           this.profileOriginForm.AllergicFood,
           person.AllergicFood
         )
@@ -353,7 +353,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.CongenitalDisease != person.CongenitalDisease
       ? await this.auditLogService(
           currentMenu,
-          "โรคประจำตัว",
+          'โรคประจำตัว',
           this.profileOriginForm.CongenitalDisease,
           person.CongenitalDisease
         )
@@ -361,7 +361,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.AllergicDrugs != person.AllergicDrugs
       ? await this.auditLogService(
           currentMenu,
-          "ยาที่แพ้",
+          'ยาที่แพ้',
           this.profileOriginForm.AllergicDrugs,
           person.AllergicDrugs
         )
@@ -370,7 +370,7 @@ export class InsertPersonsComponent implements OnInit {
     person.VehicleRegistrationNumber
       ? await this.auditLogService(
           currentMenu,
-          "ทะเบียนรถ",
+          'ทะเบียนรถ',
           this.profileOriginForm.VehicleRegistrationNumber,
           person.VehicleRegistrationNumber
         )
@@ -378,7 +378,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileOriginForm.OtherPreferences != person.OtherPreferences
       ? await this.auditLogService(
           currentMenu,
-          "อื่นๆ",
+          'อื่นๆ',
           this.profileOriginForm.OtherPreferences,
           person.OtherPreferences
         )
@@ -400,19 +400,19 @@ export class InsertPersonsComponent implements OnInit {
   private setDate(data) {
     const date = data.date;
     const year = date.year;
-    const month = "000" + date.month;
-    const day = "000" + date.day;
+    const month = '000' + date.month;
+    const day = '000' + date.day;
     return (
       year +
-      "-" +
+      '-' +
       month.substr(month.length - 2, month.length) +
-      "-" +
+      '-' +
       day.substr(day.length - 2, day.length)
     );
   }
 
   public back() {
-    return this.router.navigate(["/persons"]);
+    return this.router.navigate(['/persons']);
   }
 
   public openModal(content, size) {
@@ -420,11 +420,11 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   public openModalClass(content) {
-    return this.modalService.open(content, { windowClass: "xlModal" });
+    return this.modalService.open(content, { windowClass: 'xlModal' });
   }
 
   selectNewAvatar() {
-    console.log("new");
+    console.log('new');
   }
 
   public showAge(data) {
@@ -435,22 +435,22 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   public showAddress(value) {
-    const Building = value.Building ? "อาคาร " + value.Building + " " : "";
-    const Floor = value.Floor ? "ชั้น " + value.Floor + " " : "";
-    const Room = value.Room ? "ห้อง " + value.Room + " " : "";
+    const Building = value.Building ? 'อาคาร ' + value.Building + ' ' : '';
+    const Floor = value.Floor ? 'ชั้น ' + value.Floor + ' ' : '';
+    const Room = value.Room ? 'ห้อง ' + value.Room + ' ' : '';
     const HouseNumber = value.HouseNumber
-      ? "เลขที่ " + value.HouseNumber + " "
-      : "";
-    const Road = value.Road ? "ถนน " + value.Road + " " : "";
-    const Soi = value.Soi ? "ซอย " + value.Soi + " " : "";
+      ? 'เลขที่ ' + value.HouseNumber + ' '
+      : '';
+    const Road = value.Road ? 'ถนน ' + value.Road + ' ' : '';
+    const Soi = value.Soi ? 'ซอย ' + value.Soi + ' ' : '';
     const Province =
-      value.Province != "" ? "จังหวัด " + value.Province + " " : "";
+      value.Province != '' ? 'จังหวัด ' + value.Province + ' ' : '';
     const Subdistrict =
-      value.Subdistrict != "" ? "ตำบล/แขวง " + value.Subdistrict + " " : "";
+      value.Subdistrict != '' ? 'ตำบล/แขวง ' + value.Subdistrict + ' ' : '';
     const District =
-      value.District != "" ? "อำเภอ/เขต " + value.District + " " : "";
+      value.District != '' ? 'อำเภอ/เขต ' + value.District + ' ' : '';
     const Zipcode =
-      value.Zipcode != "" ? "รหัสไปรษณีย์ " + value.Zipcode + " " : "";
+      value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
     return (
       Building +
       Floor +
@@ -478,7 +478,7 @@ export class InsertPersonsComponent implements OnInit {
             : false;
         }
         this.addressList.splice(index, 1);
-        return alertEvent("ลบข้อมูลสำเร็จ", "success");
+        return alertEvent('ลบข้อมูลสำเร็จ', 'success');
       }
     });
   }
@@ -496,7 +496,7 @@ export class InsertPersonsComponent implements OnInit {
       if (this.personId) {
         value.PersonId = Number(this.personId);
         await this.personsService.insertPersonAddress(value).toPromise();
-        alertEvent("บันทึกข้อมูลสำเร็จ", "success");
+        alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
       }
       this.addressList.push(value);
     }
@@ -513,7 +513,7 @@ export class InsertPersonsComponent implements OnInit {
             : false;
         }
         this.familyList.splice(index, 1);
-        return alertEvent("ลบข้อมูลสำเร็จ", "success");
+        return alertEvent('ลบข้อมูลสำเร็จ', 'success');
       }
     });
   }
@@ -532,7 +532,7 @@ export class InsertPersonsComponent implements OnInit {
         const result = (await this.personsService
           .insertFamily(value)
           .toPromise()).data;
-        alertEvent("บันทึกข้อมูลสำเร็จ", "success");
+        alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
         this.familyList.push(value);
       }
     }
@@ -551,7 +551,7 @@ export class InsertPersonsComponent implements OnInit {
             : false;
         }
         this.contactList.splice(index, 1);
-        return alertEvent("ลบข้อมูลสำเร็จ", "success");
+        return alertEvent('ลบข้อมูลสำเร็จ', 'success');
       }
     });
   }
@@ -563,7 +563,7 @@ export class InsertPersonsComponent implements OnInit {
         element.PersonId = Number(this.personId);
         await this.personsService.insertPersonContact(element).toPromise();
       }
-      alertEvent("บันทึกข้อมูลสำเร็จ", "success");
+      alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
     }
     Array.prototype.push.apply(this.contactList, value);
     // this.contactList = value
@@ -582,7 +582,7 @@ export class InsertPersonsComponent implements OnInit {
             : false;
         }
         this.coordinateList.splice(index, 1);
-        return alertEvent("ลบข้อมูลสำเร็จ", "success");
+        return alertEvent('ลบข้อมูลสำเร็จ', 'success');
       }
     });
   }
@@ -598,7 +598,7 @@ export class InsertPersonsComponent implements OnInit {
         element.CoordinatorId = coordinate.CoordinatorId;
         await this.personsService.insertcoordinatorcantact(element).toPromise();
       }
-      alertEvent("บันทึกข้อมูลสำเร็จ", "success");
+      alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
     }
     Array.prototype.push.apply(this.coordinateList, value);
   }
@@ -616,7 +616,7 @@ export class InsertPersonsComponent implements OnInit {
             : false;
         }
         this.bursaryList.splice(index, 1);
-        return alertEvent("ลบข้อมูลสำเร็จ", "success");
+        return alertEvent('ลบข้อมูลสำเร็จ', 'success');
       }
     });
   }
@@ -633,7 +633,7 @@ export class InsertPersonsComponent implements OnInit {
       if (this.personId) {
         value.PersonId = Number(this.personId);
         await this.personsService.inserteducation(value).toPromise();
-        alertEvent("บันทึกข้อมูลสำเร็จ", "success");
+        alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
         this.bursaryList = (await this.personsService
           .getEducationById(this.personId)
           .toPromise()).data;
@@ -654,7 +654,7 @@ export class InsertPersonsComponent implements OnInit {
             : false;
         }
         this.workingList.splice(index, 1);
-        return alertEvent("ลบข้อมูลสำเร็จ", "success");
+        return alertEvent('ลบข้อมูลสำเร็จ', 'success');
       }
     });
   }
@@ -671,7 +671,7 @@ export class InsertPersonsComponent implements OnInit {
       if (this.personId) {
         value.PersonId = Number(this.personId);
         await this.personsService.insertWork(value).toPromise();
-        alertEvent("บันทึกข้อมูลสำเร็จ", "success");
+        alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
       }
       this.workingList.push(value);
     }
@@ -688,11 +688,11 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   public onImageChange(file: Event) {
-    this.imageProfile = <File>file.target["files"][0];
+    this.imageProfile = <File>file.target['files'][0];
     this.previewImage(this.imageProfile);
     //  var reader = new FileReader();
     // let temp = reader.readAsBinaryString(<File>file.target['files'][0]);
-    return this.profileForm.controls["PathPhoto"].setValue(this.imageProfile);
+    return this.profileForm.controls['PathPhoto'].setValue(this.imageProfile);
   }
 
   private previewImage(file) {
@@ -771,31 +771,31 @@ export class InsertPersonsComponent implements OnInit {
         })
       : this.formBuilder.group({
           TitleNameTh: [1, [Validators.required]],
-          TitleNameOther: [""],
-          FristNameTh: ["", [Validators.required]],
-          LastNameTh: ["", [Validators.required]],
+          TitleNameOther: [''],
+          FristNameTh: ['', [Validators.required]],
+          LastNameTh: ['', [Validators.required]],
           TitleNameEn: [1, [Validators.required]],
-          TitleNameEnOther: [""],
-          FristNameEn: ["", [Validators.required]],
-          LastNameEn: ["", [Validators.required]],
-          IdCard: ["", [Validators.required, Validators.minLength(13)]],
+          TitleNameEnOther: [''],
+          FristNameEn: ['', [Validators.required]],
+          LastNameEn: ['', [Validators.required]],
+          IdCard: ['', [Validators.required, Validators.minLength(13)]],
           Birthday: [this.setDateEdit(new Date()), [Validators.required]],
           Sex: [1, [Validators.required]],
-          Passport: [""],
+          Passport: [''],
           Religion: [1, [Validators.required]],
-          Nationality: ["", [Validators.required]],
-          PartPhoto: [""],
+          Nationality: ['', [Validators.required]],
+          PartPhoto: [''],
           Marital: [1, [Validators.required]],
           EthnicityId: [1, [Validators.required]],
-          WorkPermitNo: ["", [Validators.required]],
-          FavoriteFood: [""],
-          AllergicFood: [""],
-          FoodDislike: [""],
-          AllergicDrugs: [""],
-          CongenitalDisease: [""],
-          VehicleRegistrationNumber: [""],
-          OtherPreferences: [""],
-          PathPhoto: [""]
+          WorkPermitNo: ['', [Validators.required]],
+          FavoriteFood: [''],
+          AllergicFood: [''],
+          FoodDislike: [''],
+          AllergicDrugs: [''],
+          CongenitalDisease: [''],
+          VehicleRegistrationNumber: [''],
+          OtherPreferences: [''],
+          PathPhoto: ['']
         });
   }
 
@@ -808,7 +808,7 @@ export class InsertPersonsComponent implements OnInit {
       return window.scroll(0, 300);
     }
 
-    this.profileForm.value["Birthday"] = this.setDate(
+    this.profileForm.value['Birthday'] = this.setDate(
       this.profileForm.value.Birthday
     );
     if (this.personId) {
@@ -824,30 +824,30 @@ export class InsertPersonsComponent implements OnInit {
     }
     this.spinnerService.hide();
 
-    alertEvent("บันทึกข้อมูลสำเร็จ", "success");
+    alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
 
     return this.stepper.next();
   }
 
   onChangeTitleTH() {
-    console.log("onChangeTitleTH");
+    console.log('onChangeTitleTH');
 
     if (!this.titleNameThCheck) {
       this.titleNameThCheck = true;
     } else {
       this.titleNameThCheck = false;
-      this.profileForm.controls["TitleNameOther"].setValue("");
+      this.profileForm.controls['TitleNameOther'].setValue('');
     }
   }
   onChangeTitleEN() {
-    console.log("onChangeTitleEN");
+    console.log('onChangeTitleEN');
 
     if (!this.titleNameEnCheck) {
       this.titleNameEnCheck = true;
     } else {
       this.titleNameEnCheck = false;
-      this.profileForm.controls["TitleNameEnOther"].setValue("");
-   
+      this.profileForm.controls['TitleNameEnOther'].setValue('');
+
     }
   }
 }

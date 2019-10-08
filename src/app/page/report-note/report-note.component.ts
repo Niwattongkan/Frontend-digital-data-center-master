@@ -3,14 +3,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IMyOptions } from 'mydatepicker-th';
 // import * as moment from "moment";
 
-import { ReportService } from "../../shared/services/report.service";
-import { ExcelService } from "../../shared/services/excel.service";
-import { mapPersons } from "../../shared/library/mapList";
-import { PdfService } from "../../shared/services/pdf.service";
+import { ReportService } from '../../shared/services/report.service';
+import { ExcelService } from '../../shared/services/excel.service';
+import { mapPersons } from '../../shared/library/mapList';
+import { PdfService } from '../../shared/services/pdf.service';
 import * as moment from 'moment';
 
-import * as jsPDF from "jspdf";
-import "jspdf-autotable";
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
 @Component({
   selector: 'app-report-note',
   templateUrl: './report-note.component.html',
@@ -92,25 +92,25 @@ export class ReportNoteComponent implements OnInit {
     if (data.StartDate !== null) {
       data.StartDate = this.setDate(data.StartDate.date);
     } else {
-      data.StartDate = "";
+      data.StartDate = '';
     }
     if (data.EndDate !== null) {
       data.EndDate = this.setDate(data.EndDate.date);
     } else {
-      data.EndDate = "";
+      data.EndDate = '';
     }
 
     const result = (await this.reportService.getreportnote(data).toPromise())
       .data;
     this.reportList = mapPersons(result);
-    console.log(this.reportList.FullnameTh)
+    console.log(this.reportList.FullnameTh);
   }
 
   public setSerachForm() {
     return this.formBuilder.group({
 
-      CreateBy: [""],
-      NoteName: [""],
+      CreateBy: [''],
+      NoteName: [''],
       StartDate: [this.setDateEdit(new Date())],
       EndDate: [this.setDateEdit(new Date())]
     });
@@ -144,24 +144,24 @@ export class ReportNoteComponent implements OnInit {
 
   public exportExcel(data) {
     console.log(data);
-    let exportGroup = [];
+    const exportGroup = [];
     data.forEach(element => {
       exportGroup.push({
-        "ชื่อสมุดบันทึก": element.NoteName,
-        "รายละเอียด": element.Description,
-        "ชื่อบุคคล": element.FristNameTh,
-         "วันที่สร้าง": moment(element.CreateDate).format('DD/MM/YYYY'),
+        'ชื่อสมุดบันทึก': element.NoteName,
+        'รายละเอียด': element.Description,
+        'ชื่อบุคคล': element.FristNameTh,
+         'วันที่สร้าง': moment(element.CreateDate).format('DD/MM/YYYY'),
       });
     });
     return this.excelService.exportAsExcelFile(
       exportGroup,
-      "report-note"
+      'report-note'
     );
   }
 
   public exportPDF(data) {
-    //console.log(data);
-    let exportGroup = [];
+    // console.log(data);
+    const exportGroup = [];
     data.forEach(element => {
       // element.ContactGroupId = value.ContactGroupId;
       exportGroup.push({
@@ -172,22 +172,22 @@ export class ReportNoteComponent implements OnInit {
       });
     });
 
-    var doc = new jsPDF("p", "pt", "a4");
+    let doc = new jsPDF('p', 'pt', 'a4');
     doc = this.pdfService.exportAsPdfile(doc);
-    doc.setFont("Kanit-Regular");
-     doc.setFontType("normal");
+    doc.setFont('Kanit-Regular');
+     doc.setFontType('normal');
     doc.autoTable({
-      styles: { font: "Kanit-Regular", fontSize: 7 , columnWidth: 'auto'},
+      styles: { font: 'Kanit-Regular', fontSize: 7 , columnWidth: 'auto'},
       headerStyles: { fontStyle: 'Kanit-Regular' },
       columns: [
-        { title: "ชื่อสมุดบันทึก", dataKey: "NoteName" },
-        { title: "รายละเอียด", dataKey: "Description" },
-        { title: "ชื่อบุคคล", dataKey: "FristNameTh" },
-        { title: "วันที่สร้าง", dataKey: "CreateDate" }
+        { title: 'ชื่อสมุดบันทึก', dataKey: 'NoteName' },
+        { title: 'รายละเอียด', dataKey: 'Description' },
+        { title: 'ชื่อบุคคล', dataKey: 'FristNameTh' },
+        { title: 'วันที่สร้าง', dataKey: 'CreateDate' }
       ],
 
       body: exportGroup
     });
-    doc.save("report-note.pdf");
+    doc.save('report-note.pdf');
   }
 }

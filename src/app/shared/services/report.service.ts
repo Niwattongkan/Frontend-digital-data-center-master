@@ -41,7 +41,7 @@ export class ReportService {
   getreportboard(data): Observable<any> {
     const params = new URLSearchParams();
     params.append('Name', data.Name);
-    params.append('BoardName', data.BoardName);
+    params.append('BoardName', data.BoardName != '' ? data.BoardName : 'value');
     return this.apiService.get(`getreportboard?` + params.toString());
   }
 

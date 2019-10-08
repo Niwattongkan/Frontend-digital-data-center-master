@@ -70,13 +70,16 @@
       <thead class="bg-custom-green text-white">
         <tr role="row">
           <th class="text-center">
+            ชื่อบุคคล
+          </th>
+          <th class="text-center">
             ชื่อสมุดบันทึก
           </th>
           <th class="text-center">
             รายละเอียด
           </th>
           <th class="text-center">
-            ชื่อบุคคล
+            ผู้สร้าง
           </th>
           <th class="text-center">
             วันที่สร้าง
@@ -86,14 +89,17 @@
       <tbody class="bg-white">
         <tr *ngFor="let data of reportList | paginate: { itemsPerPage: 10, currentPage: page }" class="text-center">
           <td>
+            {{data.FullnameTh == "" ?  "-" : data.FullnameTh}}
+          </td>
+          <td>
             {{data.NoteName}}
           </td>
           <td>
             {{data.Description}}
           </td>
           <td>
-            {{data.FullnameTh == "" ?  "-" : data.FullnameTh}}
-         </td>
+            {{data.CreateBy}}
+          </td>
           <td>
             {{data.CreateDate | date: "dd/MM/yyyy"}}
           </td>
