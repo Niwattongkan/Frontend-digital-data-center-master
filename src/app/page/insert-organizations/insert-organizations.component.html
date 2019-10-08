@@ -3,6 +3,11 @@
 </ng-template>
 
 <div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-10 alert alert-danger" role="alert" *ngIf="alertValid">
+      กรุณากรอกข้อมูลให้ครบถ้วน
+    </div>
+  </div>
   <div id="stepper1" class="bs-stepper">
     <div class="row mb-2">
       <div class="col-md text-center">
