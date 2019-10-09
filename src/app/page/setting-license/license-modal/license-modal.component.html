@@ -40,7 +40,7 @@
                       <p style="font-size: 10px">{{role.MenuName}}</p>
                     </td>
                     <td style="width: 20px;">
-                      <input id="view + {{i}}" type="checkbox" [(ngModel)]="role.All" (change)="selectAll(i, $event.target.value)">
+                      <input id="view + {{i}}" type="checkbox" [(ngModel)]="role.All" [ngModelOptions]="{standalone: true}" (change)="selectAll(i, $event.target.value)">
                     </td>
                     <td style="width: 20px;">
                       <input id="view + {{i}}" type="checkbox" [(ngModel)]="role.View"
