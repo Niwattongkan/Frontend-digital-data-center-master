@@ -336,8 +336,9 @@ export class InsertOrganizationsComponent implements OnInit {
 
   public async nextToStep2() {
 
-    if (this.corperationId != null) {
-      this.alertValid = true;
+    if (this.corperationForm.controls.Parent.value == '' && this.corperationForm.controls.Parent.value == null &&
+        this.corperationForm.controls.CorporationName.value == '' && this.corperationForm.controls.CorporationName.value == null) {
+       this.alertValid = true;
       return window.scroll(0, 300);
     }
     this.corperationId ? this.update() : this.Insert();

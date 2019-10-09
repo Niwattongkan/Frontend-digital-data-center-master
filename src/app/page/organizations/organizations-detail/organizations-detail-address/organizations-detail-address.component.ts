@@ -29,6 +29,8 @@ export class OrganizationsDetailAddressComponent {
     const Soi = value.Soi ? 'ซอย ' + value.Soi + ' ' : '';
     const Subdistrict = value.Subdistrict ? 'ตำบล/แขวง ' + value.Subdistrict + ' ' : '';
     const District = value.District ? 'อำเภอ/เขต ' + value.District + ' ' : '';
-    return Building + Floor + HouseNo + Road + Soi + Subdistrict + District;
+    const zipcode = value.Zipcode ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+
+    return Building + Floor + HouseNo + Road + Soi + Subdistrict + District + zipcode;
   }
 }
