@@ -18,6 +18,7 @@ export class ModalContactInformationComponent implements OnInit {
   @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
 
   public alertValid = false
+  public alertValidNumber = false
   public contactForm: FormGroup
 
   public contactList = []
@@ -52,6 +53,12 @@ export class ModalContactInformationComponent implements OnInit {
     if (validForm(this.contactForm).length > 0) {
       this.alertValid = true;
       return;
+    }
+    if (this.contactForm.controls.TypeContactId.value == 2) {
+      if (isNaN(this.contactForm.controls.Contact.value)) {
+        this.alertValidNumber = true;
+        return false;
+      }
     }
     this.contactList.push(this.contactForm.value)
     this.contactForm = this.setContact()
