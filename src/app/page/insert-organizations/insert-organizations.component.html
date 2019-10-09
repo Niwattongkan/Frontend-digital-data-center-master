@@ -438,8 +438,9 @@
                     <span *ngIf="data.TypeContactId == 7">โทรสาร</span>
                   </td>
                   <td>
+                    <!-- deleteContact(data.CorporationContactId) -->
                     <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm"
-                       (click)="deleteContact(data.CorporationContactId)">
+                       (click)="deleteContact(i)">
                       <i class="fas fa-times icon-prop"></i>
                     </a>
                   </td>
