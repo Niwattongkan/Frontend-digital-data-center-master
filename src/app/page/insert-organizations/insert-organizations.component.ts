@@ -415,7 +415,7 @@ export class InsertOrganizationsComponent implements OnInit {
                     type: "success",
                     onClose: () => {
                       this.contactList.splice(index, 1);
-                      // this.router.navigateByUrl("/search-arrest-warrant");
+                    
                     }
                   });
                 } else {
