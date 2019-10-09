@@ -47,15 +47,14 @@ export class SettingLicenseComponent implements OnInit {
     });
     if (this.inputSearch != '') {
       const searchData = this.roleList.filter(data => {
-        return data.TypeRole.includes(this.inputSearch) ||
-          data.FristNameTh.includes(this.inputSearch) ||
-          data.LastNameTh.includes(this.inputSearch) ||
-          data.FullnameTh.includes(this.inputSearch);
+        return (String(data.PermissionName).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
+          (String(data.FristNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
+          (String(data.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
+          (String(data.FullnameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase());
       });
       this.roleList = searchData;
     }
   }
-
   public delete(id) {
     return alertDeleteEvent().then(async confirm => {
       if (confirm.value) {
