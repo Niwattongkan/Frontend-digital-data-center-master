@@ -17,36 +17,36 @@ export class ModalContactInformationComponent implements OnInit {
   @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
   @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
 
-  public alertValid = false
-  public alertValidNumber = false
-  public contactForm: FormGroup
+  public alertValid = false;
+  public alertValidNumber = false;
+  public contactForm: FormGroup;
 
-  public contactList = []
+  public contactList = [];
 
   constructor(
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
   ) {
-    this.contactForm = this.setContact()
+    this.contactForm = this.setContact();
   }
 
   ngOnInit() {
-    this.contactForm = this.setContact()
+    this.contactForm = this.setContact();
     this.data ? this.data.forEach(element => {
       this.contactList.push({
         TypeContactId: element.TypeContactId,
         Contact: element.Contact,
         Importance: element.Importance,
-      })
-    }) : null
+      });
+    }) : null;
   }
 
   private setContact() {
     return this.formBuilder.group({
       TypeContactId: [1, [Validators.required]],
-      Contact: ["", [Validators.required]],
+      Contact: ['', [Validators.required]],
       Importance: [1, [Validators.required]],
-    })
+    });
   }
 
   insertColumn() {
@@ -60,12 +60,12 @@ export class ModalContactInformationComponent implements OnInit {
         return false;
       }
     }
-    this.contactList.push(this.contactForm.value)
-    this.contactForm = this.setContact()
+    this.contactList.push(this.contactForm.value);
+    this.contactForm = this.setContact();
   }
 
   deletetColumn(index) {
-    this.onDelete.emit(index)
+    this.onDelete.emit(index);
     this.contactList.splice(index, 1);
   }
 
@@ -74,12 +74,12 @@ export class ModalContactInformationComponent implements OnInit {
       this.alertValid = true;
       return;
     }
-    this.onSubmit.emit(this.contactList)
-    this.modalService.dismissAll()
+    this.onSubmit.emit(this.contactList);
+    this.modalService.dismissAll();
   }
 
   closeModal() {
-    return this.modalService.dismissAll()
+    return this.modalService.dismissAll();
   }
 
 }

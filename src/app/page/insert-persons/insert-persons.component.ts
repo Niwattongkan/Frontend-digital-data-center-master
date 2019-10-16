@@ -9,6 +9,7 @@ import { PersonsService } from '../../shared/services/persons.service';
 import { DropdownService } from '../../shared/services/dropdown.service';
 import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AuthlogService } from '../../shared/services/authlog.service';
+import { mapPersons, groupbyList } from '../../shared/library/mapList';
 
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -43,7 +44,7 @@ export class InsertPersonsComponent implements OnInit {
   public workingList = [];
   public academyList = [];
   public imagePerson = '';
-
+  public nametitle = [];
 
  // checkTitleTh = '';
   // checkTitleEn = '';
@@ -719,9 +720,13 @@ export class InsertPersonsComponent implements OnInit {
     this.contactList = (await this.personsService
       .getcontactperson(this.personId)
       .toPromise()).data;
-    this.coordinateList = (await this.personsService
+    this.coordinateList = Object.values(groupbyList(mapPersons((await this.personsService
       .getcoordinator(this.personId)
-      .toPromise()).data;
+      .toPromise()).data), 'FullnameTh'));
+    for (let i = 0; i < this.coordinateList.length; i++) {
+      this.nametitle.push(this.coordinateList[i][0].FullnameTh)
+    }
+
   }
 
   private setDateEdit(data) {
@@ -734,6 +739,8 @@ export class InsertPersonsComponent implements OnInit {
       }
     };
   }
+
+
 
   private setProfile(data) {
     return data
