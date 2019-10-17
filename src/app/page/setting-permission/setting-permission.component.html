@@ -47,12 +47,12 @@
           </tr>
         </thead>
         <tbody class="bg-white">
-          <tr *ngFor="let data of boardList | paginate: { itemsPerPage: 10, currentPage: page };" class="text-center">
+          <tr *ngFor="let data of boardList | paginate: { itemsPerPage: 10, currentPage: page };" >
             <td>{{ data.Person[0].BoardName }}</td>
             <td>
               <p *ngFor="let person of data.Person"> {{person.FullnameTh }}</p>
             </td>
-            <td>
+            <td class="text-center">
               <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2" (click)="openModal(editModal)" (click)="boardOrigin = data">
                 <i class="fas fa-pencil-alt"></i>
               </a>

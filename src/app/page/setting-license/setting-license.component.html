@@ -47,12 +47,12 @@
           </tr>
         </thead>
         <tbody class="bg-white">
-          <tr *ngFor="let data of roleList | paginate: { itemsPerPage: 10, currentPage: page }" class="text-center">
+          <tr *ngFor="let data of roleList | paginate: { itemsPerPage: 10, currentPage: page }" >
             <td>{{ data.PermissionName }}</td>
             <td>
               <span class="block" *ngFor="let person of data.Persons">{{person.FullnameTh}}</span>
             </td>
-            <td>
+            <td class="text-center">
               <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
                 (click)="openModal(updateModal, 'lg')">
                 <i class="fas fa-pencil-alt"></i>

@@ -841,7 +841,7 @@
                 </tr>
                 </thead>
                 <tbody class="bg-white">
-                <tr *ngFor="let data of contactList; let i = index" class="text-center">
+                <tr *ngFor="let data of contactList; let i = index">
                   <td>{{data.Contact}}</td>
                   <td>
                     <span *ngIf="data.TypeContactId == 1">อีเมล์</span>

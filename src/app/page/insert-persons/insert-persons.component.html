@@ -453,8 +453,7 @@
               </tr>
               </thead>
               <tbody class="bg-white">
-              <tr *ngFor="let data of addressList; let i= index"
-                  class="text-center">
+              <tr *ngFor="let data of addressList; let i= index">
                 <td>{{showAddress(data)}}</td>
                 <td>
                   <label *ngIf="data.TypeAddress == 1">ทะเบียนบ้าน</label>
@@ -508,8 +507,7 @@
                 </tr>
                 </thead>
                 <tbody class="bg-white">
-                <tr *ngFor="let data of familyList; let i= index"
-                    class="text-center">
+                <tr *ngFor="let data of familyList; let i= index">
                   <td>
                       <span *ngIf="data.TitleNameTh1">{{data.TitleNameTh1 == 1 ?
                           'นาย' : data.TitleNameTh1 == 2 ? 'นาวสาว' : 'นาง'}}{{
@@ -567,8 +565,7 @@
                 </tr>
                 </thead>
                 <tbody class="bg-white">
-                <tr *ngFor="let data of contactList; let i= index"
-                    class="text-center">
+                <tr *ngFor="let data of contactList; let i= index">
                   <!-- <td> </td> -->
                   <td>{{data.Contact}}</td>
                   <td>
@@ -625,7 +622,7 @@
                 </tr>
                 </thead>
                 <tbody *ngFor="let data of coordinateList; let i= index" class="bg-white">
-                <tr class="text-center" *ngFor="let subData of data; let j=index">
+                <tr *ngFor="let subData of data; let j=index">
                   <div *ngIf="data.length > 0">
                     <td [rowSpan]="coordinateList[i].length">
                       {{nametitle[i]}}
@@ -688,8 +685,7 @@
                   </tr>
                   </thead>
                   <tbody class="bg-white">
-                  <tr *ngFor="let data of bursaryList; let i= index"
-                      class="text-center">
+                  <tr *ngFor="let data of bursaryList; let i= index">
                     <td>{{data.GraduationYear}}</td>
                     <td>{{data.Academy}}</td>
                     <td>
@@ -746,8 +742,7 @@
                 </tr>
                 </thead>
                 <tbody class="bg-white">
-                <tr *ngFor="let data of workingList; let i= index"
-                    class="text-center">
+                <tr *ngFor="let data of workingList; let i= index">
                   <td>{{data.StartMonth | date: 'dd/MM/yyyy'}} ถึง
                     {{data.EndMonth | date: 'dd/MM/yyyy'}}
                   </td>

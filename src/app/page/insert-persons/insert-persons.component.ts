@@ -559,7 +559,7 @@ export class InsertPersonsComponent implements OnInit {
     });
   }
 
-  public async updateContact(value) {
+  public async insertContact(value) {
     if (this.personId) {
       for (let index = 0; index < value.length; index++) {
         const element = value[index];
@@ -572,6 +572,9 @@ export class InsertPersonsComponent implements OnInit {
     // this.contactList = value
   }
 
+  public async updateContact(value) {
+
+  }
   public async deleteCoordinator(index) {
     return alertDeleteEvent().then(async confirm => {
       if (confirm.value) {

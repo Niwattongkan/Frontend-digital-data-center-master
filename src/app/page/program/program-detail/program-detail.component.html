@@ -16,23 +16,23 @@
             </div>
           </div>
           <div class="card-body">
-            <div class="row">
+            <div class="row" style="padding-left: 50px">
               <div class="col-md-6">
                 <div class="row form-group">
-                  <label class="col-md-6  text-orange">รหัสโครงการ/เลขที่ PO:</label>
+                  <label class="text-orange">รหัสโครงการ/เลขที่ PO:</label>
                   <label class="col-md-6" *ngIf="programDetailForm.PurchaseNo">{{programDetailForm.PurchaseNo}}</label>
                   <label class="col-md-6" *ngIf="programDetailForm.ProjectNo">{{programDetailForm.ProjectNo}}</label>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="row form-group">
-                  <label class="col-md-6  text-orange">ปีงบประมาณ: </label>
+                  <label class="text-orange">ปีงบประมาณ: </label>
                   <label class="col-md-6">{{getYear(programDetailForm.Year)}}</label>
                 </div>
               </div>
               <div class="col-md-12">
                 <div class="row form-group">
-                  <label class="col-md-3 text-orange">ชื่อโครงการ:</label>
+                  <label class="text-orange">ชื่อโครงการ:</label>
                   <label class="col-md-9"
                          *ngIf="programDetailForm.PurchaseName">{{programDetailForm.PurchaseName}}</label>
                   <label class="col-md-9"
@@ -41,32 +41,32 @@
               </div>
               <div class="col-md-6">
                 <div class="row form-group">
-                  <label class="col-md-6 text-orange">วันที่เริ่มต้น-วันที่สิ้นสุด:</label>
+                  <label class="text-orange">วันที่เริ่มต้น-วันที่สิ้นสุด:</label>
                   <label class="col-md-6">{{programDetailForm.StartDate | date: 'dd/MM/yyyy'}} -
                     {{programDetailForm.EndDate | date: 'dd/MM/yyyy'}}</label>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="row form-group">
-                  <label class="col-md-6 text-orange">จำนวนเงิน:</label>
+                  <label class="text-orange">จำนวนเงิน:</label>
                   <label class="col-md-6">{{programDetailForm.Amount}} บาท</label>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="row form-group">
-                  <label class="col-md-6  text-orange">ชื่อองค์กร:</label>
+                  <label class="text-orange">ชื่อองค์กร:</label>
                   <label class="col-md-6">{{programDetailForm.CorporationName}}</label>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="row form-group">
-                  <label class="col-md-6  text-orange">เลขประจำตัวผู้เสียภาษี:</label>
+                  <label class="text-orange">เลขประจำตัวผู้เสียภาษี:</label>
                   <label class="col-md-6">{{programDetailForm.TaxNo}}</label>
                 </div>
               </div>
               <div class="col-md-12">
                 <div class="row form-group">
-                  <label class="col-md-3  text-orange">ภายใต้องค์กร:</label>
+                  <label class="text-orange">ภายใต้องค์กร:</label>
                   <label class="col-md-9">{{programDetailForm.Parent}}</label>
                 </div>
               </div>
@@ -83,7 +83,7 @@
             <div class="row">
               <div class="col-md-12">
                 <h5 class="font-weight-bold text-orange">
-                  <img class="icon-header" src="../../../assets/icon-customer/icon-yello/contact.png" />
+                  <img class="icon-header" src="../../../assets/icon-customer/icon-yello/contact.png"/>
                   ข้อมูลการติดต่อองค์กร
                 </h5>
               </div>
@@ -93,7 +93,7 @@
             <div class="row px-5 mb-3">
               <div class="col-md-6" *ngIf="programContactForm.ContactNumber">
                 <div class="row form-group">
-                  <label class="col-md-5  text-orange">เบอร์โทร:</label>
+                  <label class="text-orange">เบอร์โทร:</label>
                   <label class="col-md-6">
                     <p *ngFor="let data of programContactForm.ContactNumber">{{data}}</p>
                   </label>
@@ -101,7 +101,7 @@
               </div>
               <div class="col-md-6" *ngIf="programContactForm.ContactFax">
                 <div class="row form-group">
-                  <label class="col-md-5  text-orange">โทรสาร:</label>
+                  <label class="text-orange">โทรสาร:</label>
                   <label class="col-md-6">
                     <p *ngFor="let data of programContactForm.ContactFax">{{data}}</p>
                   </label>
@@ -109,7 +109,7 @@
               </div>
               <div class="col-md-6" *ngIf="programContactForm.ContactEmail">
                 <div class="row form-group">
-                  <label class="col-md-5  text-orange">Email:</label>
+                  <label class="text-orange">Email:</label>
                   <label class="col-md-6">
                     <p *ngFor="let data of programContactForm.ContactEmail">{{data}}</p>
                   </label>
@@ -117,7 +117,7 @@
               </div>
               <div class="col-md-6" *ngIf="programContactForm.ContactWeb">
                 <div class="row form-group">
-                  <label class="col-md-5  text-orange">Website:</label>
+                  <label class="text-orange">Website:</label>
                   <label class="col-md-6">
                     <p *ngFor="let data of programContactForm.ContactWeb">{{data}}</p>
                   </label>
@@ -125,7 +125,7 @@
               </div>
               <div class="col-md-6" *ngIf="programContactForm.ContactLine">
                 <div class="row form-group">
-                  <label class="col-md-5  text-orange">Line ID:</label>
+                  <label class="text-orange">Line ID:</label>
                   <label class="col-md-6">
                     <p *ngFor="let data of programContactForm.ContactLine">{{data}}</p>
                   </label>
@@ -133,12 +133,12 @@
               </div>
               <label class="col-md-12 text-orange" *ngIf="programContactForm.ContactFacebook">ติดต่อทาง
                 Solcial media:
-                <img src="../../../../assets/icon-customer/icon-yello/Facebook.png" class="icon-social p-1" />
+                <img src="../../../../assets/icon-customer/icon-yello/Facebook.png" class="icon-social p-1"/>
               </label>
             </div>
             <div class="form-group" *ngIf="programAddress.Address">
               <h5 *ngIf="programAddress.Address.length">
-                <img class="icon-header" src="../../../assets/icon-customer/icon-yello/address-now.png" />
+                <img class="icon-header" src="../../../assets/icon-customer/icon-yello/address-now.png"/>
                 <span class="font-weight-bold text-orange text-shadow">&emsp;ที่ตั้ง</span>
               </h5>
               <div class="row px-5 mb-3" *ngFor="let data of programAddress.Address">
@@ -154,7 +154,7 @@
             <div *ngIf="programAddress">
               <div class="form-group" *ngIf="programAddress.AddressContact">
                 <h5 *ngIf="programAddress.AddressContact.length">
-                  <img class="icon-header" src="../../../assets/icon-customer/icon-yello/delivery.png" />
+                  <img class="icon-header" src="../../../assets/icon-customer/icon-yello/delivery.png"/>
                   <span class="font-weight-bold text-orange text-shadow">&emsp;ที่อยู่จัดส่งเอกสาร</span>
                 </h5>
                 <div class="row px-5 mb-3" *ngFor="let data of programAddress.AddressContact; let i = index">
@@ -180,7 +180,7 @@
             <div class="row">
               <div class="col-md-6">
                 <h5 class="font-weight-bold text-orange">
-                  <img class="icon-header" src="../../../assets/icon-customer/icon-yello/contact.png" />
+                  <img class="icon-header" src="../../../assets/icon-customer/icon-yello/contact.png"/>
                   ข้อมูลการติดต่อผู้รับผิดชอบโครงการ
                 </h5>
               </div>
@@ -190,25 +190,25 @@
             <div class="row px-5 mb-3">
               <div class="col-md-6" *ngIf="purchaseProjectManagercontact.TypeContactId == 2">
                 <div class="row form-group">
-                  <label class="col-md-5  text-orange">เบอร์โทร:</label>
+                  <label class="=text-orange">เบอร์โทร:</label>
                   <label class="col-md-6">{{purchaseProjectManagercontact.Contact}}</label>
                 </div>
               </div>
               <div class="col-md-6" *ngIf="purchaseProjectManagercontact.TypeContactId == 7">
                 <div class="row form-group">
-                  <label class="col-md-5  text-orange">โทรสาร:</label>
+                  <label class="text-orange">โทรสาร:</label>
                   <label class="col-md-6">{{purchaseProjectManagercontact.Contact}}</label>
                 </div>
               </div>
               <div class="col-md-6" *ngIf="purchaseProjectManagercontact.TypeContactId == 1">
                 <div class="row form-group">
-                  <label class="col-md-5  text-orange">Email:</label>
+                  <label class="text-orange">Email:</label>
                   <label class="col-md-6">{{purchaseProjectManagercontact.Contact}}</label>
                 </div>
               </div>
               <div class="col-md-6" *ngIf="purchaseProjectManagercontact.TypeContactId == 3">
                 <div class="row form-group">
-                  <label class="col-md-5  text-orange">Line ID:</label>
+                  <label class="text-orange">Line ID:</label>
                   <label class="col-md-6">{{purchaseProjectManagercontact.Contact}}</label>
                 </div>
               </div>
@@ -219,7 +219,7 @@
               </label> -->
             </div>
             <h5>
-              <img class="icon-header" src="../../../assets/icon-customer/icon-yello/delivery.png" />
+              <img class="icon-header" src="../../../assets/icon-customer/icon-yello/delivery.png"/>
               <span class="font-weight-bold text-orange text-shadow">&emsp;ที่อยู่จัดส่งเอกสาร</span>
             </h5>
             <div class="row px-5 mb-3">
@@ -243,7 +243,7 @@
             <div class="row">
               <div class="col-md-6">
                 <h5 class="font-weight-bold text-orange">
-                  <img class="icon-header" src="../../../assets/icon-customer/icon-yello/contact.png" />
+                  <img class="icon-header" src="../../../assets/icon-customer/icon-yello/contact.png"/>
                   ข้อมูลการติดต่อผู้รับทุน
                 </h5>
               </div>
@@ -253,39 +253,39 @@
             <div class="row px-5 mb-3">
               <div class="col-md-6">
                 <div class="row form-group">
-                  <label class="col-md-5  text-orange">เบอร์โทร:</label>
+                  <label class="text-orange">เบอร์โทร:</label>
                   <label class="col-md-6"></label>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="row form-group">
-                  <label class="col-md-5  text-orange">โทรสาร:</label>
+                  <label class="text-orange">โทรสาร:</label>
                   <label class="col-md-6"></label>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="row form-group">
-                  <label class="col-md-5  text-orange">Email:</label>
+                  <label class="text-orange">Email:</label>
                   <label class="col-md-6"></label>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="row form-group">
-                  <label class="col-md-5  text-orange">Line ID:</label>
+                  <label class="text-orange">Line ID:</label>
                   <label class="col-md-6"></label>
                 </div>
               </div>
               <label class="col-md-12 text-orange">ติดต่อทาง Solcial media:
-                <img src="../../../../assets/icon-customer/icon-yello/Facebook.png" class="icon-social p-1" />
-                <img src="../../../../assets/icon-customer/icon-yello/Twitter.png" class="icon-social p-1" />
-                <img src="../../../../assets/icon-customer/icon-yello/instargram.png" class="icon-social p-1" />
+                <img src="../../../../assets/icon-customer/icon-yello/Facebook.png" class="icon-social p-1"/>
+                <img src="../../../../assets/icon-customer/icon-yello/Twitter.png" class="icon-social p-1"/>
+                <img src="../../../../assets/icon-customer/icon-yello/instargram.png" class="icon-social p-1"/>
                 <img src="../../../../assets/icon-customer/icon-yello/Website.png" alt="website"
-                  class="icon-social p-1" />
-                <img src="../../../../assets/icon-customer/icon-yello/Line.png" class="icon-social p-1" />
+                     class="icon-social p-1"/>
+                <img src="../../../../assets/icon-customer/icon-yello/Line.png" class="icon-social p-1"/>
               </label>
             </div>
             <h5>
-              <img class="icon-header" src="../../../assets/icon-customer/icon-yello/delivery.png" />
+              <img class="icon-header" src="../../../assets/icon-customer/icon-yello/delivery.png"/>
               <span class="font-weight-bold text-orange text-shadow">&emsp;ที่อยู่จัดส่งเอกสาร</span>
             </h5>
             <div class="row px-5 mb-3">

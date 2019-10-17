@@ -57,7 +57,7 @@
           </tr>
         </thead>
         <tbody class="bg-white">
-          <tr *ngFor="let data of authloglist | paginate: { itemsPerPage: 10, currentPage: page }" class="text-center">
+          <tr *ngFor="let data of authloglist | paginate: { itemsPerPage: 10, currentPage: page }">
             <td>{{ data.UpdateDate | date: 'dd/MM/yyyy'}}</td>
             <td>{{ data.UpdateMenu }}</td>
             <td>{{ data.UpdateField }}</td>

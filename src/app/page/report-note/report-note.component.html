@@ -87,7 +87,7 @@
         </tr>
       </thead>
       <tbody class="bg-white">
-        <tr *ngFor="let data of reportList | paginate: { itemsPerPage: 10, currentPage: page }" class="text-center">
+        <tr *ngFor="let data of reportList | paginate: { itemsPerPage: 10, currentPage: page }">
           <td>
             {{data.FullnameTh == "" ?  "-" : data.FullnameTh}}
           </td>

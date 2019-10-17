@@ -45,12 +45,12 @@
           </tr>
         </thead>
         <tbody class="bg-white">
-          <tr *ngFor="let data of groupUsersList | paginate: { itemsPerPage: 10, currentPage: page };"
-            class="text-center">
+          <tr *ngFor="let data of groupUsersList | paginate: { itemsPerPage: 10, currentPage: page };">
             <td>{{ data.FullnameTh }}</td>
             <td>{{ data.GroupUserName }}</td>
             <td>{{ data.BoardName }}</td>
-            <td>
+            <td
+              class="text-center">
               <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
                 (click)="openModal(editModal, 'md')" (click)="groupUsersOrigin = data">
                 <i class="fas fa-pencil-alt"></i>
