@@ -5,6 +5,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DropdownService } from '../../../shared/services/dropdown.service';
 
 import { validForm } from '../../../shared/library/form';
+import {ActivatedRoute} from '@angular/router';
+import {PersonsService} from '../../../shared/services/persons.service';
+import {element} from 'protractor';
 
 @Component({
   selector: 'modal-address-information',
@@ -17,46 +20,80 @@ export class ModalAddressInformationComponent implements OnInit {
 
   @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
 
-  public alertValid = false
-  public addressForm: FormGroup
-
+  public alertValid = false;
+  public addressForm: FormGroup;
   public province: any = [];
   public subdistrict: any = [];
   public district: any = [];
+  public personId = null;
+  public addressList = [];
+  public checkAccording = false;
+  public checkIdCard = false;
+
   constructor(
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
-    private dropdownService: DropdownService
+    private dropdownService: DropdownService,
+    private activatedRoute: ActivatedRoute,
+    private personsService: PersonsService,
+
+
   ) {
-    this.addressForm = this.setAddress(null)
+    this.addressForm = this.setAddress(null);
+    this.personId = this.activatedRoute.snapshot.paramMap.get('id');
+
   }
 
-  async ngOnInit() {
-    this.province = (await this.dropdownService.getProvinceAll().toPromise()).data
-    this.addressForm = this.data ? this.setAddress(this.data) : this.setAddress(null)
 
-    this.data ? await this.setLocation(this.data) : null
+  async ngOnInit() {
+    this.checkTypeAddress()
+    this.province = (await this.dropdownService.getProvinceAll().toPromise()).data;
+    this.addressForm = this.data ? this.setAddress(this.data) : this.setAddress(null);
+
+    this.data ? await this.setLocation(this.data) : null;
 
     this.addressForm.get('Province').valueChanges.subscribe(value => this.showDistrict(value));
     this.addressForm.get('District').valueChanges.subscribe(value => this.showSubdistrict(value));
-    this.data ? this.addressForm.get('Zipcode').setValue(this.data.Zipcode) : null
+    this.data ? this.addressForm.get('Zipcode').setValue(this.data.Zipcode) : null;
   }
 
   public async showDistrict(data) {
-    this.district = (await this.dropdownService.getDistrictByProvince(data).toPromise()).data
+    this.district = (await this.dropdownService.getDistrictByProvince(data).toPromise()).data;
   }
 
   public async showSubdistrict(data) {
-    this.subdistrict = (await this.dropdownService.getSubdistrictByDistrict(data).toPromise()).data
-    let zipcode = this.district.find(sub => {
-      return sub.Name == data
-    })
-    zipcode ? this.addressForm.controls['Zipcode'].setValue(zipcode.ZipCode) : null
+    this.subdistrict = (await this.dropdownService.getSubdistrictByDistrict(data).toPromise()).data;
+    const zipcode = this.district.find(sub => {
+      return sub.Name == data;
+    });
+    zipcode ? this.addressForm.controls['Zipcode'].setValue(zipcode.ZipCode) : null;
   }
 
   public setLocation(data) {
-    data.Province ? this.showDistrict(data.Province) : null
-    data.District ? this.showSubdistrict(data.District) : null
+    data.Province ? this.showDistrict(data.Province) : null;
+    data.District ? this.showSubdistrict(data.District) : null;
+  }
+
+  public async checkTypeAddress() {
+    this.addressList = (await this.personsService
+      .getAddressById(this.personId)
+      .toPromise()).data;
+    const account = 1;
+    const idCard = 1;
+    this.addressList.forEach(element => {
+      if (element.TypeAddress === 1) {
+        account++;
+      } else if (element.TypeAddress === 2) {
+        idCard++;
+      }
+      if (3 === account) {
+        this.checkAccording = true;
+      }
+      if (3 === idCard) {
+        this.checkIdCard = true;
+      }
+    });
+
   }
 
   private setAddress(data) {
@@ -74,18 +111,18 @@ export class ModalAddressInformationComponent implements OnInit {
       Road: [data.Road, [Validators.required]],
       Soi: [data.Soi, [Validators.required]],
     }) : this.formBuilder.group({
-      TypeAddress: [1, [Validators.required]],
-      Subdistrict: [""],
-      District: ["", [Validators.required]],
-      Province: ["", [Validators.required]],
-      Zipcode: ["", [Validators.required]],
-      HouseNumber: ["", [Validators.required]],
-      Building: [""],
-      Floor: [""],
-      Room: [""],
-      Road: ["", [Validators.required]],
-      Soi: ["", [Validators.required]],
-    })
+      TypeAddress: [3, [Validators.required]],
+      Subdistrict: [''],
+      District: ['', [Validators.required]],
+      Province: ['', [Validators.required]],
+      Zipcode: ['', [Validators.required]],
+      HouseNumber: ['', [Validators.required]],
+      Building: [''],
+      Floor: [''],
+      Room: [''],
+      Road: ['', [Validators.required]],
+      Soi: ['', [Validators.required]],
+    });
   }
 
   submit() {
@@ -93,11 +130,11 @@ export class ModalAddressInformationComponent implements OnInit {
       this.alertValid = true;
       return;
     }
-    this.onSubmit.emit(this.addressForm.value)
-    return this.modalService.dismissAll()
+    this.onSubmit.emit(this.addressForm.value);
+    return this.modalService.dismissAll();
   }
 
   closeModal() {
-    return this.modalService.dismissAll()
+    return this.modalService.dismissAll();
   }
 }
