@@ -36,6 +36,7 @@ export class InsertPersonsComponent implements OnInit {
 
   public corperationList = [];
 
+  public notNext: any;
   public addressList = [];
   public familyList = [];
   public contactList = [];
@@ -130,6 +131,7 @@ export class InsertPersonsComponent implements OnInit {
      // this.checkTitleEn = '';
       this.titleNameEnCheck = false;
     }
+    this.notNext = 1;
   }
 
   get getIdCard() {
@@ -724,7 +726,7 @@ export class InsertPersonsComponent implements OnInit {
       .getcoordinator(this.personId)
       .toPromise()).data), 'FullnameTh'));
     for (let i = 0; i < this.coordinateList.length; i++) {
-      this.nametitle.push(this.coordinateList[i][0].FullnameTh)
+      this.nametitle.push(this.coordinateList[i][0].FullnameTh);
     }
 
   }
@@ -808,8 +810,19 @@ export class InsertPersonsComponent implements OnInit {
 
   public async next() {
     this.spinnerService.show();
-
-    if (validForm(this.profileForm).length > 0) {
+    if (this.profileForm.controls.TitleNameTh.value == null ||
+        this.profileForm.controls.FristNameTh.value == null ||
+        this.profileForm.controls.LastNameTh.value == null ||
+        this.profileForm.controls.TitleNameEn.value == null ||
+        this.profileForm.controls.FristNameEn.value == null ||
+        this.profileForm.controls.LastNameEn.value == null ||
+        this.profileForm.controls.IdCard.value == null ||
+        this.profileForm.controls.Birthday.value == null ||
+        this.profileForm.controls.Sex.value == null ||
+        this.profileForm.controls.Nationality.value == null ||
+        this.profileForm.controls.EthnicityId.value == null ||
+        this.profileForm.controls.Marital.value == null ||
+        this.profileForm.controls.Religion.value == null ) {
       this.spinnerService.hide();
       this.alertValid = true;
       return window.scroll(0, 300);
@@ -832,7 +845,7 @@ export class InsertPersonsComponent implements OnInit {
     this.spinnerService.hide();
 
     alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
-
+    this.notNext = 2;
     return this.stepper.next();
   }
 

@@ -26,14 +26,14 @@
   <div id="stepper1" class="bs-stepper">
     <div class="bs-stepper-header">
       <div class="step" data-target="#step-1">
-        <button class="step-trigger">
+        <button [disabled]="notNext==2" class="step-trigger">
           <span class="bs-stepper-circle">1</span>
           <span class="bs-stepper-label">ข้อมูลส่วนตัว</span>
         </button>
       </div>
       <div class="line"></div>
       <div class="step" data-target="#step-2">
-        <button class="step-trigger">
+        <button [disabled]="notNext==1" class="step-trigger">
           <span class="bs-stepper-circle">2</span>
           <span class="bs-stepper-label">ข้อมูลส่วนตัว(เพิ่มเติม)</span>
         </button>
@@ -224,7 +224,7 @@
                         <div class="row">
                           <div class="col-md-4 text-right">
                             <label>
-                              เลขหนังสือเดินทาง<span class="text-danger">*</span>:
+                              เลขหนังสือเดินทาง :
                             </label>
                           </div>
                           <div class="col-md-6">
@@ -237,7 +237,7 @@
                         <div class="row mb-4">
                           <div class="col-md-4 text-right">
                             <label>
-                              ใบอนุญาตเลขที่<span class="text-danger">*</span>:
+                              ใบอนุญาตเลขที่ :
                             </label>
                           </div>
                           <div class="col-md-6">
@@ -625,37 +625,37 @@
                 </tr>
                 </thead>
                 <tbody *ngFor="let data of coordinateList; let i= index" class="bg-white">
-                  <tr class="text-center" *ngFor="let subData of data; let j=index">
-                    <div *ngIf="data.length > 0">
-                      <td  [rowSpan]="coordinateList[i].length">
-                        {{nametitle[i]}}
-                      </td>
-                      <!-- ตรงนี้แระผมทำไม่้ได้ -->
-                    </div>
-                    <div *ngIf="data.length == 0" >
-                      <td [rowSpan]="coordinateList[i].length">
-                        {{subData.FullnameTh}}
-                      </td>
-                    </div>
-                    <td>
-                      <label *ngIf="subData.TypeContactId == 1">อีเมล</label>
-                      <label *ngIf="subData.TypeContactId == 2">เบอร์โทร</label>
-                      <label *ngIf="subData.TypeContactId == 3">Line</label>
-                      <label *ngIf="subData.TypeContactId == 4">Facebook</label>
-                      <label *ngIf="subData.TypeContactId == 5">Twitter</label>
-                      <label *ngIf="subData.TypeContactId == 6">Instagram</label>
-                      <label *ngIf="subData.TypeContactId == 7">โทรสาร</label>
+                <tr class="text-center" *ngFor="let subData of data; let j=index">
+                  <div *ngIf="data.length > 0">
+                    <td [rowSpan]="coordinateList[i].length">
+                      {{nametitle[i]}}
                     </td>
-                    <td>
-                      {{subData.Contact}}
+                    <!-- ตรงนี้แระผมทำไม่้ได้ -->
+                  </div>
+                  <div *ngIf="data.length == 0">
+                    <td [rowSpan]="coordinateList[i].length">
+                      {{subData.FullnameTh}}
                     </td>
-                    <td>
-                      <a href="javascript:void(0)" class="btn btn-outline-danger
+                  </div>
+                  <td>
+                    <label *ngIf="subData.TypeContactId == 1">อีเมล</label>
+                    <label *ngIf="subData.TypeContactId == 2">เบอร์โทร</label>
+                    <label *ngIf="subData.TypeContactId == 3">Line</label>
+                    <label *ngIf="subData.TypeContactId == 4">Facebook</label>
+                    <label *ngIf="subData.TypeContactId == 5">Twitter</label>
+                    <label *ngIf="subData.TypeContactId == 6">Instagram</label>
+                    <label *ngIf="subData.TypeContactId == 7">โทรสาร</label>
+                  </td>
+                  <td>
+                    {{subData.Contact}}
+                  </td>
+                  <td>
+                    <a href="javascript:void(0)" class="btn btn-outline-danger
                         btn-sm" (click)="deleteCoordinator(i)">
-                        <i class="fas fa-times icon-prop"></i>
-                      </a>
-                    </td>
-                  </tr>
+                      <i class="fas fa-times icon-prop"></i>
+                    </a>
+                  </td>
+                </tr>
                 <tr *ngIf="coordinateList.length == 0">
                   <td class="text-center" colspan="5">ไม่พบข้อมูล</td>
                 </tr>
