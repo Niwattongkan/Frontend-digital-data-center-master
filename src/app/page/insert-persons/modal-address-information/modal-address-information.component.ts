@@ -46,7 +46,7 @@ export class ModalAddressInformationComponent implements OnInit {
 
 
   async ngOnInit() {
-    this.checkTypeAddress()
+    this.checkTypeAddress();
     this.province = (await this.dropdownService.getProvinceAll().toPromise()).data;
     this.addressForm = this.data ? this.setAddress(this.data) : this.setAddress(null);
 
@@ -82,13 +82,17 @@ export class ModalAddressInformationComponent implements OnInit {
     const idCard = 1;
     this.addressList.forEach(element => {
       if (element.TypeAddress === 1) {
+        // @ts-ignore
         account++;
       } else if (element.TypeAddress === 2) {
+        // @ts-ignore
         idCard++;
       }
+      // @ts-ignore
       if (3 === account) {
         this.checkAccording = true;
       }
+      // @ts-ignore
       if (3 === idCard) {
         this.checkIdCard = true;
       }
