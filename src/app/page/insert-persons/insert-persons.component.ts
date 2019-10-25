@@ -814,18 +814,31 @@ export class InsertPersonsComponent implements OnInit {
   public async next() {
     this.spinnerService.show();
     if (this.profileForm.controls.TitleNameTh.value == null ||
+        this.profileForm.controls.TitleNameTh.value == "" ||
         this.profileForm.controls.FristNameTh.value == null ||
+        this.profileForm.controls.FristNameTh.value == '' ||
         this.profileForm.controls.LastNameTh.value == null ||
+        this.profileForm.controls.LastNameTh.value == '' ||
         this.profileForm.controls.TitleNameEn.value == null ||
+        this.profileForm.controls.TitleNameEn.value == '' ||
         this.profileForm.controls.FristNameEn.value == null ||
+        this.profileForm.controls.FristNameEn.value == '' ||
         this.profileForm.controls.LastNameEn.value == null ||
+        this.profileForm.controls.LastNameEn.value == '' ||
         this.profileForm.controls.IdCard.value == null ||
+        this.profileForm.controls.IdCard.value == '' ||
         this.profileForm.controls.Birthday.value == null ||
+        this.profileForm.controls.Birthday.value == '' ||
         this.profileForm.controls.Sex.value == null ||
+        this.profileForm.controls.Sex.value == '' ||
         this.profileForm.controls.Nationality.value == null ||
+        this.profileForm.controls.Nationality.value == '' ||
         this.profileForm.controls.EthnicityId.value == null ||
+        this.profileForm.controls.EthnicityId.value == '' ||
         this.profileForm.controls.Marital.value == null ||
-        this.profileForm.controls.Religion.value == null ) {
+        this.profileForm.controls.Marital.value == '' ||
+        this.profileForm.controls.Religion.value == null ||
+        this.profileForm.controls.Religion.value == '' ) {
       this.spinnerService.hide();
       this.alertValid = true;
       return window.scroll(0, 300);

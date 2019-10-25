@@ -29,11 +29,12 @@ export class PersonsListComponent implements OnInit {
     this.spinnerService.hide();
   }
 
-  public mapPerson(personList) {
+  public async  mapPerson(personList) {
     personList.map(async data => {
       data.PersonAddress = []
 
       let title = data.TitleNameTh == 1 ? 'นาย' : data.TitleNameTh == 2 ? 'นางสาว' : 'นาง'
+      let titleOrther = await data.TitleNameOther != '' && data.TitleNameOther != null ? data.TitleNameOther : title
       let first = data.FristNameTh
       let last = data.LastNameTh
 
@@ -44,7 +45,7 @@ export class PersonsListComponent implements OnInit {
       let workperson = (await this.personsService.getworkperson(data.PersonId).toPromise()).data
       let workcontact = (await this.personsService.getcontactperson(data.PersonId).toPromise()).data
 
-      data.FullnameTh = first && last ? title + first + ' ' + last : ''
+      data.FullnameTh = first && last ? titleOrther + first + ' ' + last : ''
       data.FullnameEn = firstEn && lastEn ? titleEn + firstEn + ' ' + lastEn : ''
       data.ContactList = workcontact
       data.PositionList = workperson

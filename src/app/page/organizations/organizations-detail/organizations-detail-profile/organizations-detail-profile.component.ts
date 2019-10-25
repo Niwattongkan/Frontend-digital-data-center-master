@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { OrganizationService } from '../../../../shared/services/organization.service';
 
@@ -17,13 +18,13 @@ export class OrganizationsDetailProfileComponent {
   @Input() inputForm: any;
 
   constructor(
+    private activatedRoute: ActivatedRoute,
     private organizationService: OrganizationService
   ) {
-    this.corporationId = this.inputForm ? this.inputForm.CorporationId : ""
+    this.corporationId = Object.values(this.activatedRoute.snapshot.params)[0]
     this.profileForm = this.setCoreration(null)
   }
   async ngOnInit() {
-
     this.profileForm = this.setCoreration(null)
   }
 

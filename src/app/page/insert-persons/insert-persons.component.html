@@ -461,7 +461,7 @@
                   <label *ngIf="data.TypeAddress == 3">ที่อยู่ปัจจุบัน</label>
                   <label *ngIf="data.TypeAddress == 4">ที่อยู่จัดส่ง</label>
                 </td>
-                <td>
+                <td style="text-align: center">
                   <a href="javascript:void(0)" class="btn btn-outline-success
                       btn-sm mr-2"
                      (click)="openModalClass(updatePersonAddress, 'xlModal')">
@@ -518,7 +518,7 @@
                   </td>
                   <td>{{data.Relation}}</td>
                   <td>{{data.Contact}}</td>
-                  <td>
+                  <td style="text-align: center">
                     <a href="javascript:void(0)" class="btn
                         btn-outline-success btn-sm mr-2"
                        (click)="openModal(updatePersonFamily, 'lg')">
@@ -577,7 +577,7 @@
                     <label *ngIf="data.TypeContactId == 6">Instagram</label>
                     <label *ngIf="data.TypeContactId == 7">โทรสาร</label>
                   </td>
-                  <td>
+                  <td style="text-align: center">
                     <!-- <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
                         (click)="openModal(updatePersonContact, 'lg')">
                         <i class="fas fa-pencil-alt icon-prop"></i>
@@ -623,17 +623,9 @@
                 </thead>
                 <tbody *ngFor="let data of coordinateList; let i= index" class="bg-white">
                 <tr *ngFor="let subData of data; let j=index">
-                  <div *ngIf="data.length > 0">
-                    <td [rowSpan]="coordinateList[i].length">
+                    <td [rowSpan]="coordinateList[i].length" *ngIf=" j == 0">
                       {{nametitle[i]}}
                     </td>
-                    <!-- ตรงนี้แระผมทำไม่้ได้ -->
-                  </div>
-                  <div *ngIf="data.length == 0">
-                    <td [rowSpan]="coordinateList[i].length">
-                      {{subData.FullnameTh}}
-                    </td>
-                  </div>
                   <td>
                     <label *ngIf="subData.TypeContactId == 1">อีเมล</label>
                     <label *ngIf="subData.TypeContactId == 2">เบอร์โทร</label>
@@ -646,7 +638,7 @@
                   <td>
                     {{subData.Contact}}
                   </td>
-                  <td>
+                  <td class="text-center">
                     <a href="javascript:void(0)" class="btn btn-outline-danger
                         btn-sm" (click)="deleteCoordinator(i)">
                       <i class="fas fa-times icon-prop"></i>
@@ -694,7 +686,7 @@
                       <label *ngIf="data.Degree == 3">ปริญญาเอก</label>
                     </td>
                     <td>{{data.Major}}</td>
-                    <td>
+                    <td class="text-center">
                       <a href="javascript:void(0)" class="btn
                           btn-outline-success btn-sm mr-2"
                          (click)="openModal(updatePersonBursary, 'lg')">
@@ -748,7 +740,7 @@
                   </td>
                   <td>{{findCorperation(data.CorporationId)}}</td>
                   <td>{{data.Position}}</td>
-                  <td>
+                  <td class="text-center">
                     <a href="javascript:void(0)" class="btn
                         btn-outline-success btn-sm mr-2"
                        (click)="openModal(updatePersonWorking, 'md')">
