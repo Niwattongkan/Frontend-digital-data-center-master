@@ -23,7 +23,7 @@ export class OrganizationsDetailComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private organizationService: OrganizationService
+    private organizationService: OrganizationService,
   ) {
     this.organizationId = this.activatedRoute.snapshot.paramMap.get('id');
     this.stepList = this.setMenubar();
@@ -75,12 +75,7 @@ export class OrganizationsDetailComponent implements OnInit {
     };
     if (contactList) {
       for (let index = 0; index < contactList.length; index++) {
-        if (contactList[index].TypeContactId == 1) { model.ContactEmail.push(contactList[index].Contact); }
-        else if (contactList[index].TypeContactId == 2) { model.ContactNumber.push(contactList[index].Contact); }
-        else if (contactList[index].TypeContactId == 3) { model.ContactFax.push(contactList[index].Contact); }
-        else if (contactList[index].TypeContactId == 4) { model.ContactWeb.push(contactList[index].Contact); }
-        else if (contactList[index].TypeContactId == 4) { model.ContactLine.push(contactList[index].Contact); }
-        else if (contactList[index].TypeContactId == 4) { model.ContactFacebook.push(contactList[index].Contact); }
+        if (contactList[index].TypeContactId == 1) { model.ContactEmail.push(contactList[index].Contact); } else if (contactList[index].TypeContactId == 2) { model.ContactNumber.push(contactList[index].Contact); } else if (contactList[index].TypeContactId == 3) { model.ContactFax.push(contactList[index].Contact); } else if (contactList[index].TypeContactId == 4) { model.ContactWeb.push(contactList[index].Contact); } else if (contactList[index].TypeContactId == 4) { model.ContactLine.push(contactList[index].Contact); } else if (contactList[index].TypeContactId == 4) { model.ContactFacebook.push(contactList[index].Contact); }
       }
     }
     return model;
@@ -88,7 +83,7 @@ export class OrganizationsDetailComponent implements OnInit {
 
 
   private async setAddress(data) {
-    const addressList = (await this.organizationService.getcorporationaddress(data.CorporationId).toPromise()).data[0]
+    const addressList = (await this.organizationService.getcorporationaddress(data.CorporationId).toPromise()).data[0];
     return {
           AdressId: addressList.CorporationAddressId ? addressList.CorporationAddressId : '',
           AddressType: addressList.TypeAddress ? addressList.TypeAddress : '',
