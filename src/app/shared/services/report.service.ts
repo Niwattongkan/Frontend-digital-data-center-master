@@ -21,6 +21,12 @@ export class ReportService {
     if (data.Position !== '') {
       params.append('Position', data.Position);
     }
+    if (data.ProjectName !== ''){
+      params.append('ProjectName', data.ProjectName);
+    }
+    if (data.ProjectNo !== ''){
+      params.append('ProjectNo' , data.ProjectNo);
+    }
     return this.apiService.get(`getreportperson?` + params.toString());
   }
 

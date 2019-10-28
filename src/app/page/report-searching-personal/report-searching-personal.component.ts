@@ -86,7 +86,9 @@ export class ReportSearchingPersonalComponent implements OnInit {
       Name: [""],
       CorporationName: [""],
       StartYear: [new Date().getFullYear()],
-      Position: [""]
+      Position: [""],
+      ProjectName: [""],
+      ProjectNo: [""]
     });
   }
 
