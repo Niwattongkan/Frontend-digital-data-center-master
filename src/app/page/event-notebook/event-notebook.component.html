@@ -38,40 +38,24 @@
       <table class="table table-bordered" cellspacing="0" role="grid">
         <thead class="bg-custom-green text-white">
           <tr role="row">
-            <!-- <th class="text-center" scope="col" style="background-color: #ffbb00">
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1"></label>
-              </div>
-            </th> -->
             <th *ngFor="let header of headers" class="text-center" scope="col">
               {{ header }}
             </th>
           </tr>
         </thead>
         <tbody class="bg-white">
-          <tr *ngFor="let data of noteList | paginate: { itemsPerPage: 10, currentPage: page }; let i = index"
-            class="text-center">
-            <!-- <td>
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                <label class="form-check-label" for="exampleCheck1"></label>
-              </div>
-            </td> -->
+          <tr *ngFor="let data of noteList | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
             <td class="text-left">{{ data.FullnameTh }}</td>
             <td class="text-left">{{ data.NoteName }}</td>
             <td class="text-left">{{ data.Description }}</td>
             <td>{{ findPersonDetail(data.CreateBy) }}</td>
             <td>{{ data.CreateDate | date: 'dd/MM/yyyy' }}</td>
             <td>
-              <!-- <a href="javascript:void(0)">
-                <i class="fas fa-eye" (click)="openModal(detailsharedModal, 'lg')"></i>
-              </a> -->
               <a href="javascript:void(0)" (click)="openModal(detailsharedModal, 'lg')">
                 บันทึก
               </a>
             </td>
-            <td>
+            <td class="text-center">
               <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm mr-2"
                 (click)="openModal(sharedModal, 'md')">
                 <i class="fas fa-share-alt"></i>
@@ -84,7 +68,7 @@
                 <i class="fas fa-trash"></i>
               </a>
             </td>
-            <ng-template #sharedModal let-modal>
+            <ng-template #sharedModal let-modal >
               <shared-note-modal [data]="data" (onSubmit)="updateShareNote($event)"></shared-note-modal>
             </ng-template>
             <ng-template #detailsharedModal let-modal>

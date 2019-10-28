@@ -48,8 +48,7 @@
               </tr>
             </thead>
             <tbody class="bg-white">
-              <tr *ngFor="let data of eventGroupList | paginate: { itemsPerPage: 10, currentPage: page }; let i = index"
-                class="text-center">
+              <tr *ngFor="let data of eventGroupList | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
                 <td>{{ data.Person[0].CreateDate | date: 'dd/MM/yyyy'}}</td>
                 <td>{{ data.Person[0].GroupName }}</td>
                 <td>
@@ -58,7 +57,7 @@
                   </p>
                 </td>
                 <td>{{ findPersonDetail(data.Person[0].CreateBy) }}</td>
-                <td>
+                <td class="text-center">
                   <a href="javascript:void(0)" class="dropdown-toggle btn btn-outline-warning btn-sm"
                     data-toggle="dropdown">
                     <i class="fas fa-download"></i>
@@ -73,7 +72,7 @@
                     </button>
                   </div>
                 </td>
-                <td>
+                <td class="text-center">
                   <a href="javascript:void(0)" class="btn btn-outline-info btn-sm mr-2"
                     (click)="openModal(copyModal, 'md')">
                     <i class="far fa-copy"></i>

@@ -690,7 +690,7 @@ export class InsertPersonsComponent implements OnInit {
   public findCorperation(corpId) {
     return this.corperationList.find(data => {
       return data.CorporationId == corpId;
-    }).CorporationName;
+    });
   }
 
   public onImageChange(file: Event) {
