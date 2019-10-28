@@ -27,6 +27,9 @@ export class ProgramService {
     return this.apiService.get(`getdetailpurchase?id=${id}`);
   }
 
+  getProjectPerson(id): Observable<any> {
+    return  this.apiService.get(`getprojectperson?id=${id}`);
+  }
   getprojectpersoncontact(id): Observable<any> {
     return this.apiService.get(`getprojectpersoncontact?projectid=${id}`);
   }
@@ -35,9 +38,9 @@ export class ProgramService {
     return this.apiService.get(`getprojectpersonaddress?projectid=${id}`);
   }
 
-  getpurchasepersoncontact(id): Observable<any> {
-    return this.apiService.get(`getpurchasepersoncontact?PurchaseId=${id}`);
-  }
+  // getpurchasepersoncontact(id): Observable<any> {
+  //   return this.apiService.get(`getpurchasepersoncontact?PurchaseId=${id}`);
+  // }
 
   getpurchasepersonaddress(id): Observable<any> {
     return this.apiService.get(`getpurchasepersonaddress?PurchaseId=${id}`);

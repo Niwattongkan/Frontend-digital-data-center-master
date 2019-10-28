@@ -1,19 +1,19 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit } from '@angular/core';
 
-import { OrganizationService } from "../../../shared/services/organization.service";
+import { OrganizationService } from '../../../shared/services/organization.service';
 
-import { alertDeleteEvent } from "../../../shared/library/alert";
-import Swal from "sweetalert2";
+import { alertDeleteEvent } from '../../../shared/library/alert';
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: "app-organizations-list",
-  templateUrl: "./organizations-list.component.html",
-  styleUrls: ["./organizations-list.component.css"]
+  selector: 'app-organizations-list',
+  templateUrl: './organizations-list.component.html',
+  styleUrls: ['./organizations-list.component.css']
 })
 export class OrganizationsListComponent implements OnInit {
   public page: Number;
   public organizationList: any = [];
-  public inputSearch = "";
+  public inputSearch = '';
   constructor(private organizationService: OrganizationService) {}
 
   async ngOnInit() {
@@ -55,27 +55,37 @@ export class OrganizationsListComponent implements OnInit {
     // this.organizationList = this.mapCorperation((await this.organizationService.getOrganizationAll().toPromise()).data)
 
     Swal.fire({
-      title: "",
-      text: "คุณต้องการลบข้อมูลนี้หรือไม่",
-      type: "warning",
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      title: '',
+      text: 'คุณต้องการลบข้อมูลนี้หรือไม่',
+      type: 'warning',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
       showCancelButton: true,
-      confirmButtonText: "ตกลง",
-      cancelButtonText: "ยกเลิก"
+      confirmButtonText: 'ตกลง',
+      cancelButtonText: 'ยกเลิก',
+      reverseButtons: true
     }).then(async result => {
-      await this.organizationService
-        .deleteCorporation(data.CorporationId)
-        .toPromise();
-      await this.organizationService
-        .deleteCorporationAddress(data.CorporationAddressId)
-        .toPromise();
-      await this.organizationService
-        .deleteCorporationContact(data.CorporationContactId)
-        .toPromise();
-      this.organizationList = this.mapCorperation(
-        (await this.organizationService.getOrganizationAll().toPromise()).data
-      );
+      if (result.value) {
+        await this.organizationService
+          .deleteCorporation(data.CorporationId)
+          .toPromise();
+        await this.organizationService
+          .deleteCorporationAddress(data.CorporationAddressId)
+          .toPromise();
+        await this.organizationService
+          .deleteCorporationContact(data.CorporationContactId)
+          .toPromise();
+        this.organizationList = this.mapCorperation(
+          (await this.organizationService.getOrganizationAll().toPromise()).data
+        );
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'คุณได้กดยกเลิก',
+          'error'
+        );
+      }
+
     });
 
     //   }
@@ -86,7 +96,7 @@ export class OrganizationsListComponent implements OnInit {
     this.organizationList = this.mapCorperation(
       (await this.organizationService.getOrganizationAll().toPromise()).data
     );
-    if (this.inputSearch != "") {
+    if (this.inputSearch != '') {
       this.organizationList = this.organizationList.filter(corperation => {
         return (
           corperation.CorporationName.includes(this.inputSearch) ||

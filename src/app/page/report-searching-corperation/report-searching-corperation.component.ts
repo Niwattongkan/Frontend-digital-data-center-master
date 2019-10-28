@@ -1,13 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { IMyOptions } from 'mydatepicker-th';
-import { ExcelService } from "../../shared/services/excel.service";
-import { ReportService } from '../../shared/services/report.service';
-import { PdfService } from "../../shared/services/pdf.service";
-import * as jsPDF from "jspdf";
-import "jspdf-autotable";
+import {Component, OnInit} from '@angular/core';
+import {FormGroup, FormBuilder} from '@angular/forms';
+import {IMyOptions} from 'mydatepicker-th';
+import {ExcelService} from '../../shared/services/excel.service';
+import {ReportService} from '../../shared/services/report.service';
+import {OrganizationService} from '../../shared/services/organization.service';
+import {PdfService} from '../../shared/services/pdf.service';
+import * as jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
-import { mapPersons } from '../../shared/library/mapList';
+import {mapPersons} from '../../shared/library/mapList';
 
 @Component({
   selector: 'app-report-searching-corperation',
@@ -33,14 +34,16 @@ export class ReportSearchingCorperationComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private reportService: ReportService,
+    private organizationService: OrganizationService,
     private excelService: ExcelService,
-    private pdfService :PdfService,
+    private pdfService: PdfService,
   ) {
     this.searchform = this.setSerachForm();
   }
 
   async ngOnInit() {
     const result = (await this.reportService.getsearchcorporation().toPromise()).data;
+    this.reportboard = (await this.organizationService.getserchcorporationcontact(result[1].CorporationId).toPromise()).data;
     this.reportList = result ? mapPersons(result) : [];
   }
 
@@ -67,22 +70,23 @@ export class ReportSearchingCorperationComponent implements OnInit {
 
   public exportExcel(data) {
     console.log(data);
-    let exportGroup = [];
+    const exportGroup = [];
     data.forEach(element => {
       exportGroup.push({
-        "ชื่อองค์กร": element.CorporationName,
-        "อยู่ภายใต้องค์กร": element.Parent,
-        "บุคคลในองค์กร": element.FullnameTh,
-        "ที่อยู่องค์กร": this.showAddress(element)
+        'ชื่อองค์กร': element.CorporationName,
+        'อยู่ภายใต้องค์กร': element.Parent,
+        'บุคคลในองค์กร': element.FullnameTh,
+        'ที่อยู่องค์กร': this.showAddress(element)
       });
     });
     return this.excelService.exportAsExcelFile(
       exportGroup,
-      "report-corporation"
+      'report-corporation'
     );
   }
+
   public exportPDF(data) {
-    let exportGroup = [];
+    const exportGroup = [];
     data.forEach(element => {
       exportGroup.push({
         CorporationName: element.CorporationName,
@@ -92,23 +96,23 @@ export class ReportSearchingCorperationComponent implements OnInit {
       });
     });
 
-    var doc = new jsPDF("p", "pt", "a4");
+    let doc = new jsPDF('p', 'pt', 'a4');
     doc = this.pdfService.exportAsPdfile(doc);
-    doc.setFont("Kanit-Regular");
-     doc.setFontType("normal");
-     doc.autoTable({
-      styles: { font: "Kanit-Regular", fontSize: 7 , columnWidth: 'auto'},
-      headerStyles: { fontStyle: 'Kanit-Regular' },
+    doc.setFont('Kanit-Regular');
+    doc.setFontType('normal');
+    doc.autoTable({
+      styles: {font: 'Kanit-Regular', fontSize: 7, columnWidth: 'auto'},
+      headerStyles: {fontStyle: 'Kanit-Regular'},
       columns: [
-        { title: "ชื่อองค์กร", dataKey: "CorporationName" },
-        { title: "อยู่ภายใต้องค์กร", dataKey: "Parent" },
-        { title: "บุคคลในองค์กร", dataKey: "FullnameTh" },
-        { title: "ที่อยู่องค์กร", dataKey: "Address" }
+        {title: 'ชื่อองค์กร', dataKey: 'CorporationName'},
+        {title: 'อยู่ภายใต้องค์กร', dataKey: 'Parent'},
+        {title: 'บุคคลในองค์กร', dataKey: 'FullnameTh'},
+        {title: 'ที่อยู่องค์กร', dataKey: 'Address'}
       ],
 
       body: exportGroup
     });
-    doc.save("report-corporation.pdf");
+    doc.save('report-corporation.pdf');
   }
 
   public setSerachForm() {

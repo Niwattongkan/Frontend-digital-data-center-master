@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
-import { ProgramService } from '../../../shared/services/program.service';
-import { OrganizationService } from '../../../shared/services/organization.service';
+import {ProgramService} from '../../../shared/services/program.service';
+import {OrganizationService} from '../../../shared/services/organization.service';
 
 @Component({
   selector: 'app-program-detail',
@@ -18,7 +18,7 @@ export class ProgramDetailComponent implements OnInit {
 
   public programDetailForm: any = {};
   public programContactForm: any = {};
-  public projectPersonContact: any = {};
+  public projectPerson: any = {};
   public programContactManagerForm: any = {};
   public programAddress: any = {};
   public corpatationList: any = [];
@@ -57,12 +57,13 @@ export class ProgramDetailComponent implements OnInit {
 
     this.programContactForm = await this.setContact();
     this.programAddress = await this.setAddress();
-    this.projectPersonContact = await this.projectPersonContact(check);
+    // this.projectPerson = await this.setProjectPerson(check);
     this.programContactManagerForm = await this.setContactManager(this.program);
 
   }
 
   private async setAddress() {
+    // tslint:disable-next-line:max-line-length
     const addressList = this.programId ? (await this.programService.getprojectcorporationaddress(this.programId).toPromise()).data : (await this.programService.getpurchasecorporationaddress(this.purchaseId).toPromise()).data;
     const model = {
       Address: [],
@@ -71,8 +72,11 @@ export class ProgramDetailComponent implements OnInit {
 
     if (addressList) {
       for (let index = 0; index < addressList.length; index++) {
-        if (addressList[index].TypeAddress == 1) { model.Address.push(this.showAddress(addressList[index])); }
-        else if (addressList[index].TypeAddress == 4) { model.AddressContact.push(this.showAddress(addressList[index])); }
+        if (addressList[index].TypeAddress == 1) {
+          model.Address.push(this.showAddress(addressList[index]));
+        } else if (addressList[index].TypeAddress == 4) {
+          model.AddressContact.push(this.showAddress(addressList[index]));
+        }
       }
     }
 
@@ -97,26 +101,64 @@ export class ProgramDetailComponent implements OnInit {
     };
     if (contactList) {
       for (let index = 0; index < contactList.length; index++) {
-        if (contactList[index].TypeContactId == 1) { model.ContactEmail.push(contactList[index].Contact); }
-        else if (contactList[index].TypeContactId == 2) { model.ContactNumber.push(contactList[index].Contact); }
-        else if (contactList[index].TypeContactId == 3) { model.ContactFax.push(contactList[index].Contact); }
-        else if (contactList[index].TypeContactId == 4) { model.ContactWeb.push(contactList[index].Contact); }
-        else if (contactList[index].TypeContactId == 5) { model.ContactLine.push(contactList[index].Contact); }
-        else if (contactList[index].TypeContactId == 6) { model.ContactFacebook.push(contactList[index].Contact); }
+        if (contactList[index].TypeContactId == 1) {
+          model.ContactEmail.push(contactList[index].Contact);
+        } else if (contactList[index].TypeContactId == 2) {
+          model.ContactNumber.push(contactList[index].Contact);
+        } else if (contactList[index].TypeContactId == 3) {
+          model.ContactFax.push(contactList[index].Contact);
+        } else if (contactList[index].TypeContactId == 4) {
+          model.ContactWeb.push(contactList[index].Contact);
+        } else if (contactList[index].TypeContactId == 5) {
+          model.ContactLine.push(contactList[index].Contact);
+        } else if (contactList[index].TypeContactId == 6) {
+          model.ContactFacebook.push(contactList[index].Contact);
+        }
       }
     }
     return model;
   }
 
-   private async showprojectPersonContact(data) {
-    const projectPersonContact = (await this.programService.getprojectpersoncontact(data).toPromise()).data;
-    return {};
+  private async setProjectPerson(data) {
+    const projectPersonContact = this.setProjectPersonContact((await this.programService.getprojectpersoncontact(data).toPromise()).data);
+    this.setProjectPersonAddress((await this.programService.getprojectpersonaddress(data).toPromise()).data);
+    this.programService.getProjectPerson(projectPersonContact[0].PersonId).toPromise();
   }
 
-  private setContactManager(data) {
-    return {
-
+  private setProjectPersonContact(data: any) {
+    const contactList: any = data;
+    const model = {
+      CorporationName: contactList ? contactList[0].CorporationName : '',
+      ContactNumber: [],
+      ContactFax: [],
+      ContactEmail: [],
+      ContactWeb: [],
+      ContactLine: [],
+      ContactFacebook: [],
     };
+    if (contactList) {
+      for (let index = 0; index < contactList.length; index++) {
+        if (contactList[index].TypeContactId == 1) {
+          model.ContactEmail.push(contactList[index].Contact);
+        } else if (contactList[index].TypeContactId == 2) {
+          model.ContactNumber.push(contactList[index].Contact);
+        } else if (contactList[index].TypeContactId == 3) {
+          model.ContactFax.push(contactList[index].Contact);
+        } else if (contactList[index].TypeContactId == 4) {
+          model.ContactWeb.push(contactList[index].Contact);
+        } else if (contactList[index].TypeContactId == 5) {
+          model.ContactLine.push(contactList[index].Contact);
+        } else if (contactList[index].TypeContactId == 6) {
+          model.ContactFacebook.push(contactList[index].Contact);
+        }
+      }
+    }
+    return model;
+  }
+
+
+  private setContactManager(data) {
+    return {};
   }
 
 
@@ -135,4 +177,17 @@ export class ProgramDetailComponent implements OnInit {
     return Building + Floor + Room + HouseNumber + Road + Soi + Province + District + Subdistrict + Zipcode;
   }
 
+  private setProjectPersonAddress(value: any) {
+    const Building = value.Building ? 'อาคาร ' + value.Building + ' ' : '';
+    const Floor = value.Floor ? 'ชั้น ' + value.Floor + ' ' : '';
+    const Room = value.Room ? 'ห้อง ' + value.Room + ' ' : '';
+    const HouseNumber = value.HouseNumber ? 'เลขที่ ' + value.HouseNumber + ' ' : '';
+    const Road = value.Road ? 'ถนน ' + value.Road + ' ' : '';
+    const Soi = value.Soi ? 'ซอย ' + value.Soi + ' ' : '';
+    const Province = value.Province != '' ? 'จังหวัด ' + value.Province + ' ' : '';
+    const Subdistrict = value.Subdistrict != '' ? 'ตำบล/แขวง ' + value.Subdistrict + ' ' : '';
+    const District = value.District != '' ? 'อำเภอ/เขต ' + value.District + ' ' : '';
+    const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+    return Building + Floor + Room + HouseNumber + Road + Soi + Province + District + Subdistrict + Zipcode;
+  }
 }

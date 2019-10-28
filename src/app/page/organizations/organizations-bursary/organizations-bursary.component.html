@@ -23,8 +23,7 @@
               </tr>
             </thead>
             <tbody class="bg-white">
-              <tr *ngFor="let data of bursariesPerson | paginate: { itemsPerPage: 10, currentPage: page }"
-                class="text-center">
+              <tr *ngFor="let data of bursariesPerson | paginate: { itemsPerPage: 10, currentPage: page }" >
                 <td>{{getYear(data.Year)}}</td>
                 <td>{{data.ProjectNo}}</td>
                 <td>{{data.ProjectName}}</td>

@@ -27,6 +27,7 @@
     "bs-stepper": "^1.7.0",
     "core-js": "^2.6.9",
     "file-saver": "^2.0.2",
+    "fuse.js": "^3.4.5",
     "jquery": "^3.4.1",
     "jspdf": "^1.5.3",
     "jspdf-autotable": "^3.2.4",

@@ -36,7 +36,7 @@
         <div class="col-md-6">
           <span class="text-orange text-bold mr-4">อีเมล: </span>
           <span *ngFor="let contact of data.ContactList">
-            <label *ngIf="contact.TypeContactId == 1">{{contact.Contact + ' '}}</label>
+            <label *ngIf="contact.TypeContactId == 1">{{contact.Contact + ' '}}</label><br *ngIf="contact.Contact !== '' && contact.Contact !== null">
           </span>
         </div>
         <div class="col-md-5">

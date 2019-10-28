@@ -9,8 +9,8 @@ import { OrganizationService } from '../../../shared/services/organization.servi
 })
 export class ProgramListComponent implements OnInit {
 
-  public programList: any = []
-  public inputSearch = ''
+  public programList: any = [];
+  public inputSearch = '';
 
   constructor(
     private programService: ProgramService,
@@ -20,30 +20,30 @@ export class ProgramListComponent implements OnInit {
   public mapProject(projectList) {
     projectList.map(async data => {
 
-      let title = data.TitleNameTh == 1 ? 'นาย' : data.TitleNameTh == 2 ? 'นางสาว' : 'นาง'
-      let first = data.FristNameTh
-      let last = data.LastNameTh
+      const title = data.TitleNameTh == 1 ? 'นาย' : data.TitleNameTh == 2 ? 'นางสาว' : 'นาง';
+      const first = data.FristNameTh;
+      const last = data.LastNameTh;
 
-      data.FullnameTh = first && last ? title + first + ' ' + last : ''
-    })
-    return projectList
+      data.FullnameTh = first && last ? title + first + ' ' + last : '';
+    });
+    return projectList;
   }
 
   async ngOnInit() {
-    this.programList = this.mapProject((await this.programService.getallproject().toPromise()).data)
-    Array.prototype.push.apply(this.programList, this.mapProject((await this.programService.getallpurchase().toPromise()).data))
-    console.log(this.programList)
+    this.programList = this.mapProject((await this.programService.getallproject().toPromise()).data);
+    Array.prototype.push.apply(this.programList, this.mapProject((await this.programService.getallpurchase().toPromise()).data));
+    console.log(this.programList);
   }
 
   public async onSearchData() {
-    this.programList = this.mapProject((await this.programService.getallproject().toPromise()).data)
-    Array.prototype.push.apply(this.programList, (await this.programService.getallpurchase().toPromise()).data)
+    this.programList = this.mapProject((await this.programService.getallproject().toPromise()).data);
+    Array.prototype.push.apply(this.programList, (await this.programService.getallpurchase().toPromise()).data);
     if (this.inputSearch != '') {
       this.programList = this.programList.filter(project => {
         return project.CorporationName.includes(this.inputSearch) ||
           project.ProjectName.includes(this.inputSearch) ||
           project.FristNameTh.includes(this.inputSearch) ||
-          project.LastNameTh.includes(this.inputSearch)
+          project.LastNameTh.includes(this.inputSearch);
       });
     }
   }
