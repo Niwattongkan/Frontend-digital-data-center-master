@@ -4,6 +4,7 @@ import { PersonsService } from '../../shared/services/persons.service';
 import { OrganizationService } from '../../shared/services/organization.service';
 import { ProgramService } from '../../shared/services/program.service';
 import { NgxSpinnerService } from "ngx-spinner";
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -54,14 +55,13 @@ export class HomeComponent implements OnInit {
   public mapPerson(personList) {
     personList.map(async data => {
       data.PersonAddress = [];
-
       const title = data.TitleNameTh == 1 ? 'นาย' : data.TitleNameTh == 2 ? 'นางสาว' : 'นาง';
-      let titleOrther = await data.TitleNameOther != '' && data.TitleNameOther != null ? data.TitleNameOther : title
+      const titleOrther = await data.TitleNameOther != '' && data.TitleNameOther != null ? data.TitleNameOther : title;
       const first = data.FristNameTh;
       const last = data.LastNameTh;
 
       const titleEn = data.TitleNameEn == 1 ? 'Mr.' : data.TitleNameEn == 2 ? 'Mrs.' : 'Miss.';
-      let titleOrtherEn = await data.TitleNameOther != '' && data.TitleNameOther != null ? data.TitleNameOther : titleEn
+      const titleOrtherEn = await data.TitleNameOther != '' && data.TitleNameOther != null ? data.TitleNameOther : titleEn;
 
       const firstEn = data.FristNameEn;
       const lastEn = data.LastNameEn;
@@ -122,20 +122,28 @@ export class HomeComponent implements OnInit {
 
   public async onSearchData() {
     this.spinner.show();
+    const options = {
+      keys: [{
+        name: '',
+      }, {
+        name: 'author',
+      }]
+    };
     if (this.typeCheck[0].status == true) {
       this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data);
+
       this.listStatus = 0;
       if (this.inputSearch != '') {
-        this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data)
+        this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data);
 
         const seachPerson = this.personList.filter(person => {
           return (String(person.FristNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
             (String(person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
-            (String(person.Contact)).includes(this.inputSearch)
+            (String(person.Contact)).includes(this.inputSearch);
         });
-
         this.personList = seachPerson.length > 0 ? seachPerson : await this.mapPerson((await this.personsService.getsearchpersoncontact(this.inputSearch).toPromise()).data)
         this.spinner.hide()
+
       }
       this.spinner.hide()
     } else if (this.typeCheck[1].status == true) {

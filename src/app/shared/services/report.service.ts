@@ -46,15 +46,23 @@ export class ReportService {
 
   getreportboard(data): Observable<any> {
     const params = new URLSearchParams();
-    params.append('Name', data.Name);
-    params.append('BoardName', data.BoardName != '' ? data.BoardName : 'value');
+    if (data.name != '' ||  data.BoardName != '') {
+      params.append('Name', data.Name);
+      params.append('BoardName', data.BoardName != '' ? data.BoardName : 'value');
+    } else if (data.name != '' || data.BoardName == '') {
+      params.append('Name', data.Name);
+      params.append('BoardName', data.BoardName != '' ? data.BoardName : '');
+    } else {
+      params.append('Name', data.Name);
+      params.append('BoardName', data.BoardName != '' ? data.BoardName : 'value');
+    }
     return this.apiService.get(`getreportboard?` + params.toString());
   }
 
   getreportuserlog(data): Observable<any> {
     const params = new URLSearchParams();
     params.append('Name', data.Name);
-    params.append('UpdateMenu', data.Status ? data.Status : 'บุคคล')
+    params.append('UpdateMenu', data.Status ? data.Status : 'บุคคล');
     params.append('StrDate', data.StartDate);
     params.append('EndDate', data.EndDate);
     return this.apiService.get(`getreportuserlog?` + params.toString());
@@ -62,10 +70,10 @@ export class ReportService {
 
   getreportnote(data): Observable<any> {
     const params = new URLSearchParams();
-      params.append('CreateBy', data.CreateBy ? data.CreateBy : '');
-      params.append('NoteName' , data.NoteName ? data.NoteName : '');
-      params.append('StrDate', data.StartDate);
-      params.append('EndDate', data.EndDate);
+    params.append('CreateBy', data.CreateBy ? data.CreateBy : '');
+    params.append('NoteName', data.NoteName ? data.NoteName : '');
+    params.append('StrDate', data.StartDate);
+    params.append('EndDate', data.EndDate);
     return this.apiService.get(`getreportnote?` + params.toString());
   }
 

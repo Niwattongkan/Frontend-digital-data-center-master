@@ -11,17 +11,17 @@ export class OrganizationService {
   ) { }
 
   setFormData(data) {
-    var formData = new FormData();
-    let key = Object.keys(data);
+    const formData = new FormData();
+    const key = Object.keys(data);
     for (let index = 0; index < key.length; index++) {
-      formData.append(key[index], (data[key[index]]) + "");
+      formData.append(key[index], (data[key[index]]) + '');
     }
-    formData.append("CreateBy", `${1}`);
-    formData.append("UpdateBy", `${1}`);
-    formData.append("Channel", "xxx");
-    formData.append("Verify", `${1}`);
-    formData.append("IsActive", `${1}`);
-    return formData
+    formData.append('CreateBy', `${1}`);
+    formData.append('UpdateBy', `${1}`);
+    formData.append('Channel', 'xxx');
+    formData.append('Verify', `${1}`);
+    formData.append('IsActive', `${1}`);
+    return formData;
   }
 
   getserchcorporationaddress(id): Observable<any> {
@@ -60,41 +60,42 @@ export class OrganizationService {
     return this.apiService.get(`getcorporationcontact?corporationid=${id}`);
   }
 
+
   insertCorporation(data): Observable<any> {
-    let formData = this.setFormData(data)
+    const formData = this.setFormData(data);
     return this.apiService.post(`insertcorporation`, formData);
   }
 
   insertCorporationContact(data): Observable<any> {
-    let formData = this.setFormData(data)
+    const formData = this.setFormData(data);
     return this.apiService.post(`insertcorporationcontact`, formData);
   }
 
   insertcoordinatorcantact(data): Observable<any> {
-    let formData = this.setFormData(data)
+    const formData = this.setFormData(data);
     return this.apiService.post(`insertcoordinatorcantact`, formData);
   }
 
   insertCorporationAddress(data): Observable<any> {
-    let formData = this.setFormData(data)
+    const formData = this.setFormData(data);
     return this.apiService.post(`insertcorporationaddress`, formData);
   }
 
   updatecorporation(data): Observable<any> {
-    let formData = this.setFormData(data)
+    const formData = this.setFormData(data);
     return this.apiService.put(`updatecorporation`, formData);
   }
 
   updateCorporationContact(data): Observable<any> {
-    let formData = this.setFormData(data)
+    const formData = this.setFormData(data);
     return this.apiService.put(`updatecorporationcontact`, formData);
   }
 
   updateCorporationAddress(data): Observable<any> {
-    let formData = this.setFormData(data)
+    const formData = this.setFormData(data);
     return this.apiService.put(`updatecorporationaddress`, formData);
   }
-  
+
   deleteCorporation(id): Observable<any> {
     return this.apiService.put(`deletecorporation?IsActive=0&CorporationId=${id}`);
   }

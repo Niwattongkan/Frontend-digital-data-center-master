@@ -68,6 +68,7 @@ export class CardOrganizationComponent implements OnInit {
     const Province = value.Province != '' ? 'จังหวัด ' + value.Province + ' ' : '';
     const Subdistrict = value.Subdistrict != '' ? 'ตำบล/แขวง ' + value.Subdistrict + ' ' : '';
     const District = value.District != '' ? 'อำเภอ/เขต ' + value.District + ' ' : '';
-    return Building + Floor + Room + HouseNumber + Road + Soi + Province + District + Subdistrict;
+    const Zipcode = value.Zipcode != '' ?  'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+    return Building + Floor + Room + HouseNumber + Road + Soi + Province + District + Subdistrict + Zipcode;
   }
 }

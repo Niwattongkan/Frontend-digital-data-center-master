@@ -236,7 +236,7 @@
       </div>
     </div>
 
-    <div class="row mb-3">
+    <div class="row mb-3" *ngIf="projectPerson">
       <div class="col-md">
         <div class="card shadow">
           <div class="card-header">
@@ -251,10 +251,12 @@
           </div>
           <div class="card-body">
             <div class="row px-5 mb-3">
-              <div class="col-md-6">
+              <div class="col-md-6" *ngIf="programContactForm.ContactNumber">
                 <div class="row form-group">
                   <label class="text-orange">เบอร์โทร:</label>
-                  <label class="col-md-6"></label>
+                  <label class="col-md-6">
+                    <p *ngFor="let data of programContactForm.ContactNumber">{{data}}</p>
+                  </label>
                 </div>
               </div>
               <div class="col-md-6">

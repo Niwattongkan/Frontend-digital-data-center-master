@@ -61,10 +61,17 @@ export class CardPersonComponent implements OnInit {
     const Road = value.Road ? 'ถนน ' + value.Road + ' ' : '';
     const Soi = value.Soi ? 'ซอย ' + value.Soi + ' ' : '';
     const Province = value.Province != '' ? 'จังหวัด ' + value.Province + ' ' : '';
-    const Subdistrict = value.Subdistrict != '' ? 'ตำบล/แขวง ' + value.Subdistrict + ' ' : '';
-    const District = value.District != '' ? 'อำเภอ/เขต ' + value.District + ' ' : '';
-    const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
-    return Building + Floor + Room + HouseNumber + Road + Soi + Province + District + Subdistrict + Zipcode;
+    if (value.Province == 'กรุงเทพมหานคร') {
+      const Subdistrict = value.Subdistrict != '' ? 'แขวง ' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? 'เขต ' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  + Zipcode;
+    } else {
+      const Subdistrict = value.Subdistrict != '' ? 'ตำบล ' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? 'อำเภอ ' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  + Zipcode;
+    }
   }
 
 }
