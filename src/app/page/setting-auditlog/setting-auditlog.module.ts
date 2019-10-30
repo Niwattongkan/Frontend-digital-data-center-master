@@ -6,12 +6,14 @@ import { SettingAuditlogComponent } from './setting-auditlog.component';
 
 import { AuthlogService } from '../../shared/services/authlog.service';
 import { PersonsService } from '../../shared/services/persons.service';
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
   declarations: [SettingAuditlogComponent],
   imports: [
     SharedModule,
-    RoutingModule
+    RoutingModule,
+    NgxSpinnerModule
   ],
   providers: [
     AuthlogService,

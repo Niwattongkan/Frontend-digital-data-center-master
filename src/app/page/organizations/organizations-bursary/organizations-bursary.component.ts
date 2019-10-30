@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import {NgxSpinnerService} from "ngx-spinner";
 
 import { OrganizationService } from '../../../shared/services/organization.service';
 
@@ -14,10 +15,11 @@ export class OrganizationsBursaryComponent implements OnInit {
 
   public bursariesPerson: any = [];
   public page: any;
-  
+
   public stepList: any = [];
 
   constructor(
+    private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private organizationService: OrganizationService
   ) {
@@ -26,7 +28,10 @@ export class OrganizationsBursaryComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.bursariesPerson = (await this.organizationService.getCorporationProject(this.organizationId).toPromise()).data
+    this.spinner.hide();
+
   }
 
   private setMenubar() {

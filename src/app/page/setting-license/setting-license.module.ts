@@ -8,11 +8,13 @@ import { LicenseModalComponent } from './license-modal/license-modal.component';
 import { BoardService } from '../../shared/services/board.service';
 import { PersonsService } from '../../shared/services/persons.service';
 import { PermissionsService } from '../../shared/services/permission.service';
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
   imports: [
     SharedModule,
-    RoutingModule
+    RoutingModule,
+    NgxSpinnerModule
   ],
   declarations: [
     SettingLicenseComponent,

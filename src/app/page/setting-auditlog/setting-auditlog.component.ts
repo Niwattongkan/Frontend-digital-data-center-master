@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthlogService } from '../../shared/services/authlog.service';
 import { PersonsService } from '../../shared/services/persons.service';
-
+import { NgxSpinnerService } from "ngx-spinner";
 import { mapPersons, createdNamePersons } from '../../shared/library/mapList';
 @Component({
   selector: 'app-setting-auditlog',
@@ -39,14 +39,16 @@ export class SettingAuditlogComponent implements OnInit {
   public headers: any = ['วันเวลาที่แก้ไข', 'เมนู', 'ส่วนที่แก้ไข', 'ข้อมูลเดิม', 'แก้ไขเป็น', 'ผู้แก้ไข'];
 
   constructor(
+    private spinner: NgxSpinnerService,
     private authlogService: AuthlogService,
     private personsService: PersonsService
   ) { }
 
   async ngOnInit() {
+    this.spinner.show();
     this.personList = (await this.personsService.getperson().toPromise()).data
     this.authloglist = (await this.authlogService.getauditlog().toPromise()).data
-    console.log(this.authloglist)
+    this.spinner.hide()
   }
 
   public createdUser(cretedBy) {
@@ -54,6 +56,7 @@ export class SettingAuditlogComponent implements OnInit {
   }
 
   public async onSearchData() {
+    this.spinner.show();
     this.authloglist = (await this.authlogService.getauditlog().toPromise()).data
     if (this.searchData != '') {
       let result = this.authloglist.filter(loging => {
@@ -64,8 +67,9 @@ export class SettingAuditlogComponent implements OnInit {
           (String(loging.UpdateField).toLocaleLowerCase()).includes(this.searchData.toLocaleLowerCase())
       })
       this.authloglist = result
+      this.spinner.hide()
     }
-
+    this.spinner.hide()
   }
 
   // private async getAllEditlog() {

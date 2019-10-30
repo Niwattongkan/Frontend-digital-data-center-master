@@ -4,6 +4,7 @@ import { IMyOptions } from "mydatepicker-th";
 import { ExcelService } from "../../shared/services/excel.service";
 import { ReportService } from "../../shared/services/report.service";
 import { PdfService } from "../../shared/services/pdf.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 import * as jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -28,6 +29,7 @@ export class ReportSearchingPersonalComponent implements OnInit {
   };
 
   constructor(
+    private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
     private reportService: ReportService,
     private excelService: ExcelService,
@@ -37,10 +39,12 @@ export class ReportSearchingPersonalComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     const result = (await this.reportService
       .getreportperson(this.searchform.value)
       .toPromise()).data;
     this.reportList = mapPersons(result);
+    this.spinner.hide();
   }
 
   public showAddress(value) {
@@ -75,10 +79,12 @@ export class ReportSearchingPersonalComponent implements OnInit {
   }
 
   public async searchReport() {
+    this.spinner.show();
     const result = (await this.reportService
       .getreportperson(this.searchform.value)
       .toPromise()).data;
     this.reportList = mapPersons(result);
+    this.spinner.hide();
   }
 
   public setSerachForm() {
@@ -97,6 +103,7 @@ export class ReportSearchingPersonalComponent implements OnInit {
   }
 
   public exportExcel(data) {
+    this.spinner.show();
     const exportGroup = [];
     data.forEach(element => {
       exportGroup.push({
@@ -110,10 +117,11 @@ export class ReportSearchingPersonalComponent implements OnInit {
       exportGroup,
       "report-personal"
     );
+    this.spinner.hide();
   }
 
   public exportPDF(data) {
-    //console.log(data);
+    this.spinner.show();
     let exportGroup = [];
     data.forEach(element => {
       // element.ContactGroupId = value.ContactGroupId;
@@ -142,5 +150,7 @@ export class ReportSearchingPersonalComponent implements OnInit {
       body: exportGroup
     });
     doc.save("report-personal.pdf");
+    this.spinner.hide();
   }
+
 }

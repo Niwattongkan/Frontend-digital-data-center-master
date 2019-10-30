@@ -5,6 +5,7 @@ import { PermissionsService } from '../../shared/services/permission.service';
 import { mapPersons, createdNamePersons } from '../../shared/library/mapList';
 
 import { alertEvent, alertDeleteEvent } from '../../shared/library/alert';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-setting-license',
@@ -20,15 +21,18 @@ export class SettingLicenseComponent implements OnInit {
   public page: number;
 
   constructor(
+    private spinner: NgxSpinnerService,
     private modalService: NgbModal,
     private permissionService: PermissionsService
   ) { }
 
   async ngOnInit() {
+    this.spinner.show();
     this.roleList = (await this.permissionService.getallpermission().toPromise()).data || [];
     this.roleList.map(async element => {
       element.Persons = await this.mapRole(element.PermissionId);
     });
+    this.spinner.hide()
   }
 
   public openModal(content, size) {
@@ -41,6 +45,7 @@ export class SettingLicenseComponent implements OnInit {
   }
 
   async onSearchData() {
+    this.spinner.show();
     this.roleList = (await this.permissionService.getallpermission().toPromise()).data || [];
     this.roleList.map(async element => {
       element.Persons = await this.mapRole(element.PermissionId);
@@ -53,7 +58,9 @@ export class SettingLicenseComponent implements OnInit {
           (String(data.FullnameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase());
       });
       this.roleList = searchData;
+      this.spinner.hide()
     }
+    this.spinner.hide()
   }
   public delete(id) {
     return alertDeleteEvent().then(async confirm => {

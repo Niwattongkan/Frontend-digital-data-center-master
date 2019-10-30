@@ -7,6 +7,7 @@ import { ExcelService } from "../../shared/services/excel.service";
 import { mapPersons } from '../../shared/library/mapList';
 import { PdfService } from "../../shared/services/pdf.service";
 import * as moment from 'moment';
+import { NgxSpinnerService } from "ngx-spinner";
 
 import * as jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -55,6 +56,7 @@ export class ReportUsingComponent implements OnInit {
   };
 
   constructor(
+    private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
     private reportService: ReportService,
     private excelService: ExcelService,
@@ -63,10 +65,13 @@ export class ReportUsingComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show()
     this.searchform = this.setSerachForm();
+    this.spinner.hide()
   }
 
   public async searchReport() {
+    this.spinner.show()
     const data = this.searchform.value;
 
     if (data.StartDate !== null) {
@@ -92,6 +97,7 @@ export class ReportUsingComponent implements OnInit {
 
     this.xAxisLabel = 'วันที่';
     this.yAxisLabel = 'ผู้มาใช้ระบบ';
+    this.spinner.hide()
   }
 
   public setSerachForm() {

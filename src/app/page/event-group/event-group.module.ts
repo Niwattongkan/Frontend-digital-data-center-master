@@ -11,11 +11,13 @@ import { CopyGroupModalComponent } from './copy-group-modal/copy-group-modal.com
 
 import { PersonsService } from '../../shared/services/persons.service';
 import { ExcelService } from '../../shared/services/excel.service';
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
   imports: [
     SharedModule,
-    RoutingModule
+    RoutingModule,
+    NgxSpinnerModule
   ],
   declarations: [
     EventGroupComponent,

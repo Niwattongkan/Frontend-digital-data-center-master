@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import Stepper from 'bs-stepper';
+import {NgxSpinnerService} from "ngx-spinner";
 
 import { OrganizationService } from '../../shared/services/organization.service';
 import { DropdownService } from '../../shared/services/dropdown.service';
@@ -47,6 +48,7 @@ export class InsertOrganizationsComponent implements OnInit {
   private stepper: Stepper;
 
   constructor(
+    private spinner: NgxSpinnerService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private modalService: NgbModal,
@@ -64,6 +66,7 @@ export class InsertOrganizationsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.province = (await this.dropdownService
       .getProvinceAll()
       .toPromise()).data;
@@ -118,6 +121,7 @@ export class InsertOrganizationsComponent implements OnInit {
     this.addressContactForm
       .get('District')
       .valueChanges.subscribe(value => this.showSubdistrictContact(value));
+    this.spinner.hide();
   }
 
   public setLocation(address) {

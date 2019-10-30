@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IMyOptions } from 'mydatepicker-th';
 // import * as moment from "moment";
+import { NgxSpinnerService } from "ngx-spinner";
 
 import { ReportService } from '../../shared/services/report.service';
 import { ExcelService } from '../../shared/services/excel.service';
@@ -28,6 +29,7 @@ export class ReportNoteComponent implements OnInit {
   };
 
   constructor(
+    private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
     private reportService: ReportService,
     private excelService: ExcelService,
@@ -37,8 +39,8 @@ export class ReportNoteComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     const data = this.searchform.value;
-
     if (data.StartDate !== null) {
       data.StartDate = this.setDate(data.StartDate.date);
     } else {
@@ -53,6 +55,7 @@ export class ReportNoteComponent implements OnInit {
     const result = (await this.reportService.getreportnote(data).toPromise())
       .data;
     this.reportList = mapPersons(result);
+    this.spinner.hide();
   }
 
   public showAddress(value) {
@@ -87,6 +90,7 @@ export class ReportNoteComponent implements OnInit {
   }
 
   public async searchReport() {
+    this.spinner.show();
     const data = this.searchform.value;
     console.log(data);
     if (data.StartDate !== null) {
@@ -103,7 +107,7 @@ export class ReportNoteComponent implements OnInit {
     const result = (await this.reportService.getreportnote(data).toPromise())
       .data;
     this.reportList = mapPersons(result);
-    console.log(this.reportList.FullnameTh);
+    this.spinner.hide();
   }
 
   public setSerachForm() {

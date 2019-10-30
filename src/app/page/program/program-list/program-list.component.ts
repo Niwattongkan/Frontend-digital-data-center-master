@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProgramService } from '../../../shared/services/program.service';
 import { OrganizationService } from '../../../shared/services/organization.service';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-program-list',
@@ -13,6 +14,7 @@ export class ProgramListComponent implements OnInit {
   public inputSearch = ''
 
   constructor(
+    private spinner: NgxSpinnerService,
     private programService: ProgramService,
     private organizationService: OrganizationService,
   ) { }
@@ -30,12 +32,14 @@ export class ProgramListComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.programList = this.mapProject((await this.programService.getallproject().toPromise()).data)
     Array.prototype.push.apply(this.programList, this.mapProject((await this.programService.getallpurchase().toPromise()).data))
-    console.log(this.programList)
+    this.spinner.hide()
   }
 
   public async onSearchData() {
+    this.spinner.show();
     this.programList = this.mapProject((await this.programService.getallproject().toPromise()).data)
     Array.prototype.push.apply(this.programList, (await this.programService.getallpurchase().toPromise()).data)
     if (this.inputSearch != '') {
@@ -45,6 +49,7 @@ export class ProgramListComponent implements OnInit {
           project.FristNameTh.includes(this.inputSearch) ||
           project.LastNameTh.includes(this.inputSearch)
       });
+      this.spinner.hide()
     }
   }
 }

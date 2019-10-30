@@ -13,12 +13,14 @@ import { OrganizationsDetailContactComponent } from './organizations-detail/orga
 import { OrganizationsDetailAddressComponent } from './organizations-detail/organizations-detail-address/organizations-detail-address.component';
 
 import { OrganizationService } from '../../shared/services/organization.service';
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
 
   imports: [
     SharedModule,
-    RoutingModule
+    RoutingModule,
+    NgxSpinnerModule
   ],
   declarations: [
     OrganizationsComponent,

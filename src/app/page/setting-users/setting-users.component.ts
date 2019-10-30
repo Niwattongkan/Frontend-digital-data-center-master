@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { alertEvent, alertDeleteEvent } from '../../shared/library/alert';
-import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import {Component, OnInit} from '@angular/core';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {alertEvent, alertDeleteEvent} from '../../shared/library/alert';
+import {NgxSpinnerService} from "ngx-spinner";
+import {GroupUserService} from '../../shared/services/group-user.service';
+import {AuthlogService} from '../../shared/services/authlog.service';
 
-import { GroupUserService } from '../../shared/services/group-user.service';
-import { AuthlogService } from '../../shared/services/authlog.service';
-
-import { mapPersons, createdNamePersons } from '../../shared/library/mapList';
+import {mapPersons, createdNamePersons} from '../../shared/library/mapList';
 
 @Component({
   selector: 'app-setting-users',
@@ -22,20 +21,21 @@ export class SettingUsersComponent implements OnInit {
   public inputSearch = '';
 
   constructor(
-    private spinnerService: Ng4LoadingSpinnerService,
+    private spinner: NgxSpinnerService,
     private modalService: NgbModal,
     private groupUserService: GroupUserService,
     private authlogService: AuthlogService
-  ) { }
+  ) {
+  }
 
   async ngOnInit() {
-    this.spinnerService.show();
+    this.spinner.show()
     this.groupUsersList = mapPersons((await this.groupUserService.getallgroupuser().toPromise()).data);
-    this.spinnerService.hide();
+    this.spinner.hide()
   }
 
   async onSearchData() {
-    this.spinnerService.show();
+    this.spinner.show()
     this.groupUsersList = mapPersons((await this.groupUserService.getallgroupuser().toPromise()).data);
     if (this.inputSearch != '') {
       this.groupUsersList = this.groupUsersList.filter(group => {
@@ -43,8 +43,9 @@ export class SettingUsersComponent implements OnInit {
           (String(group.GroupUserName).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
           (String(group.BoardName).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase());
       });
+      this.spinner.hide()
     }
-    this.spinnerService.hide();
+    this.spinner.hide()
     return this.page = 1;
   }
 
@@ -74,11 +75,11 @@ export class SettingUsersComponent implements OnInit {
   }
 
   public openModal(content, size) {
-    this.modalService.open(content, { size: size });
+    this.modalService.open(content, {size: size});
   }
 
   public async insertGroupUser(data) {
-    const result = (await this.groupUserService.insertgroupuser({ GroupUserName: data.GroupUserName }).toPromise()).data[0];
+    const result = (await this.groupUserService.insertgroupuser({GroupUserName: data.GroupUserName}).toPromise()).data[0];
 
     for (let index = 0; index < data.Person.length; index++) {
       const model = {

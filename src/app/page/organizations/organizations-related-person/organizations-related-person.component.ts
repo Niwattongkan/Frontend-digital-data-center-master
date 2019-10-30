@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
+import {NgxSpinnerService} from "ngx-spinner";
 import { OrganizationService } from '../../../shared/services/organization.service';
 
 import { mapPersons, createdNamePersons } from '../../../shared/library/mapList';
@@ -17,10 +17,11 @@ export class OrganizationsRelatedPersonComponent implements OnInit {
 
   public bursariesPerson: any = [];
   public page: Number;
-  
+
   public stepList: any = [];
 
   constructor(
+    private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private organizationService: OrganizationService
   ) {
@@ -29,13 +30,15 @@ export class OrganizationsRelatedPersonComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.bursariesPerson = await mapPersons((await this.organizationService.getCorporationPerson(this.organizationId).toPromise()).data)
+    this.spinner.hide();
   }
 
   datFormate(data) {
     return "ตั้งแต่ " + data.StartMonth + " ถึง " + data.EndMonth
   }
-  
+
   private setMenubar() {
     this.stepList = [
       { icon: "", stepName: "ข้อมูลองค์กร", path: "/organizations/detail/" + this.organizationId },

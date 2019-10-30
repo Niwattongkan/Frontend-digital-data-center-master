@@ -7,12 +7,14 @@ import { PermissionModalComponent } from './permission-modal/permission-modal.co
 
 import { BoardService } from '../../shared/services/board.service';
 import { PersonsService } from '../../shared/services/persons.service';
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
   declarations: [SettingPermissionComponent, PermissionModalComponent],
   imports: [
     SharedModule,
-    RoutingModule
+    RoutingModule,
+    NgxSpinnerModule
   ],
   providers: [
     BoardService,

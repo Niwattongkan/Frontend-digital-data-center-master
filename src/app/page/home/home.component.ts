@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { PersonsService } from '../../shared/services/persons.service';
 import { OrganizationService } from '../../shared/services/organization.service';
 import { ProgramService } from '../../shared/services/program.service';
-import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
+import { NgxSpinnerService } from "ngx-spinner";
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -27,16 +27,19 @@ export class HomeComponent implements OnInit {
   public inputSearch = '';
 
   constructor(
-    private spinnerService: Ng4LoadingSpinnerService,
+    private spinner: NgxSpinnerService,
     private personsService: PersonsService,
     private organizationService: OrganizationService,
     private programService: ProgramService,
+
   ) {
     this.typeCheck = this.setTypeCheck();
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.typeCheck = this.setTypeCheck();
+    this.spinner.hide();
   }
 
   public mapPersonAddress(persons) {
@@ -118,8 +121,7 @@ export class HomeComponent implements OnInit {
   }
 
   public async onSearchData() {
-    this.spinnerService.show();
-
+    this.spinner.show();
     if (this.typeCheck[0].status == true) {
       this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data);
       this.listStatus = 0;
@@ -133,7 +135,9 @@ export class HomeComponent implements OnInit {
         });
 
         this.personList = seachPerson.length > 0 ? seachPerson : await this.mapPerson((await this.personsService.getsearchpersoncontact(this.inputSearch).toPromise()).data)
+        this.spinner.hide()
       }
+      this.spinner.hide()
     } else if (this.typeCheck[1].status == true) {
       this.listStatus = 1;
       this.organizationList = this.mapCorperation((await this.organizationService.getOrganizationAll().toPromise()).data);
@@ -142,7 +146,9 @@ export class HomeComponent implements OnInit {
           return (String(corperation.CorporationName).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
             (String(corperation.TaxNo).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase());
         });
+        this.spinner.hide()
       }
+      this.spinner.hide()
     } else if (this.typeCheck[2].status == true) {
       this.listStatus = 2;
       this.programList = this.mapProject((await this.programService.getallproject().toPromise()).data);
@@ -155,8 +161,9 @@ export class HomeComponent implements OnInit {
             (String(project.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase());
         });
       }
+      this.spinner.hide()
     }
-    this.spinnerService.hide();
+    this.spinner.hide()
     return this.page = 1;
   }
 

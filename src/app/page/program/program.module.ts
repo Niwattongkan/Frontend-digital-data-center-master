@@ -7,11 +7,13 @@ import { ProgramListComponent } from './program-list/program-list.component';
 import { ProgramDetailComponent } from './program-detail/program-detail.component';
 
 import { ProgramService } from './../../shared/services/program.service';
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
   imports: [
     SharedModule,
-    RoutingModule
+    RoutingModule,
+    NgxSpinnerModule
   ],
   declarations: [
     ProgramComponent,

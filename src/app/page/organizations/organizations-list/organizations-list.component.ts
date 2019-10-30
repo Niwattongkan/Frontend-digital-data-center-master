@@ -1,9 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 
-import { OrganizationService } from "../../../shared/services/organization.service";
+import {OrganizationService} from "../../../shared/services/organization.service";
 
-import { alertDeleteEvent } from "../../../shared/library/alert";
+import {alertDeleteEvent} from "../../../shared/library/alert";
 import Swal from "sweetalert2";
+import {NgxSpinnerService} from "ngx-spinner";
 
 @Component({
   selector: "app-organizations-list",
@@ -14,12 +15,19 @@ export class OrganizationsListComponent implements OnInit {
   public page: Number;
   public organizationList: any = [];
   public inputSearch = "";
-  constructor(private organizationService: OrganizationService) {}
+
+  constructor(
+    private organizationService: OrganizationService,
+    private spinner: NgxSpinnerService,
+  ) {
+  }
 
   async ngOnInit() {
+    this.spinner.show();
     this.organizationList = this.mapCorperation(
       (await this.organizationService.getOrganizationAll().toPromise()).data
     );
+    this.spinner.hide();
   }
 
   public mapCorperation(corperationList) {
@@ -36,8 +44,8 @@ export class OrganizationsListComponent implements OnInit {
           .getCorporation(data.CorporationId)
           .toPromise()) != null
           ? (await this.organizationService
-              .getCorporation(data.CorporationId)
-              .toPromise()).data[0].CorporationName
+            .getCorporation(data.CorporationId)
+            .toPromise()).data[0].CorporationName
           : null;
       data.ParentName = ParentName;
       data.CorporationContactList = CorporationContact;
@@ -47,13 +55,6 @@ export class OrganizationsListComponent implements OnInit {
   }
 
   public async delete(data) {
-    // return alertDeleteEvent().then(async confirm => {
-    //   if (confirm.value) {
-    // await this.organizationService.deleteCorporation(data.CorporationId).toPromise()
-    // await this.organizationService.deleteCorporationAddress(data.CorporationAddressId).toPromise()
-    // await this.organizationService.deleteCorporationContact(data.CorporationContactId).toPromise()
-    // this.organizationList = this.mapCorperation((await this.organizationService.getOrganizationAll().toPromise()).data)
-
     Swal.fire({
       title: "",
       text: "คุณต้องการลบข้อมูลนี้หรือไม่",
@@ -77,12 +78,10 @@ export class OrganizationsListComponent implements OnInit {
         (await this.organizationService.getOrganizationAll().toPromise()).data
       );
     });
-
-    //   }
-    //  })
   }
 
   async onSearchData() {
+    this.spinner.show();
     this.organizationList = this.mapCorperation(
       (await this.organizationService.getOrganizationAll().toPromise()).data
     );
@@ -93,6 +92,7 @@ export class OrganizationsListComponent implements OnInit {
           corperation.TaxNo.includes(this.inputSearch)
         );
       });
+      this.spinner.hide()
     }
   }
 }

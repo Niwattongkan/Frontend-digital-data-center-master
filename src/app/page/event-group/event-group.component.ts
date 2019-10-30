@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {Component, OnInit} from '@angular/core';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgxSpinnerService} from "ngx-spinner";
 
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import * as cloneDeep from 'lodash/cloneDeep';
 
-import { ContactGroupService } from '../../shared/services/contact-group.service';
-import { PersonsService } from '../../shared/services/persons.service';
-import { ExcelService } from '../../shared/services/excel.service';
-import { AuthlogService } from '../../shared/services/authlog.service';
+import {ContactGroupService} from '../../shared/services/contact-group.service';
+import {PersonsService} from '../../shared/services/persons.service';
+import {ExcelService} from '../../shared/services/excel.service';
+import {AuthlogService} from '../../shared/services/authlog.service';
 
-import { mapPersons, createdNamePersons } from '../../shared/library/mapList';
-import { alertEvent, alertDeleteEvent } from '../../shared/library/alert';
+import {mapPersons, createdNamePersons} from '../../shared/library/mapList';
+import {alertEvent, alertDeleteEvent} from '../../shared/library/alert';
 
 @Component({
   selector: 'app-event-group',
@@ -31,23 +32,23 @@ export class EventGroupComponent implements OnInit {
   public page: number;
 
   constructor(
+    private spinner: NgxSpinnerService,
     private modalService: NgbModal,
     private contactGroupService: ContactGroupService,
     private personsService: PersonsService,
     private excelService: ExcelService,
     private authlogService: AuthlogService
-  ) { }
+  ) {
+  }
 
   async ngOnInit() {
+    this.spinner.show()
     this.personList = this.mapPersons((await this.personsService.getallperson().toPromise()).data)
     this.eventGroupList = this.groupData((await this.contactGroupService.getContactGroupAll().toPromise()).data)
-     await this.eventGroupList.map(async element => {
+    await this.eventGroupList.map(async element => {
       element.Person = await this.mapPersons(element.Person);
-     });
-
-
-    console.log(this.personList)
-    console.log(this.eventGroupList)
+    });
+    this.spinner.hide()
   }
 
   mapPersons(personList) {
@@ -60,7 +61,7 @@ export class EventGroupComponent implements OnInit {
       let firstEn = data.FristNameEn
       let lastEn = data.LastNameEn
       data.FullnameEn = firstEn && lastEn ? titleEn + firstEn + ' ' + lastEn : ''
-      // data.AddressPerson = this.showAddress(data) 
+      // data.AddressPerson = this.showAddress(data)
     });
     return personList
   }
@@ -70,6 +71,7 @@ export class EventGroupComponent implements OnInit {
   }
 
   async onSearchData() {
+    this.spinner.show()
     if (this.inputSearch != '') {
       this.eventGroupList = this.groupData((await this.contactGroupService.getContactGroupAll().toPromise()).data)
 
@@ -77,9 +79,12 @@ export class EventGroupComponent implements OnInit {
         return ((String(text.Person[0].GroupName)).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase())
       });
       this.eventGroupList = seachData.length > 0 ? seachData : []
+      this.spinner.hide()
     } else {
       this.eventGroupList = this.groupData((await this.contactGroupService.getContactGroupAll().toPromise()).data)
+      this.spinner.hide()
     }
+    this.spinner.hide()
     return this.page = 1
   }
 
@@ -116,7 +121,7 @@ export class EventGroupComponent implements OnInit {
   }
 
   public openModal(content, size) {
-    this.modalService.open(content, { size: size });
+    this.modalService.open(content, {size: size});
   }
 
   public groupData(data) {
@@ -126,7 +131,7 @@ export class EventGroupComponent implements OnInit {
       return obj;
     }, {});
     return Object.keys(groups).map(function (key) {
-      return { ContactGroupId: key, Person: groups[key] };
+      return {ContactGroupId: key, Person: groups[key]};
     });
   }
 
@@ -160,20 +165,21 @@ export class EventGroupComponent implements OnInit {
     var doc = new jsPDF('p', 'pt');
     doc.autoTable({
       columns: [
-        { header: 'ContactGroupId', dataKey: 'ContactGroupId' },
-        { header: 'AddressPerson', dataKey: 'AddressPerson' },
-        { header: 'FullnameTh', dataKey: 'FullnameTh' },
-        { header: 'CreateBy', dataKey: 'CreateBy' },
-        { header: 'CreateDate', dataKey: 'CreateDate' },
-        { header: 'UpdateBy', dataKey: 'UpdateBy' },
+        {header: 'ContactGroupId', dataKey: 'ContactGroupId'},
+        {header: 'AddressPerson', dataKey: 'AddressPerson'},
+        {header: 'FullnameTh', dataKey: 'FullnameTh'},
+        {header: 'CreateBy', dataKey: 'CreateBy'},
+        {header: 'CreateDate', dataKey: 'CreateDate'},
+        {header: 'UpdateBy', dataKey: 'UpdateBy'},
       ],
       body: exportGroup
     });
     doc.save('group-user.pdf');
   }
+
   public async insertGroup(value) {
 
-    let resultGroup = (await this.contactGroupService.insertcontactgroup({ GroupName: value.GroupName }).toPromise()).data[0]
+    let resultGroup = (await this.contactGroupService.insertcontactgroup({GroupName: value.GroupName}).toPromise()).data[0]
 
     value.Person.forEach(async element => {
       let model = {

@@ -6,6 +6,7 @@ import { ReportService } from '../../shared/services/report.service';
 import { PdfService } from "../../shared/services/pdf.service";
 import * as jsPDF from "jspdf";
 import "jspdf-autotable";
+import { NgxSpinnerService } from "ngx-spinner";
 
 import { mapPersons } from '../../shared/library/mapList';
 
@@ -31,6 +32,7 @@ export class ReportSearchingCorperationComponent implements OnInit {
   };
 
   constructor(
+    private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
     private reportService: ReportService,
     private excelService: ExcelService,
@@ -40,8 +42,10 @@ export class ReportSearchingCorperationComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     const result = (await this.reportService.getsearchcorporation().toPromise()).data;
     this.reportList = result ? mapPersons(result) : [];
+    this.spinner.hide();
   }
 
   public showAddress(value) {
@@ -61,12 +65,15 @@ export class ReportSearchingCorperationComponent implements OnInit {
 
 
   public async searchReport() {
+    this.spinner.show();
     const result = ((await this.reportService.getreportcorporation(this.searchform.value).toPromise()).data);
     this.reportList = result ? mapPersons(result) : [];
+    this.spinner.hide();
+
   }
 
   public exportExcel(data) {
-    console.log(data);
+    this.spinner.show();
     let exportGroup = [];
     data.forEach(element => {
       exportGroup.push({
@@ -80,8 +87,10 @@ export class ReportSearchingCorperationComponent implements OnInit {
       exportGroup,
       "report-corporation"
     );
+    this.spinner.hide();
   }
   public exportPDF(data) {
+    this.spinner.show();
     let exportGroup = [];
     data.forEach(element => {
       exportGroup.push({
@@ -109,6 +118,7 @@ export class ReportSearchingCorperationComponent implements OnInit {
       body: exportGroup
     });
     doc.save("report-corporation.pdf");
+    this.spinner.hide();
   }
 
   public setSerachForm() {

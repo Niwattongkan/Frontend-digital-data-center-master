@@ -3,10 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { PersonsService } from '../../../shared/services/persons.service';
-import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 import { mapPersons, createdNamePersons } from '../../../shared/library/mapList';
 import { alertEvent, alertDeleteEvent } from '../../../shared/library/alert';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'persons-detail',
@@ -34,8 +34,8 @@ export class PersonsDetailComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private personsService: PersonsService,
-    private spinnerService: Ng4LoadingSpinnerService,
     private modalService: NgbModal,
+    private spinner: NgxSpinnerService
   ) {
     this.personId = this.activatedRoute.snapshot.paramMap.get('id');
     this.setTabbar()
@@ -43,11 +43,12 @@ export class PersonsDetailComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.spinnerService.show();
 
+    this.spinner.show();
     this.detailPerson = this.personId ? await mapPersons((await this.personsService.getDetailById(this.personId).toPromise()).data)[0] : null
     if (this.detailPerson.length == 0) {
       alertEvent('ไม่พบข้อมูลบุคคุลนี้', 'warning')
+      this.spinner.hide()
       return this.router.navigate(['/persons']);
     }
 
@@ -59,8 +60,8 @@ export class PersonsDetailComponent implements OnInit {
     this.account = await this.setAccount()
     this.position = await this.setPosition(this.detailPerson)
     this.address = await this.setAddress()
+    this.spinner.hide()
 
-    this.spinnerService.hide();
   }
 
   public async deletePersonal(event) {

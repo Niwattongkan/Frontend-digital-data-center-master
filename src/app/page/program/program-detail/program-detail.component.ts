@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from "ngx-spinner";
 
 import { ProgramService } from '../../../shared/services/program.service';
 import { OrganizationService } from '../../../shared/services/organization.service';
@@ -27,6 +28,7 @@ export class ProgramDetailComponent implements OnInit {
   public purchaseProjectManageraddress: any = {};
 
   constructor(
+    private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private programService: ProgramService,
     private organizationService: OrganizationService
@@ -45,6 +47,7 @@ export class ProgramDetailComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.corpatationList = (await this.organizationService.getCorporationAll().toPromise()).data;
     const resultProgram = this.programId ? (await this.programService.getDetailProject(this.programId).toPromise()).data : {};
     const resultPurchase = this.purchaseId ? (await this.programService.getDetailPurchase(this.purchaseId).toPromise()).data : {};
@@ -59,7 +62,7 @@ export class ProgramDetailComponent implements OnInit {
     this.programAddress = await this.setAddress();
     this.projectPersonContact = await this.projectPersonContact(check);
     this.programContactManagerForm = await this.setContactManager(this.program);
-
+    this.spinner.hide()
   }
 
   private async setAddress() {

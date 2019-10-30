@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { PersonsService } from '../../../shared/services/persons.service';
-import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 
 import { alertEvent, alertDeleteEvent } from '../../../shared/library/alert';
-
+import { NgxSpinnerService } from "ngx-spinner";
 @Component({
   selector: 'app-persons-list',
   templateUrl: './persons-list.component.html',
@@ -18,15 +17,18 @@ export class PersonsListComponent implements OnInit {
   public inputSearch = ''
 
   constructor(
-    private spinnerService: Ng4LoadingSpinnerService,
     private personsService: PersonsService,
+    private spinner: NgxSpinnerService
   ) { }
 
   async ngOnInit() {
-    this.spinnerService.show();
-    this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data)
+    this.spinner.show();
+    setTimeout(() => {
+      /** spinner ends after 5 seconds */
+      this.spinner.hide();
+    }, this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data))
     this.tempPersonList = this.personList
-    this.spinnerService.hide();
+
   }
 
   public async  mapPerson(personList) {
@@ -57,7 +59,7 @@ export class PersonsListComponent implements OnInit {
   }
 
   async onSearchData() {
-    this.spinnerService.show();
+    this.spinner.show();
     if (this.inputSearch != '') {
       this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data)
 
@@ -67,20 +69,22 @@ export class PersonsListComponent implements OnInit {
           (String(person.Contact)).includes(this.inputSearch)
       });
       this.personList = seachPerson.length > 0 ? seachPerson : await this.mapPerson((await this.personsService.getsearchpersoncontact(this.inputSearch).toPromise()).data)
+      this.spinner.hide()
     } else {
       this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data)
+      this.spinner.hide()
     }
-    this.spinnerService.hide();
+
     return this.page = 1
   }
 
   public async delete(id) {
     return alertDeleteEvent().then(async confirm => {
       if (confirm.value) {
-        this.spinnerService.show();
+
         await this.personsService.deletePersonById(id).toPromise()
         this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data)
-        this.spinnerService.hide();
+
         return alertEvent("ลบข้อมูลสำเร็จ", "success")
       }
     })

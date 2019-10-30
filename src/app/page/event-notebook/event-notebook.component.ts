@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {Component, OnInit} from '@angular/core';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import { NoteService } from '../../shared/services/note.service';
-import { PersonsService } from '../../shared/services/persons.service';
-import { AuthlogService } from '../../shared/services/authlog.service';
+import {NoteService} from '../../shared/services/note.service';
+import {PersonsService} from '../../shared/services/persons.service';
+import {AuthlogService} from '../../shared/services/authlog.service';
+import {NgxSpinnerService} from "ngx-spinner";
+import {alertEvent, alertDeleteEvent} from '../../shared/library/alert';
+import {mapPersons, createdNamePersons} from '../../shared/library/mapList';
 
-import { alertEvent, alertDeleteEvent } from '../../shared/library/alert';
-import { mapPersons, createdNamePersons } from '../../shared/library/mapList';
 @Component({
   selector: 'app-event-notebook',
   templateUrl: './event-notebook.component.html',
@@ -23,39 +24,47 @@ export class EventNotebookComponent implements OnInit {
   public headers: any = ['บุคคล', 'ชื่อบันทึก', 'รายละเอียด', 'ผู้สร้าง', 'วันที่สร้าง', 'เรียกดู', 'เครื่องมือ'];
 
   constructor(
+    private spinner: NgxSpinnerService,
     private modalService: NgbModal,
     private noteService: NoteService,
     private personsService: PersonsService,
     private authlogService: AuthlogService
-  ) { }
+  ) {
+  }
 
   async ngOnInit() {
+    this.spinner.show()
     this.personList = await mapPersons((await this.personsService.getallperson().toPromise()).data)
     this.noteList = await mapPersons((await this.noteService.getNoteAll().toPromise()).data)
+    this.spinner.hide()
   }
 
   public findPersonDetail(id) {
-
+    this.spinner.show()
     let result = this.personList.find(person => {
       return person.PersonId == id;
     })
-
+    this.spinner.hide()
     return result ? result.FullnameTh : '-'
   }
 
   public async insertNote(value) {
+    this.spinner.show()
     await this.noteService.insertNote(value).toPromise()
     this.noteList = await mapPersons((await this.noteService.getNoteAll().toPromise()).data)
+    this.spinner.hide()
   }
 
   public async updateNote(value) {
+    this.spinner.show()
     await this.noteService.updateNote(value).toPromise()
     await this.updateLog(value)
     this.noteList = await mapPersons((await this.noteService.getNoteAll().toPromise()).data)
+    this.spinner.hide()
   }
 
   public async updateShareNote(value) {
-    console.log(value)
+    this.spinner.show()
     let model = {
       StartDate: this.setDate(value.StartDate.date),
       EndDate: this.setDate(value.EndDate.date),
@@ -73,6 +82,7 @@ export class EventNotebookComponent implements OnInit {
       }
       await this.noteService.insertdetailShareNote(share).toPromise()
     }
+    this.spinner.hide()
   }
 
   async updateLog(note) {
@@ -91,10 +101,11 @@ export class EventNotebookComponent implements OnInit {
   }
 
   public openModal(content, size) {
-    this.modalService.open(content, { size: size });
+    this.modalService.open(content, {size: size});
   }
 
   public async onSearchData() {
+    this.spinner.show()
     this.noteList = await mapPersons((await this.noteService.getNoteAll().toPromise()).data)
     if (this.inputSearch != '') {
       this.noteList = this.noteList.filter(data => {
@@ -102,7 +113,9 @@ export class EventNotebookComponent implements OnInit {
           data.FristNameTh.includes(this.inputSearch) ||
           data.LastNameTh.includes(this.inputSearch)
       });
+      this.spinner.hide()
     }
+    this.spinner.hide()
   }
 
   public delete(id) {

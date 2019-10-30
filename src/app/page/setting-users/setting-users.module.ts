@@ -9,6 +9,7 @@ import { GroupUserService } from '../../shared/services/group-user.service';
 import { PersonsService } from '../../shared/services/persons.service';
 import { BoardService } from '../../shared/services/board.service';
 import { EditUserModalComponent } from './edit-user-modal/edit-user-modal.component';
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { EditUserModalComponent } from './edit-user-modal/edit-user-modal.compon
   ],
   imports: [
     SharedModule,
-    RoutingModule
+    RoutingModule,
+    NgxSpinnerModule
   ],
   providers: [
     GroupUserService,

@@ -16,12 +16,14 @@ import { ModalCareerHistoryComponent } from './modal-career-history/modal-career
 import { PersonsService } from '../../shared/services/persons.service';
 import { DropdownService } from '../../shared/services/dropdown.service';
 import { OrganizationService } from '../../shared/services/organization.service';
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
 
   imports: [
     SharedModule,
-    RoutingModule
+    RoutingModule,
+    NgxSpinnerModule
   ],
   declarations: [
     ModalAddressInformationComponent,

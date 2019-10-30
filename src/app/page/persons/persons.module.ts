@@ -18,11 +18,13 @@ import { PersonsBursaryComponent } from './persons-bursary/persons-bursary.compo
 import { PersonsStudiesComponent } from './persons-studies/persons-studies.component';
 
 import { PersonsService } from '../../shared/services/persons.service';
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
   imports: [
     SharedModule,
-    RoutingModule
+    RoutingModule,
+    NgxSpinnerModule
   ],
   declarations: [
     PersonsFamilyComponent,

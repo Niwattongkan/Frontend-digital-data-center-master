@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { IMyOptions } from 'mydatepicker-th';
-
+import { NgxSpinnerService } from "ngx-spinner";
 import { ReportService } from '../../shared/services/report.service';
 
 import { mapPersons } from '../../shared/library/mapList';
@@ -29,6 +29,7 @@ export class ReportSearchingBoardComponent implements OnInit {
   };
 
   constructor(
+    private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
     private reportService: ReportService,
     private excelService: ExcelService,
@@ -39,8 +40,10 @@ export class ReportSearchingBoardComponent implements OnInit {
 
 
   async ngOnInit() {
+    this.spinner.show();
     const result = ((await this.reportService.getreportboard(this.searchform.value).toPromise()).data);
     this.reportList = mapPersons(result);
+    this.spinner.hide();
   }
 
   public showAddress(value) {
@@ -59,8 +62,10 @@ export class ReportSearchingBoardComponent implements OnInit {
   }
 
   public async searchReport() {
+    this.spinner.show();
     const result = ((await this.reportService.getreportboard(this.searchform.value).toPromise()).data);
     this.reportList = mapPersons(result);
+    this.spinner.hide();
   }
 
   public setSerachForm() {
@@ -76,7 +81,7 @@ export class ReportSearchingBoardComponent implements OnInit {
 
 
   public exportExcel(data) {
-    console.log(data);
+    this.spinner.show();
     const exportGroup = [];
     data.forEach(element => {
       exportGroup.push({
@@ -90,8 +95,10 @@ export class ReportSearchingBoardComponent implements OnInit {
       exportGroup,
       'report-board'
     );
+    this.spinner.hide();
   }
   public exportPDF(data) {
+    this.spinner.show();
     const exportGroup = [];
     data.forEach(element => {
       exportGroup.push({
@@ -126,6 +133,7 @@ export class ReportSearchingBoardComponent implements OnInit {
       body: exportGroup
     });
     doc.save('report-board.pdf');
+    this.spinner.hide();
   }
 
 }

@@ -7,7 +7,6 @@ import Stepper from 'bs-stepper';
 import { OrganizationService } from '../../shared/services/organization.service';
 import { PersonsService } from '../../shared/services/persons.service';
 import { DropdownService } from '../../shared/services/dropdown.service';
-import { Ng4LoadingSpinnerService } from 'ng4-loading-spinner';
 import { AuthlogService } from '../../shared/services/authlog.service';
 import { mapPersons, groupbyList } from '../../shared/library/mapList';
 
@@ -16,6 +15,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { alertEvent, alertDeleteEvent } from '../../shared/library/alert';
 import { calulateAge } from '../../shared/library/date';
 import { validForm } from '../../shared/library/form';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-insert-persons',
@@ -71,8 +71,9 @@ export class InsertPersonsComponent implements OnInit {
     private personsService: PersonsService,
     private dropdownService: DropdownService,
     private organizationService: OrganizationService,
-    private spinnerService: Ng4LoadingSpinnerService,
-    private authlogService: AuthlogService
+    private authlogService: AuthlogService,
+    private spinner: NgxSpinnerService
+
   ) {
     this.profileForm = this.setProfile(null);
     this.profileOriginForm = this.profileForm.value;
@@ -82,8 +83,8 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.spinnerService.show();
 
+    this.spinner.show();
     this.stepper = new Stepper(document.querySelector('#stepper1'), {
       linear: false,
       animation: true
@@ -109,16 +110,20 @@ export class InsertPersonsComponent implements OnInit {
           this.personId)
       : null;
     this.imagePreview = resultImage ? resultImage[0] : null;
-    this.spinnerService.hide();
+
     if (
       this.profileForm.value['TitleNameOther'] !== null &&
       this.profileForm.value['TitleNameOther'] !== ''
+
     ) {
     //  this.checkTitleTh = 'checked';
       this.titleNameThCheck = true;
+      this.spinner.hide()
     } else {
     //  this.checkTitleTh = '';
       this.titleNameThCheck = false;
+      this.spinner.hide()
+
     }
 
     if (
@@ -132,6 +137,8 @@ export class InsertPersonsComponent implements OnInit {
       this.titleNameEnCheck = false;
     }
     this.notNext = 1;
+    this.spinner.hide()
+
   }
 
   get getIdCard() {
@@ -139,10 +146,10 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   public async submitPerson() {
-    this.spinnerService.show();
+
 
     if (validForm(this.profileForm).length > 0) {
-      this.spinnerService.hide();
+
       this.alertValid = true;
       return window.scroll(0, 300);
     }
@@ -164,7 +171,7 @@ export class InsertPersonsComponent implements OnInit {
         .toPromise()).data[0];
       this.insertPerson(person);
     }
-    this.spinnerService.hide();
+
     alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
 
     return this.router.navigate(['/persons']);
@@ -696,8 +703,6 @@ export class InsertPersonsComponent implements OnInit {
   public onImageChange(file: Event) {
     this.imageProfile = <File>file.target['files'][0];
     this.previewImage(this.imageProfile);
-    //  var reader = new FileReader();
-    // let temp = reader.readAsBinaryString(<File>file.target['files'][0]);
     return this.profileForm.controls['PathPhoto'].setValue(this.imageProfile);
   }
 
@@ -812,7 +817,7 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   public async next() {
-    this.spinnerService.show();
+
     if (this.profileForm.controls.TitleNameTh.value == null ||
         this.profileForm.controls.TitleNameTh.value == "" ||
         this.profileForm.controls.FristNameTh.value == null ||
@@ -839,7 +844,7 @@ export class InsertPersonsComponent implements OnInit {
         this.profileForm.controls.Marital.value == '' ||
         this.profileForm.controls.Religion.value == null ||
         this.profileForm.controls.Religion.value == '' ) {
-      this.spinnerService.hide();
+
       this.alertValid = true;
       return window.scroll(0, 300);
     }
@@ -858,7 +863,7 @@ export class InsertPersonsComponent implements OnInit {
         .toPromise()).data[0];
       this.personId = person;
     }
-    this.spinnerService.hide();
+
 
     alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
     this.notNext = 2;
