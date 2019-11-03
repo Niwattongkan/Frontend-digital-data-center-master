@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { IMyOptions } from 'mydatepicker-th';
+import {Component, OnInit} from '@angular/core';
+import {FormGroup, Validators, FormBuilder} from '@angular/forms';
+import {Router, ActivatedRoute} from '@angular/router';
+import {IMyOptions} from 'mydatepicker-th';
 import Stepper from 'bs-stepper';
 
-import { OrganizationService } from '../../shared/services/organization.service';
-import { PersonsService } from '../../shared/services/persons.service';
-import { DropdownService } from '../../shared/services/dropdown.service';
-import { AuthlogService } from '../../shared/services/authlog.service';
-import { mapPersons, groupbyList } from '../../shared/library/mapList';
+import {OrganizationService} from '../../shared/services/organization.service';
+import {PersonsService} from '../../shared/services/persons.service';
+import {DropdownService} from '../../shared/services/dropdown.service';
+import {AuthlogService} from '../../shared/services/authlog.service';
+import {mapPersons, groupbyList} from '../../shared/library/mapList';
 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import { alertEvent, alertDeleteEvent } from '../../shared/library/alert';
-import { calulateAge } from '../../shared/library/date';
-import { validForm } from '../../shared/library/form';
-import { NgxSpinnerService } from "ngx-spinner";
+import {alertEvent, alertDeleteEvent} from '../../shared/library/alert';
+import {calulateAge} from '../../shared/library/date';
+import {validForm} from '../../shared/library/form';
+import {NgxSpinnerService} from "ngx-spinner";
 
 @Component({
   selector: 'app-insert-persons',
@@ -47,7 +47,7 @@ export class InsertPersonsComponent implements OnInit {
   public imagePerson = '';
   public nametitle = [];
 
- // checkTitleTh = '';
+  // checkTitleTh = '';
   // checkTitleEn = '';
   titleNameThCheck = false;
   titleNameEnCheck = false;
@@ -73,7 +73,6 @@ export class InsertPersonsComponent implements OnInit {
     private organizationService: OrganizationService,
     private authlogService: AuthlogService,
     private spinner: NgxSpinnerService
-
   ) {
     this.profileForm = this.setProfile(null);
     this.profileOriginForm = this.profileForm.value;
@@ -92,7 +91,7 @@ export class InsertPersonsComponent implements OnInit {
 
     const resultPerson = this.personId
       ? (await this.personsService.getDetailById(this.personId).toPromise())
-          .data[0]
+        .data[0]
       : null;
 
     this.corperationList = (await this.organizationService
@@ -106,8 +105,8 @@ export class InsertPersonsComponent implements OnInit {
       .toPromise()).data;
     const resultImage = this.personId
       ? (this.imagePerson =
-          'http://qdoc.ecmxpert.com:8008/api/uapi/q/ddc/getphotoperson?PersonId=' +
-          this.personId)
+        'http://qdoc.ecmxpert.com:8008/api/uapi/q/ddc/getphotoperson?PersonId=' +
+        this.personId)
       : null;
     this.imagePreview = resultImage ? resultImage[0] : null;
 
@@ -116,11 +115,11 @@ export class InsertPersonsComponent implements OnInit {
       this.profileForm.value['TitleNameOther'] !== ''
 
     ) {
-    //  this.checkTitleTh = 'checked';
+      //  this.checkTitleTh = 'checked';
       this.titleNameThCheck = true;
       this.spinner.hide()
     } else {
-    //  this.checkTitleTh = '';
+      //  this.checkTitleTh = '';
       this.titleNameThCheck = false;
       this.spinner.hide()
 
@@ -130,10 +129,10 @@ export class InsertPersonsComponent implements OnInit {
       this.profileForm.value['TitleNameEnOther'] !== null &&
       this.profileForm.value['TitleNameEnOther'] !== ''
     ) {
-    //  this.checkTitleEn = 'checked';
+      //  this.checkTitleEn = 'checked';
       this.titleNameEnCheck = true;
     } else {
-     // this.checkTitleEn = '';
+      // this.checkTitleEn = '';
       this.titleNameEnCheck = false;
     }
     this.notNext = 1;
@@ -218,180 +217,180 @@ export class InsertPersonsComponent implements OnInit {
     const currentMenu = 'เพิ่ม/แก้ไข ข้อมูลบุคคล';
     this.profileOriginForm.TitleNameTh != person.TitleNameTh
       ? await this.auditLogService(
-          currentMenu,
-          'คำนำหน้าชื่อ (ไทย)',
-          this.profileOriginForm.TitleNameTh,
-          person.TitleNameTh
-        )
+      currentMenu,
+      'คำนำหน้าชื่อ (ไทย)',
+      this.profileOriginForm.TitleNameTh,
+      person.TitleNameTh
+      )
       : null;
     this.profileOriginForm.FristNameTh != person.FristNameTh
       ? await this.auditLogService(
-          currentMenu,
-          'ชื่อ (ไทย)',
-          this.profileOriginForm.FristNameTh,
-          person.FristNameTh
-        )
+      currentMenu,
+      'ชื่อ (ไทย)',
+      this.profileOriginForm.FristNameTh,
+      person.FristNameTh
+      )
       : null;
     this.profileOriginForm.LastNameTh != person.LastNameTh
       ? await this.auditLogService(
-          currentMenu,
-          'นามสกุล (ไทย)',
-          this.profileOriginForm.LastNameTh,
-          person.LastNameTh
-        )
+      currentMenu,
+      'นามสกุล (ไทย)',
+      this.profileOriginForm.LastNameTh,
+      person.LastNameTh
+      )
       : null;
     this.profileOriginForm.TitleNameEn != person.TitleNameEn
       ? await this.auditLogService(
-          currentMenu,
-          'คำนำหน้าชื่อ (อังกฤษ)',
-          this.profileOriginForm.TitleNameEn,
-          person.TitleNameEn
-        )
+      currentMenu,
+      'คำนำหน้าชื่อ (อังกฤษ)',
+      this.profileOriginForm.TitleNameEn,
+      person.TitleNameEn
+      )
       : null;
     this.profileOriginForm.FristNameEn != person.FristNameEn
       ? await this.auditLogService(
-          currentMenu,
-          'ชื่อ (อังกฤษ)',
-          this.profileOriginForm.FristNameEn,
-          person.FristNameEn
-        )
+      currentMenu,
+      'ชื่อ (อังกฤษ)',
+      this.profileOriginForm.FristNameEn,
+      person.FristNameEn
+      )
       : null;
     this.profileOriginForm.LastNameEn != person.LastNameEn
       ? await this.auditLogService(
-          currentMenu,
-          'นามสกุล (อังกฤษ)',
-          this.profileOriginForm.LastNameEn,
-          person.LastNameEn
-        )
+      currentMenu,
+      'นามสกุล (อังกฤษ)',
+      this.profileOriginForm.LastNameEn,
+      person.LastNameEn
+      )
       : null;
     this.profileOriginForm.IdCard != person.IdCard
       ? await this.auditLogService(
-          currentMenu,
-          'เลขบัตรประจำตัวประชาชน',
-          this.profileOriginForm.IdCard,
-          person.IdCard
-        )
+      currentMenu,
+      'เลขบัตรประจำตัวประชาชน',
+      this.profileOriginForm.IdCard,
+      person.IdCard
+      )
       : null;
     this.profileOriginForm.Passport != person.Passport
       ? await this.auditLogService(
-          currentMenu,
-          'เลขหนังสือเดินทาง',
-          this.profileOriginForm.Passport,
-          person.Passport
-        )
+      currentMenu,
+      'เลขหนังสือเดินทาง',
+      this.profileOriginForm.Passport,
+      person.Passport
+      )
       : null;
     this.profileOriginForm.WorkPermitNo != person.WorkPermitNo
       ? await this.auditLogService(
-          currentMenu,
-          'ใบอนุญาตเลขที่',
-          this.profileOriginForm.WorkPermitNo,
-          person.WorkPermitNo
-        )
+      currentMenu,
+      'ใบอนุญาตเลขที่',
+      this.profileOriginForm.WorkPermitNo,
+      person.WorkPermitNo
+      )
       : null;
     this.profileOriginForm.Birthday != person.Birthday
       ? await this.auditLogService(
-          currentMenu,
-          'วันเกิด',
-          this.profileOriginForm.Birthday,
-          person.Birthday
-        )
+      currentMenu,
+      'วันเกิด',
+      this.profileOriginForm.Birthday,
+      person.Birthday
+      )
       : null;
     this.profileOriginForm.Sex != person.Sex
       ? await this.auditLogService(
-          currentMenu,
-          'เพศ',
-          this.profileOriginForm.Sex,
-          person.Sex
-        )
+      currentMenu,
+      'เพศ',
+      this.profileOriginForm.Sex,
+      person.Sex
+      )
       : null;
     this.profileOriginForm.Religion != person.Religion
       ? await this.auditLogService(
-          currentMenu,
-          'ศาสนา',
-          this.profileOriginForm.Religion,
-          person.Religion
-        )
+      currentMenu,
+      'ศาสนา',
+      this.profileOriginForm.Religion,
+      person.Religion
+      )
       : null;
     this.profileOriginForm.Nationality != person.Nationality
       ? await this.auditLogService(
-          currentMenu,
-          'สัญชาติ',
-          this.profileOriginForm.Nationality,
-          person.Nationality
-        )
+      currentMenu,
+      'สัญชาติ',
+      this.profileOriginForm.Nationality,
+      person.Nationality
+      )
       : null;
     this.profileOriginForm.EthnicityId != person.EthnicityId
       ? await this.auditLogService(
-          currentMenu,
-          'เชื้อชาติ',
-          this.profileOriginForm.EthnicityId,
-          person.EthnicityId
-        )
+      currentMenu,
+      'เชื้อชาติ',
+      this.profileOriginForm.EthnicityId,
+      person.EthnicityId
+      )
       : null;
     this.profileOriginForm.Marital != person.Marital
       ? await this.auditLogService(
-          currentMenu,
-          'สถานภาพการสมรส',
-          this.profileOriginForm.Marital,
-          person.Marital
-        )
+      currentMenu,
+      'สถานภาพการสมรส',
+      this.profileOriginForm.Marital,
+      person.Marital
+      )
       : null;
     this.profileOriginForm.FavoriteFood != person.FavoriteFood
       ? await this.auditLogService(
-          currentMenu,
-          'อาหารที่ชอบ',
-          this.profileOriginForm.FavoriteFood,
-          person.FavoriteFood
-        )
+      currentMenu,
+      'อาหารที่ชอบ',
+      this.profileOriginForm.FavoriteFood,
+      person.FavoriteFood
+      )
       : null;
     this.profileOriginForm.FoodDislike != person.FoodDislike
       ? await this.auditLogService(
-          currentMenu,
-          'อาหารที่ไม่ชอบ',
-          this.profileOriginForm.FoodDislike,
-          person.FoodDislike
-        )
+      currentMenu,
+      'อาหารที่ไม่ชอบ',
+      this.profileOriginForm.FoodDislike,
+      person.FoodDislike
+      )
       : null;
     this.profileOriginForm.AllergicFood != person.AllergicFood
       ? await this.auditLogService(
-          currentMenu,
-          'อาหารที่แพ้',
-          this.profileOriginForm.AllergicFood,
-          person.AllergicFood
-        )
+      currentMenu,
+      'อาหารที่แพ้',
+      this.profileOriginForm.AllergicFood,
+      person.AllergicFood
+      )
       : null;
     this.profileOriginForm.CongenitalDisease != person.CongenitalDisease
       ? await this.auditLogService(
-          currentMenu,
-          'โรคประจำตัว',
-          this.profileOriginForm.CongenitalDisease,
-          person.CongenitalDisease
-        )
+      currentMenu,
+      'โรคประจำตัว',
+      this.profileOriginForm.CongenitalDisease,
+      person.CongenitalDisease
+      )
       : null;
     this.profileOriginForm.AllergicDrugs != person.AllergicDrugs
       ? await this.auditLogService(
-          currentMenu,
-          'ยาที่แพ้',
-          this.profileOriginForm.AllergicDrugs,
-          person.AllergicDrugs
-        )
+      currentMenu,
+      'ยาที่แพ้',
+      this.profileOriginForm.AllergicDrugs,
+      person.AllergicDrugs
+      )
       : null;
     this.profileOriginForm.VehicleRegistrationNumber !=
     person.VehicleRegistrationNumber
       ? await this.auditLogService(
-          currentMenu,
-          'ทะเบียนรถ',
-          this.profileOriginForm.VehicleRegistrationNumber,
-          person.VehicleRegistrationNumber
-        )
+      currentMenu,
+      'ทะเบียนรถ',
+      this.profileOriginForm.VehicleRegistrationNumber,
+      person.VehicleRegistrationNumber
+      )
       : null;
     this.profileOriginForm.OtherPreferences != person.OtherPreferences
       ? await this.auditLogService(
-          currentMenu,
-          'อื่นๆ',
-          this.profileOriginForm.OtherPreferences,
-          person.OtherPreferences
-        )
+      currentMenu,
+      'อื่นๆ',
+      this.profileOriginForm.OtherPreferences,
+      person.OtherPreferences
+      )
       : null;
   }
 
@@ -426,11 +425,11 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   public openModal(content, size) {
-    return this.modalService.open(content, { size: size });
+    return this.modalService.open(content, {size: size});
   }
 
   public openModalClass(content) {
-    return this.modalService.open(content, { windowClass: 'xlModal' });
+    return this.modalService.open(content, {windowClass: 'xlModal'});
   }
 
   selectNewAvatar() {
@@ -483,8 +482,8 @@ export class InsertPersonsComponent implements OnInit {
           model.PersonId = Number(this.personId);
           model.PersonAddressId
             ? await this.personsService
-                .deletepersonaddress(model.PersonAddressId)
-                .toPromise()
+              .deletepersonaddress(model.PersonAddressId)
+              .toPromise()
             : false;
         }
         this.addressList.splice(index, 1);
@@ -556,8 +555,8 @@ export class InsertPersonsComponent implements OnInit {
           model.PersonId = Number(this.personId);
           model.PersonContactId
             ? await this.personsService
-                .deletepersoncontact(model.PersonContactId)
-                .toPromise()
+              .deletepersoncontact(model.PersonContactId)
+              .toPromise()
             : false;
         }
         this.contactList.splice(index, 1);
@@ -566,12 +565,19 @@ export class InsertPersonsComponent implements OnInit {
     });
   }
 
-  public async insertContact(value) {
+  public async updateContact(value) {
     if (this.personId) {
-      for (let index = 0; index < value.length; index++) {
-        const element = value[index];
-        element.PersonId = Number(this.personId);
-        await this.personsService.insertPersonContact(element).toPromise();
+      const getcontactperson = this.personsService.getcontactperson(value[1])
+      if (getcontactperson != null) {
+        const element = value[0]
+        element.PersonContactId = value[1]
+        await this.personsService.updatePersonContact(element).toPromise()
+      } else {
+        for (let index = 0; index < value.length; index++) {
+          const element = value[index];
+          element.PersonId = Number(this.personId);
+          await this.personsService.insertPersonContact(element).toPromise();
+        }
       }
       alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
     }
@@ -579,9 +585,6 @@ export class InsertPersonsComponent implements OnInit {
     // this.contactList = value
   }
 
-  public async updateContact(value) {
-
-  }
   public async deleteCoordinator(index) {
     return alertDeleteEvent().then(async confirm => {
       if (confirm.value) {
@@ -590,8 +593,8 @@ export class InsertPersonsComponent implements OnInit {
           model.PersonId = Number(this.personId);
           model.CoordinatorId
             ? await this.personsService
-                .deletecoordinator(model.CoordinatorId)
-                .toPromise()
+              .deletecoordinator(model.CoordinatorId)
+              .toPromise()
             : false;
         }
         this.coordinateList.splice(index, 1);
@@ -624,8 +627,8 @@ export class InsertPersonsComponent implements OnInit {
           model.PersonId = Number(this.personId);
           model.EducationId
             ? await this.personsService
-                .deleteducation(model.EducationId)
-                .toPromise()
+              .deleteducation(model.EducationId)
+              .toPromise()
             : false;
         }
         this.bursaryList.splice(index, 1);
@@ -695,9 +698,7 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   public findCorperation(corpId) {
-    return this.corperationList.find(data => {
-      return data.CorporationId == corpId;
-    });
+    return this.corperationList.find(data => data.CorporationId == corpId)
   }
 
   public onImageChange(file: Event) {
@@ -751,99 +752,98 @@ export class InsertPersonsComponent implements OnInit {
   }
 
 
-
   private setProfile(data) {
     return data
       ? this.formBuilder.group({
-          PersonId: [data.PersonId],
-          TitleNameTh: [data.TitleNameTh, [Validators.required]],
-          TitleNameOther: [data.TitleNameOther],
-          FristNameTh: [data.FristNameTh, [Validators.required]],
-          LastNameTh: [data.LastNameTh, [Validators.required]],
-          TitleNameEn: [data.TitleNameEn, [Validators.required]],
-          TitleNameEnOther: [data.TitleNameEnOther],
-          FristNameEn: [data.FristNameEn, [Validators.required]],
-          LastNameEn: [data.LastNameEn, [Validators.required]],
-          IdCard: [
-            data.IdCard,
-            [Validators.required, Validators.minLength(13)]
-          ],
-          Birthday: [this.setDateEdit(data.Birthday), [Validators.required]],
-          Sex: [data.Sex, [Validators.required]],
-          Passport: [data.Passport],
-          Religion: [data.Religion, [Validators.required]],
-          Nationality: [data.Nationality, [Validators.required]],
-          PartPhoto: [data.PartPhoto],
-          Marital: [data.Marital, [Validators.required]],
-          EthnicityId: [data.EthnicityId, [Validators.required]],
-          WorkPermitNo: [data.WorkPermitNo, [Validators.required]],
-          FavoriteFood: [data.FavoriteFood],
-          AllergicFood: [data.AllergicFood],
-          FoodDislike: [data.FoodDislike],
-          AllergicDrugs: [data.AllergicDrugs],
-          CongenitalDisease: [data.CongenitalDisease],
-          VehicleRegistrationNumber: [data.VehicleRegistrationNumber],
-          OtherPreferences: [data.OtherPreferences],
-          PathPhoto: []
-        })
+        PersonId: [data.PersonId],
+        TitleNameTh: [data.TitleNameTh, [Validators.required]],
+        TitleNameOther: [data.TitleNameOther],
+        FristNameTh: [data.FristNameTh, [Validators.required]],
+        LastNameTh: [data.LastNameTh, [Validators.required]],
+        TitleNameEn: [data.TitleNameEn, [Validators.required]],
+        TitleNameEnOther: [data.TitleNameEnOther],
+        FristNameEn: [data.FristNameEn, [Validators.required]],
+        LastNameEn: [data.LastNameEn, [Validators.required]],
+        IdCard: [
+          data.IdCard,
+          [Validators.required, Validators.minLength(13)]
+        ],
+        Birthday: [this.setDateEdit(data.Birthday), [Validators.required]],
+        Sex: [data.Sex, [Validators.required]],
+        Passport: [data.Passport],
+        Religion: [data.Religion, [Validators.required]],
+        Nationality: [data.Nationality, [Validators.required]],
+        PartPhoto: [data.PartPhoto],
+        Marital: [data.Marital, [Validators.required]],
+        EthnicityId: [data.EthnicityId, [Validators.required]],
+        WorkPermitNo: [data.WorkPermitNo, [Validators.required]],
+        FavoriteFood: [data.FavoriteFood],
+        AllergicFood: [data.AllergicFood],
+        FoodDislike: [data.FoodDislike],
+        AllergicDrugs: [data.AllergicDrugs],
+        CongenitalDisease: [data.CongenitalDisease],
+        VehicleRegistrationNumber: [data.VehicleRegistrationNumber],
+        OtherPreferences: [data.OtherPreferences],
+        PathPhoto: []
+      })
       : this.formBuilder.group({
-          TitleNameTh: [1, [Validators.required]],
-          TitleNameOther: [''],
-          FristNameTh: ['', [Validators.required]],
-          LastNameTh: ['', [Validators.required]],
-          TitleNameEn: [1, [Validators.required]],
-          TitleNameEnOther: [''],
-          FristNameEn: ['', [Validators.required]],
-          LastNameEn: ['', [Validators.required]],
-          IdCard: ['', [Validators.required, Validators.minLength(13)]],
-          Birthday: [this.setDateEdit(new Date()), [Validators.required]],
-          Sex: [1, [Validators.required]],
-          Passport: [''],
-          Religion: [1, [Validators.required]],
-          Nationality: ['', [Validators.required]],
-          PartPhoto: [''],
-          Marital: [1, [Validators.required]],
-          EthnicityId: [1, [Validators.required]],
-          WorkPermitNo: ['', [Validators.required]],
-          FavoriteFood: [''],
-          AllergicFood: [''],
-          FoodDislike: [''],
-          AllergicDrugs: [''],
-          CongenitalDisease: [''],
-          VehicleRegistrationNumber: [''],
-          OtherPreferences: [''],
-          PathPhoto: ['']
-        });
+        TitleNameTh: [1, [Validators.required]],
+        TitleNameOther: [''],
+        FristNameTh: ['', [Validators.required]],
+        LastNameTh: ['', [Validators.required]],
+        TitleNameEn: [1, [Validators.required]],
+        TitleNameEnOther: [''],
+        FristNameEn: ['', [Validators.required]],
+        LastNameEn: ['', [Validators.required]],
+        IdCard: ['', [Validators.required, Validators.minLength(13)]],
+        Birthday: [this.setDateEdit(new Date()), [Validators.required]],
+        Sex: [1, [Validators.required]],
+        Passport: [''],
+        Religion: [1, [Validators.required]],
+        Nationality: ['', [Validators.required]],
+        PartPhoto: [''],
+        Marital: [1, [Validators.required]],
+        EthnicityId: [1, [Validators.required]],
+        WorkPermitNo: ['', [Validators.required]],
+        FavoriteFood: [''],
+        AllergicFood: [''],
+        FoodDislike: [''],
+        AllergicDrugs: [''],
+        CongenitalDisease: [''],
+        VehicleRegistrationNumber: [''],
+        OtherPreferences: [''],
+        PathPhoto: ['']
+      });
   }
 
   public async next() {
 
     if (this.profileForm.controls.TitleNameTh.value == null ||
-        this.profileForm.controls.TitleNameTh.value == "" ||
-        this.profileForm.controls.FristNameTh.value == null ||
-        this.profileForm.controls.FristNameTh.value == '' ||
-        this.profileForm.controls.LastNameTh.value == null ||
-        this.profileForm.controls.LastNameTh.value == '' ||
-        this.profileForm.controls.TitleNameEn.value == null ||
-        this.profileForm.controls.TitleNameEn.value == '' ||
-        this.profileForm.controls.FristNameEn.value == null ||
-        this.profileForm.controls.FristNameEn.value == '' ||
-        this.profileForm.controls.LastNameEn.value == null ||
-        this.profileForm.controls.LastNameEn.value == '' ||
-        this.profileForm.controls.IdCard.value == null ||
-        this.profileForm.controls.IdCard.value == '' ||
-        this.profileForm.controls.Birthday.value == null ||
-        this.profileForm.controls.Birthday.value == '' ||
-        this.profileForm.controls.Sex.value == null ||
-        this.profileForm.controls.Sex.value == '' ||
-        this.profileForm.controls.Nationality.value == null ||
-        this.profileForm.controls.Nationality.value == '' ||
-        this.profileForm.controls.EthnicityId.value == null ||
-        this.profileForm.controls.EthnicityId.value == '' ||
-        this.profileForm.controls.Marital.value == null ||
-        this.profileForm.controls.Marital.value == '' ||
-        this.profileForm.controls.Religion.value == null ||
-        this.profileForm.controls.Religion.value == '' ) {
+      this.profileForm.controls.TitleNameTh.value == "" ||
+      this.profileForm.controls.FristNameTh.value == null ||
+      this.profileForm.controls.FristNameTh.value == '' ||
+      this.profileForm.controls.LastNameTh.value == null ||
+      this.profileForm.controls.LastNameTh.value == '' ||
+      this.profileForm.controls.TitleNameEn.value == null ||
+      this.profileForm.controls.TitleNameEn.value == '' ||
+      this.profileForm.controls.FristNameEn.value == null ||
+      this.profileForm.controls.FristNameEn.value == '' ||
+      this.profileForm.controls.LastNameEn.value == null ||
+      this.profileForm.controls.LastNameEn.value == '' ||
+      this.profileForm.controls.IdCard.value == null ||
+      this.profileForm.controls.IdCard.value == '' ||
+      this.profileForm.controls.Birthday.value == null ||
+      this.profileForm.controls.Birthday.value == '' ||
+      this.profileForm.controls.Sex.value == null ||
+      this.profileForm.controls.Sex.value == '' ||
+      this.profileForm.controls.Nationality.value == null ||
+      this.profileForm.controls.Nationality.value == '' ||
+      this.profileForm.controls.EthnicityId.value == null ||
+      this.profileForm.controls.EthnicityId.value == '' ||
+      this.profileForm.controls.Marital.value == null ||
+      this.profileForm.controls.Marital.value == '' ||
+      this.profileForm.controls.Religion.value == null ||
+      this.profileForm.controls.Religion.value == '') {
 
       this.alertValid = true;
       return window.scroll(0, 300);
@@ -880,6 +880,7 @@ export class InsertPersonsComponent implements OnInit {
       this.profileForm.controls['TitleNameOther'].setValue('');
     }
   }
+
   onChangeTitleEN() {
     console.log('onChangeTitleEN');
 

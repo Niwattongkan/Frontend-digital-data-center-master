@@ -8,7 +8,7 @@
   <form [formGroup]="contactForm">
     <div class="row">
       <div class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center" >
           <div class="col-md-10 alert alert-danger" role="alert" *ngIf="alertValid">
             กรุณากดเพิ่มข้อมูลก่อนบันทึก
           </div>
@@ -16,7 +16,7 @@
             กรุณากดเฉพราะตัวเลข
           </div>
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive" *ngIf="update == false">
           <table class="table table-hover" style="border: 1px solid #ccc;">
             <thead class="set-head">
               <tr>
@@ -38,8 +38,10 @@
               <tr>
                 <td>
                   <div class="input-group input-group-sm mb-3">
-                    <select class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-                      formControlName="TypeContactId">
+                    <select class="form-control"
+                            aria-label="Small"
+                            aria-describedby="inputGroup-sizing-sm"
+                            formControlName="TypeContactId" >
                       <option [value]="1">อีเมล</option>
                       <option [value]="2">เบอร์โทร</option>
                       <option [value]="3">Line</option>
@@ -94,11 +96,64 @@
             </tbody>
           </table>
         </div>
+        <div class="table-responsive" *ngIf="update == true">
+          <table class="table table-hover" style="border: 1px solid #ccc;">
+            <thead class="set-head">
+            <tr>
+              <th scope="col">
+                ประเภท
+              </th>
+              <th scope="col">
+                รายละเอียดข้อมูล
+              </th>
+              <th scope="col">
+                ความสำคัญ
+              </th>
+            </tr>
+            </thead>
+            <tbody class="set-body">
+            <tr>
+              <td>
+                <div class="input-group input-group-sm mb-3">
+                  <select class="form-control"
+                          aria-label="Small"
+                          aria-describedby="inputGroup-sizing-sm"
+                          formControlName="TypeContactId" >
+                    <option [value]="1" [selected]="data.TypeContactId == 1">อีเมล</option>
+                    <option [value]="2" [selected]="data.TypeContactId == 2">เบอร์โทร</option>
+                    <option [value]="3" [selected]="data.TypeContactId == 3">Line</option>
+                    <option [value]="4" [selected]="data.TypeContactId == 4">Facebook</option>
+                    <option [value]="5" [selected]="data.TypeContactId == 5">Twitter</option>
+                    <option [value]="6" [selected]="data.TypeContactId == 6">Instagram</option>
+                    <option [value]="7" [selected]="data.TypeContactId == 7">โทรสาร</option>
+                  </select>
+                </div>
+              </td>
+              <td>
+                <div class="input-group input-group-sm mb-3">
+                  <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" autocomplete="on" appAutoFocus
+                         formControlName="Contact" [(ngModel)]="data.Contact">
+                </div>
+              </td>
+              <td>
+                <div class="input-group input-group-sm mb-3">
+                  <select class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                          formControlName="Importance">
+                    <option [value]="1" [selected] = "data.Importance == 1">ข้อมูลหลัก</option>
+                    <option [value]="1" [selected] ="data.Importance == 2">ข้อมูลรอง</option>
+                  </select>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-success btn-round" (click)="submit()">บันทึก</button>
+  <button type="button" class="btn btn-success btn-round" *ngIf="update == false" (click)="submit()">บันทึก</button>
+  <button type="button" class="btn btn-success btn-round" *ngIf="update == true" (click)="insertColumn()">บันทึก</button>
   <button type="button" class="btn btn-outline-secondary btn-round" (click)="closeModal()">ยกเลิก</button>
 </div>

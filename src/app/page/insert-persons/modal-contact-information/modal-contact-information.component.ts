@@ -1,9 +1,9 @@
-import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import {Component, EventEmitter, OnInit, Input, Output} from '@angular/core';
+import {FormGroup, Validators, FormBuilder} from '@angular/forms';
 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import { validForm } from '../../../shared/library/form';
+import {validForm} from '../../../shared/library/form';
 
 @Component({
   selector: 'modal-contact-information',
@@ -20,8 +20,9 @@ export class ModalContactInformationComponent implements OnInit {
   public alertValid = false;
   public alertValidNumber = false;
   public contactForm: FormGroup;
-
+  public update = false;
   public contactList = [];
+  public Contact: any
 
   constructor(
     private modalService: NgbModal,
@@ -32,13 +33,10 @@ export class ModalContactInformationComponent implements OnInit {
 
   ngOnInit() {
     this.contactForm = this.setContact();
-    this.data ? this.data.forEach(element => {
-      this.contactList.push({
-        TypeContactId: element.TypeContactId,
-        Contact: element.Contact,
-        Importance: element.Importance,
-      });
-    }) : null;
+    if (this.data != null) {
+      this.update = true;
+      this.Contact = this.data.TypeContact
+    }
   }
 
   private setContact() {
@@ -50,18 +48,26 @@ export class ModalContactInformationComponent implements OnInit {
   }
 
   insertColumn() {
-    if (validForm(this.contactForm).length > 0) {
+    if ((validForm(this.contactForm).length > 0 && this.update == false) || this.contactForm.controls.Contact.value == '') {
       this.alertValid = true;
       return;
     }
-    if (this.contactForm.controls.TypeContactId.value == 2) {
-      if (isNaN(this.contactForm.controls.Contact.value)) {
-        this.alertValidNumber = true;
-        return false;
+    if (!isNaN(this.contactForm.controls.Contact.value) && this.contactForm.controls.TypeContactId.value == 2 &&  ! /^\d{10}$/.test(this.contactForm.controls.Contact.value)) {
+      if (this.data !== undefined) {
+        if ((this.data.TypeContactId == 2 && this.contactForm.controls.TypeContactId.value == 1)) {
+          this.alertValidNumber = true;
+          return false;
+        }
       }
+      this.alertValidNumber = true;
+      return false;
     }
     this.contactList.push(this.contactForm.value);
+    this.contactList.push(this.data.PersonContactId ? this.data.PersonContactId : null)
     this.contactForm = this.setContact();
+    if (this.update) {
+      this.submit()
+    }
   }
 
   deletetColumn(index) {

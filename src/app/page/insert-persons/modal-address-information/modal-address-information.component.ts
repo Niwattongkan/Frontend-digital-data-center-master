@@ -84,16 +84,16 @@ export class ModalAddressInformationComponent implements OnInit {
       if (element.TypeAddress === 1) {
         // @ts-ignore
         account++;
-      } else if (element.TypeAddress === 2) {
+      } if (element.TypeAddress === 2) {
         // @ts-ignore
         idCard++;
       }
       // @ts-ignore
-      if (3 === account) {
+      if (2 === account) {
         this.checkAccording = true;
       }
       // @ts-ignore
-      if (3 === idCard) {
+      if (2 === idCard) {
         this.checkIdCard = true;
       }
     });

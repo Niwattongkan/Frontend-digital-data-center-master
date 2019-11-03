@@ -11,6 +11,10 @@
   <modal-contact-information (onSubmit)="updateContact($event)"></modal-contact-information>
 </ng-template>
 
+<ng-template #updatePersonContact let-modal>
+  <modal-contact-information (onSubmit)="updateContact($event)"></modal-contact-information>
+</ng-template>
+
 <ng-template #insertCoordinator let-modal>
   <modal-coordinator-information (onSubmit)="updateCoordinator($event)"></modal-coordinator-information>
 </ng-template>
@@ -23,18 +27,19 @@
   <modal-career-history (onSubmit)="updateWorking($event)"></modal-career-history>
 </ng-template>
 
+
 <div class="container">
   <div id="stepper1" class="bs-stepper">
     <div class="bs-stepper-header">
       <div class="step" data-target="#step-1">
-        <button [disabled]="notNext==2" class="step-trigger">
+        <button [disabled]="notNext==2  && personId==null" class="step-trigger">
           <span class="bs-stepper-circle">1</span>
           <span class="bs-stepper-label">ข้อมูลส่วนตัว</span>
         </button>
       </div>
       <div class="line"></div>
       <div class="step" data-target="#step-2">
-        <button [disabled]="notNext==1" class="step-trigger">
+        <button [disabled]="notNext==1 && personId==null " class="step-trigger">
           <span class="bs-stepper-circle">2</span>
           <span class="bs-stepper-label">ข้อมูลส่วนตัว(เพิ่มเติม)</span>
         </button>
@@ -547,8 +552,7 @@
         <div class="container mb-4">
           <div class="row mb-2">
             <h2 class="col-md-6">ข้อมูลการติดต่อ</h2>
-            <div class="col-md-6 text-right" (click)="openModal(insertContact,
-              'lg')">
+            <div class="col-md-6 text-right" (click)="openModal(insertContact,'lg')">
               <button class="btn btn-success">
                 <i class="fas fa-plus mr-1"></i>เพิ่มข้อมูลการติดต่อ
               </button>
@@ -559,7 +563,6 @@
               <table class="table table-bordered" cellspacing="0" role="grid">
                 <thead class="bg-custom-green text-white">
                 <tr role="row">
-                  <!-- <th class="text-center"> วันที่อัพเดต </th> -->
                   <th class="text-center"> รายละเอียด</th>
                   <th class="text-center"> ประเภทข้อมูล</th>
                   <th class="text-center"> เครื่องมือ</th>
@@ -567,7 +570,6 @@
                 </thead>
                 <tbody class="bg-white">
                 <tr *ngFor="let data of contactList; let i= index">
-                  <!-- <td> </td> -->
                   <td>{{data.Contact}}</td>
                   <td>
                     <label *ngIf="data.TypeContactId == 1">อีเมล</label>
@@ -579,19 +581,20 @@
                     <label *ngIf="data.TypeContactId == 7">โทรสาร</label>
                   </td>
                   <td style="text-align: center">
-                    <!-- <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
+                  <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
                         (click)="openModal(updatePersonContact, 'lg')">
                         <i class="fas fa-pencil-alt icon-prop"></i>
-                      </a> -->
+                      </a>
                     <a href="javascript:void(0)" class="btn btn-outline-danger
                         btn-sm" (click)="deleteContact(i)">
                       <i class="fas fa-times icon-prop"></i>
                     </a>
                   </td>
-                  <!-- <ng-template #updatePersonContact let-modal>
-                      <modal-contact-information [data]="contactList" (onDelete)="deleteContact($event)" (onSubmit)="updateContact($event)">
+                  <ng-template #updatePersonContact let-modal>
+                      <modal-contact-information [data]="contactList[i]"
+                                                 (onSubmit)="updateContact($event)">
                       </modal-contact-information>
-                    </ng-template> -->
+                    </ng-template>
                 </tr>
                 <tr *ngIf="contactList.length == 0">
                   <td class="text-center" colspan="4">ไม่พบข้อมูล</td>

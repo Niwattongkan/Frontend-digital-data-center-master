@@ -15,6 +15,7 @@ import { MyDatePickerTHModule } from 'mydatepicker-th';
 
 import { ApiService } from './services/config-services/api.service';
 import { JwtService } from './services/config-services/jwt.service';
+import { AutoFocusDirective } from './library/auto-focus.directive';
 
 @NgModule({
   imports: [
@@ -35,10 +36,12 @@ import { JwtService } from './services/config-services/jwt.service';
     AvatarModule,
     NgxChartsModule,
     MyDatePickerTHModule,
+    AutoFocusDirective,
   ],
   providers: [
     ApiService,
     JwtService,
   ],
+  declarations: [AutoFocusDirective],
 })
 export class SharedModule { }
