@@ -31,7 +31,7 @@ export class InsertPersonsComponent implements OnInit {
   public profileOriginForm: any;
 
   public personId = null;
-  public imagePreview = null;
+  // public imagePerson = null;
   public imageProfile = null;
 
   public corperationList = [];
@@ -108,7 +108,7 @@ export class InsertPersonsComponent implements OnInit {
         'http://qdoc.ecmxpert.com:8008/api/uapi/q/ddc/getphotoperson?PersonId=' +
         this.personId)
       : null;
-    this.imagePreview = resultImage ? resultImage[0] : null;
+    this.imgURL = resultImage ? resultImage[0] : null;
 
     if (
       this.profileForm.value['TitleNameOther'] !== null &&
@@ -701,18 +701,40 @@ export class InsertPersonsComponent implements OnInit {
     return this.corperationList.find(data => data.CorporationId == corpId)
   }
 
-  public onImageChange(file: Event) {
-    this.imageProfile = <File>file.target['files'][0];
-    this.previewImage(this.imageProfile);
-    return this.profileForm.controls['PathPhoto'].setValue(this.imageProfile);
+  public onImageChange(event) {
+    const fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+    this.imageProfile = fileList[0];
+    this.imgURL(this.imageProfile);
+    }
+    this.profileForm.controls['PathPhoto'].setValue(this.imageProfile);
   }
 
-  private previewImage(file) {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = _event => {
-      this.imagePreview = reader.result;
-    };
+  private previewImage(files) {
+    if (files.length === 0)
+      return;
+
+    var mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      // this.message = "Only images are supported.";
+      return;
+    }
+
+    var reader = new FileReader();
+    this.imagePath = files;
+    reader.readAsDataURL(files[0]);
+    reader.onload = (event) => {
+      this.imgURL = reader.result;
+     // this.AccPic = reader.result;
+    }
+    this.profileForm.controls['PathPhoto'].setValue(files[0]);
+    
+
+    // const reader = new FileReader();
+    // reader.readAsDataURL(file);
+    // reader.onload = _event => {
+    //   this.imagePreview = reader.result;
+    // };
   }
 
   private async setList() {

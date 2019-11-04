@@ -87,11 +87,12 @@ export class ReportSearchingCorperationComponent implements OnInit {
         'ที่อยู่องค์กร': this.showAddress(element)
       });
     });
+    this.spinner.hide();
     return this.excelService.exportAsExcelFile(
       exportGroup,
       'report-corporation'
     );
-    this.spinner.hide();
+    
   }
 
   public exportPDF(data) {
