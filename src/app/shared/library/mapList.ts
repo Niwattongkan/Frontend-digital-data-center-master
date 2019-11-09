@@ -6,11 +6,12 @@ export function mapPersons(personList) {
         const title = data.TitleNameTh == 1 ? 'นาย' : data.TitleNameTh == 2 ? 'นางสาว' : 'นาง';
         const first = data.FristNameTh;
         const last = data.LastNameTh;
-        data.FullnameTh = first && last ? title + first + ' ' + last : '';
+        const orther = data.TitleNameOther;
+        data.FullnameTh = (orther) ? first && last ? orther + first + ' ' + last : '' : first && last ? title + first + ' ' + last : '';
         const titleEn = data.TitleNameEn == 1 ? 'Mr.' : data.TitleNameEn == 2 ? 'Mrs.' : 'Miss.';
         const firstEn = data.FristNameEn;
         const lastEn = data.LastNameEn;
-        data.FullnameEn = firstEn && lastEn ? titleEn + firstEn + ' ' + lastEn : '';
+        data.FullnameEn = (orther) ? firstEn && lastEn ? orther + firstEn + ' ' + lastEn : '' : firstEn && lastEn ? titleEn + firstEn + ' ' + lastEn : '';
     });
     return personList;
 }
@@ -32,12 +33,6 @@ function showAddress(value) {
     const District = value.District ? 'อำเภอ/เขต ' + value.District + ' ' : '';
     return Building + Floor + HouseNo + Road + Soi + Subdistrict + District;
 }
-
-// let value  = Object.keys(object : any).map(function(key) {
-//   return [Number(key), object[key]];
-// });
-
-// tslint:disable-next-line:prefer-const
 
 
 export function groupbyList(array: any, key: string) {
