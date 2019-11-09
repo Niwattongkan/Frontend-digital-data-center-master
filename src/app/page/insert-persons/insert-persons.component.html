@@ -197,14 +197,15 @@
                       </div>
                     </div>
                     <div class="col-md-2" style="text-align:center;">
-                      <ngx-avatar *ngIf="!imagePreview" size="120"
+                      <ngx-avatar *ngIf="!imgURL" size="120"
                                   src="http://icons.iconarchive.com/icons/graphicloads/flat-finance/256/person-icon.png"
                                   (clickOnAvatar)="selectNewAvatar()"></ngx-avatar>
-                      <ngx-avatar *ngIf="imagePreview" [src]="imagePerson"
+                      <ngx-avatar *ngIf="imgURL" [src]="imgURL"
                                   size="120" [round]="true">
+                                  
                       </ngx-avatar>
-                      <input type="file" class="mt-4"
-                             (change)="onImageChange($event)">
+                      <input #file ngModel  [ngModelOptions]="{standalone: true}" type="file" accept='image/*' (change)="previewImage(file.files)" multiple>
+                             <!-- (change)="onImageChange($event)"> -->
 
                     </div>
                   </div>
