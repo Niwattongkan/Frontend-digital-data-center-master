@@ -5,6 +5,7 @@ import { LayoutComponent } from './layout/layout.component';
 
 export const routes: Routes = [
     { path: '', loadChildren: './page/login/login.module#LoginModule', pathMatch: 'full' },
+    { path: 'callback', loadChildren: './page/login/callback/callback.module#CallbackModule', pathMatch: 'full'},
     {
         path: '', component: LayoutComponent,
         children: [

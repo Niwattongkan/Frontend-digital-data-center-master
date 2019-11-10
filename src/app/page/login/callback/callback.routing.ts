@@ -1,12 +1,12 @@
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
-import { LoginComponent } from './login.component';
+import { CallbackComponent } from './callback.component';
 
 export const routes: Routes = [
     {
         path: '',
-        component: LoginComponent
+        component: CallbackComponent
     }
 ];
 export const RoutingModule: ModuleWithProviders = RouterModule.forChild(routes);
