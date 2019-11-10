@@ -35,8 +35,8 @@ export class LoginComponent implements OnInit {
   }
 
   private callback() {
-    console.log('[IN callback]');
-    debugger
+    // console.log('[IN callback]');
+    // debugger
     //var code = this.activatedRoute.snapshot.queryParams.code;
     var url = new URL(document.location.href);
     var code = url.searchParams.get("code");

@@ -1,7 +1,7 @@
 
 import { throwError as observableThrowError } from 'rxjs';
 
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
@@ -35,6 +35,7 @@ export class ApiService {
   }
 
   private formatErrors(error: any) {
+    debugger
     if ((error.status === 401 || error.status === 403) && (window.location.href.match(/\?/g) || []).length < 2) {
       this.router.navigate(['/login']);
     }
@@ -44,7 +45,9 @@ export class ApiService {
   get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
     return this.http.get(this.appendParams(`${environment.apiUrl}${path}`),
       { headers: this.setHeaders(), params: params }).pipe(
-        catchError(this.formatErrors.bind(this)));
+        tap(response => this.checkTokenExprire(response)),
+        catchError(this.formatErrors.bind(this))
+      );
   }
   getContent(path: string): Observable<any> {
     return this.http.get(this.appendParams(`${environment.apiUrl}${path}`),
@@ -52,6 +55,7 @@ export class ApiService {
         headers: this.setHeaders(),
         responseType: 'blob'
       }).pipe(
+        tap(response => this.checkTokenExprire(response)),
         catchError(this.formatErrors.bind(this)));
   }
   getEventSource(path: string): Observable<any> {
@@ -67,6 +71,7 @@ export class ApiService {
         eventSource.close();
       };
     }).pipe(
+      tap(response => this.checkTokenExprire(response)),
       catchError(this.formatErrors.bind(this)));
   }
   postContent(path: string, body: Object = {}): any {
@@ -77,6 +82,7 @@ export class ApiService {
         headers: this.setHeaders(),
         responseType: 'blob'
       }).pipe(
+        tap(response => this.checkTokenExprire(response)),
         catchError(this.formatErrors.bind(this)));
   }
   put(path: string, body: Object = {}): Observable<any> {
@@ -85,6 +91,7 @@ export class ApiService {
       body,
       { headers: this.setHeaders() }
     ).pipe(
+      tap(response => this.checkTokenExprire(response)),
       catchError(this.formatErrors.bind(this)));
   }
 
@@ -94,6 +101,7 @@ export class ApiService {
       body,
       { headers: this.setHeaders() }
     ).pipe(
+      tap(response => this.checkTokenExprire(response)),
       catchError(this.formatErrors.bind(this)));
   }
 
@@ -102,6 +110,7 @@ export class ApiService {
       this.appendParams(`${environment.apiUrl}${path}`),
       { headers: this.setHeaders() }
     ).pipe(
+      tap(response => this.checkTokenExprire(response)),
       catchError(this.formatErrors.bind(this)));
   }
 
@@ -113,9 +122,11 @@ export class ApiService {
   }
 
   checkTokenExprire(data){
-    if(data.successful="false"){ //TODO Make sure error about token exprie, or invalid
+    //debugger
+    //document.location.href = "/";
+    if(!data.successful){ //TODO Make sure error about token exprie, or invalid
       this.cookieService.delete('code');
-      document.location.href = "/#/home";
+      document.location.href = "/";
     }
  }
 }
