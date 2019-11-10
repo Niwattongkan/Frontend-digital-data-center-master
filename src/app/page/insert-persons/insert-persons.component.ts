@@ -105,11 +105,12 @@ export class InsertPersonsComponent implements OnInit {
       .toPromise()).data;
     const resultImage = this.personId
       ? (this.imagePerson =
-        'http://qdoc.ecmxpert.com:8008/api/uapi/q/ddc/getphotoperson?PersonId=' +
+        'https://tc.thaihealth.or.th:4122/uapi/ddc/getphotoperson?PersonId=' +
         this.personId)
       : null;
     this.imgURL = resultImage ? resultImage[0] : null;
 
+    this.imgURL = this.imgURL == 'h' ? resultImage : '../../../../assets/icon-customer/image-default.png'
     if (
       this.profileForm.value['TitleNameOther'] !== null &&
       this.profileForm.value['TitleNameOther'] !== ''
@@ -447,31 +448,21 @@ export class InsertPersonsComponent implements OnInit {
     const Building = value.Building ? 'อาคาร ' + value.Building + ' ' : '';
     const Floor = value.Floor ? 'ชั้น ' + value.Floor + ' ' : '';
     const Room = value.Room ? 'ห้อง ' + value.Room + ' ' : '';
-    const HouseNumber = value.HouseNumber
-      ? 'เลขที่ ' + value.HouseNumber + ' '
-      : '';
+    const HouseNumber = value.HouseNumber ? 'เลขที่ ' + value.HouseNumber + ' ' : '';
     const Road = value.Road ? 'ถนน ' + value.Road + ' ' : '';
     const Soi = value.Soi ? 'ซอย ' + value.Soi + ' ' : '';
-    const Province =
-      value.Province != '' ? 'จังหวัด ' + value.Province + ' ' : '';
-    const Subdistrict =
-      value.Subdistrict != '' ? 'ตำบล/แขวง ' + value.Subdistrict + ' ' : '';
-    const District =
-      value.District != '' ? 'อำเภอ/เขต ' + value.District + ' ' : '';
-    const Zipcode =
-      value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
-    return (
-      Building +
-      Floor +
-      Room +
-      HouseNumber +
-      Road +
-      Soi +
-      Province +
-      District +
-      Subdistrict +
-      Zipcode
-    );
+    const Province = value.Province != '' ? 'จังหวัด ' + value.Province + ' ' : '';
+    if (value.Province == 'กรุงเทพมหานคร') {
+      const Subdistrict = value.Subdistrict != '' ? 'แขวง ' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? 'เขต ' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province + Zipcode;
+    } else {
+      const Subdistrict = value.Subdistrict != '' ? 'ตำบล ' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? 'อำเภอ ' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province + Zipcode;
+    }
   }
 
   public async deleteAddress(index) {
@@ -605,19 +596,46 @@ export class InsertPersonsComponent implements OnInit {
 
   public async updateCoordinator(value) {
     if (this.personId) {
-      for (let index = 0; index < value.length; index++) {
-        const element = value[index];
+      if(value[0].CoordinatorId){
+        const element = value[0];
         element.PersonId = Number(this.personId);
         const coordinate = (await this.personsService
-          .insertCoordinator(element)
+          .updateCoordinator(element)
           .toPromise()).data[0];
-        element.CoordinatorId = coordinate.CoordinatorId;
-        await this.personsService.insertcoordinatorcantact(element).toPromise();
+        await this.personsService.updateCoordinatorcontact(element).toPromise();
+      }else{
+        for (let index = 0; index < value.length; index++) {
+          const element = value[index];
+          element.PersonId = Number(this.personId);
+          const coordinate = (await this.personsService
+            .insertCoordinator(element)
+            .toPromise()).data[0];
+          element.CoordinatorId = coordinate.CoordinatorId;
+          await this.personsService.insertcoordinatorcantact(element).toPromise();
+        }
       }
+
       alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
     }
     Array.prototype.push.apply(this.coordinateList, value);
   }
+//   if (this.personId) {
+//   const getcontactperson = this.personsService.getcontactperson(value[1])
+//   if (getcontactperson != null) {
+//   const element = value[0]
+//   element.PersonContactId = value[1]
+//   await this.personsService.updatePersonContact(element).toPromise()
+// } else {
+//   for (let index = 0; index < value.length; index++) {
+//     const element = value[index];
+//     element.PersonId = Number(this.personId);
+//     await this.personsService.insertPersonContact(element).toPromise();
+//   }
+// }
+// alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
+// }
+// Array.prototype.push.apply(this.contactList, value);
+// // this.contactList = value
 
   public async deleteBursary(index) {
     return alertDeleteEvent().then(async confirm => {
@@ -728,7 +746,7 @@ export class InsertPersonsComponent implements OnInit {
      // this.AccPic = reader.result;
     }
     this.profileForm.controls['PathPhoto'].setValue(files[0]);
-    
+
 
     // const reader = new FileReader();
     // reader.readAsDataURL(file);

@@ -236,7 +236,7 @@
       </div>
     </div>
 
-    <div class="row mb-3" *ngIf="projectPerson">
+    <div class="row mb-3">
       <div class="col-md">
         <div class="card shadow">
           <div class="card-header">
@@ -250,50 +250,52 @@
             </div>
           </div>
           <div class="card-body">
-            <div class="row px-5 mb-3">
-              <div class="col-md-6" *ngIf="programContactForm.ContactNumber">
+            <div class="row px-5 mb-3" *ngFor="let contact of projectPersonContactForm">
+              <div class="col-md-6" *ngIf="contact.TypeContactId ==2">
                 <div class="row form-group">
                   <label class="text-orange">เบอร์โทร:</label>
                   <label class="col-md-6">
-                    <p *ngFor="let data of programContactForm.ContactNumber">{{data}}</p>
+                    <p>{{contact.Contact}}</p>
                   </label>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-6" *ngIf="contact.TypeContactId ==7">
                 <div class="row form-group">
                   <label class="text-orange">โทรสาร:</label>
-                  <label class="col-md-6"></label>
+                  <label class="col-md-6">{{contact.Contact}}</label>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-6" *ngIf="contact.TypeContactId ==1">
                 <div class="row form-group">
                   <label class="text-orange">Email:</label>
-                  <label class="col-md-6"></label>
+                  <label class="col-md-6">{{contact.Contact}}</label>
                 </div>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-6" *ngIf="contact.TypeContactId ==3">
                 <div class="row form-group">
                   <label class="text-orange">Line ID:</label>
-                  <label class="col-md-6"></label>
+                  <label class="col-md-6">{{contact.Contact}}</label>
                 </div>
               </div>
-              <label class="col-md-12 text-orange">ติดต่อทาง Solcial media:
-                <img src="../../../../assets/icon-customer/icon-yello/Facebook.png" class="icon-social p-1"/>
-                <img src="../../../../assets/icon-customer/icon-yello/Twitter.png" class="icon-social p-1"/>
-                <img src="../../../../assets/icon-customer/icon-yello/instargram.png" class="icon-social p-1"/>
-                <img src="../../../../assets/icon-customer/icon-yello/Website.png" alt="website"
-                     class="icon-social p-1"/>
-                <img src="../../../../assets/icon-customer/icon-yello/Line.png" class="icon-social p-1"/>
-              </label>
             </div>
+            <label class="col-md-12 text-orange">ติดต่อทาง Solcial media:
+              <img src="../../../../assets/icon-customer/icon-yello/Facebook.png" class="icon-social p-1"/>
+              <img src="../../../../assets/icon-customer/icon-yello/Twitter.png" class="icon-social p-1"/>
+              <img src="../../../../assets/icon-customer/icon-yello/instargram.png" class="icon-social p-1"/>
+              <img src="../../../../assets/icon-customer/icon-yello/Website.png" alt="website"
+                   class="icon-social p-1"/>
+              <img src="../../../../assets/icon-customer/icon-yello/Line.png" class="icon-social p-1"/>
+            </label>
             <h5>
               <img class="icon-header" src="../../../assets/icon-customer/icon-yello/delivery.png"/>
               <span class="font-weight-bold text-orange text-shadow">&emsp;ที่อยู่จัดส่งเอกสาร</span>
             </h5>
             <div class="row px-5 mb-3">
               <div class="col-md-12">
-                <div class="row form-group">
-                  <label class="col-md-12"></label>
+                <div class="row form-group" *ngFor="let PersonAddress of projectPersonAddressForm.Address">
+                  <label class="col-md-12">
+                    {{PersonAddress}}
+                  </label>
                 </div>
               </div>
             </div>

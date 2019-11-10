@@ -1,9 +1,10 @@
-import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
-import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import {Component, EventEmitter, OnInit, Input, Output} from '@angular/core';
+import {FormGroup, Validators, FormBuilder} from '@angular/forms';
 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
-import { validForm } from '../../../shared/library/form';
+import {validForm} from '../../../shared/library/form';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'modal-coordinator-information',
@@ -15,17 +16,19 @@ export class ModalCoordinatorInformationComponent implements OnInit {
   @Input() data: any;
 
   @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
-
   public alertValid = false
   public coordinatorForm: FormGroup
   public contactCoordinator: FormGroup
-
+  public update = false;
   public coordinateList = []
   public titleCheck = false;
+  public coordinate: any
+  public coordinateID: any
 
   constructor(
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
+    private activatedRoute: ActivatedRoute,
   ) {
 
   }
@@ -33,6 +36,12 @@ export class ModalCoordinatorInformationComponent implements OnInit {
   ngOnInit() {
     this.coordinatorForm = this.setCoordinator()
     this.contactCoordinator = this.setPersonCoordinator()
+    if (this.data) {
+      this.update = true
+      this.coordinate = this.data
+
+    }
+    this.coordinateID = this.activatedRoute.snapshot.paramMap.get('id');
   }
 
   private setCoordinator() {
@@ -58,6 +67,9 @@ export class ModalCoordinatorInformationComponent implements OnInit {
     }
     this.coordinateList.push(this.contactCoordinator.value)
     this.contactCoordinator = this.setPersonCoordinator()
+    if (this.update) {
+      this.submit()
+    }
   }
 
   deletetColumn(index) {
@@ -75,14 +87,28 @@ export class ModalCoordinatorInformationComponent implements OnInit {
     let response = []
 
     for (let index = 0; index < this.coordinateList.length; index++) {
-      let temp = {
-        TitleNameTh: coordinator.CoordinatorTitle,
-        FristNameTh: coordinator.CoordinatorFirstName,
-        LastNameTh: coordinator.CoordinatorLastName,
-        TypeContactId: this.coordinateList[index].TypeContactId,
-        Importance: this.coordinateList[index].Importance,
-        Contact: this.coordinateList[index].Contact,
+      let temp
+      if(this.update){
+         temp = {
+          TitleNameTh: coordinator.CoordinatorTitle,
+          FristNameTh: coordinator.CoordinatorFirstName,
+          LastNameTh: coordinator.CoordinatorLastName,
+          TypeContactId: this.coordinateList[index].TypeContactId,
+          Importance: this.coordinateList[index].Importance,
+          Contact: this.coordinateList[index].Contact,
+          CoordinatorId : this.data.CoordinatorId
+        }
+      }else{
+        temp = {
+          TitleNameTh: coordinator.CoordinatorTitle,
+          FristNameTh: coordinator.CoordinatorFirstName,
+          LastNameTh: coordinator.CoordinatorLastName,
+          TypeContactId: this.coordinateList[index].TypeContactId,
+          Importance: this.coordinateList[index].Importance,
+          Contact: this.coordinateList[index].Contact,
+        }
       }
+
 
       response.push(temp)
     }

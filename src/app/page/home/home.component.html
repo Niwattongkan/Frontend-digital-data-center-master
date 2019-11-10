@@ -45,9 +45,13 @@
         <card-person [data]="person"></card-person>
       </div>
     </div>
-    <div class="d-flex justify-content-between mt-4">
+    <div class="d-flex justify-content-between mt-4" *ngIf="personList.length > 0">
       <span>แสดงทั้งหมด {{personList.length}} รายการ</span>
       <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+    <div class="d-flex justify-content-between mt-4" *ngIf="personList.length == 0">
+      <span>แสดงทั้งหมด 1 รายการ</span>
+      <pagination-controls   (pageChange)="page = $event" previousLabel="previous          1" nextLabel="next"></pagination-controls>
     </div>
   </div>
   <div *ngIf="listStatus == 1">
@@ -57,9 +61,13 @@
         <card-organization [data]="organization"></card-organization>
       </div>
     </div>
-    <div class="d-flex justify-content-between mt-4">
+    <div class="d-flex justify-content-between mt-4" *ngIf="organizationList.length > 0">
       <span>แสดงทั้งหมด {{organizationList.length}} รายการ</span>
       <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+    <div class="d-flex justify-content-between mt-4" *ngIf="organizationList.length == 0">
+      <span>แสดงทั้งหมด 1 รายการ</span>
+      <pagination-controls   (pageChange)="page = $event" previousLabel="previous          1" nextLabel="next"></pagination-controls>
     </div>
   </div>
   <div *ngIf="listStatus == 2">
@@ -69,9 +77,13 @@
         <card-program [data]="program"></card-program>
       </div>
     </div>
-    <div class="d-flex justify-content-between mt-4">
+    <div class="d-flex justify-content-between mt-4" *ngIf="programList.length > 0">
       <span>แสดงทั้งหมด {{programList.length}} รายการ</span>
       <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+    <div class="d-flex justify-content-between mt-4" *ngIf="programList.length == 0">
+      <span>แสดงทั้งหมด 1 รายการ</span>
+      <pagination-controls   (pageChange)="page = $event" previousLabel="previous          1" nextLabel="next"></pagination-controls>
     </div>
   </div>
 </div>

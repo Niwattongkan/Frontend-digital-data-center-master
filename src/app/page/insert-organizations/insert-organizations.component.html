@@ -1,9 +1,8 @@
-<ngx-spinner></ngx-spinner>
 <ng-template #insertContact let-modal>
   <modal-contact-organization (onSubmit)="updateContact($event)"></modal-contact-organization>
 </ng-template>
 
-<div *ngIf="params == null" class="container">
+<div class="container">
   <div class="row justify-content-center">
     <div class="col-md-10 alert alert-danger" role="alert" *ngIf="alertValid">
       กรุณากรอกข้อมูลให้ครบถ้วน
@@ -22,7 +21,7 @@
               </div>
             </div>
             <div class="step" data-target="#step-2" style="padding-left: 15px;">
-              <div class="step-trigger">
+              <div class="step-trigger" >
                 <a href="javascript:void(0)" routerLinkActive="active" >
                   <span class="bs-stepper-label">ที่ตั้ง/ที่อยู่ในการจัดส่ง องค์กร</span>
                 </a>
@@ -354,6 +353,7 @@
                   </div>
                   <div class="col-md-2 text-right">
                     <label>
+
                       เขต/อำเภอ
                       <span class="text-danger">*</span>
                     </label>
@@ -426,423 +426,7 @@
                 </tr>
                 </thead>
                 <tbody class="bg-white">
-                <tr *ngFor="let data of contactList; let i = index" class="text-center">
-                  <td>{{data.Contact}}</td>
-                  <td>
-                    <span *ngIf="data.TypeContactId == 1">อีเมล์</span>
-                    <span *ngIf="data.TypeContactId == 2">เบอร์โทร</span>
-                    <span *ngIf="data.TypeContactId == 3">Line</span>
-                    <span *ngIf="data.TypeContactId == 4">Facebook</span>
-                    <span *ngIf="data.TypeContactId == 5">Twitter</span>
-                    <span *ngIf="data.TypeContactId == 6">Instagram</span>
-                    <span *ngIf="data.TypeContactId == 7">โทรสาร</span>
-                  </td>
-                  <td>
-                    <!-- deleteContact(data.CorporationContactId) -->
-                    <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm"
-                       (click)="deleteContact(i)">
-                      <i class="fas fa-times icon-prop"></i>
-                    </a>
-                  </td>
-                  <ng-template #updateCorperationContact let-modal>
-                    <modal-contact-organization [data]="data"
-                                                (onSubmit)="updateContact($event)">
-                    </modal-contact-organization>
-                  </ng-template>
-                </tr>
-                <tr *ngIf="contactList.length == 0">
-                  <td class="text-center" colspan="5">ไม่พบข้อมูล</td>
-                </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div *ngIf="params !== null"class="container">
-  <div class="row justify-content-center">
-    <div class="col-md-10 alert alert-danger" role="alert" *ngIf="alertValid">
-      กรุณากรอกข้อมูลให้ครบถ้วน
-    </div>
-  </div>
-      <div class="content">
-        <div class="row justify-content-center">
-          <div class="col-md-12">
-            <div class="card">
-              <div class="card-header">
-                <div class="container">
-                  <h2>{{title}}</h2>
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="col-md-3">
-                      <span class="col-md-10 font-weight-bold">
-                          ข้อมูลองค์กร
-                      </span>
-                    </div>
-                    <div [formGroup]="corperationForm" class="card-body">
-                      <div class="row">
-                        <div class="col-md-4 text-right">
-                          <label>
-                            ชื่อองค์กร
-                            <span class="text-danger">*</span>
-                          </label>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="input-group input-group-sm mb-3">
-                            <input type="text" class="form-control"
-                                   formControlName="CorporationName">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-4 text-right">
-                          <label>
-                            เลขประจำตัวผู้เสียภาษี
-                            <span class="text-danger">*</span>
-                          </label>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="input-group input-group-sm mb-3">
-                            <input type="text" class="form-control" formControlName="TaxNo"
-                                   minlength="13">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-4 text-right">
-                          <label>
-                            ภายใต้องค์กร
-                          </label>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="input-group input-group-sm mb-3">
-                            <select class="form-control" formControlName="Parent">
-                              <option [value]="0">--องค์กร--</option>
-                              <option *ngFor="let data of corperationAll"
-                                      [value]="data.CorporationName">
-                                {{data.CorporationName}}</option>
-                            </select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group mt-4">
-                <div class="container">
-                  <span class="font-weight-bold"> ที่ตั้งองค์กร </span>
-                </div>
-              </div>
-              <div [formGroup]="addressForm" class="card-body">
-                <div class="row">
-                  <div class="col-md-2 text-right">
-                    <label>
-                      เลขที่
-                      <span class="text-danger">*</span>
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <input type="text" class="form-control" formControlName="HouseNumber">
-                    </div>
-                  </div>
-                  <div class="col-md-2 text-right">
-                    <label>
-                      ถนน
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <input type="text" class="form-control" formControlName="Road">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-2 text-right">
-                    <label>
-                      อาคาร
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <input type="text" class="form-control" formControlName="Building">
-                    </div>
-                  </div>
-                  <div class="col-md-2 text-right">
-                    <label>
-                      ห้อง
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <input type="text" class="form-control" formControlName="Room">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-2 text-right">
-                    <label>
-                      ชั้น
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <input type="text" class="form-control" formControlName="Floor">
-                    </div>
-                  </div>
-                  <div class="col-md-2 text-right">
-                    <label>
-                      ตรอก/ซอย
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <input type="text" class="form-control" formControlName="Soi">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-2 text-right">
-                    <label>
-
-                      จังหวัด
-                      <span class="text-danger">*</span>
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <select class="form-control" formControlName="Province">
-                        <option *ngFor="let data of province" [value]="data.Name">
-                          {{data.Name}}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-2 text-right">
-                    <label>
-                      เขต/อำเภอ
-                      <span class="text-danger">*</span>
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <select class="form-control" formControlName="District">
-                        <option *ngFor="let data of district" [value]="data.Name">
-                          {{data.Name}}</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-2 text-right">
-                    <label>
-                      แขวง/ตำบล
-                      <span class="text-danger">*</span>
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <select class="form-control" formControlName="Subdistrict">
-                        <option *ngFor="let data of subdistrict" [value]="data.Name">
-                          {{data.Name}}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-2 text-right">
-                    <label>
-                      รหัสไปรษณีย์<span class="text-danger">*</span>
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <input type="text" class="form-control" formControlName="Zipcode">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- ------------------------------------------------- -->
-              <div class="col-md-3">
-                <span class="col-md-10 font-weight-bold">
-                    ที่อยู่ในการจัดส่ง
-                </span>
-              </div>
-              <div [formGroup]="addressContactForm" class="card-body">
-                <div class="row mb-4">
-                  <div class="col-md-5">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" id="customCheck12"
-                             (click)="copyAddresss()">
-                      <label class="custom-control-label"
-                             for="customCheck12">เหมือนที่ตั้งองค์กร</label>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-md-2 text-right">
-                    <label>
-                      <span class="text-danger">*</span>
-                      เลขที่
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <input type="text" class="form-control" formControlName="HouseNumber">
-                    </div>
-                  </div>
-                  <div class="col-md-2 text-right">
-                    <label>
-                      ถนน
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <input type="text" class="form-control" formControlName="Road">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-2 text-right">
-                    <label>
-                      อาคาร
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <input type="text" class="form-control" formControlName="Building">
-                    </div>
-                  </div>
-                  <div class="col-md-2 text-right">
-                    <label>
-                      ห้อง
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <input type="text" class="form-control" formControlName="Room">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-2 text-right">
-                    <label>
-                      ชั้น
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <input type="text" class="form-control" formControlName="Floor">
-                    </div>
-                  </div>
-                  <div class="col-md-2 text-right">
-                    <label>
-                      ตรอก/ซอย
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <input type="text" class="form-control" formControlName="Soi">
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-2 text-right">
-                    <label>
-                      จังหวัด
-                      <span class="text-danger">*</span>
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <select class="form-control" formControlName="Province">
-                        <option *ngFor="let data of provinceContact" [value]="data.Name">
-                          {{data.Name}}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-2 text-right">
-                    <label>
-
-                      เขต/อำเภอ
-                      <span class="text-danger">*</span>
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <select class="form-control" formControlName="District">
-                        <option *ngFor="let data of districtContact" [value]="data.Name">
-                          {{data.Name}}</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-2 text-right">
-                    <label>
-                      แขวง/ตำบล
-                      <span class="text-danger">*</span>
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <select class="form-control" formControlName="Subdistrict">
-                        <option *ngFor="let data of subdistrictContact" [value]="data.Name">
-                          {{data.Name}}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-2 text-right">
-                    <label>
-                      รหัสไปรษณีย์
-                      <span class="text-danger">*</span>
-                    </label>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="input-group input-group-sm mb-3">
-                      <input type="text" class="form-control" formControlName="Zipcode">
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group text-center">
-                <button type="button" class="btn btn-outline-secondary" (click)="back()">ยกเลิก</button>
-                <button type="button" class="btn btn-success mr-2"
-                        (click)="clickUpdate()">บันทึก
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="content" style="margin-top: 10px">
-        <div class="container">
-          <div class="row mb-2">
-            <h4 class="col-md-6">ข้อมูลการติดต่อ</h4>
-            <div class="col-md-6 text-right" (click)="openModal(insertContact, 'lg')">
-              <button class="btn btn-success">
-                <i class="fas fa-plus mr-1"></i>เพิ่มข้อมูลการติดต่อ
-              </button>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <table class="table table-bordered" cellspacing="0" role="grid">
-                <thead class="bg-custom-green text-white">
-                <tr role="row">
-                  <th class="text-center"> รายละเอียด</th>
-                  <th class="text-center"> ประเภทข้อมูล</th>
-                  <th class="text-center"> เครื่องมือ</th>
-                </tr>
-                </thead>
-                <tbody class="bg-white">
-                <tr *ngFor="let data of contactList; let i = index">
+                <tr *ngFor="let data of contactList; let i = index" >
                   <td>{{data.Contact}}</td>
                   <td>
                     <span *ngIf="data.TypeContactId == 1">อีเมล์</span>
@@ -854,9 +438,8 @@
                     <span *ngIf="data.TypeContactId == 7">โทรสาร</span>
                   </td>
                   <td class="text-center">
-                    <!-- deleteContact(data.CorporationContactId) -->
                     <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm"
-                       (click)="deleteContact(i)">
+                       (click)="deleteContact(data.CorporationContactId)">
                       <i class="fas fa-times icon-prop"></i>
                     </a>
                   </td>
@@ -874,5 +457,7 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
   </div>
 </div>

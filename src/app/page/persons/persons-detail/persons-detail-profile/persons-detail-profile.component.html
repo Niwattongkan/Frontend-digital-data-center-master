@@ -50,9 +50,9 @@
           </div>
         </div>
         <div class="col-md-3">
-          <img *ngIf="!profileForm.PathPhoto" class="rounded-circle" style="width: 130px; height: 130px;"
-            src="https://www.aa-hc.org/wp-content/uploads/2014/12/person-icon.png">
-          <img *ngIf="profileForm.PathPhoto" class="rounded-circle" style="width: 130px; height: 130px;" [src]="imageProfile">
+          <img *ngIf="!imageProfile" class="rounded-circle" style="width: 130px; height: 130px;"
+            src="../../../../assets/icon-customer/image-default.png">
+          <img *ngIf="imageProfile" class="rounded-circle" style="width: 130px; height: 130px;" [src]="imageProfile">
         </div>
       </div>
       <hr class="divider">

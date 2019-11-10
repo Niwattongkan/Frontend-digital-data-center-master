@@ -11,11 +11,13 @@ import { NoteService } from '../../shared/services/note.service';
 import { SharedService } from '../../shared/services/shared.service';
 import { PersonsService } from '../../shared/services/persons.service';
 import { GroupService } from '../../shared/services/group.service';
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
   imports: [
     SharedModule,
-    RoutingModule
+    RoutingModule,
+    NgxSpinnerModule
   ],
   declarations: [
     EventNotebookComponent,

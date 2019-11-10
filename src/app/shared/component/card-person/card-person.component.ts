@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-
+import SimpleCrypto from "simple-crypto-js";
 @Component({
   selector: 'card-person',
   templateUrl: './card-person.component.html',
@@ -12,7 +12,7 @@ export class CardPersonComponent implements OnInit {
 
   public currentPath = '';
   public imagePerson = '';
-
+  public image ='./'
   @Input() data: any;
 
   @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
@@ -25,11 +25,11 @@ export class CardPersonComponent implements OnInit {
 
   }
 
-  // tslint:disable-next-line:use-life-cycle-interface
   async ngOnChanges() {
     this.currentPath = this.router.url;
     this.data = await this.setProfile(this.data);
-    this.imagePerson = 'http://qdoc.ecmxpert.com:8008/api/uapi/q/ddc/getphotoperson?PersonId=' + this.data.PersonId;
+    // this.data = await this.setProfile(this.enCypeId(this.data));
+    this.imagePerson = 'https://tc.thaihealth.or.th:4122/uapi/ddc/getphotoperson?PersonId=' + this.data.PersonId;
   }
 
   public deletePerson(id) {
@@ -39,6 +39,14 @@ export class CardPersonComponent implements OnInit {
   public getYear(year) {
     const date = new Date(year);
     return 'ปี ' + (date.getFullYear() + 543);
+  }
+
+  private enCypeId(personsList){
+    let Crypto = new SimpleCrypto('some-unique-key');
+    personsList.map(data => {
+      data.idCryto = Crypto.encrypt(data.PersonId)
+    })
+    return personsList
   }
 
   private setProfile(data) {
@@ -65,12 +73,12 @@ export class CardPersonComponent implements OnInit {
       const Subdistrict = value.Subdistrict != '' ? 'แขวง ' + value.Subdistrict + ' ' : '';
       const District = value.District != '' ? 'เขต ' + value.District + ' ' : '';
       const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
-      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  + Zipcode;
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  Zipcode;
     } else {
       const Subdistrict = value.Subdistrict != '' ? 'ตำบล ' + value.Subdistrict + ' ' : '';
       const District = value.District != '' ? 'อำเภอ ' + value.District + ' ' : '';
       const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
-      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  + Zipcode;
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  Zipcode;
     }
   }
 

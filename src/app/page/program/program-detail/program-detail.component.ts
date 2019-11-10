@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { NgxSpinnerService } from "ngx-spinner";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {NgxSpinnerService} from "ngx-spinner";
 
 import {ProgramService} from '../../../shared/services/program.service';
 import {OrganizationService} from '../../../shared/services/organization.service';
@@ -23,7 +23,9 @@ export class ProgramDetailComponent implements OnInit {
   public programContactManagerForm: any = {};
   public programAddress: any = {};
   public corpatationList: any = [];
-
+  public projectPersonForm: any = {}
+  public projectPersonAddressForm: any = {}
+  public projectPersonContactForm: any = {}
   public purchaseProjectManagercontact: any = {};
   public purchaseProjectManageraddress: any = {};
 
@@ -56,10 +58,10 @@ export class ProgramDetailComponent implements OnInit {
     this.purchaseProjectManagercontact = (await this.programService.getdetailPurchaseProjectManagercontact(check).toPromise()).data[0];
     this.purchaseProjectManageraddress = (await this.programService.getdetailPurchaseProjectManageraddress(check).toPromise()).data[0];
     this.programDetailForm = this.programId ? resultProgram ? resultProgram[0] : {} : this.purchaseId ? resultPurchase ? resultPurchase[0] : {} : {};
-
-
+    this.setProjectPerson(this.activatedRoute.snapshot.paramMap.get('id'));
     this.programContactForm = await this.setContact();
     this.programAddress = await this.setAddress();
+    this.projectPersonAddressForm = await  this.setAddressPersonContact();
     // this.projectPerson = await this.setProjectPerson(check);
     this.programContactManagerForm = await this.setContactManager(this.program);
     this.spinner.hide()
@@ -80,6 +82,21 @@ export class ProgramDetailComponent implements OnInit {
         } else if (addressList[index].TypeAddress == 4) {
           model.AddressContact.push(this.showAddress(addressList[index]));
         }
+      }
+    }
+
+    return model;
+  }
+private async setAddressPersonContact() {
+    // tslint:disable-next-line:max-line-length
+    const addressList = (await this.programService.getprojectpersonaddress(this.activatedRoute.snapshot.paramMap.get('id')).toPromise()).data
+    const model = {
+      Address: [],
+    };
+
+    if (addressList) {
+      for (let index = 0; index < addressList.length; index++) {
+          model.Address.push(this.showAddress(addressList[index]));
       }
     }
 
@@ -123,9 +140,7 @@ export class ProgramDetailComponent implements OnInit {
   }
 
   private async setProjectPerson(data) {
-    const projectPersonContact = this.setProjectPersonContact((await this.programService.getprojectpersoncontact(data).toPromise()).data);
-    this.setProjectPersonAddress((await this.programService.getprojectpersonaddress(data).toPromise()).data);
-    this.programService.getProjectPerson(projectPersonContact[0].PersonId).toPromise();
+    this.projectPersonContactForm = (await this.programService.getprojectpersoncontact(data).toPromise()).data
   }
 
   private setProjectPersonContact(data: any) {
@@ -174,10 +189,17 @@ export class ProgramDetailComponent implements OnInit {
     const Road = value.Road ? 'ถนน ' + value.Road + ' ' : '';
     const Soi = value.Soi ? 'ซอย ' + value.Soi + ' ' : '';
     const Province = value.Province != '' ? 'จังหวัด ' + value.Province + ' ' : '';
-    const Subdistrict = value.Subdistrict != '' ? 'ตำบล/แขวง ' + value.Subdistrict + ' ' : '';
-    const District = value.District != '' ? 'อำเภอ/เขต ' + value.District + ' ' : '';
-    const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
-    return Building + Floor + Room + HouseNumber + Road + Soi + Province + District + Subdistrict + Zipcode;
+    if (value.Province == 'กรุงเทพมหานคร') {
+      const Subdistrict = value.Subdistrict != '' ? 'แขวง ' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? 'เขต ' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province + Zipcode;
+    } else {
+      const Subdistrict = value.Subdistrict != '' ? 'ตำบล ' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? 'อำเภอ ' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province + Zipcode;
+    }
   }
 
   private setProjectPersonAddress(value: any) {
@@ -188,9 +210,16 @@ export class ProgramDetailComponent implements OnInit {
     const Road = value.Road ? 'ถนน ' + value.Road + ' ' : '';
     const Soi = value.Soi ? 'ซอย ' + value.Soi + ' ' : '';
     const Province = value.Province != '' ? 'จังหวัด ' + value.Province + ' ' : '';
-    const Subdistrict = value.Subdistrict != '' ? 'ตำบล/แขวง ' + value.Subdistrict + ' ' : '';
-    const District = value.District != '' ? 'อำเภอ/เขต ' + value.District + ' ' : '';
-    const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
-    return Building + Floor + Room + HouseNumber + Road + Soi + Province + District + Subdistrict + Zipcode;
+    if (value.Province == 'กรุงเทพมหานคร') {
+      const Subdistrict = value.Subdistrict != '' ? 'แขวง ' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? 'เขต ' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province + Zipcode;
+    } else {
+      const Subdistrict = value.Subdistrict != '' ? 'ตำบล ' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? 'อำเภอ ' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province + Zipcode;
+    }
   }
 }

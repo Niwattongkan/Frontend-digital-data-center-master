@@ -3,7 +3,7 @@ import {map} from 'rxjs/operators';
 
 export function mapPersons(personList) {
     personList.map(data => {
-        const title = data.TitleNameTh == 1 ? 'นาย' : data.TitleNameTh == 2 ? 'นางสาว' : 'นาง';
+        const title = data.TitleNameTh == 1 ? 'นาย' : data.TitleNameTh == 2 ? 'นางสาว' : data.TitleNameTh == 3 ? 'นาง' :data.TitleNameTh
         const first = data.FristNameTh;
         const last = data.LastNameTh;
         const orther = data.TitleNameOther;
@@ -23,15 +23,29 @@ export function createdNamePersons(personList, id) {
     return result.FullnameTh;
 }
 
-function showAddress(value) {
+export function showAddress(addresslist) {
+  addresslist.map(value => {
     const Building = value.Building ? 'อาคาร ' + value.Building + ' ' : '';
     const Floor = value.Floor ? 'ชั้น ' + value.Floor + ' ' : '';
-    const HouseNo = value.HouseNo ? 'เลขที่ ' + value.HouseNo + ' ' : '';
+    const Room = value.Room ? 'ห้อง ' + value.Room + ' ' : '';
+    const HouseNumber = value.HouseNumber ? 'เลขที่ ' + value.HouseNumber + ' ' : '';
     const Road = value.Road ? 'ถนน ' + value.Road + ' ' : '';
     const Soi = value.Soi ? 'ซอย ' + value.Soi + ' ' : '';
-    const Subdistrict = value.Subdistrict ? 'ตำบล/แขวง ' + value.Subdistrict + ' ' : '';
-    const District = value.District ? 'อำเภอ/เขต ' + value.District + ' ' : '';
-    return Building + Floor + HouseNo + Road + Soi + Subdistrict + District;
+    const Province = value.Province != '' ? 'จังหวัด ' + value.Province + ' ' : '';
+    if (value.Province == 'กรุงเทพมหานคร') {
+      const Subdistrict = value.Subdistrict != '' ? 'แขวง ' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? 'เขต ' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  Zipcode;
+    } else {
+      const Subdistrict = value.Subdistrict != '' ? 'ตำบล ' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? 'อำเภอ ' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  Zipcode;
+    }
+  })
+  return addresslist;
+
 }
 
 

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { calulateAge } from '../../../../shared/library/date';
+import {mapPersons} from "../../../../shared/library/mapList";
 
 @Component({
   selector: 'persons-detail-profile',
@@ -14,7 +15,7 @@ export class PersonsDetailProfileComponent implements OnInit {
   public imageProfile = ""
 
   @Input() inputForm: any;
-  
+
   @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }
@@ -24,7 +25,7 @@ export class PersonsDetailProfileComponent implements OnInit {
   async ngOnChanges() {
     this.profileForm = this.inputForm ? this.setProfile(this.inputForm) : {}
     this.personId = this.inputForm ? this.inputForm.PersonId : ""
-    this.imageProfile = this.inputForm ? "http://qdoc.ecmxpert.com:8008/api/uapi/q/ddc/getphotoperson?PersonId="+ this.inputForm.PersonId : null
+    this.imageProfile = this.inputForm ? "https://tc.thaihealth.or.th:4122/uapi/ddc/getphotoperson?PersonId="+ this.inputForm.PersonId : null
   }
 
   private setProfile(data) {

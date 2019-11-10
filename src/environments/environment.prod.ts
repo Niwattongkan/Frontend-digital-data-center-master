@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: "http://qdoc.ecmxpert.com:8008/api/uapi/q/ddc/",
+  apiUrl: "https://tc.thaihealth.or.th:4122/uapi/ddc/",
   hmr: false
 };

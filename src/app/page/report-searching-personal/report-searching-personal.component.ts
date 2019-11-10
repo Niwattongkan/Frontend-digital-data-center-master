@@ -48,34 +48,24 @@ export class ReportSearchingPersonalComponent implements OnInit {
   }
 
   public showAddress(value) {
-    const Building = value.Building ? "อาคาร " + value.Building + " " : "";
-    const Floor = value.Floor ? "ชั้น " + value.Floor + " " : "";
-    const Room = value.Room ? "ห้อง " + value.Room + " " : "";
-    const HouseNumber = value.HouseNumber
-      ? "เลขที่ " + value.HouseNumber + " "
-      : "";
-    const Road = value.Road ? "ถนน " + value.Road + " " : "";
-    const Soi = value.Soi ? "ซอย " + value.Soi + " " : "";
-    const Province =
-      value.Province != "" ? "จังหวัด " + value.Province + " " : "";
-    const Subdistrict =
-      value.Subdistrict != "" ? "ตำบล/แขวง " + value.Subdistrict + " " : "";
-    const District =
-      value.District != "" ? "อำเภอ/เขต " + value.District + " " : "";
-    const Zipcode =
-      value.Zipcode != "" ? "รหัสไปรษณีย์ " + value.Zipcode + " " : "";
-    return (
-      Building +
-      Floor +
-      Room +
-      HouseNumber +
-      Road +
-      Soi +
-      Province +
-      District +
-      Subdistrict +
-      Zipcode
-    );
+    const Building = value.Building ? 'อาคาร ' + value.Building + ' ' : '';
+    const Floor = value.Floor ? 'ชั้น ' + value.Floor + ' ' : '';
+    const Room = value.Room ? 'ห้อง ' + value.Room + ' ' : '';
+    const HouseNumber = value.HouseNumber ? 'เลขที่ ' + value.HouseNumber + ' ' : '';
+    const Road = value.Road ? 'ถนน ' + value.Road + ' ' : '';
+    const Soi = value.Soi ? 'ซอย ' + value.Soi + ' ' : '';
+    const Province = value.Province != '' ? 'จังหวัด ' + value.Province + ' ' : '';
+    if (value.Province == 'กรุงเทพมหานคร') {
+      const Subdistrict = value.Subdistrict != '' ? 'แขวง ' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? 'เขต ' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  Zipcode;
+    } else {
+      const Subdistrict = value.Subdistrict != '' ? 'ตำบล ' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? 'อำเภอ ' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  Zipcode;
+    }
   }
 
   public async searchReport() {
