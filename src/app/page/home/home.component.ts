@@ -134,7 +134,6 @@ export class HomeComponent implements OnInit {
 
       this.listStatus = 0;
       if (this.inputSearch != '') {
-        this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data);
 
         const seachPerson = this.personList.filter(person => {
           return (String(person.FristNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||

@@ -24,7 +24,6 @@ export class PersonsListComponent implements OnInit {
   async ngOnInit() {
     this.spinner.show();
     setTimeout(() => {
-      /** spinner ends after 5 seconds */
       this.spinner.hide();
     }, this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data))
     this.tempPersonList = this.personList

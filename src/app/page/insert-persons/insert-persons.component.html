@@ -26,21 +26,19 @@
 <ng-template #insertWorking let-modal>
   <modal-career-history (onSubmit)="updateWorking($event)"></modal-career-history>
 </ng-template>
-
+`
 
 <div class="container">
-  <div id="stepper1" class="bs-stepper">
-    <div class="bs-stepper-header">
-      <div class="step" data-target="#step-1">
-        <button [disabled]="notNext==2  && personId==null" class="step-trigger">
-          <span class="bs-stepper-circle">1</span>
-          <span class="bs-stepper-label">ข้อมูลส่วนตัว</span>
+  <div id="stepper1" class="bs-stepper ">
+    <div class="bs-stepper-header" >
+      <div class="step " data-target="#step-1"  >
+        <button [disabled]="notNext==2  && personId==null" class="step-trigger" style="color: #e49227; border-bottom: 4px solid #e49227;  padding-left: 60px; padding-right: 60px;">
+          <span class="bs-stepper-label ">ข้อมูลส่วนตัว</span>
         </button>
       </div>
-      <div class="line"></div>
-      <div class="step" data-target="#step-2">
-        <button [disabled]="notNext==1 && personId==null " class="step-trigger">
-          <span class="bs-stepper-circle">2</span>
+      <div style="padding-left: 60px;"></div>
+      <div class="step" data-target="#step-2" >
+        <button [disabled]="notNext==1 && personId==null " class="step-trigger" style="color: #e49227; border-bottom: 4px solid #e49227;  padding-left: 60px; padding-right: 60px;">
           <span class="bs-stepper-label">ข้อมูลส่วนตัว(เพิ่มเติม)</span>
         </button>
       </div>
@@ -198,12 +196,9 @@
                     </div>
                     <div class="col-md-2" style="text-align:center;">
                       <ngx-avatar *ngIf="!imgURL" size="120"
-                                  src="http://icons.iconarchive.com/icons/graphicloads/flat-finance/256/person-icon.png"
-                                  (clickOnAvatar)="selectNewAvatar()"></ngx-avatar>
+                                  src="../../../../assets/icon-customer/image-default.png" (clickOnAvatar)="selectNewAvatar()" ></ngx-avatar>
                       <ngx-avatar *ngIf="imgURL" [src]="imgURL"
-                                  size="120" [round]="true">
-                                  
-                      </ngx-avatar>
+                                  size="120" [round]="true"> </ngx-avatar>
                       <input #file ngModel  [ngModelOptions]="{standalone: true}" type="file" accept='image/*' (change)="previewImage(file.files)" multiple>
                              <!-- (change)="onImageChange($event)"> -->
 
@@ -582,20 +577,20 @@
                     <label *ngIf="data.TypeContactId == 7">โทรสาร</label>
                   </td>
                   <td style="text-align: center">
-                  <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
-                        (click)="openModal(updatePersonContact, 'lg')">
-                        <i class="fas fa-pencil-alt icon-prop"></i>
-                      </a>
+                    <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
+                       (click)="openModal(updatePersonContact, 'lg')">
+                      <i class="fas fa-pencil-alt icon-prop"></i>
+                    </a>
                     <a href="javascript:void(0)" class="btn btn-outline-danger
                         btn-sm" (click)="deleteContact(i)">
                       <i class="fas fa-times icon-prop"></i>
                     </a>
                   </td>
                   <ng-template #updatePersonContact let-modal>
-                      <modal-contact-information [data]="contactList[i]"
-                                                 (onSubmit)="updateContact($event)">
-                      </modal-contact-information>
-                    </ng-template>
+                    <modal-contact-information [data]="contactList[i]"
+                                               (onSubmit)="updateContact($event)">
+                    </modal-contact-information>
+                  </ng-template>
                 </tr>
                 <tr *ngIf="contactList.length == 0">
                   <td class="text-center" colspan="4">ไม่พบข้อมูล</td>
@@ -628,9 +623,9 @@
                 </thead>
                 <tbody *ngFor="let data of coordinateList; let i= index" class="bg-white">
                 <tr *ngFor="let subData of data; let j=index">
-                    <td [rowSpan]="coordinateList[i].length" *ngIf=" j == 0">
-                      {{nametitle[i]}}
-                    </td>
+                  <td [rowSpan]="coordinateList[i].length" *ngIf=" j == 0">
+                    {{nametitle[i]}}
+                  </td>
                   <td>
                     <label *ngIf="subData.TypeContactId == 1">อีเมล</label>
                     <label *ngIf="subData.TypeContactId == 2">เบอร์โทร</label>
@@ -644,11 +639,20 @@
                     {{subData.Contact}}
                   </td>
                   <td class="text-center">
+                    <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
+                       (click)="openModal(updatePersonCoordiantion, 'lg')">
+                      <i class="fas fa-pencil-alt icon-prop"></i>
+                    </a>
                     <a href="javascript:void(0)" class="btn btn-outline-danger
                         btn-sm" (click)="deleteCoordinator(i)">
                       <i class="fas fa-times icon-prop"></i>
                     </a>
                   </td>
+                  <ng-template #updatePersonCoordiantion let-modal>
+                    <modal-coordinator-information [data]="subData"
+                                               (onSubmit)="updateCoordinator($event)">
+                    </modal-coordinator-information>
+                  </ng-template>
                 </tr>
                 <tr *ngIf="coordinateList.length == 0">
                   <td class="text-center" colspan="5">ไม่พบข้อมูล</td>
@@ -739,11 +743,11 @@
                 </tr>
                 </thead>
                 <tbody class="bg-white">
-                <tr *ngFor="let data of workingList; let i= index">
+                <tr *ngFor="let data of workingList">
                   <td>{{data.StartMonth | date: 'dd/MM/yyyy'}} ถึง
                     {{data.EndMonth | date: 'dd/MM/yyyy'}}
                   </td>
-                  <td>{{findCorperation(data.CorporationId)}}</td>
+                  <td>{{data.CorporationName}}</td>
                   <td>{{data.Position}}</td>
                   <td class="text-center">
                     <a href="javascript:void(0)" class="btn

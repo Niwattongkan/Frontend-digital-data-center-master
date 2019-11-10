@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: "http://qdoc.ecmxpert.com:8008/api/uapi/q/ddc/",
+  apiUrl: "https://tc.thaihealth.or.th:4122/uapi/ddc/",
   hmr: false,
   
   ssoAuthUrl: "https://sso-uat.thaihealth.or.th/authorize?redirect_uri=$redirect_uri&client_id=$client_id&state=&response_type=code",

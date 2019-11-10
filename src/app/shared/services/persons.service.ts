@@ -84,7 +84,7 @@ export class PersonsService {
   }
 
   getworkperson(id): Observable<any> {
-    return this.apiService.get(`getworkperson?id=${id}`);
+    return this.apiService.get(`getworkbyid?PersonId=${id}`);
   }
 
   getPersonSearch(name): Observable<any> {
@@ -189,6 +189,11 @@ export class PersonsService {
   updateCoordinator(data): Observable<any> {
     let formData = this.setFormData(data)
     return this.apiService.put(`updatecoordinator`, formData);
+  }
+
+  updateCoordinatorcontact(data): Observable<any> {
+    let formData = this.setFormData(data)
+    return this.apiService.put(`updateCoordinatorcontact`, formData);
   }
 
   updateWork(data): Observable<any> {

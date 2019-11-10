@@ -1,3 +1,12 @@
 ::ng-deep .xlModal > .modal-dialog {
   max-width: 1000px !important;
 }
+
+
+button#step-trigger:hover {
+  color: #027070;
+  border-bottom: 4px solid #027070;
+}
+button#step-trigger:active {
+  border-bottom: 4px solid #027070;
+}

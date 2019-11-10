@@ -29,7 +29,7 @@ export class ModalAddressInformationComponent implements OnInit {
   public addressList = [];
   public checkAccording = false;
   public checkIdCard = false;
-
+  public checkNowaddress = false
   constructor(
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
@@ -80,6 +80,7 @@ export class ModalAddressInformationComponent implements OnInit {
       .toPromise()).data;
     const account = 1;
     const idCard = 1;
+    const nowaddress = 1;
     this.addressList.forEach(element => {
       if (element.TypeAddress === 1) {
         // @ts-ignore
@@ -88,6 +89,10 @@ export class ModalAddressInformationComponent implements OnInit {
         // @ts-ignore
         idCard++;
       }
+      if (element.TypeAddress == 3) {
+        // @ts-ignore
+        nowaddress++;
+      }
       // @ts-ignore
       if (2 === account) {
         this.checkAccording = true;
@@ -95,6 +100,10 @@ export class ModalAddressInformationComponent implements OnInit {
       // @ts-ignore
       if (2 === idCard) {
         this.checkIdCard = true;
+      }
+      // @ts-ignore
+      if (2 === nowaddress){
+        this.checkNowaddress = true;
       }
     });
 
