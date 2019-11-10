@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { LayoutModule } from './layout/layout.module';
 import { ApiService } from './shared/services/config-services/api.service';
 import { AuthlogService } from './shared/services/authlog.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { AuthlogService } from './shared/services/authlog.service';
   ],
   providers: [
     ApiService,
-    AuthlogService
+    AuthlogService,
+    CookieService
   ],
   bootstrap: [
     AppComponent
