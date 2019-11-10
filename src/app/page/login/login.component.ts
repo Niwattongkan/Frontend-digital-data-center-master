@@ -40,14 +40,17 @@ export class LoginComponent implements OnInit {
     //var code = this.activatedRoute.snapshot.queryParams.code;
     var url = new URL(document.location.href);
     var code = url.searchParams.get("code");
+    var error = url.searchParams.get("error");
 
-    if(typeof code !== 'undefined' && code != null){
+    if (typeof code !== 'undefined' && code != null) {
       this.cookieService.set('code', code);
       document.location.href = "/#/home";
+    } else if (typeof error !== 'undefined' && error != null) {
+      //this.openModal(error)
+      alert(error);
     } else {
       document.location.href = environment.ssoAuthUrl;
     }
-    // TODO show error
   }
 
   public openModal(content) {
