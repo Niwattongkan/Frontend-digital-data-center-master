@@ -7,6 +7,8 @@ import { environment } from '../../../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+
 
 import { JwtService } from './jwt.service';
 
@@ -17,7 +19,8 @@ export class ApiService {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private cookieService: CookieService,
   ) { }
 
   private setHeaders(): HttpHeaders {
@@ -39,12 +42,12 @@ export class ApiService {
   }
 
   get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
-    return this.http.get(`${environment.apiUrl}${path}`,
+    return this.http.get(this.appendParams(`${environment.apiUrl}${path}`),
       { headers: this.setHeaders(), params: params }).pipe(
         catchError(this.formatErrors.bind(this)));
   }
   getContent(path: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}${path}`,
+    return this.http.get(this.appendParams(`${environment.apiUrl}${path}`),
       {
         headers: this.setHeaders(),
         responseType: 'blob'
@@ -53,7 +56,7 @@ export class ApiService {
   }
   getEventSource(path: string): Observable<any> {
     return Observable.create(observer => {
-      const eventSource = new EventSource(`${environment.apiUrl}${path}`);
+      const eventSource = new EventSource(this.appendParams(`${environment.apiUrl}${path}`));
       eventSource.onmessage = (x) => {
         if (x.data.length > 0) {
           observer.next(JSON.parse(x.data));
@@ -68,7 +71,7 @@ export class ApiService {
   }
   postContent(path: string, body: Object = {}): any {
     return this.http.post(
-      `${environment.apiUrl}${path}`,
+      this.appendParams(`${environment.apiUrl}${path}`),
       JSON.stringify(body),
       {
         headers: this.setHeaders(),
@@ -78,7 +81,7 @@ export class ApiService {
   }
   put(path: string, body: Object = {}): Observable<any> {
     return this.http.put(
-      `${environment.apiUrl}${path}`,
+      this.appendParams(`${environment.apiUrl}${path}`),
       body,
       { headers: this.setHeaders() }
     ).pipe(
@@ -87,7 +90,7 @@ export class ApiService {
 
   post(path: string, body: Object = {}): Observable<any> {
     return this.http.post(
-      `${environment.apiUrl}${path}`,
+      this.appendParams(`${environment.apiUrl}${path}`),
       body,
       { headers: this.setHeaders() }
     ).pipe(
@@ -96,9 +99,23 @@ export class ApiService {
 
   delete(path): Observable<any> {
     return this.http.delete(
-      `${environment.apiUrl}${path}`,
+      this.appendParams(`${environment.apiUrl}${path}`),
       { headers: this.setHeaders() }
     ).pipe(
       catchError(this.formatErrors.bind(this)));
   }
+
+  appendParams(path){
+     if(path.includes('?')){
+      return path +'&code=' +this.cookieService.get('code')
+     }
+     return path +'?code=' +this.cookieService.get('code')
+  }
+
+  checkTokenExprire(data){
+    if(data.successful="false"){ //TODO Make sure error about token exprie, or invalid
+      this.cookieService.delete('code');
+      document.location.href = "/#/home";
+    }
+ }
 }
