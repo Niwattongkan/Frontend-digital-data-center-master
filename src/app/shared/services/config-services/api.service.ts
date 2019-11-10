@@ -35,7 +35,6 @@ export class ApiService {
   }
 
   private formatErrors(error: any) {
-    debugger
     if ((error.status === 401 || error.status === 403) && (window.location.href.match(/\?/g) || []).length < 2) {
       this.router.navigate(['/login']);
     }
@@ -123,7 +122,6 @@ export class ApiService {
 
   checkTokenExprire(data){
     //debugger
-    //document.location.href = "/";
     if(!data.successful){ //TODO Make sure error about token exprie, or invalid
       this.cookieService.delete('code');
       document.location.href = "/";
