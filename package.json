@@ -37,6 +37,7 @@
     "mydatepicker-th": "^0.1.1",
     "ng-multiselect-dropdown": "^0.2.5",
     "ngx-avatar": "^3.7.0",
+    "ngx-cookie-service": "^2.2.0",
     "ngx-filter-pipe": "^2.1.2",
     "ngx-pagination": "^3.3.1",
     "ngx-spinner": "^8.0.3",

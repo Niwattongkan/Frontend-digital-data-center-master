@@ -1,5 +1,7 @@
 import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { NgbModalConfig, NgbModal, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
+import { CookieService } from 'ngx-cookie-service';
+import { NgModule } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,12 +9,14 @@ import { NgbModalConfig, NgbModal, NgbDatepickerConfig } from '@ng-bootstrap/ng-
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements AfterViewInit, OnInit {
+  private cookieValue: string;
 
   constructor(
     private configDate: NgbDatepickerConfig,
     private config: NgbModalConfig,
     private modalService: NgbModal,
     private elementRef: ElementRef,
+    private cookieService: CookieService,
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -21,7 +25,10 @@ export class AppComponent implements AfterViewInit, OnInit {
     // configDate.maxDate = {year: 2699, month: 12, day: 31};
   }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.cookieService.set('cookie-name', 'our cookie vale');
+    this.cookieValue = this.cookieService.get('cookie-name');
+  }
 
   ngAfterViewInit() {
     this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'white';
