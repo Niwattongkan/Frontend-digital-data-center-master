@@ -113,18 +113,23 @@ export class ApiService {
       catchError(this.formatErrors.bind(this)));
   }
 
-  appendParams(path){
-     if(path.includes('?')){
-      return path +'&code=' +this.cookieService.get('code')
-     }
-     return path +'?code=' +this.cookieService.get('code')
+  appendParams(path) {
+    if (path.includes('?')) {
+      return path + '&code=' + this.cookieService.get('code')
+    }
+    return path + '?code=' + this.cookieService.get('code')
   }
 
-  checkTokenExprire(data){
+  checkTokenExprire(data) {
     //debugger
-    if(!data.successful){ //TODO Make sure error about token exprie, or invalid
-      this.cookieService.delete('code');
-      document.location.href = "/";
+    try {
+      if (!data.successful) { //TODO Make sure error about token exprie, or invalid
+        this.cookieService.delete('code');
+        document.location.href = "/";
+      }
+    } catch (err) {
+      console.log("Unexpected exception while checkTokenExprire");
+      console.log(data);
     }
- }
+  }
 }
