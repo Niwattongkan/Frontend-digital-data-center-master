@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { PersonsService } from '../../../shared/services/persons.service';
+import SimpleCrypto from "simple-crypto-js/build/SimpleCrypto";
 
 @Component({
   selector: 'persons-family',
@@ -23,11 +24,12 @@ export class PersonsFamilyComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private personsService: PersonsService
   ) {
-    this.personId = this.activatedRoute.snapshot.paramMap.get('id');
     this.setMenubar()
   }
 
   async ngOnInit() {
+    let Crypto = new SimpleCrypto('some-unique-key');
+    this.personId = String(Crypto.decrypt(this.activatedRoute.snapshot.paramMap.get('id')));
     this.familyPerson = this.mapPersons((await this.personsService.getFamilyById(this.personId).toPromise()).data)
     this.dataTable = await this.setDataTable(this.familyPerson)
   }
@@ -43,6 +45,7 @@ export class PersonsFamilyComponent implements OnInit {
   }
 
   private setMenubar() {
+    this.personId = this.activatedRoute.snapshot.paramMap.get('id')
     this.stepList = [
       { icon: "profile", stepName: "ข้อมูลส่วนตัว", path: "/persons/detail/" + this.personId },
       { icon: "family", stepName: "ครอบครัว", path: "/persons/family/" + this.personId },

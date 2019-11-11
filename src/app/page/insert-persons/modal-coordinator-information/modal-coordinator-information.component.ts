@@ -5,6 +5,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import {validForm} from '../../../shared/library/form';
 import {ActivatedRoute} from "@angular/router";
+import SimpleCrypto from "simple-crypto-js/build/SimpleCrypto";
 
 @Component({
   selector: 'modal-coordinator-information',
@@ -34,6 +35,7 @@ export class ModalCoordinatorInformationComponent implements OnInit {
   }
 
   ngOnInit() {
+    let Crypto = new SimpleCrypto('some-unique-key');
     this.coordinatorForm = this.setCoordinator()
     this.contactCoordinator = this.setPersonCoordinator()
     if (this.data) {
@@ -41,7 +43,7 @@ export class ModalCoordinatorInformationComponent implements OnInit {
       this.coordinate = this.data
 
     }
-    this.coordinateID = this.activatedRoute.snapshot.paramMap.get('id');
+    this.coordinateID = Crypto.decrypt(this.activatedRoute.snapshot.paramMap.get('id'));
   }
 
   private setCoordinator() {

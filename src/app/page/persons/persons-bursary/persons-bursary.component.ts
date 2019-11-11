@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { PersonsService } from '../../../shared/services/persons.service';
+import SimpleCrypto from "simple-crypto-js/build/SimpleCrypto";
 
 @Component({
   selector: 'persons-bursary',
@@ -14,27 +15,29 @@ export class PersonsBursaryComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private personsService: PersonsService
   ) {
-    this.personId = this.activatedRoute.snapshot.paramMap.get('id');
     this.setMenubar();
   }
 
-  public personId = '';
+  public personId = ''
 
   public bursariesPerson: any = [];
 
   public stepList: any = [];
 
   async ngOnInit() {
+    let Crypto = new SimpleCrypto('some-unique-key');
+    this.personId = String(Crypto.decrypt(this.activatedRoute.snapshot.paramMap.get('id')));
     this.bursariesPerson = (await this.personsService.getProjectById(this.personId).toPromise()).data;
   }
   private setMenubar() {
+    this.personId = this.activatedRoute.snapshot.paramMap.get('id')
     this.stepList = [
-      { icon: 'profile', stepName: 'ข้อมูลส่วนตัว', path: '/persons/detail/' + this.personId },
-      { icon: 'family', stepName: 'ครอบครัว', path: '/persons/family/' + this.personId },
-      { icon: 'working', stepName: 'การทำงาน', path: '/persons/working/' + this.personId },
-      { icon: 'capital', stepName: 'การรับทุน', path: '/persons/bursary/' + this.personId },
-      { icon: 'Asset 36', stepName: 'การศึกษา', path: '/persons/studies/' + this.personId },
-    ];
+      { icon: "profile", stepName: "ข้อมูลส่วนตัว", path: "/persons/detail/" + this.personId },
+      { icon: "family", stepName: "ครอบครัว", path: "/persons/family/" + this.personId },
+      { icon: "working", stepName: "การทำงาน", path: "/persons/working/" + this.personId },
+      { icon: "capital", stepName: "การรับทุน", path: "/persons/bursary/" + this.personId },
+      { icon: "Asset 36", stepName: "การศึกษา", path: "/persons/studies/" + this.personId },
+    ]
   }
 
 }

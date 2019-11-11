@@ -6,7 +6,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
+  //templateUrl: './login.component.html',
+  template: '',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
@@ -21,11 +22,8 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // Check Existing Token (cookie name => code)
-    //console.log(document.location.href);
-
-    if (this.cookieService.get('code') != ''){
-      console.log('current tokent:' + this.cookieService.get('code'));
+    if (this.cookieService.get('code') != '') {
+      //console.log('current tokent:' + this.cookieService.get('code'));
       // redirect to sso authen page home
       document.location.href = "/#/home";
     } else {
@@ -34,21 +32,22 @@ export class LoginComponent implements OnInit {
   }
 
   private callback() {
-    // console.log('[IN callback]');
     // debugger
-    //var code = this.activatedRoute.snapshot.queryParams.code;
     var url = new URL(document.location.href);
     var code = url.searchParams.get("code");
     var error = url.searchParams.get("error");
 
-    if (typeof code !== 'undefined' && code != null) {
+    if (typeof code !== 'undefined' && code != null) { // Logon
       this.cookieService.set('code', code);
       document.location.href = "/#/home";
-    } else if (typeof error !== 'undefined' && error != null) {
-      //this.openModal(error)
+    } else if (typeof error !== 'undefined' && error != null) { // Error access_denined, logout
       alert(error);
-    } else {
-      document.location.href = environment.ssoAuthUrl;
+      this.cookieService.delete('code');
+      document.location.href = environment.logoutUrl
+    } else { // Reqest login
+      document.location.href = environment.ssoAuthUrl
+        .replace("$redirect_uri", environment.redirect_uri)
+        .replace("$client_id", environment.client_id);
     }
   }
 

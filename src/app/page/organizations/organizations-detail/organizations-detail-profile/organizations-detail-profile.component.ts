@@ -21,7 +21,7 @@ export class OrganizationsDetailProfileComponent {
     private activatedRoute: ActivatedRoute,
     private organizationService: OrganizationService
   ) {
-    this.corporationId = Object.values(this.activatedRoute.snapshot.params)[0]
+    this.corporationId = this.activatedRoute.snapshot.paramMap.get("id");
     this.profileForm = this.setCoreration(null)
   }
   async ngOnInit() {

@@ -45,9 +45,9 @@ export class ApiService {
   get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
     return this.http.get(this.appendParams(`${environment.apiUrl}${path}`),
       { headers: this.setHeaders(), params: params }).pipe(
-        tap(response => this.checkTokenExprire(response)),
-        catchError(this.formatErrors.bind(this))
-      );
+      tap(response => this.checkTokenExprire(response)),
+      catchError(this.formatErrors.bind(this))
+    );
   }
   getContent(path: string): Observable<any> {
     return this.http.get(this.appendParams(`${environment.apiUrl}${path}`),
@@ -55,8 +55,8 @@ export class ApiService {
         headers: this.setHeaders(),
         responseType: 'blob'
       }).pipe(
-        tap(response => this.checkTokenExprire(response)),
-        catchError(this.formatErrors.bind(this)));
+      tap(response => this.checkTokenExprire(response)),
+      catchError(this.formatErrors.bind(this)));
   }
   getEventSource(path: string): Observable<any> {
     return Observable.create(observer => {
@@ -82,8 +82,8 @@ export class ApiService {
         headers: this.setHeaders(),
         responseType: 'blob'
       }).pipe(
-        tap(response => this.checkTokenExprire(response)),
-        catchError(this.formatErrors.bind(this)));
+      tap(response => this.checkTokenExprire(response)),
+      catchError(this.formatErrors.bind(this)));
   }
   put(path: string, body: Object = {}): Observable<any> {
     return this.http.put(
@@ -115,18 +115,18 @@ export class ApiService {
   }
 
   appendParams(path){
-     if(path.includes('?')){
+    if(path.includes('?')){
       return path +'&code=' +this.cookieService.get('code')
-     }
-     return path +'?code=' +this.cookieService.get('code')
+    }
+    return path +'?code=' +this.cookieService.get('code')
   }
 
   checkTokenExprire(data){
-    //debugger
+    // debugger
     //document.location.href = "/";
     if(!data.successful){ //TODO Make sure error about token exprie, or invalid
       this.cookieService.delete('code');
       document.location.href = "/";
     }
- }
+  }
 }

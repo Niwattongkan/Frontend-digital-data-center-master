@@ -4,7 +4,7 @@
     <label class="d-none d-lg-inline text-white">displayName</label>
   </a>
   <div class="topbar-divider d-none d-sm-block"></div>
-  <a class="item text-gray-100" [routerLink]="['/login/']">
+  <a class="item text-gray-100" (click)="logout()">
     <i class="fas fa-sign-out-alt mr-2 text-gray-400"></i>
     <label class="d-none d-lg-inline">ออกจากระบบ</label>
   </a>

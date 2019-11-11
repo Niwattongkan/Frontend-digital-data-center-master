@@ -9,7 +9,7 @@ import SimpleCrypto from "simple-crypto-js";
 export class CardPersonComponent implements OnInit {
 
   public isCollapsed = true;
-
+  public cypeID
   public currentPath = '';
   public imagePerson = '';
   public image ='./'
@@ -22,15 +22,14 @@ export class CardPersonComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-
+    let Crypto = new SimpleCrypto('some-unique-key');
+    this.cypeID = Crypto.encrypt( this.data.PersonId)
   }
 
   async ngOnChanges() {
-    let Crypto = new SimpleCrypto('some-unique-key');
     this.currentPath = this.router.url;
     this.data = await this.setProfile(this.data);
     // this.data = await this.setProfile(this.enCypeId(this.data));
-    // this.imagePerson = 'https://tc.thaihealth.or.th:4122/uapi/ddc/getphotoperson?PersonId=' +Crypto.encrypt( this.data.PersonId);
     this.imagePerson = 'https://tc.thaihealth.or.th:4122/uapi/ddc/getphotoperson?PersonId=' +this.data.PersonId;
   }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { PersonsService } from '../../../shared/services/persons.service';
+import SimpleCrypto from "simple-crypto-js/build/SimpleCrypto";
 
 @Component({
   selector: 'app-persons-studies',
@@ -20,15 +21,17 @@ export class PersonsStudiesComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private personsService: PersonsService
   ) {
-    this.personId = this.activatedRoute.snapshot.paramMap.get('id');
     this.setMenubar();
   }
 
   async ngOnInit() {
+    let Crypto = new SimpleCrypto('some-unique-key');
+    this.personId = String(Crypto.decrypt(this.activatedRoute.snapshot.paramMap.get('id')));
     this.personStudy = (await this.personsService.getEducationById(this.personId).toPromise()).data
   }
 
   private setMenubar() {
+    this.personId = this.activatedRoute.snapshot.paramMap.get('id')
     this.stepList = [
       { icon: "profile", stepName: "ข้อมูลส่วนตัว", path: "/persons/detail/" + this.personId },
       { icon: "family", stepName: "ครอบครัว", path: "/persons/family/" + this.personId },

@@ -16,6 +16,7 @@ import {alertEvent, alertDeleteEvent} from '../../shared/library/alert';
 import {calulateAge} from '../../shared/library/date';
 import {validForm} from '../../shared/library/form';
 import {NgxSpinnerService} from "ngx-spinner";
+import SimpleCrypto from "simple-crypto-js/build/SimpleCrypto";
 
 @Component({
   selector: 'app-insert-persons',
@@ -76,13 +77,13 @@ export class InsertPersonsComponent implements OnInit {
   ) {
     this.profileForm = this.setProfile(null);
     this.profileOriginForm = this.profileForm.value;
-    this.personId = this.activatedRoute.snapshot.paramMap.get('id');
     this.mode = this.personId ? 'Edit' : 'Insert';
     this.title = this.personId ? 'แก้ไขข้อมูลบุคคล' : 'เพิ่มข้อมูลบุคคล';
   }
 
   async ngOnInit() {
-
+    let Crypto = new SimpleCrypto('some-unique-key');
+    this.personId = Crypto.decrypt(this.activatedRoute.snapshot.paramMap.get('id'));
     this.spinner.show();
     this.stepper = new Stepper(document.querySelector('#stepper1'), {
       linear: false,

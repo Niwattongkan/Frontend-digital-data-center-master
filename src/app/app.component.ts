@@ -26,8 +26,6 @@ export class AppComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() { 
-    this.cookieService.set('cookie-name', 'our cookie vale');
-    this.cookieValue = this.cookieService.get('cookie-name');
   }
 
   ngAfterViewInit() {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import SimpleCrypto from "simple-crypto-js";
 
 import { PersonsService } from '../../../shared/services/persons.service';
 
@@ -37,14 +38,14 @@ export class PersonsDetailComponent implements OnInit {
     private modalService: NgbModal,
     private spinner: NgxSpinnerService
   ) {
-    this.personId = this.activatedRoute.snapshot.paramMap.get('id');
-    this.setTabbar()
-    this.setMenubar()
   }
 
   async ngOnInit() {
-
+    this.setMenubar()
+    this.setTabbar()
+    let Crypto = new SimpleCrypto('some-unique-key');
     this.spinner.show();
+    this.personId = String(Crypto.decrypt(this.activatedRoute.snapshot.paramMap.get('id')));
     this.detailPerson = this.personId ? await mapPersons((await this.personsService.getDetailById(this.personId).toPromise()).data)[0] : null
     if (this.detailPerson.length == 0) {
       alertEvent('ไม่พบข้อมูลบุคคุลนี้', 'warning')
@@ -60,6 +61,7 @@ export class PersonsDetailComponent implements OnInit {
     this.account = await this.setAccount()
     this.position = await this.setPosition(this.detailPerson)
     this.address = await this.setAddress()
+
     this.spinner.hide()
 
   }
@@ -87,6 +89,7 @@ export class PersonsDetailComponent implements OnInit {
   }
 
   private setMenubar() {
+    this.personId = this.activatedRoute.snapshot.paramMap.get('id')
     this.stepList = [
       { icon: "profile", stepName: "ข้อมูลส่วนตัว", path: "/persons/detail/" + this.personId },
       { icon: "family", stepName: "ครอบครัว", path: "/persons/family/" + this.personId },
