@@ -10,7 +10,7 @@
           <span>หน้าแรก</span>
         </a>
       </li>
-      <li routerLinkActive="active" class="nav-item">
+      <li *ngIf="showMenu('persons')" routerLinkActive="active" class="nav-item">
         <a class="text-menu" routerLink="/persons">
           <span>ข้อมูลบุคคล</span>
         </a>
