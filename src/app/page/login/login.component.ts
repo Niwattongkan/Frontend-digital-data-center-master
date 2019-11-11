@@ -49,9 +49,16 @@ export class LoginComponent implements OnInit {
         .replace("$redirect_uri", environment.redirect_uri)
         .replace("$client_id", environment.client_id);
     }
+
+    this.setPermission();
   }
 
   public openModal(content) {
     return this.modalService.open(content);
+  }
+
+  private setPermission() {
+    const mockPermission = '{ "successful": true, "data": [ { "PView": 1, "MenuName": "ข้อมูลบุคคล", "MenuNameEng": "persons" } ] }';
+    this.cookieService.set('u_permission', mockPermission);
   }
 }
