@@ -124,6 +124,7 @@ export class ApiService {
     //debugger
     try {
       if (!data.successful) { //TODO Make sure error about token exprie, or invalid
+        console.log(data);
         this.cookieService.delete('code');
         document.location.href = "/";
       }
