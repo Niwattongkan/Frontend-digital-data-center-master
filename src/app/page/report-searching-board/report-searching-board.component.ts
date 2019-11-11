@@ -23,7 +23,7 @@ export class ReportSearchingBoardComponent implements OnInit {
   public page = 1;
 
   public reportList: any = [];
-
+  public dorp
   public myDatePickerOptions: IMyOptions = {
     dateFormat: 'dd/mm/yyyy',
   };
@@ -41,8 +41,9 @@ export class ReportSearchingBoardComponent implements OnInit {
 
   async ngOnInit() {
     this.spinner.show();
-    const result = ((await this.reportService.getreportboard(this.searchform.value).toPromise()).data);
+    const result = ((await this.reportService.getreportboard().toPromise()).data);
     this.reportList = mapPersons(result);
+    this.dorp = mapPersons(result)
     this.spinner.hide();
   }
 
@@ -63,14 +64,19 @@ export class ReportSearchingBoardComponent implements OnInit {
 
   public async searchReport() {
     this.spinner.show();
-    const result = ((await this.reportService.getreportboard(this.searchform.value).toPromise()).data);
-    this.reportList = mapPersons(result);
+    if(this.searchform.value != ''){
+      this.reportList = mapPersons((await this.reportService.getreportboard().toPromise()).data);
+      let filter = this.reportList.filter(report => {
+        return (String(report.BoardName)).includes(this.searchform.value.BoardName)
+      })
+      this.reportList = filter
+    }
+
     this.spinner.hide();
   }
 
   public setSerachForm() {
     return this.formBuilder.group({
-      Name: [''],
       BoardName: [''],
     });
   }

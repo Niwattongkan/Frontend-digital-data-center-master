@@ -12,27 +12,26 @@
     <div class="row mb-2">
       <div class="col-md text-center">
         <div class="container mb-4">
-          <div class="row">
-            <div class="step" data-target="#step-1" style="padding-left: 15px;">
-              <div class="step-trigger">
-                <a href="javascript:void(0)" routerLinkActive="active" >
-                  <span class="bs-stepper-label">ข้อมูลองค์กร</span>
-                </a>
-              </div>
+          <div class="bs-stepper-header">
+            <div class="step " data-target="#step-1">
+              <button class="step-trigger"
+                      style="color: #e49227; border-bottom: 4px solid #e49227;  padding-left: 60px; padding-right: 60px;">
+                <span class="bs-stepper-label ">ข้อมูลองค์กร</span>
+              </button>
             </div>
-            <div class="step" data-target="#step-2" style="padding-left: 15px;">
-              <div class="step-trigger" >
-                <a href="javascript:void(0)" routerLinkActive="active" >
-                  <span class="bs-stepper-label">ที่ตั้ง/ที่อยู่ในการจัดส่ง องค์กร</span>
-                </a>
-              </div>
+            <div style="padding-left: 60px;"></div>
+            <div class="step" data-target="#step-2">
+              <button class="step-trigger" [disabled]="notNext==1  || corperationId==null"
+                      style="color: #e49227; border-bottom: 4px solid #e49227;  padding-left: 60px; padding-right: 60px;">
+                <span class="bs-stepper-label">ตั้ง/ที่อยู่ในการจัดส่ง องค์กร</span>
+              </button>
             </div>
-            <div class="step" data-target="#step-3" style="padding-left: 15px;">
-              <div class="step-trigger">
-                <a href="javascript:void(0)" routerLinkActive="active" >
-                  <span class="bs-stepper-label">ข้อมูลการติดต่อ</span>
-                </a>
-              </div>
+            <div style="padding-left: 60px;"></div>
+            <div class="step" data-target="#step-3" >
+              <button class="step-trigger" [disabled]="notNext==1  || corperationId==null"
+                      style="color: #e49227; border-bottom: 4px solid #e49227;  padding-left: 60px; padding-right: 60px;">
+                <span class="bs-stepper-label">ข้อมูลการติดต่อ</span>
+              </button>
             </div>
           </div>
         </div>
@@ -426,7 +425,7 @@
                 </tr>
                 </thead>
                 <tbody class="bg-white">
-                <tr *ngFor="let data of contactList; let i = index" >
+                <tr *ngFor="let data of contactList; let i = index">
                   <td>{{data.Contact}}</td>
                   <td>
                     <span *ngIf="data.TypeContactId == 1">อีเมล์</span>

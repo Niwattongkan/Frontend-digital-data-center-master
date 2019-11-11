@@ -1,98 +1,98 @@
 <ngx-spinner></ngx-spinner>
 <div class="row justify-content-center">
-    <div class="col-md-10 mb-2">
-        <div class="card shadows">
-            <div class="card-header">
-                <h2 class="text-bold"> รายงานการสืบค้นข้อมูลองค์กร </h2>
+  <div class="col-md-10 mb-2">
+    <div class="card shadows">
+      <div class="card-header">
+        <h2 class="text-bold"> รายชื่อบุคคลตามองค์กร </h2>
+      </div>
+      <div class="card-body">
+        <div class="container" [formGroup]="searchform">
+          <div class="row justify-content mb-4">
+            <div class="col-md-4">
+              <div class="input-group-sm row">
+                <label class="col-md-3 text-right">องค์กร</label>
+                <input type="text" class="form-control col-md-9" formControlName="CorporationName">
+              </div>
             </div>
-            <div class="card-body">
-                <div class="container" [formGroup]="searchform">
-                    <div class="row justify-content-center mb-4">
-                        <div class="col-md-12">
-                            <div class="input-group-sm row">
-                                <label class="col-md-2 text-right">ชื่อองค์กร</label>
-                                <input type="text" class="form-control col-md-10" formControlName="CorporationName">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center mb-4">
-                        <div class="col-md-6">
-                            <div class="input-group-sm row">
-                                <label class="col-md-4 text-right"> อยู่ภายใต้องค์กร</label>
-                                <input type="text" class="form-control col-md-8" formControlName="Parent">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="input-group-sm row">
-                                <label class="col-md-4 text-right">ชื่อบุคคลในองค์กร</label>
-                                <input type="text" class="form-control col-md-8" formControlName="FullnameTh">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group text-right">
-                        <button type="button" class="btn btn-success" (click)="searchReport()">ค้นหา
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-                </div>
+            <div class="col-md-4" >
+              <div class="input-group-sm row">
+                <label class="col-md-6 text-right"> ช่วงเวลาดำรงตำแหน่ง</label>
+                <my-date-picker-th class="col-md-6" [options]="myDatePickerOptions" formControlName="StartDate">
+                </my-date-picker-th>
+              </div>
             </div>
+            <div class="col-md-4">
+              <div class="input-group-sm row">
+                <label class="col-md-5 text-right">ถึง</label>
+                <my-date-picker-th class="col-md-7" [options]="myDatePickerOptions" formControlName="EndDate">
+                </my-date-picker-th>
+              </div>
+            </div>
+          </div>
+          <div class="form-group text-right">
+            <button type="button" class="btn btn-success" (click)="searchReport()">ค้นหา
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
         </div>
-    </div>
-</div>
-<div class="row justify-content-center mt-4">
-    <div class="col-md-10 text-right">
-        <a href="javascript:void(0)" class="dropdown-toggle btn btn-outline-warning btn-sm"
-        data-toggle="dropdown">
-        Export <i class="fas fa-download"></i>
-      </a>
-      <div class="dropdown-menu">
-        <button class="dropdown-item" (click)="exportExcel(reportList);">
-          <i class="fas fa-file-excel"></i>
-          Excel
-        </button>
-        <button class="dropdown-item" (click)="exportPDF(reportList);">
-          <i class="far fa-file-pdf"></i> PDF
-        </button>
       </div>
     </div>
+  </div>
 </div>
 <div class="row justify-content-center mt-4">
-    <div class="col-md-10">
-        <table class="table table-bordered">
-            <thead class="bg-custom-green text-white">
-                <tr role="row">
-                    <th class="text-center">
-                        ชื่อองค์กร
-                    </th>
-                    <th class="text-center">
-                        อยู่ภายใต้องค์กร
-                    </th>
-                    <th class="text-center">
-                        บุคคลในองค์กร
-                    </th>
-                    <th class="text-center">
-                        ที่อยู่องค์กร
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="bg-white">
-                <tr *ngFor="let data of reportList | paginate: { itemsPerPage: 10, currentPage: page }">
-                    <td>
-                        {{data.CorporationName}}
-                    </td>
-                    <td>
-                        {{data.Parent}}
-                    </td>
-                    <td>
-                        {{data.FullnameTh}}
-                    </td>
-                    <td>{{showAddress(data)}}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="d-flex justify-content-between">
-            <span>แสดงทั้งหมด {{reportList.length}} รายการ</span>
-            <pagination-controls (pageChange)="page = $event"></pagination-controls>
-        </div>
+  <div class="col-md-10 text-right">
+    <a href="javascript:void(0)" class="dropdown-toggle btn btn-outline-warning btn-sm"
+       data-toggle="dropdown">
+      Export <i class="fas fa-download"></i>
+    </a>
+    <div class="dropdown-menu">
+      <button class="dropdown-item" (click)="exportExcel(reportList);">
+        <i class="fas fa-file-excel"></i>
+        Excel
+      </button>
+      <button class="dropdown-item" (click)="exportPDF(reportList);">
+        <i class="far fa-file-pdf"></i> PDF
+      </button>
     </div>
+  </div>
+</div>
+<div class="row justify-content-center mt-4">
+  <div class="col-md-10">
+    <table class="table table-bordered">
+      <thead class="bg-custom-green text-white">
+      <tr role="row">
+        <th class="text-center">
+          ชื่อองค์กร
+        </th>
+        <th class="text-center">
+          อยู่ภายใต้องค์กร
+        </th>
+        <th class="text-center">
+          บุคคลในองค์กร
+        </th>
+        <th class="text-center">
+          ที่อยู่องค์กร
+        </th>
+      </tr>
+      </thead>
+      <tbody class="bg-white">
+      <tr *ngFor="let data of reportList | paginate: { itemsPerPage: 10, currentPage: page }">
+        <td>
+          {{data.CorporationName}}
+        </td>
+        <td>
+          {{data.Parent}}
+        </td>
+        <td>
+          {{data.FullnameTh}}
+        </td>
+        <td>{{showAddress(data)}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-between">
+      <span>แสดงทั้งหมด {{reportList.length}} รายการ</span>
+      <pagination-controls (pageChange)="page = $event"></pagination-controls>
+    </div>
+  </div>
 </div>

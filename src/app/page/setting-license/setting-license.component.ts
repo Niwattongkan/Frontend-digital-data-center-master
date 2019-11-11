@@ -15,7 +15,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class SettingLicenseComponent implements OnInit {
 
   public roleList: any = [];
-  public headers: any = ['ชื่อสิทธิ์การใช้งาน', 'ชื่อบุคคล', 'เครื่องมือ'];
+  public headers: any = ['ชื่อสิทธิ์การใช้งาน', 'ชื่อกลุ่มผู้ใช้งาน ', 'เครื่องมือ'];
 
   public inputSearch = '';
   public page: number;
