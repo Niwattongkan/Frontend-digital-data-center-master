@@ -136,11 +136,25 @@ export class HomeComponent implements OnInit {
       if (this.inputSearch != '') {
 
         const seachPerson = this.personList.filter(person => {
+
           return (String(person.FristNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
-            (String(person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
-            (String(person.Contact)).includes(this.inputSearch);
+            (String(person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase())
+            // || person.ContactList.filter(contact => {
+            //   return (String(contact.Contact).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase())
+            // })
         });
         this.personList = seachPerson.length > 0 ? seachPerson : await this.mapPerson((await this.personsService.getsearchpersoncontact(this.inputSearch).toPromise()).data)
+        // if(seachPerson.length > 0 ){
+        //   this.personList = seachPerson
+        // }else{
+        //   this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data);
+        //   const seachPerson = this.personList.filter(person => {
+        //     return person.ContactList.filter(contact => {
+        //       return (String(contact.Contact).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase())
+        //     })
+        //   });
+        //   this.personList = seachPerson
+        // }
         this.spinner.hide()
 
       }

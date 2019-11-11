@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
     // Check Existing Token (cookie name => code)
     //console.log(document.location.href);
 
-    debugger
     if (this.cookieService.get('code') != ''){
       console.log('current tokent:' + this.cookieService.get('code'));
       // redirect to sso authen page home

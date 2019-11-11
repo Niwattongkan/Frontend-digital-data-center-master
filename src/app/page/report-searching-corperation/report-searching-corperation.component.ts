@@ -69,8 +69,8 @@ export class ReportSearchingCorperationComponent implements OnInit {
 
   public async searchReport() {
     this.spinner.show();
-    const result = ((await this.reportService.getreportcorporation(this.searchform.value).toPromise()).data);
-    this.reportList = result ? mapPersons(result) : [];
+    // const result = ((await this.reportService.getreportcorporation(this.searchform.value).toPromise()).data);
+    // this.reportList = result != null ? mapPersons(result) : [];
     this.spinner.hide();
 
   }
@@ -92,7 +92,7 @@ export class ReportSearchingCorperationComponent implements OnInit {
       exportGroup,
       'report-corporation'
     );
-    
+
   }
 
   public exportPDF(data) {
