@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit {
     if (this.cookieService.get('code') != '') {
       //console.log('current tokent:' + this.cookieService.get('code'));
       // redirect to sso authen page home
-      this.usersService.getPermissionById();
       document.location.href = "/#/home";
     } else {
       this.callback();
@@ -41,8 +40,12 @@ export class LoginComponent implements OnInit {
 
     if (typeof code !== 'undefined' && code != null) { // Logon
       this.cookieService.set('code', code);
-      //this.setPermission();
-      document.location.href = "/#/home";
+
+      this.usersService.getPermissionById().subscribe((data: any) => {
+        localStorage.setItem('u_permission', JSON.stringify(data));
+        document.location.href = "/#/home";
+      });
+
     } else if (typeof error !== 'undefined' && error != null) { // Error access_denined, logout
       alert(error);
       this.cookieService.delete('code');
@@ -59,3 +62,4 @@ export class LoginComponent implements OnInit {
     return this.modalService.open(content);
   }
 }
+
