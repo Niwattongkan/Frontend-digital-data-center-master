@@ -32,31 +32,21 @@ export class ReportService {
 
   getreportcorporation(data): Observable<any> {
     const params = new URLSearchParams();
-    if (data.Parent !== '') {
-      params.append('Parent', data.Parent);
+    if (data.StartDate !== '') {
+      params.append('StartDate', data.StartDate+` 00:00:00.000`);
+    }
+    if (data.EndDate !== '') {
+      params.append('EndDate', data.EndDate+` 00:00:00.000`);
     }
     if (data.CorporationName !== '') {
       params.append('CorporationName', data.CorporationName);
     }
-    if (data.FullnameTh !== '') {
-      params.append('Name', data.FullnameTh);
-    }
+
     return this.apiService.get(`getreportcorporation?` + params.toString());
   }
 
-  getreportboard(data): Observable<any> {
-    const params = new URLSearchParams();
-    if (data.name != '' ||  data.BoardName != '') {
-      params.append('Name', data.Name);
-      params.append('BoardName', data.BoardName != '' ? data.BoardName : 'value');
-    } else if (data.name != '' || data.BoardName == '') {
-      params.append('Name', data.Name);
-      params.append('BoardName', data.BoardName != '' ? data.BoardName : '');
-    } else {
-      params.append('Name', data.Name);
-      params.append('BoardName', data.BoardName != '' ? data.BoardName : 'value');
-    }
-    return this.apiService.get(`getreportboard?` + params.toString());
+  getreportboard(): Observable<any> {
+    return this.apiService.get(`getreportboard?Name=test`);
   }
 
   getreportuserlog(data): Observable<any> {

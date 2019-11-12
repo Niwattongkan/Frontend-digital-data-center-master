@@ -137,14 +137,10 @@ export class HomeComponent implements OnInit {
 
         const seachPerson = this.personList.filter(person => {
           return (String(person.FristNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
-            (String(person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
-            (String(person.Contact)).includes(this.inputSearch);
+            (String(person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase())
         });
         this.personList = seachPerson.length > 0 ? seachPerson : await this.mapPerson((await this.personsService.getsearchpersoncontact(this.inputSearch).toPromise()).data)
-        this.spinner.hide()
-
       }
-      this.spinner.hide()
     } else if (this.typeCheck[1].status == true) {
       this.listStatus = 1;
       this.organizationList = this.mapCorperation((await this.organizationService.getOrganizationAll().toPromise()).data);
@@ -153,9 +149,7 @@ export class HomeComponent implements OnInit {
           return (String(corperation.CorporationName).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
             (String(corperation.TaxNo).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase());
         });
-        this.spinner.hide()
       }
-      this.spinner.hide()
     } else if (this.typeCheck[2].status == true) {
       this.listStatus = 2;
       this.programList = this.mapProject((await this.programService.getallproject().toPromise()).data);
@@ -168,7 +162,6 @@ export class HomeComponent implements OnInit {
             (String(project.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase());
         });
       }
-      this.spinner.hide()
     }
     this.spinner.hide()
     return this.page = 1;

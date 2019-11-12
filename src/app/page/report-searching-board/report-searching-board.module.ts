@@ -7,12 +7,14 @@ import { ReportSearchingBoardComponent } from './report-searching-board.componen
 import { ReportService } from '../../shared/services/report.service';
 import { ExcelService } from '../../shared/services/excel.service';
 import {NgxSpinnerModule} from "ngx-spinner";
+import {MatSelectModule} from "@angular/material/select";
 @NgModule({
   declarations: [ReportSearchingBoardComponent],
   imports: [
     SharedModule,
     RoutingModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    MatSelectModule
   ],
   providers: [
     ReportService,

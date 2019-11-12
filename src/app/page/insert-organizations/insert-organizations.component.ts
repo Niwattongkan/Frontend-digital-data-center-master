@@ -28,7 +28,7 @@ export class InsertOrganizationsComponent implements OnInit {
   public corperationOriginForm: any;
   public addressOriginForm: any;
   public addressContactOriginForm: any;
-
+  public notNext: any;
   public corperationId = null;
   public title = "";
   public corperationAll: any = [];
@@ -44,6 +44,7 @@ export class InsertOrganizationsComponent implements OnInit {
   public contactList: any = [];
 
   private stepper: Stepper;
+  private disable: boolean;
 
   constructor(
     private router: Router,
@@ -59,6 +60,8 @@ export class InsertOrganizationsComponent implements OnInit {
     this.addressContactForm = this.setAddress(null, 4);
     this.corperationId = this.activatedRoute.snapshot.paramMap.get("id");
     this.title = this.corperationId ? "แก้ไขข้อมูลองค์กร" : "เพิ่มข้อมูลองค์กร";
+    this.notNext = 2;
+
   }
 
   async ngOnInit() {
@@ -620,15 +623,18 @@ export class InsertOrganizationsComponent implements OnInit {
 
   public async nextToStep2() {
     if (
-      this.corperationForm.controls.Parent.value == "" &&
-      this.corperationForm.controls.Parent.value == null &&
-      this.corperationForm.controls.CorporationName.value == "" &&
+      this.corperationForm.controls.TaxNo.value == "" ||
+      this.corperationForm.controls.TaxNo.value == null ||
+      this.corperationForm.controls.CorporationName.value == "" ||
       this.corperationForm.controls.CorporationName.value == null
     ) {
       this.alertValid = true;
       return window.scroll(0, 300);
     }
+    this.notNext = 2;
     this.corperationId ? this.update() : this.Insert();
+    this.disable == true
+    this.alertValid = false;
     alertEvent("บันทึกข้อมูลสำเร็จ", "success");
     return this.stepper.next();
   }
@@ -642,7 +648,8 @@ export class InsertOrganizationsComponent implements OnInit {
       this.alertValid = true;
       return window.scroll(0, 300);
     }
-
+    this.disable == true
+    this.alertValid = false;
     this.corperationId ? this.update() : this.Insert();
 
     alertEvent("บันทึกข้อมูลสำเร็จ", "success");

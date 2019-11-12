@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 
 import { OrganizationService } from '../../../../shared/services/organization.service';
 
@@ -18,13 +17,13 @@ export class OrganizationsDetailProfileComponent {
   @Input() inputForm: any;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private organizationService: OrganizationService
   ) {
-    this.corporationId = Object.values(this.activatedRoute.snapshot.params)[0]
+    this.corporationId = this.inputForm ? this.inputForm.CorporationId : ""
     this.profileForm = this.setCoreration(null)
   }
   async ngOnInit() {
+
     this.profileForm = this.setCoreration(null)
   }
 
@@ -35,14 +34,15 @@ export class OrganizationsDetailProfileComponent {
 
 
   setCoreration(data) {
+    console.log(data)
     return data ? {
       CorporationName: data.CorporationName,
       Parent: data.Parent,
       TaxNo: data.TaxNo,
     } : {
-        CorporationName: "",
-        Parent: "",
-        TaxNo: "",
-      }
+      CorporationName: "",
+      Parent: "",
+      TaxNo: "",
+    }
   }
 }

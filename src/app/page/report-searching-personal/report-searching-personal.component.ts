@@ -23,7 +23,7 @@ export class ReportSearchingPersonalComponent implements OnInit {
   public page = 1;
 
   public reportList: any = [];
-
+  public searchresult: any
   public myDatePickerOptions: IMyOptions = {
     dateFormat: "dd/mm/yyyy"
   };
@@ -73,7 +73,22 @@ export class ReportSearchingPersonalComponent implements OnInit {
     const result = (await this.reportService
       .getreportperson(this.searchform.value)
       .toPromise()).data;
-    this.reportList = mapPersons(result);
+    // if(result){
+    //   this.searchresult = result.filter(value => {
+    //     return (String(value.FristNameTh)).includes(this.searchform.value) ||
+    //       (String(value.LastNameTh)).includes(this.searchform.value) ||
+    //       (String(value.FristNameEn)).includes(this.searchform.value) ||
+    //       (String(value.LastNameEn)).includes(this.searchform.value) ||
+    //       (String(value.CorporationName)).includes(this.searchform.value) ||
+    //       (String(value.StartYear)).includes(this.searchform.value) ||
+    //       (String(value.Position)).includes(this.searchform.value) ||
+    //       (String(value.ProjectName)).includes(this.searchform.value) ||
+    //       (String(value.ProjectNo)).includes(this.searchform.value)
+    //   })
+    //
+    // }
+    // this.reportList = mapPersons(this.searchresult);
+     this.reportList = mapPersons(result);
     this.spinner.hide();
   }
 

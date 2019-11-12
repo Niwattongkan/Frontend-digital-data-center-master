@@ -8,6 +8,7 @@ import { validForm } from '../../../shared/library/form';
 import {ActivatedRoute} from '@angular/router';
 import {PersonsService} from '../../../shared/services/persons.service';
 import {element} from 'protractor';
+import SimpleCrypto from "simple-crypto-js/build/SimpleCrypto";
 
 @Component({
   selector: 'modal-address-information',
@@ -40,12 +41,13 @@ export class ModalAddressInformationComponent implements OnInit {
 
   ) {
     this.addressForm = this.setAddress(null);
-    this.personId = this.activatedRoute.snapshot.paramMap.get('id');
 
   }
 
 
   async ngOnInit() {
+    let Crypto = new SimpleCrypto('some-unique-key');
+    this.personId = Crypto.decrypt(this.activatedRoute.snapshot.paramMap.get('id'));
     this.checkTypeAddress();
     this.province = (await this.dropdownService.getProvinceAll().toPromise()).data;
     this.addressForm = this.data ? this.setAddress(this.data) : this.setAddress(null);

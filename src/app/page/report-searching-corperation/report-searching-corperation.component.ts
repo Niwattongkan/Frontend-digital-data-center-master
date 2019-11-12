@@ -69,12 +69,35 @@ export class ReportSearchingCorperationComponent implements OnInit {
 
   public async searchReport() {
     this.spinner.show();
-    const result = ((await this.reportService.getreportcorporation(this.searchform.value).toPromise()).data);
+    const data = this.searchform.value;
+
+    if (data.StartDate !== null) {
+      data.StartDate = this.setDate(data.StartDate.date);
+    } else {
+      data.StartDate = null;
+    }
+    if (data.EndDate !== null) {
+      data.EndDate = this.setDate(data.EndDate.date);
+    } else {
+      data.EndDate = null;
+    }
+    const result = (await this.reportService.getreportcorporation(data).toPromise()).data;
     this.reportList = result ? mapPersons(result) : [];
     this.spinner.hide();
 
   }
-
+  public setDate(date) {
+    const year = date.year;
+    const month = '000' + date.month;
+    const day = '000' + date.day;
+    return (
+      year +
+      '-' +
+      month.substr(month.length - 2, month.length) +
+      '-' +
+      day.substr(day.length - 2, day.length)
+    );
+  }
   public exportExcel(data) {
     this.spinner.show();
     let exportGroup = [];
@@ -92,7 +115,7 @@ export class ReportSearchingCorperationComponent implements OnInit {
       exportGroup,
       'report-corporation'
     );
-    
+
   }
 
   public exportPDF(data) {
@@ -131,8 +154,28 @@ export class ReportSearchingCorperationComponent implements OnInit {
   public setSerachForm() {
     return this.formBuilder.group({
       CorporationName: [''],
-      Parent: [''],
-      FullnameTh: ['']
+      StartDate: [this.setStartDateEdit(new Date())],
+      EndDate: [this.setEndDateEdit(new Date())]
     });
+  }
+  private setStartDateEdit(data) {
+    const tempDate = new Date(data);
+    return {
+      date: {
+        year: tempDate.getFullYear(),
+        month: tempDate.getMonth(),
+        day: tempDate.getDate()
+      }
+    };
+  }
+  private setEndDateEdit(data) {
+    const tempDate = new Date(data);
+    return {
+      date: {
+        year: tempDate.getFullYear(),
+        month: tempDate.getMonth() + 1,
+        day: tempDate.getDate()
+      }
+    };
   }
 }

@@ -41,14 +41,13 @@ export class ProgramListComponent implements OnInit {
   public async onSearchData() {
     this.spinner.show();
     this.programList = this.mapProject((await this.programService.getallproject().toPromise()).data)
-    Array.prototype.push.apply(this.programList, (await this.programService.getallpurchase().toPromise()).data)
+    Array.prototype.push.apply(this.programList, this.mapProject((await this.programService.getallpurchase().toPromise()).data))
 
     if (this.inputSearch != '') {
       this.programList = this.programList.filter(project => {
         return project.CorporationName.includes(this.inputSearch) ||
           project.ProjectName.includes(this.inputSearch) ||
-          project.FristNameTh.includes(this.inputSearch) ||
-          project.LastNameTh.includes(this.inputSearch);
+          project.FullnameTh.includes(this.inputSearch)
       });
       this.spinner.hide()
     }
