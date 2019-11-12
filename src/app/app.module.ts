@@ -10,6 +10,7 @@ import { LayoutModule } from './layout/layout.module';
 import { ApiService } from './shared/services/config-services/api.service';
 import { AuthlogService } from './shared/services/authlog.service';
 import { CookieService } from 'ngx-cookie-service';
+import { UsersService } from './shared/services/users.service';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { CookieService } from 'ngx-cookie-service';
   providers: [
     ApiService,
     AuthlogService,
-    CookieService
+    CookieService,
+    UsersService
   ],
   bootstrap: [
     AppComponent

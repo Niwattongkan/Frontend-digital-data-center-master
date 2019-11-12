@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../../environments/environment';
 import { Router, ActivatedRoute } from '@angular/router';
+import { UsersService } from '../../shared/services/users.service';
 
 @Component({
   selector: 'app-login',
@@ -18,15 +19,14 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     private cookieService: CookieService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private usersService: UsersService
   ) { }
 
   ngOnInit() {
     if (this.cookieService.get('code') != '') {
       //console.log('current tokent:' + this.cookieService.get('code'));
       // redirect to sso authen page home
-      debugger
-      this.setPermission();
       document.location.href = "/#/home";
     } else {
       this.callback();
@@ -40,13 +40,12 @@ export class LoginComponent implements OnInit {
 
     if (typeof code !== 'undefined' && code != null) { // Logon
       this.cookieService.set('code', code);
-      // TODO call 
-      // https://tc.thaihealth.or.th:4122/uapi/ddc/getpermissionbyid?code=fRGa9vOjW1G0WvCxOt-s5dp7GraOj1wGwSwwOv9SfgM%3D
+      this.setPermission();
       document.location.href = "/#/home";
     } else if (typeof error !== 'undefined' && error != null) { // Error access_denined, logout
       alert(error);
       this.cookieService.delete('code');
-      this.cookieService.delete('u_permission');
+      localStorage.removeItem('u_permission');
       document.location.href = environment.logoutUrl
     } else { // Reqest login
       document.location.href = environment.ssoAuthUrl
@@ -59,14 +58,14 @@ export class LoginComponent implements OnInit {
     return this.modalService.open(content);
   }
 
-  private setPermission() {
+  private async setPermission() {
     const mockPermission = '{ "successful": true, "data": [ ' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 1, "MenuName": "หน้าแรก", "MenuNameEn": "home" },' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 2, "MenuName": "ข้อมูลบุคคล", "MenuNameEn": "persons" },' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 3, "MenuName": "ข้อมูลองค์กร", "MenuNameEn": "organizations" },' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 4, "MenuName": "ข้อมูลโครงการ", "MenuNameEn": "program" },' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 5, "MenuName": "รายงานการสืบค้นข้อมูลบุคคล", "MenuNameEn": "searching-personal" },' +
-/*      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 6, "MenuName": "รายงานการสืบค้นข้อมูลองค์กร", "MenuNameEn": "searching-corperation" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 6, "MenuName": "รายงานการสืบค้นข้อมูลองค์กร", "MenuNameEn": "searching-corperation" },' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 7, "MenuName": "รายงานการสืบค้นข้อมูลคณะกรรมการ", "MenuNameEn": "searching-board" },' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 8, "MenuName": "รายงานการใช้งานระบบ", "MenuNameEn": "using" },' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 9, "MenuName": "รายงานบันทึกจากฝ่ายเลขา", "MenuNameEn": "note" },' +
@@ -74,9 +73,12 @@ export class LoginComponent implements OnInit {
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 11, "MenuName": "กลุ่มการจัดส่งเอกสาร", "MenuNameEn": "group" },' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 12, "MenuName": "กลุ่มผู้ใช้งาน", "MenuNameEn": "users" },' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 13, "MenuName": "กลุ่มจำกัดสิทธิ์", "MenuNameEn": "permission" },' +
-      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 14, "MenuName": "Audit Log", "MenuNameEn": "auditlog" },' +*/
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 14, "MenuName": "Audit Log", "MenuNameEn": "auditlog" },' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 15, "MenuName": "จัดการสิทธิ์การใช้งาน", "MenuNameEn": "license" }' +
       ' ] }';
-    this.cookieService.set('u_permission', mockPermission);
+    localStorage.setItem('u_permission', mockPermission);
+
+    // https://tc.thaihealth.or.th:4122/uapi/ddc/getpermissionbyid?code=fRGa9vOjW1G0WvCxOt-s5dp7GraOj1wGwSwwOv9SfgM%3D
+    //this.usersService.getPermissionById();
   }
 }

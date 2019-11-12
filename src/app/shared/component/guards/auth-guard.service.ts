@@ -2,8 +2,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, Route } from '@angular/router';
 import { Observable } from 'rxjs';
-import { CookieService } from 'ngx-cookie-service';
 import { OnInit } from '@angular/core';
+import { UsersService } from '../../services/users.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -11,13 +11,12 @@ export class AuthGuard implements CanActivate {
   private userPermission = JSON.parse('{}');
 
   constructor(
-    private cookieService: CookieService,
+    private usersService: UsersService,
     private _router: Router) {
   }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    debugger
-    this.userPermission = JSON.parse(this.cookieService.get('u_permission')).data;
+    this.userPermission = this.usersService.getLocalUserPermission();
     var menuNameEng = state.url.split("/")[1]
     for (var i = 0; i < this.userPermission.length; i++) {
       if (menuNameEng == this.userPermission[i].MenuNameEn && this.userPermission[i].PView == 1) {

@@ -12,8 +12,9 @@ import { CookieService } from 'ngx-cookie-service';
 
 import { JwtService } from './jwt.service';
 
-@Injectable()
-
+@Injectable({
+  providedIn: 'root',
+})
 export class ApiService {
 
   constructor(
