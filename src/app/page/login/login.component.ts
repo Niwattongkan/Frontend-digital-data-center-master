@@ -39,18 +39,21 @@ export class LoginComponent implements OnInit {
 
     if (typeof code !== 'undefined' && code != null) { // Logon
       this.cookieService.set('code', code);
+
+      // TODO call 
+      https://tc.thaihealth.or.th:4122/uapi/ddc/getpermissionbyid?PersonId=5
+      this.setPermission();
       document.location.href = "/#/home";
     } else if (typeof error !== 'undefined' && error != null) { // Error access_denined, logout
       alert(error);
       this.cookieService.delete('code');
+      this.cookieService.delete('u_permission');
       document.location.href = environment.logoutUrl
     } else { // Reqest login
       document.location.href = environment.ssoAuthUrl
         .replace("$redirect_uri", environment.redirect_uri)
         .replace("$client_id", environment.client_id);
     }
-
-    this.setPermission();
   }
 
   public openModal(content) {
@@ -58,7 +61,23 @@ export class LoginComponent implements OnInit {
   }
 
   private setPermission() {
-    const mockPermission = '{ "successful": true, "data": [ { "PView": 1, "MenuName": "ข้อมูลบุคคล", "MenuNameEng": "persons" } ] }';
+    const mockPermission = '{ "successful": true, "data": [ ' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 1, "MenuName": "หน้าแรก", "MenuNameEn": "home" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 2, "MenuName": "ข้อมูลบุคคล", "MenuNameEn": "persons" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 3, "MenuName": "ข้อมูลองค์กร", "MenuNameEn": "organizations" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 4, "MenuName": "ข้อมูลโครงการ", "MenuNameEn": "program" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 5, "MenuName": "รายงานการสืบค้นข้อมูลบุคคล", "MenuNameEn": "searching-personal" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 6, "MenuName": "รายงานการสืบค้นข้อมูลองค์กร", "MenuNameEn": "searching-corperation" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 7, "MenuName": "รายงานการสืบค้นข้อมูลคณะกรรมการ", "MenuNameEn": "searching-board" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 8, "MenuName": "รายงานการใช้งานระบบ", "MenuNameEn": "using" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 9, "MenuName": "หน้าแรก", "รายงานบันทึกจากฝ่ายเลขา", "MenuNameEn": "note" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 10, "MenuName": "หน้าแรก", "สมุดบันทึก", "MenuNameEn": "notebook" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 11, "MenuName": "กลุ่มการจัดส่งเอกสาร", "MenuNameEn": "group" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 12, "MenuName": "กลุ่มผู้ใช้งาน", "MenuNameEn": "users" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 13, "MenuName": "กลุ่มจำกัดสิทธิ์", "MenuNameEn": "permission" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 14, "MenuName": "Audit Log", "MenuNameEn": "auditlog" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 15, "MenuName": "จัดการสิทธิ์การใช้งาน", "MenuNameEn": "license" },' +
+      ' ] }';
     this.cookieService.set('u_permission', mockPermission);
   }
 }

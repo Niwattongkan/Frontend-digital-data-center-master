@@ -8,6 +8,7 @@ import { PersonsWorkingComponent } from './persons-working/persons-working.compo
 import { PersonsBursaryComponent } from './persons-bursary/persons-bursary.component';
 import { PersonsStudiesComponent } from './persons-studies/persons-studies.component';
 import { PersonsDetailComponent } from './persons-detail/persons-detail.component';
+import { AuthGuard } from '../../shared/component/guards/auth-guard.service';
 
 export const routes: Routes = [
     {
@@ -15,7 +16,8 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: PersonsListComponent
+                component: PersonsListComponent,
+                canActivate: [AuthGuard],
             },
             {
                 path: 'detail/:id',

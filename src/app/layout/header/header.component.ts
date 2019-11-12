@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
   logout(){
     // debugger
     this.cookieService.delete('code');
+    this.cookieService.delete('u_permission');
     document.location.href = environment.logoutUrl
   }
 
