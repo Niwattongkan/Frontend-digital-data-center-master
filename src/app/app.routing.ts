@@ -5,12 +5,10 @@ import { LayoutComponent } from './layout/layout.component';
 
 export const routes: Routes = [
     { path: '', loadChildren: './page/login/login.module#LoginModule', pathMatch: 'full' },
+    { path: 'callback', loadChildren: './page/login/login.module#LoginModule', pathMatch: 'full'},
     {
         path: '', component: LayoutComponent,
         children: [
-            { 
-                path: 'callback', 
-                loadChildren: './page/login/login.module#LoginModule'},
             {
                 path: 'home',
                 loadChildren: './page/home/home.module#HomeModule',
