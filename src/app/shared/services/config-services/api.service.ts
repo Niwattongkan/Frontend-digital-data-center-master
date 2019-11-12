@@ -50,6 +50,12 @@ export class ApiService {
       catchError(this.formatErrors.bind(this))
     );
   }
+
+  getJSON(path: string) {
+    return this.http.get(this.appendParams(`${environment.apiUrl}${path}`),
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }), params: new HttpParams(), observe: 'body' })
+  }
+  
   getContent(path: string): Observable<any> {
     return this.http.get(this.appendParams(`${environment.apiUrl}${path}`),
       {
@@ -133,7 +139,7 @@ export class ApiService {
         document.location.href = "/";
       }
     } catch (err) {
-      //debugger
+      debugger
       console.log("Unexpected exception while checkTokenExprire");
       console.log(data);
     }
