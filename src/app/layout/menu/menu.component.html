@@ -15,7 +15,7 @@
           <span>ข้อมูลบุคคล</span>
         </a>
       </li>
-      <li routerLinkActive="active" class="nav-item">
+      <li *ngIf="showMenu('organizations')" routerLinkActive="active" class="nav-item">
         <a class="text-menu" routerLink="/organizations">
           <span>ข้อมูลองค์กร</span>
         </a>
@@ -30,11 +30,11 @@
           <span class="dropdown-toggle">รายงาน</span>
         </a>
         <div class="dropdown-menu">
-          <a routerLink="/report/searching-personal" class="dropdown-item">รายงานการสืบค้นข้อมูลบุคคล</a>
-          <a routerLink="/report/searching-corperation" class="dropdown-item">รายงานการสืบค้นข้อมูลองค์กร</a>
-          <a routerLink="/report/searching-board" class="dropdown-item">รายงานการสืบค้นข้อมูลคณะกรรมการ</a>
-          <a routerLink="/report/using" class="dropdown-item">รายงานการเข้าใช้งานระบบ</a>
-          <a routerLink="/report/note" class="dropdown-item">รายงานบันทึกจากฝ่ายเลขา</a>
+          <a *ngIf="showMenu('searching-personal')" routerLink="/report/searching-personal" class="dropdown-item">รายงานการสืบค้นข้อมูลบุคคล</a>
+          <a *ngIf="showMenu('searching-corperation')" routerLink="/report/searching-corperation" class="dropdown-item">รายงานการสืบค้นข้อมูลองค์กร</a>
+          <a *ngIf="showMenu('searching-board')" routerLink="/report/searching-board" class="dropdown-item">รายงานการสืบค้นข้อมูลคณะกรรมการ</a>
+          <a *ngIf="showMenu('using')" routerLink="/report/using" class="dropdown-item">รายงานการเข้าใช้งานระบบ</a>
+          <a *ngIf="showMenu('note')" routerLink="/report/note" class="dropdown-item">รายงานบันทึกจากฝ่ายเลขา</a>
         </div>
       </li>
       <li routerLinkActive="active" class="nav-item dropdown">
@@ -43,8 +43,8 @@
           <span class="dropdown-toggle">กิจกรรม</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a routerLink="/event/notebook" class="dropdown-item">สมุดบันทึก</a>
-          <a routerLink="/event/group" class="dropdown-item">จัดการกลุ่ม</a>
+          <a *ngIf="showMenu('notebook')" routerLink="/event/notebook" class="dropdown-item">สมุดบันทึก</a>
+          <a *ngIf="showMenu('group')" routerLink="/event/group" class="dropdown-item">จัดการกลุ่ม</a>
         </div>
       </li>
       <li routerLinkActive="active" class="nav-item dropdown">
@@ -52,10 +52,10 @@
           <span class="dropdown-toggle">ตั้งค่า</span>
         </a>
         <div class="dropdown-menu">
-          <a routerLink="/setting/users" class="dropdown-item">กลุ่มผู้ใช้งาน</a>
-          <a routerLink="/setting/permission" class="dropdown-item">กลุ่มจำกัดสิทธิ์</a>
-          <a routerLink="/setting/auditlog" class="dropdown-item">Audit Log</a>
-          <a routerLink="/setting/license" class="dropdown-item">จัดการสิทธิ์การใช้งาน</a>
+          <a *ngIf="showMenu('users')" routerLink="/setting/users" class="dropdown-item">กลุ่มผู้ใช้งาน</a>
+          <a *ngIf="showMenu('permission')" routerLink="/setting/permission" class="dropdown-item">กลุ่มจำกัดสิทธิ์</a>
+          <a *ngIf="showMenu('auditlog')" routerLink="/setting/auditlog" class="dropdown-item">Audit Log</a>
+          <a *ngIf="showMenu('license')" routerLink="/setting/license" class="dropdown-item">จัดการสิทธิ์การใช้งาน</a>
         </div>
       </li>
     </ul>

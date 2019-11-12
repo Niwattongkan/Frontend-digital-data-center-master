@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     this.userPermission = this.usersService.getLocalUserPermission();
-    var menuNameEng = state.url.split("/")[1]
+    var menuNameEng = state.url.split("/")[state.url.split("/").length -1]
     for (var i = 0; i < this.userPermission.length; i++) {
       if (menuNameEng == this.userPermission[i].MenuNameEn && this.userPermission[i].PView == 1) {
         return true;
