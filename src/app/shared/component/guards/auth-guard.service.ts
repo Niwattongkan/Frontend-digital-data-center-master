@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
     this.userPermission = JSON.parse(this.cookieService.get('u_permission')).data;
     var menuNameEng = state.url.split("/")[1]
     for (var i = 0; i < this.userPermission.length; i++) {
-      if (menuNameEng == this.userPermission[i].MenuNameEng && this.userPermission[i].PView == 1) {
+      if (menuNameEng == this.userPermission[i].MenuNameEn && this.userPermission[i].PView == 1) {
         return true;
       }
     }

@@ -12,17 +12,19 @@ export class MenuComponent implements OnInit {
   constructor(private cookieService: CookieService) { }
 
   ngOnInit() {
+    const u_permissionStr = this.cookieService.get('u_permission')
     try {
-      this.userPermission = JSON.parse(this.cookieService.get('u_permission')).data;
+      this.userPermission = JSON.parse(u_permissionStr).data;
     } catch (error) {
-      console.log('error while get userPermission: {0}', error);
+      console.log('error while get userPermission:', error);
+      console.log(u_permissionStr);
     }
 
   }
   showMenu(menuNameEng) {
     // { "successful": true, "data": [ { "PView": 1, "MenuName": "ข้อมูลบุคคล", "MenuNameEng": "persons", } ] }
     for (var i = 0; i < this.userPermission.length; i++) {
-      if (menuNameEng == this.userPermission[i].MenuNameEng && this.userPermission[i].PView == 1) {
+      if (menuNameEng == this.userPermission[i].MenuNameEn && this.userPermission[i].PView == 1) {
         return true;
       }
     }

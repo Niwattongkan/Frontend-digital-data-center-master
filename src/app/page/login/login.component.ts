@@ -25,6 +25,8 @@ export class LoginComponent implements OnInit {
     if (this.cookieService.get('code') != '') {
       //console.log('current tokent:' + this.cookieService.get('code'));
       // redirect to sso authen page home
+      debugger
+      this.setPermission();
       document.location.href = "/#/home";
     } else {
       this.callback();
@@ -32,17 +34,14 @@ export class LoginComponent implements OnInit {
   }
 
   private callback() {
-    // debugger
     var url = new URL(document.location.href);
     var code = url.searchParams.get("code");
     var error = url.searchParams.get("error");
 
     if (typeof code !== 'undefined' && code != null) { // Logon
       this.cookieService.set('code', code);
-
       // TODO call 
-      https://tc.thaihealth.or.th:4122/uapi/ddc/getpermissionbyid?PersonId=5
-      this.setPermission();
+      // https://tc.thaihealth.or.th:4122/uapi/ddc/getpermissionbyid?code=fRGa9vOjW1G0WvCxOt-s5dp7GraOj1wGwSwwOv9SfgM%3D
       document.location.href = "/#/home";
     } else if (typeof error !== 'undefined' && error != null) { // Error access_denined, logout
       alert(error);
@@ -67,16 +66,16 @@ export class LoginComponent implements OnInit {
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 3, "MenuName": "ข้อมูลองค์กร", "MenuNameEn": "organizations" },' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 4, "MenuName": "ข้อมูลโครงการ", "MenuNameEn": "program" },' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 5, "MenuName": "รายงานการสืบค้นข้อมูลบุคคล", "MenuNameEn": "searching-personal" },' +
-      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 6, "MenuName": "รายงานการสืบค้นข้อมูลองค์กร", "MenuNameEn": "searching-corperation" },' +
+/*      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 6, "MenuName": "รายงานการสืบค้นข้อมูลองค์กร", "MenuNameEn": "searching-corperation" },' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 7, "MenuName": "รายงานการสืบค้นข้อมูลคณะกรรมการ", "MenuNameEn": "searching-board" },' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 8, "MenuName": "รายงานการใช้งานระบบ", "MenuNameEn": "using" },' +
-      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 9, "MenuName": "หน้าแรก", "รายงานบันทึกจากฝ่ายเลขา", "MenuNameEn": "note" },' +
-      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 10, "MenuName": "หน้าแรก", "สมุดบันทึก", "MenuNameEn": "notebook" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 9, "MenuName": "รายงานบันทึกจากฝ่ายเลขา", "MenuNameEn": "note" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 10, "MenuName": "สมุดบันทึก", "MenuNameEn": "notebook" },' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 11, "MenuName": "กลุ่มการจัดส่งเอกสาร", "MenuNameEn": "group" },' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 12, "MenuName": "กลุ่มผู้ใช้งาน", "MenuNameEn": "users" },' +
       '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 13, "MenuName": "กลุ่มจำกัดสิทธิ์", "MenuNameEn": "permission" },' +
-      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 14, "MenuName": "Audit Log", "MenuNameEn": "auditlog" },' +
-      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 15, "MenuName": "จัดการสิทธิ์การใช้งาน", "MenuNameEn": "license" },' +
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 14, "MenuName": "Audit Log", "MenuNameEn": "auditlog" },' +*/
+      '{ "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 15, "MenuName": "จัดการสิทธิ์การใช้งาน", "MenuNameEn": "license" }' +
       ' ] }';
     this.cookieService.set('u_permission', mockPermission);
   }

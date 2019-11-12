@@ -7,11 +7,13 @@ import { OrganizationsListComponent } from './organizations-list/organizations-l
 import { OrganizationsDetailComponent } from './organizations-detail/organizations-detail.component';
 import { OrganizationsRelatedPersonComponent } from './organizations-related-person/organizations-related-person.component';
 import { OrganizationsBursaryComponent } from './organizations-bursary/organizations-bursary.component';
+import { AuthGuard } from '../../shared/component/guards/auth-guard.service';
 
 export const routes: Routes = [
     {
         path: '',
         component: OrganizationsComponent,
+        canActivate: [AuthGuard],
         children: [
             {
                 path: '',
