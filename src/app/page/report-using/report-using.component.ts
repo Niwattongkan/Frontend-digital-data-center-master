@@ -8,6 +8,7 @@ import { mapPersons } from '../../shared/library/mapList';
 import { PdfService } from "../../shared/services/pdf.service";
 import * as moment from 'moment';
 import { NgxSpinnerService } from "ngx-spinner";
+import { UsersService } from '../../shared/services/users.service';
 
 import * as jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -55,18 +56,22 @@ export class ReportUsingComponent implements OnInit {
     dateFormat: 'dd/mm/yyyy'
   };
 
+  public canExportReport = false;
+
   constructor(
     private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
     private reportService: ReportService,
     private excelService: ExcelService,
-    private pdfService: PdfService
+    private pdfService: PdfService,
+    private usersService: UsersService
   ) {
   }
 
   async ngOnInit() {
     this.spinner.show()
     this.searchform = this.setSerachForm();
+    this.canExportReport = this.usersService.canExportUsingReport();
     this.spinner.hide()
   }
 

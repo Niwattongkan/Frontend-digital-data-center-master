@@ -8,8 +8,8 @@ import { OrganizationService } from '../../shared/services/organization.service'
 import * as jsPDF from "jspdf";
 import "jspdf-autotable";
 import { NgxSpinnerService } from "ngx-spinner";
-
 import { mapPersons } from '../../shared/library/mapList';
+import { UsersService } from '../../shared/services/users.service';
 
 @Component({
   selector: 'app-report-searching-corperation',
@@ -32,6 +32,8 @@ export class ReportSearchingCorperationComponent implements OnInit {
     dateFormat: 'dd/mm/yyyy',
   };
 
+  public canExportReport = false;
+
   constructor(
     private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
@@ -39,6 +41,7 @@ export class ReportSearchingCorperationComponent implements OnInit {
     private excelService: ExcelService,
     private pdfService: PdfService,
     private organizationService: OrganizationService,
+    private usersService: UsersService
   ) {
     this.searchform = this.setSerachForm();
   }
@@ -48,6 +51,7 @@ export class ReportSearchingCorperationComponent implements OnInit {
     const result = (await this.reportService.getsearchcorporation().toPromise()).data;
     this.reportboard = (await this.organizationService.getserchcorporationcontact(result[1].CorporationId).toPromise()).data;
     this.reportList = result ? mapPersons(result) : [];
+    this.canExportReport = this.usersService.canExportSearchingCorperationReport();
     this.spinner.hide();
   }
 

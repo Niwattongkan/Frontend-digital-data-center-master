@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import SimpleCrypto from "simple-crypto-js";
+import { UsersService } from '../../services/users.service';
+
 @Component({
   selector: 'card-person',
   templateUrl: './card-person.component.html',
@@ -12,18 +14,23 @@ export class CardPersonComponent implements OnInit {
   public cypeID
   public currentPath = '';
   public imagePerson = '';
-  public image ='./'
+  public image ='./';
+  public canEditPerson = false;
+  public canDeletePerson = false;
   @Input() data: any;
 
   @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     private router: Router,
+    private usersService: UsersService,
   ) { }
 
   async ngOnInit() {
     let Crypto = new SimpleCrypto('some-unique-key');
     this.cypeID = Crypto.encrypt( this.data.PersonId)
+    this.canEditPerson = this.usersService.canEditPerson();
+    this.canDeletePerson = this.usersService.canDeletePerson();
   }
 
   async ngOnChanges() {

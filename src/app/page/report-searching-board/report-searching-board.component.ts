@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { IMyOptions } from 'mydatepicker-th';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ReportService } from '../../shared/services/report.service';
-
+import { UsersService } from '../../shared/services/users.service';
 import { mapPersons } from '../../shared/library/mapList';
 import { ExcelService } from '../../shared/services/excel.service';
 import { PdfService } from '../../shared/services/pdf.service';
@@ -28,12 +28,15 @@ export class ReportSearchingBoardComponent implements OnInit {
     dateFormat: 'dd/mm/yyyy',
   };
 
+  public canExportReport = false;
+
   constructor(
     private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
     private reportService: ReportService,
     private excelService: ExcelService,
     private pdfService: PdfService,
+    private usersService: UsersService
   ) {
     this.searchform = this.setSerachForm();
   }
@@ -44,6 +47,7 @@ export class ReportSearchingBoardComponent implements OnInit {
     const result = ((await this.reportService.getreportboard().toPromise()).data);
     this.reportList = mapPersons(result);
     this.dorp = mapPersons(result)
+    this.canExportReport = this.usersService.canExportSearchingBoardReport();
     this.spinner.hide();
   }
 

@@ -22,7 +22,7 @@
           <span *ngFor="let contact of data.ContactList">
             <label *ngIf="contact.TypeContactId == 2">{{contact.Contact + ' '}}</label>
           </span>
-          <a href="javascript:void(0)" *ngIf="currentPath != '/home'" class="d-flex ml-auto"
+          <a href="javascript:void(0)" *ngIf="canEditPerson" class="d-flex ml-auto"
             routerLink="/persons/insert/{{cypeID}}" ngbTooltip="แก้ไขข้อมูลบุคคล">
             <i class="fas fa-pencil-alt fa-lg"></i>
           </a>
@@ -56,7 +56,7 @@
               </a>
             </div>
           </div>
-          <div *ngIf="currentPath != '/home'" class="icon-box d-flex ml-auto">
+          <div *ngIf="canDeletePerson" class="icon-box d-flex ml-auto">
             <a href="javascript:void(0)" class="ml-auto" (click)="deletePerson(data.PersonId)"
               ngbTooltip="ลบข้อมูลบุคคล">
               <i class="fas fa-trash fa-lg"></i>

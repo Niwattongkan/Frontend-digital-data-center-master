@@ -4,6 +4,8 @@ import { PersonsService } from '../../../shared/services/persons.service';
 
 import { alertEvent, alertDeleteEvent } from '../../../shared/library/alert';
 import { NgxSpinnerService } from "ngx-spinner";
+import { UsersService } from '../../../shared/services/users.service';
+
 @Component({
   selector: 'app-persons-list',
   templateUrl: './persons-list.component.html',
@@ -15,10 +17,12 @@ export class PersonsListComponent implements OnInit {
   public personList: any = []
   public tempPersonList: any = []
   public inputSearch = ''
+  public canAddPerson = false;
 
   constructor(
     private personsService: PersonsService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private usersService: UsersService
   ) { }
 
   async ngOnInit() {
@@ -27,7 +31,7 @@ export class PersonsListComponent implements OnInit {
       this.spinner.hide();
     }, this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data))
     this.tempPersonList = this.personList
-
+    this.canAddPerson = this.usersService.canAddPerson();
   }
 
   public async  mapPerson(personList) {
