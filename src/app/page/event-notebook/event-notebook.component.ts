@@ -7,6 +7,7 @@ import {AuthlogService} from '../../shared/services/authlog.service';
 import {NgxSpinnerService} from "ngx-spinner";
 import {alertEvent, alertDeleteEvent} from '../../shared/library/alert';
 import {mapPersons, createdNamePersons} from '../../shared/library/mapList';
+import { UsersService } from '../../shared/services/users.service';
 
 @Component({
   selector: 'app-event-notebook',
@@ -22,13 +23,17 @@ export class EventNotebookComponent implements OnInit {
   public inputSearch = ""
   public page: number;
   public headers: any = ['บุคคล', 'ชื่อบันทึก', 'รายละเอียด', 'ผู้สร้าง', 'วันที่สร้าง', 'เรียกดู', 'เครื่องมือ'];
-
+  public canAddNoteBook = false;
+  public canEditNoteBook = false;
+  public canDeleteNoteBook = false;
+  
   constructor(
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
     private noteService: NoteService,
     private personsService: PersonsService,
-    private authlogService: AuthlogService
+    private authlogService: AuthlogService,
+    private usersService: UsersService
   ) {
   }
 
@@ -36,6 +41,9 @@ export class EventNotebookComponent implements OnInit {
     this.spinner.show()
     this.personList = await mapPersons((await this.personsService.getallperson().toPromise()).data)
     this.noteList = await mapPersons((await this.noteService.getNoteAll().toPromise()).data)
+    this.canAddNoteBook = this.usersService.canAddNoteBook();
+    this.canEditNoteBook = this.usersService.canEditNoteBook();
+    this.canDeleteNoteBook = this.usersService.canDeleteNoteBook();
     this.spinner.hide()
   }
 

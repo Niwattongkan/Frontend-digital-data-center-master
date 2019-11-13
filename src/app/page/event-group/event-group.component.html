@@ -33,7 +33,7 @@
     <div class="col-md-12">
       <div class="row">
         <div class="col-md-12">
-          <button class="btn btn-success px-4 fa-pull-right" type="button" (click)="openModal(insertModal)">
+          <button *ngIf="canAddGroup" class="btn btn-success px-4 fa-pull-right" type="button" (click)="openModal(insertModal)">
             <i class="fas fa-plus"></i> สร้างกลุ่มการจัดส่งเอกสาร
           </button>
         </div>
@@ -59,7 +59,7 @@
                 </td>
                 <td>{{ findPersonDetail(data.Person[0].CreateBy) }}</td>
                 <td class="text-center">
-                  <a href="javascript:void(0)" class="dropdown-toggle btn btn-outline-warning btn-sm"
+                  <a *ngIf="canExportGroup" href="javascript:void(0)" class="dropdown-toggle btn btn-outline-warning btn-sm"
                     data-toggle="dropdown">
                     <i class="fas fa-download"></i>
                   </a>
@@ -82,11 +82,11 @@
                     (click)="openModal(sharedModal, 'md')">
                     <i class="fas fa-share-alt"></i>
                   </a>
-                  <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
+                  <a *ngIf="canEditGroup" href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
                     (click)="openModal(editModal, 'md')" (click)="eventGroupOrigin = data">
                     <i class="fas fa-pencil-alt"></i>
                   </a>
-                  <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm"
+                  <a *ngIf="canDeleteGroup" href="javascript:void(0)" class="btn btn-outline-danger btn-sm"
                     (click)="delete(data.ContactGroupId)">
                     <i class="fas fa-trash"></i>
                   </a>

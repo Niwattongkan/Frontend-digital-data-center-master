@@ -13,6 +13,7 @@ import {AuthlogService} from '../../shared/services/authlog.service';
 
 import {mapPersons, createdNamePersons} from '../../shared/library/mapList';
 import {alertEvent, alertDeleteEvent} from '../../shared/library/alert';
+import { UsersService } from '../../shared/services/users.service';
 
 @Component({
   selector: 'app-event-group',
@@ -30,6 +31,10 @@ export class EventGroupComponent implements OnInit {
 
   public headers: any = ['วันที่จัดกลุ่ม', 'ชื่อกลุ่ม', 'สมาชิกกลุ่ม', 'ผู้สร้าง', 'ส่งออกไฟล์', 'เครื่องมือ'];
   public page: number;
+  public canAddGroup = false;
+  public canEditGroup = false;
+  public canDeleteGroup = false;
+  public canExportGroup = false;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -37,7 +42,8 @@ export class EventGroupComponent implements OnInit {
     private contactGroupService: ContactGroupService,
     private personsService: PersonsService,
     private excelService: ExcelService,
-    private authlogService: AuthlogService
+    private authlogService: AuthlogService,
+    private usersService: UsersService
   ) {
   }
 
@@ -48,6 +54,10 @@ export class EventGroupComponent implements OnInit {
     await this.eventGroupList.map(async element => {
       element.Person = await this.mapPersons(element.Person);
     });
+    this.canAddGroup = this.usersService.canAddGroup();
+    this.canEditGroup = this.usersService.canEditGroup();
+    this.canDeleteGroup = this.usersService.canDeleteGroup();
+    this.canExportGroup = this.usersService.canExportGroup();
     this.spinner.hide()
   }
 

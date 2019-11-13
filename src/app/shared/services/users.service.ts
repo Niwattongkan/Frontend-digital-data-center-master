@@ -107,4 +107,73 @@ export class UsersService {
   public canExportNoteReport() {
     return this.getLocalUserPagePerminssion('note', 'Export');
   }
+
+  //  Event/NoteBook Page
+  public canAddNoteBook() {
+    return this.getLocalUserPagePerminssion('notebook', 'Add');
+  }
+
+  public canEditNoteBook() {
+    return this.getLocalUserPagePerminssion('notebook', 'Edit');
+  }
+
+  public canDeleteNoteBook() {
+    return this.getLocalUserPagePerminssion('notebook', 'Delete');
+  }
+
+  //  Event/Group Page
+  public canAddGroup() {
+    return this.getLocalUserPagePerminssion('group', 'Add');
+  }
+
+  public canEditGroup() {
+    return this.getLocalUserPagePerminssion('group', 'Edit');
+  }
+
+  public canDeleteGroup() {
+    return this.getLocalUserPagePerminssion('group', 'Delete');
+  }
+
+  public canExportGroup() {
+    return this.getLocalUserPagePerminssion('group', 'Export');
+  }
+
+  //  setting/Users Page
+  public canAddUser() {
+    return this.getLocalUserPagePerminssion('users', 'Add');
+  }
+
+  public canEditUser() {
+    return this.getLocalUserPagePerminssion('users', 'Edit');
+  }
+
+  public canDeleteUser() {
+    return this.getLocalUserPagePerminssion('users', 'Delete');
+  }
+
+  //  setting/permission Page
+  public canAddPermission() {
+    return this.getLocalUserPagePerminssion('permission', 'Add');
+  }
+
+  public canEditPermission() {
+    return this.getLocalUserPagePerminssion('permission', 'Edit');
+  }
+
+  public canDeletePermission() {
+    return this.getLocalUserPagePerminssion('permission', 'Delete');
+  }
+
+  //  setting/license Page
+  public canAddLicense() {
+    return this.getLocalUserPagePerminssion('license', 'Add');
+  }
+
+  public canEditLicense() {
+    return this.getLocalUserPagePerminssion('license', 'Edit');
+  }
+
+  public canDeleteLicense() {
+    return this.getLocalUserPagePerminssion('license', 'Delete');
+  }
 }
