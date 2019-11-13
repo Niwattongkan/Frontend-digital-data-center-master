@@ -8,7 +8,7 @@ import { UsersService } from '../../services/users.service';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  private userPermission = JSON.parse('{}');
+  private userPermission = [];
 
   constructor(
     private usersService: UsersService,
@@ -17,9 +17,18 @@ export class AuthGuard implements CanActivate {
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     this.userPermission = this.usersService.getLocalUserPermission();
-    var menuNameEng = state.url.split("/")[state.url.split("/").length -1]
+    
+    var subMenuNameEng = null;
+    
+    const menus = state.url.split("/");
+    const mainMenuNameEng = menus[1];
+    if(menus.length >2){
+      subMenuNameEng = menus[2]
+    }
+
     for (var i = 0; i < this.userPermission.length; i++) {
-      if (menuNameEng == this.userPermission[i].MenuNameEn && this.userPermission[i].PView == 1) {
+      var uMenu = this.userPermission[i].MenuNameEn;
+      if ([mainMenuNameEng, subMenuNameEng].includes(uMenu) && this.userPermission[i].PView == 1) {
         return true;
       }
     }
