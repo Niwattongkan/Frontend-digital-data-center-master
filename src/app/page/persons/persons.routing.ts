@@ -13,11 +13,11 @@ import { AuthGuard } from '../../shared/component/guards/auth-guard.service';
 export const routes: Routes = [
     {
         path: '', component: PersonsComponent,
+        canActivate: [AuthGuard],
         children: [
             {
                 path: '',
-                component: PersonsListComponent,
-                canActivate: [AuthGuard],
+                component: PersonsListComponent
             },
             {
                 path: 'detail/:id',

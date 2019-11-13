@@ -11,6 +11,7 @@ import { ApiService } from './shared/services/config-services/api.service';
 import { AuthlogService } from './shared/services/authlog.service';
 import { CookieService } from 'ngx-cookie-service';
 import { UsersService } from './shared/services/users.service';
+import { AuthGuard } from './shared/component/guards/auth-guard.service';
 
 @NgModule({
   imports: [
@@ -31,8 +32,9 @@ import { UsersService } from './shared/services/users.service';
   providers: [
     ApiService,
     AuthlogService,
+    AuthGuard,
     CookieService,
-    UsersService
+    UsersService,
   ],
   bootstrap: [
     AppComponent

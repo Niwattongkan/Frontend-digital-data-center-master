@@ -6,7 +6,7 @@ import { ReportNoteComponent } from './report-note.component';
 export const routes: Routes = [
     {
         path: '',
-        component: ReportNoteComponent,
+        component: ReportNoteComponent
     }
 ];
 export const RoutingModule: ModuleWithProviders = RouterModule.forChild(routes);

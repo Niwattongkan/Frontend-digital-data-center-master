@@ -45,8 +45,7 @@ import { AuthGuard } from '../../shared/component/guards/auth-guard.service';
     PersonsDetailAddressComponent,
   ],
   providers: [
-    PersonsService,
-    AuthGuard
+    PersonsService
   ]
 })
 export class PersonsModule { }
