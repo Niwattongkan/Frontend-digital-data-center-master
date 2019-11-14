@@ -21,6 +21,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     HomeComponent,
     HomeModalComponent
   ],
+  entryComponents: [
+    HomeModalComponent,
+  ],
   providers: [
     PersonsService,
     OrganizationService,
