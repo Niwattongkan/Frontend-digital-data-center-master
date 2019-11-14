@@ -41,6 +41,10 @@ ul li:hover > a {
   color: white;
 }
 
+.link-disabled {
+  color: #a6a7ab !important;
+}
+
 .dropdown .dropdown-menu a:hover {
   background-color: #ff6600;
 }

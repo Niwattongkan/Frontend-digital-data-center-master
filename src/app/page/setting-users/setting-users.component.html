@@ -29,8 +29,7 @@
 <div class="container">
   <div class="row mt-4">
     <div class="col-md-12 text-right">
-      <button class="btn btn-success ml-2" (click)="openModal(insertModal, 'md')"
-      [ngClass]="{'disabled':!canAddUser}">
+      <button [disabled]="!canAddUser" class="btn btn-success ml-2" (click)="openModal(insertModal, 'md')">
         <i class="fas fa-plus"></i>
         สร้างกลุ่มผู้ใช้งาน
       </button>
@@ -53,12 +52,12 @@
             <td>{{ data.BoardName }}</td>
             <td
               class="text-center">
-              <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
-                (click)="openModal(editModal, 'md')" (click)="groupUsersOrigin = data" [ngClass]="{'disabled':!canEditUser}">
+              <a [ngClass]="{'link-disabled disabled': !canEditUser}" href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
+                (click)="openModal(editModal, 'md')" (click)="groupUsersOrigin = data">
                 <i class="fas fa-pencil-alt"></i>
               </a>
-              <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm"
-                (click)="delete(data)" [ngClass]="{'disabled':!canDeleteUser}">
+              <a [ngClass]="{'link-disabled disabled': !canDeleteUser}" href="javascript:void(0)" class="btn btn-outline-danger btn-sm"
+                (click)="delete(data)">
                 <i class="fas fa-trash"></i>
               </a>
             </td>

@@ -1,3 +1,7 @@
 .inline {
     display: inline;
 }
+
+.link-disabled {
+    color: #a6a7ab !important;
+}
