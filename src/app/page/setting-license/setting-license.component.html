@@ -31,7 +31,7 @@
 <div class="container">
   <div class="row mt-4">
     <div class="col-md-12 text-right">
-      <button *ngIf="canAddLicense" class="btn btn-success ml-2" (click)="openModal(insertModal,'lg')">
+      <button [disabled]="!canAddLicense" class="btn btn-success ml-2" (click)="openModal(insertModal,'lg')">
         <i class="fas fa-plus"></i>
         สร้างสิทธิ์การใช้งาน
       </button>
@@ -54,11 +54,11 @@
               <span class="block" *ngFor="let person of data.Persons">{{person.FullnameTh}}</span>
             </td>
             <td class="text-center">
-              <a *ngIf="canEditLicense" href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
+              <a [ngClass]="{'link-disabled disabled': !canEditLicense}" href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
                 (click)="openModal(updateModal, 'lg')">
                 <i class="fas fa-pencil-alt"></i>
               </a>
-              <a *ngIf="canDeleteLicense" href="javascript:void(0)" class="btn btn-outline-danger btn-sm" (click)="delete(data.PermissionId)">
+              <a [ngClass]="{'link-disabled disabled': !canDeleteLicense}" href="javascript:void(0)" class="btn btn-outline-danger btn-sm" (click)="delete(data.PermissionId)">
                 <i class="fas fa-trash"></i>
               </a>
             </td>

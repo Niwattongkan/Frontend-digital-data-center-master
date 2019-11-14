@@ -31,7 +31,7 @@
 <div class="container">
   <div class="row mt-4">
     <div class="col-md-12 text-right">
-      <button *ngIf="canAddPermission" class="btn btn-success ml-2" (click)="openModal(insertModal)">
+      <button [disabled]="!canAddPermission" class="btn btn-success ml-2" (click)="openModal(insertModal)">
         <i class="fas fa-plus"></i>
         สร้างกลุ่มจำกัดสิทธิ์
       </button>
@@ -54,10 +54,10 @@
               <p *ngFor="let person of data.Person"> {{person.FullnameTh }}</p>
             </td>
             <td class="text-center">
-              <a *ngIf="canEditPermission" href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2" (click)="openModal(editModal)" (click)="boardOrigin = data">
+              <a [ngClass]="{'link-disabled disabled': !canEditPermission}" href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2" (click)="openModal(editModal)" (click)="boardOrigin = data">
                 <i class="fas fa-pencil-alt"></i>
               </a>
-              <a *ngIf="canDeletePermission" href="javascript:void(0)" class="btn btn-outline-danger btn-sm" (click)="delete(data)">
+              <a [ngClass]="{'link-disabled disabled': !canDeletePermission}" href="javascript:void(0)" class="btn btn-outline-danger btn-sm" (click)="delete(data)">
                 <i class="fas fa-trash"></i>
               </a>
             </td>

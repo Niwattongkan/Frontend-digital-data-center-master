@@ -1,3 +1,7 @@
 .block {
     display: block;
 }
+
+.link-disabled {
+    color: #a6a7ab !important;
+}
