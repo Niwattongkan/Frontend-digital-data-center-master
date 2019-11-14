@@ -3,15 +3,16 @@
     <div class="col-md-6">
       <span class="text-orange text-bold mr-4"> ชื่อองค์กร: </span>
       <a href="javascript:void(0)" routerLink="/organizations/detail/{{data.CorporationId}}"
-        ngbTooltip="รายละเอียดข้อมูลองค์กร">
+        ngbTooltip="รายละเอียดข้อมูลองค์กร" [ngClass]="{'noevent':!canEdit()}">
         {{data.CorporationName}}
       </a>
     </div>
     <div class="col-md-6 d-flex justify-content-between">
       <span class="text-orange text-bold mr-4"> อยู่ภายใต้องค์กร: </span>
       <label> {{data.Parent}}</label>
-      <a *ngIf="canEditOrganization" href="javascript:void(0)" class="ml-auto"
-        routerLink="/organizations/insert/{{data.CorporationId}}" ngbTooltip="แก้ไขข้อมูลองค์กร">
+      <a href="javascript:void(0)" class="ml-auto"
+        routerLink="/organizations/insert/{{data.CorporationId}}" ngbTooltip="แก้ไขข้อมูลองค์กร"
+        [ngClass]="{'disabled':!canEdit(canEditOrganization)}">
         <i class="fas fa-pencil-alt fa-lg"></i>
       </a>
       <a *ngIf="currentPath == '/home'" href="javascript:void(0)" class="ml-auto"
@@ -55,7 +56,8 @@
       </div>
     </div>
     <div class="col-md-2 icon-box d-flex ml-auto" *ngIf="currentPath != '/home'">
-      <a *ngIf="canDeleteOrganization" href="javascript:void(0)" class="ml-auto" (click)="deleteCorporation(data)" ngbTooltip="ลบข้อมูลองค์กร">
+      <a href="javascript:void(0)" class="ml-auto" (click)="deleteCorporation(data)" 
+        ngbTooltip="ลบข้อมูลองค์กร"  [ngClass]="{'disabled':!canEdit(canDeleteOrganization)}">
         <i class="fas fa-trash fa-lg"></i>
       </a>
     </div>

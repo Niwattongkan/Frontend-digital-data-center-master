@@ -49,7 +49,7 @@ export class ProgramListComponent implements OnInit {
           project.ProjectName.includes(this.inputSearch) ||
           project.FullnameTh.includes(this.inputSearch)
       });
-      this.spinner.hide()
     }
+    this.spinner.hide()
   }
 }

@@ -9,7 +9,8 @@
           </h2>
         </div>
         <div class="col-md-6 text-right">
-          <button *ngIf="canAddOrganization" class="btn btn-success" routerLink="/organizations/insert" ngbTooltip="เพิ่มข้อมูลองค์กร">
+          <button class="btn btn-success" routerLink="/organizations/insert" ngbTooltip="เพิ่มข้อมูลองค์กร"
+          [ngClass]="{'disabled noevent':!canEdit('/persons', canAddOrganization)}">
             <i class="fas fa-plus mr-1"></i>เพิ่มข้อมูลองค์กร
           </button>
         </div>

@@ -729,7 +729,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileForm.controls['PathPhoto'].setValue(this.imageProfile);
   }
 
-  private previewImage(files) {
+  public previewImage(files) {
     if (files.length === 0)
       return;
 

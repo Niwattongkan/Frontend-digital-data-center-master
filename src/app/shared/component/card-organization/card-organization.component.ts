@@ -78,4 +78,14 @@ export class CardOrganizationComponent implements OnInit {
     const Zipcode = value.Zipcode != '' ?  'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
     return Building + Floor + Room + HouseNumber + Road + Soi + Province + District + Subdistrict + Zipcode;
   }
+
+
+  canEdit(checkNext = null){
+    var ret = this.usersService.canEdit()
+    if (ret){
+      if (checkNext !== null)
+        return checkNext;
+    }
+    return ret;
+  }
 }

@@ -29,7 +29,8 @@
 <div class="container">
   <div class="row mt-4">
     <div class="col-md-12 text-right">
-      <button *ngIf="canAddUser"  class="btn btn-success ml-2" (click)="openModal(insertModal, 'md')">
+      <button class="btn btn-success ml-2" (click)="openModal(insertModal, 'md')"
+      [ngClass]="{'disabled':!canAddUser}">
         <i class="fas fa-plus"></i>
         สร้างกลุ่มผู้ใช้งาน
       </button>
@@ -52,12 +53,12 @@
             <td>{{ data.BoardName }}</td>
             <td
               class="text-center">
-              <a *ngIf="canEditUser" href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
-                (click)="openModal(editModal, 'md')" (click)="groupUsersOrigin = data">
+              <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
+                (click)="openModal(editModal, 'md')" (click)="groupUsersOrigin = data" [ngClass]="{'disabled':!canEditUser}">
                 <i class="fas fa-pencil-alt"></i>
               </a>
-              <a *ngIf="canDeleteUser" href="javascript:void(0)" class="btn btn-outline-danger btn-sm"
-                (click)="delete(data)">
+              <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm"
+                (click)="delete(data)" [ngClass]="{'disabled':!canDeleteUser}">
                 <i class="fas fa-trash"></i>
               </a>
             </td>

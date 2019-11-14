@@ -198,4 +198,6 @@ export class ReportUsingComponent implements OnInit {
     });
     doc.save("report-using.pdf");
   }
+
+  public onSelect(e){}
 }

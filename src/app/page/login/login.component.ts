@@ -41,11 +41,19 @@ export class LoginComponent implements OnInit {
     if (typeof code !== 'undefined' && code != null) { // Logon
       this.cookieService.set('code', code);
 
-      this.usersService.getPermissionById().subscribe((data: any) => {
-        localStorage.setItem('u_permission', JSON.stringify(data));
-        document.location.href = "/#/home";
-      });
+      this.usersService.getSSOUserInfo().subscribe((data:any)=>{
+        if (data.successful){
+          localStorage.setItem('userinfo', JSON.stringify(data.data));
+          localStorage.setItem('roles', (data.data.roles || []).join(','));
+        }
+      }).add(()=>{
+        this.usersService.getPermissionById().subscribe((data: any) => {
+          localStorage.setItem('u_permission', JSON.stringify(data));
+          document.location.href = "/#/home";
+        });  
+      })
 
+      
     } else if (typeof error !== 'undefined' && error != null) { // Error access_denined, logout
       alert(error);
       this.cookieService.delete('code');

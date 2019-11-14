@@ -17,12 +17,12 @@
             <option [value]="2">กลุ่มบุคคล</option>
           </select>
         </div>
-        <div class="col-md-12" *ngIf="typePerson == 1">
+        <div class="col-md-12" *ngIf="typePerson == '1'">
           <ng-multiselect-dropdown [data]="personList" [settings]="dropdownSettingsPerson"
             [formControl]="noteForm.controls['Person']">
           </ng-multiselect-dropdown>
         </div>
-        <div class="col-md-12" *ngIf="typePerson == 2">
+        <div class="col-md-12" *ngIf="typePerson == '2'">
           <ng-multiselect-dropdown placeholder="ชื่อกลุ่ม" [data]="groupList" [settings]="dropdownSettingsGroup"
             [formControl]="noteForm.controls['Group']">
           </ng-multiselect-dropdown>

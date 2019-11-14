@@ -90,4 +90,12 @@ export class CardPersonComponent implements OnInit {
     }
   }
 
+  canEdit(checkNext = null){
+    var ret = this.usersService.canEdit()
+    if (ret){
+      if (checkNext !== null)
+        return checkNext;
+    }
+    return ret;
+  }
 }

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './config-services/api.service';
+import { HttpParams } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable()
 
@@ -9,8 +11,14 @@ export class UsersService {
   private userPermission = [];
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    private router: Router
   ) { }
+
+  getSSOUserInfo(){
+    //return this.apiService.get(`ssoGetUserInfo`, new HttpParams(), "http://qdoc.ecmxpert.com:8008/uapi/sso/");
+    return this.apiService.get(`ssoGetUserInfo`);
+  }
 
   getGroupUsersAll(): Observable<any> {
     return this.apiService.get(`getallgroupuser`);
@@ -25,7 +33,7 @@ export class UsersService {
       const u_permissionStr = localStorage.getItem('u_permission')
       // console.log('u_permissionStr= ' + u_permissionStr);
       this.userPermission = JSON.parse(u_permissionStr).data
-      return this.userPermission;
+      return this.userPermission || [];
     } catch (error) {
       console.log('error while get userPermission:', error);
       return [];
@@ -175,5 +183,44 @@ export class UsersService {
 
   public canDeleteLicense() {
     return this.getLocalUserPagePerminssion('license', 'Delete');
+  }
+
+  public canDo(url:string, action:string){
+    if (!window['ACLS']) return true;
+    let acls = window['ACLS'];
+    let roles:any = localStorage.getItem('roles')|| '';
+    url = url || this.router.url
+    roles = roles.split(',')
+
+    for(let i = 0; i < roles.length; i++){
+      let roleName = roles[i];
+      let aclUrls = acls[roleName];
+      if (!aclUrls) continue;
+      let acl = null;
+      for(let j = 0; j < aclUrls.length; j++){
+        acl = aclUrls[j]
+        if (acl.url == url) break;
+        else acl = null;
+      }
+      if (acl){
+        let ret = acl[action] || false;
+        if (ret) return ret;
+      } 
+    }
+    return false
+  }
+
+  public canEdit(url: string = null){
+    return this.canDo(url, 'edit');
+  }
+
+  public canView(url: string = null){
+    return this.canDo(url, 'view');
+  }
+
+  public getUserInfo(){
+    var json = localStorage.getItem('userinfo');
+    if (!json) return null;
+    return JSON.parse(json)
   }
 }

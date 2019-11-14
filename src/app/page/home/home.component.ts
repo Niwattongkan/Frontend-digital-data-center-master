@@ -4,6 +4,7 @@ import { PersonsService } from '../../shared/services/persons.service';
 import { OrganizationService } from '../../shared/services/organization.service';
 import { ProgramService } from '../../shared/services/program.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { UsersService } from 'src/app/shared/services/users.service';
 
 @Component({
   selector: 'app-home',
@@ -32,7 +33,7 @@ export class HomeComponent implements OnInit {
     private personsService: PersonsService,
     private organizationService: OrganizationService,
     private programService: ProgramService,
-
+    private usersService: UsersService
   ) {
     this.typeCheck = this.setTypeCheck();
   }
@@ -179,5 +180,9 @@ export class HomeComponent implements OnInit {
         }
       }
     }
+  }
+
+  public canEdit(){
+    return this.usersService.canEdit()
   }
 }

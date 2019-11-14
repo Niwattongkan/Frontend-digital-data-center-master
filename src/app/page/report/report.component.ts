@@ -58,6 +58,13 @@ export class ReportComponent implements OnInit {
 
   }
 
+  public onSelect(e){
+
+  }
+
+  public searchReport(){
+
+  }
 
   // public async searchReport() {
   //   switch (Number(this.reportType)) {

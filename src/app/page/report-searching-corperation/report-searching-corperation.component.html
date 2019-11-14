@@ -41,8 +41,8 @@
 </div>
 <div class="row justify-content-center mt-4">
   <div class="col-md-10 text-right">
-    <a *ngIf="canExportReport" href="javascript:void(0)" class="dropdown-toggle btn btn-outline-warning btn-sm"
-       data-toggle="dropdown">
+    <a href="javascript:void(0)" class="dropdown-toggle btn btn-outline-warning btn-sm"
+       data-toggle="dropdown" [ngClass]="{'disabled':!canExportReport}">
       Export <i class="fas fa-download"></i>
     </a>
     <div class="dropdown-menu">

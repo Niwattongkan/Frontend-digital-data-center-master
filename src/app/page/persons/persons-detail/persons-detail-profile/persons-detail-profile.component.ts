@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { calulateAge } from '../../../../shared/library/date';
 import {mapPersons} from "../../../../shared/library/mapList";
+import { UsersService } from 'src/app/shared/services/users.service';
 
 @Component({
   selector: 'persons-detail-profile',
@@ -18,7 +19,7 @@ export class PersonsDetailProfileComponent implements OnInit {
 
   @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() { }
+  constructor(private usersService:UsersService) { }
 
   ngOnInit() { }
 
@@ -52,6 +53,17 @@ export class PersonsDetailProfileComponent implements OnInit {
     }
 
   }
+
+  
+  canView(url, checkNext = null){
+    var ret = this.usersService.canView(url)
+    if (ret){
+      if (checkNext !== null)
+        return checkNext;
+    }
+    return ret;
+  }
+
 
 
 }

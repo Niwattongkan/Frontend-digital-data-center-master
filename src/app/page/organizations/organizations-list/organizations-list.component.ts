@@ -110,4 +110,13 @@ export class OrganizationsListComponent implements OnInit {
       this.spinner.hide()
     }
   }
+
+  canEdit(url, checkNext = null){
+    var ret = this.usersService.canEdit(url)
+    if (ret){
+      if (checkNext !== null)
+        return checkNext;
+    }
+    return ret;
+  }
 }

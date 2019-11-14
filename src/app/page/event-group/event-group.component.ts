@@ -130,8 +130,8 @@ export class EventGroupComponent implements OnInit {
     return result ? result.FullnameTh : '-'
   }
 
-  public openModal(content, size) {
-    this.modalService.open(content, {size: size});
+  public openModal(content) {
+    this.modalService.open(content);
   }
 
   public groupData(data) {
@@ -255,5 +255,14 @@ export class EventGroupComponent implements OnInit {
     let month = ("000" + date.month)
     let day = ("000" + date.day)
     return year + "-" + month.substr(month.length - 2, month.length) + "-" + day.substr(day.length - 2, day.length)
+  }
+
+  canEdit(checkNext = null){
+    var ret = this.usersService.canEdit();
+    if (ret){
+      if (checkNext !== null)
+        return checkNext;
+    }
+    return ret;
   }
 }
