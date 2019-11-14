@@ -10,7 +10,7 @@
     <div class="col-md-6 d-flex justify-content-between">
       <span class="text-orange text-bold mr-4"> อยู่ภายใต้องค์กร: </span>
       <label> {{data.Parent}}</label>
-      <a *ngIf="canEditOrganization" href="javascript:void(0)" class="ml-auto"
+      <a [ngClass]="{'nav-link disabled': !canEditOrganization}" href="javascript:void(0)" class="ml-auto"
         routerLink="/organizations/insert/{{data.CorporationId}}" ngbTooltip="แก้ไขข้อมูลองค์กร">
         <i class="fas fa-pencil-alt fa-lg"></i>
       </a>
@@ -55,7 +55,7 @@
       </div>
     </div>
     <div class="col-md-2 icon-box d-flex ml-auto" *ngIf="currentPath != '/home'">
-      <a *ngIf="canDeleteOrganization" href="javascript:void(0)" class="ml-auto" (click)="deleteCorporation(data)" ngbTooltip="ลบข้อมูลองค์กร">
+      <a [ngClass]="{'nav-link disabled': !canDeleteOrganization}" href="javascript:void(0)" class="ml-auto" (click)="deleteCorporation(data)" ngbTooltip="ลบข้อมูลองค์กร">
         <i class="fas fa-trash fa-lg"></i>
       </a>
     </div>
