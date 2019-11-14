@@ -70,7 +70,7 @@
     <div class="col-md-10 text-right">
         <!-- <button type="button" class="btn btn-link" (click)="exportExcel()">Excel</button>
         | <button type="button" class="btn btn-link" (click)="exportPDF()">PDF</button> -->
-        <a *ngIf="canExportReport" href="javascript:void(0)" class="dropdown-toggle btn btn-outline-warning btn-sm"
+        <a [ngClass]="{'link-disabled disabled': !canExportReport}" href="javascript:void(0)" class="dropdown-toggle btn btn-outline-warning btn-sm"
         data-toggle="dropdown">
         Export <i class="fas fa-download"></i>
       </a>
