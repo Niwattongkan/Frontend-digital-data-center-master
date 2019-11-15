@@ -20,7 +20,9 @@ export class AuthlogService {
     formData.append("UpdateBy", `${1}`);
     return formData
 }
-
+  getuserinfo(data):Observable<any>{
+    return this.apiService.get(`getuserinfo?PersonId=`+data)
+  }
   insertAuditlog(data): Observable<any> {
     let formData = this.setFormData(data)
     return this.apiService.post(`insertauditlog`, formData);
@@ -29,7 +31,7 @@ export class AuthlogService {
   getauditlog(): Observable<any> {
     return this.apiService.get(`getauditlog`);
   }
-  
+
   getEditlogBoardAll(): Observable<any> {
     return this.apiService.get(`geteditlogboard`);
   }
@@ -65,7 +67,7 @@ export class AuthlogService {
   getEditlogmanagegroupAll(): Observable<any> {
     return this.apiService.get(`geteditlogmanagegroup`);
   }
-  
+
   getEditlogMemberContactGroupAll(): Observable<any> {
     return this.apiService.get(`geteditlogmembercontactgroup`);
   }
@@ -77,11 +79,11 @@ export class AuthlogService {
   getEditlogPersonAddressAll(): Observable<any> {
     return this.apiService.get(`geteditlogpersonaddress`);
   }
-  
+
   getEditlogprojectAll(): Observable<any> {
     return this.apiService.get(`geteditlogproject`);
   }
-  
+
   getEditlogPurchaseAll(): Observable<any> {
     return this.apiService.get(`geteditlogpurchase`);
   }

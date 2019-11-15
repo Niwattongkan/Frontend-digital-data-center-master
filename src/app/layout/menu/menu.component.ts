@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../../shared/services/users.service';
+import { url } from 'inspector';
 
 @Component({
   selector: 'app-menu',
@@ -40,7 +41,7 @@ export class MenuComponent implements OnInit {
   }
 
   canViewReport(){
-    return this.canView('/report/searching-personal') || this.canView('/report/searching-corperation') 
+    return this.canView('/report/searching-personal') || this.canView('/report/searching-corperation')
     || this.canView('/report/searching-board') || this.canView('/report/using') || this.canView('/report/note')
   }
 

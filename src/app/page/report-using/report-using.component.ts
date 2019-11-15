@@ -89,26 +89,27 @@ export class ReportUsingComponent implements OnInit {
     } else {
       data.EndDate = null;
     }
+    data.UpdateMenu='บุคคล'
     const result = (await this.reportService.getreportuserlog(data).toPromise()).data;
     this.reportList = result
+    this.spinner.hide()
     const temp = [];
-    this.reportList.map(element => {
-      temp.push({
-        name: element.CreateDate,
-        value: element.data.size
-      });
-    });
+    // this.reportList.map(element => {
+    //   temp.push({
+    //     name: element.DataOriginal,
+    //     value: element.data.size
+    //   });
+    // });
     this.multi = [...temp];
 
     this.xAxisLabel = 'วันที่';
     this.yAxisLabel = 'ผู้มาใช้ระบบ';
-    this.spinner.hide()
   }
 
   public setSerachForm() {
     return this.formBuilder.group({
       Name: [''],
-      Status: [''],
+      UpdateMenu: [''],
       StartDate: [this.setDateEdit(new Date())],
       EndDate: [this.setDateEdit(new Date())]
     });
