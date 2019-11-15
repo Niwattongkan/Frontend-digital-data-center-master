@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import {AuthlogService} from "../../shared/services/authlog.service";
 import SimpleCrypto from "simple-crypto-js/build/SimpleCrypto";
 import {ActivatedRoute} from "@angular/router";
+import { UsersService } from 'src/app/shared/services/users.service';
 
 @Component({
   selector: 'app-header',
@@ -13,11 +14,10 @@ import {ActivatedRoute} from "@angular/router";
 export class HeaderComponent implements OnInit {
   public username
   private personId: string | object;
-  constructor(private cookieService: CookieService,
-              private authlogService: AuthlogService,
-              private activatedRoute: ActivatedRoute,
 
-  ) { }
+  constructor(private cookieService: CookieService,
+  private authlogService: AuthlogService,
+  private activatedRoute: ActivatedRoute, private userService:UsersService) { }
 
   ngOnInit() {
     let Crypto = new SimpleCrypto('some-unique-key');
@@ -29,7 +29,15 @@ export class HeaderComponent implements OnInit {
   logout(){
     // debugger
     this.cookieService.delete('code');
+    localStorage.removeItem('u_permission');
+    localStorage.removeItem('userinfo');
+    localStorage.removeItem('roles');
     document.location.href = environment.logoutUrl
   }
 
+  getName(){
+    var userInfo = this.userService.getUserInfo();
+    if (!userInfo) return '';
+    return userInfo.firstname + ' ' + userInfo.lastname;
+  }
 }

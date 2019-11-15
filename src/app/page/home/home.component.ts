@@ -4,6 +4,9 @@ import { PersonsService } from '../../shared/services/persons.service';
 import { OrganizationService } from '../../shared/services/organization.service';
 import { ProgramService } from '../../shared/services/program.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { HomeModalComponent } from './home-modal/home-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { UsersService } from '../../shared/services/users.service';
 
 @Component({
   selector: 'app-home',
@@ -32,16 +35,29 @@ export class HomeComponent implements OnInit {
     private personsService: PersonsService,
     private organizationService: OrganizationService,
     private programService: ProgramService,
+    private modalService: NgbModal,
+    private usersService: UsersService
 
   ) {
     this.typeCheck = this.setTypeCheck();
   }
-
+  
   async ngOnInit() {
     this.spinner.show();
     this.typeCheck = this.setTypeCheck();
     this.noData = false;
     this.spinner.hide();
+    this.hasAuthorize()
+  }
+
+  private hasAuthorize() {
+    if(this.usersService.getLocalUserPermission().length == 0){
+      this.modalService.open(HomeModalComponent, {size: 'sm'});
+    }
+  }
+
+  public openModal(content, size) {
+    this.modalService.open(content, {size: size});
   }
 
   public mapPersonAddress(persons) {
@@ -185,5 +201,9 @@ export class HomeComponent implements OnInit {
         }
       }
     }
+  }
+
+  public canEdit(){
+    return this.usersService.canEdit()
   }
 }

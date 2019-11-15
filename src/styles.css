@@ -136,3 +136,27 @@ button.bg-custom-orange:focus {
 .text-bold {
   font-weight: bold;
 }
+
+
+.noevent{
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+button.disabled{
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+a.disabled{
+  pointer-events: none;
+  cursor: not-allowed;
+  color: lightgray !important;
+}
+li.disabled{
+  pointer-events: none;
+  cursor: not-allowed;
+}
+  li.disabled a span{
+    color: lightgray !important;
+  }

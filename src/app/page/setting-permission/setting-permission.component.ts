@@ -6,6 +6,7 @@ import { BoardService } from '../../shared/services/board.service';
 import { PersonsService } from '../../shared/services/persons.service';
 import { mapPersons, createdNamePersons } from '../../shared/library/mapList';
 import { AuthlogService } from '../../shared/services/authlog.service';
+import { UsersService } from '../../shared/services/users.service';
 
 @Component({
   selector: 'app-setting-permission',
@@ -22,18 +23,25 @@ export class SettingPermissionComponent implements OnInit {
 
   public inputSearch = ""
   public headers: any = ['กลุ่มสิทธิ์', 'รายชื่อบุคคล', 'เครื่องมือ'];
+  public canAddPermission = false;
+  public canEditPermission= false;
+  public canDeletePermission = false;
 
   constructor(
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
     private boardService: BoardService,
     private personsService: PersonsService,
-    private authlogService: AuthlogService
+    private authlogService: AuthlogService,
+    private usersService: UsersService
   ) { }
 
   async ngOnInit() {
     this.spinner.show()
     this.boardList = this.groupData(mapPersons((await this.boardService.getallboard().toPromise()).data))
+    this.canAddPermission = this.usersService.canAddPermission();
+    this.canEditPermission = this.usersService.canEditPermission();
+    this.canDeletePermission = this.usersService.canDeletePermission();
     this.spinner.hide()
   }
 

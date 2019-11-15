@@ -10,52 +10,68 @@
           <span>หน้าแรก</span>
         </a>
       </li>
-      <li *ngIf="showMenu('persons')" routerLinkActive="active" class="nav-item">
+      <li routerLinkActive="active" class="nav-item" 
+        [ngClass]="{'disabled':!canView('/persons', showMenu('persons'))}">
         <a class="text-menu" routerLink="/persons">
           <span>ข้อมูลบุคคล</span>
         </a>
       </li>
-      <li routerLinkActive="active" class="nav-item">
+      <li routerLinkActive="active" class="nav-item"
+        [ngClass]="{'disabled':!canView('/organizations', showMenu('organizations'))}">
         <a class="text-menu" routerLink="/organizations">
           <span>ข้อมูลองค์กร</span>
         </a>
       </li>
-      <li routerLinkActive="active" class="nav-item">
+      <li routerLinkActive="active" class="nav-item"
+        [ngClass]="{'disabled':!canView('/program', showMenu('program'))}">
         <a class="text-menu" routerLink="/program">
           <span>ข้อมูลโครงการ</span>
         </a>
       </li>
-      <li routerLinkActive="active" class="nav-item dropdown">
+      <li routerLinkActive="active" class="nav-item dropdown"
+        [ngClass]="{'disabled':!canViewReport()}">
         <a class="text-menu dropdown-hover" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span class="dropdown-toggle">รายงาน</span>
         </a>
         <div class="dropdown-menu">
-          <a routerLink="/report/searching-personal" class="dropdown-item">รายงานการสืบค้นข้อมูลบุคคล</a>
-          <a routerLink="/report/searching-corperation" class="dropdown-item">รายงานการสืบค้นข้อมูลองค์กร</a>
-          <a routerLink="/report/searching-board" class="dropdown-item">รายงานการสืบค้นข้อมูลคณะกรรมการ</a>
-          <a routerLink="/report/using" class="dropdown-item">รายงานการเข้าใช้งานระบบ</a>
-          <a routerLink="/report/note" class="dropdown-item">รายงานบันทึกจากฝ่ายเลขา</a>
+          <a routerLink="/report/searching-personal" class="dropdown-item" 
+            [ngClass]="{'disabled':!canView('/report/searching-personal', showMenu('searching-personal'))}">รายงานการสืบค้นข้อมูลบุคคล</a>
+          <a routerLink="/report/searching-corperation" class="dropdown-item"
+            [ngClass]="{'disabled':!canView('/report/searching-corperation', showMenu('searching-corperation'))}">รายงานการสืบค้นข้อมูลองค์กร</a>
+          <a routerLink="/report/searching-board" class="dropdown-item"
+            [ngClass]="{'disabled':!canView('/report/searching-board', showMenu('searching-board'))}">รายงานการสืบค้นข้อมูลคณะกรรมการ</a>
+          <a routerLink="/report/using" class="dropdown-item"
+            [ngClass]="{'disabled':!canView('/report/using', showMenu('using'))}">รายงานการเข้าใช้งานระบบ</a>
+          <a routerLink="/report/note" class="dropdown-item"
+            [ngClass]="{'disabled':!canView('/report/note', showMenu('note'))}">รายงานบันทึกจากฝ่ายเลขา</a>
         </div>
       </li>
-      <li routerLinkActive="active" class="nav-item dropdown">
+      <li routerLinkActive="active" class="nav-item dropdown" [ngClass]="{'disabled':!canViewEvent()}">
         <a class="text-menu dropdown-hover" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
           <span class="dropdown-toggle">กิจกรรม</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a routerLink="/event/notebook" class="dropdown-item">สมุดบันทึก</a>
-          <a routerLink="/event/group" class="dropdown-item">จัดการกลุ่ม</a>
+          <a routerLink="/event/notebook" class="dropdown-item"
+            [ngClass]="{'disabled':!canView('/event/notebook', showMenu('notebook'))}">สมุดบันทึก</a>
+          <a routerLink="/event/group" class="dropdown-item"
+            [ngClass]="{'disabled':!canView('/event/group', showMenu('group'))}">จัดการกลุ่ม</a>
         </div>
       </li>
-      <li routerLinkActive="active" class="nav-item dropdown">
+      <li routerLinkActive="active" class="nav-item dropdown"
+        [ngClass]="{'disabled':!canViewSetting()}">
         <a class="text-menu dropdown-hover" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span class="dropdown-toggle">ตั้งค่า</span>
         </a>
         <div class="dropdown-menu">
-          <a routerLink="/setting/users" class="dropdown-item">กลุ่มผู้ใช้งาน</a>
-          <a routerLink="/setting/permission" class="dropdown-item">กลุ่มจำกัดสิทธิ์</a>
-          <a routerLink="/setting/auditlog" class="dropdown-item">Audit Log</a>
-          <a routerLink="/setting/license" class="dropdown-item">จัดการสิทธิ์การใช้งาน</a>
+          <a routerLink="/setting/users" class="dropdown-item"
+            [ngClass]="{'disabled':!canView('/setting/users', showMenu('users'))}">กลุ่มผู้ใช้งาน</a>
+          <a routerLink="/setting/permission" class="dropdown-item"
+            [ngClass]="{'disabled':!canView('/setting/permission', showMenu('permission'))}">กลุ่มจำกัดสิทธิ์</a>
+          <a routerLink="/setting/auditlog" class="dropdown-item"
+            [ngClass]="{'disabled':!canView('/setting/auditlog', showMenu('auditlog'))}">Audit Log</a>
+          <a routerLink="/setting/license" class="dropdown-item"
+            [ngClass]="{'disabled':!canView('/setting/license', showMenu('license'))}">จัดการสิทธิ์การใช้งาน</a>
         </div>
       </li>
     </ul>

@@ -6,6 +6,7 @@ import {GroupUserService} from '../../shared/services/group-user.service';
 import {AuthlogService} from '../../shared/services/authlog.service';
 
 import {mapPersons, createdNamePersons} from '../../shared/library/mapList';
+import { UsersService } from '../../shared/services/users.service';
 
 @Component({
   selector: 'app-setting-users',
@@ -19,18 +20,25 @@ export class SettingUsersComponent implements OnInit {
   public groupUsersList: any = [];
   public groupUsersOrigin: any;
   public inputSearch = '';
+  public canAddUser = false;
+  public canEditUser = false;
+  public canDeleteUser = false;
 
   constructor(
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
     private groupUserService: GroupUserService,
-    private authlogService: AuthlogService
+    private authlogService: AuthlogService,
+    private usersService: UsersService
   ) {
   }
 
   async ngOnInit() {
     this.spinner.show()
     this.groupUsersList = mapPersons((await this.groupUserService.getallgroupuser().toPromise()).data);
+    this.canAddUser = this.usersService.canAddUser();
+    this.canEditUser = this.usersService.canEditUser();
+    this.canDeleteUser = this.usersService.canDeleteUser();
     this.spinner.hide()
   }
 

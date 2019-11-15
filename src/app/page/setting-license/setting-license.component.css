@@ -5,3 +5,6 @@
 .myCustomModalClass .modal-dialog {
   max-width: 700px;
 }
+.link-disabled {
+    color: #a6a7ab !important;
+}

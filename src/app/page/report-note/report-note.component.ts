@@ -8,6 +8,7 @@ import { ReportService } from '../../shared/services/report.service';
 import { ExcelService } from '../../shared/services/excel.service';
 import { mapPersons } from '../../shared/library/mapList';
 import { PdfService } from '../../shared/services/pdf.service';
+import { UsersService } from '../../shared/services/users.service';
 import * as moment from 'moment';
 
 import * as jsPDF from 'jspdf';
@@ -27,13 +28,16 @@ export class ReportNoteComponent implements OnInit {
   public myDatePickerOptions: IMyOptions = {
     dateFormat: 'dd/mm/yyyy'
   };
+  
+  public canExportReport = false;
 
   constructor(
     private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
     private reportService: ReportService,
     private excelService: ExcelService,
-    private pdfService: PdfService
+    private pdfService: PdfService,
+    private usersService: UsersService
   ) {
     this.searchform = this.setSerachForm();
   }
@@ -55,6 +59,7 @@ export class ReportNoteComponent implements OnInit {
     const result = (await this.reportService.getreportnote(data).toPromise())
       .data;
     this.reportList = mapPersons(result);
+    this.canExportReport = this.usersService.canExportNoteReport();
     this.spinner.hide();
   }
 

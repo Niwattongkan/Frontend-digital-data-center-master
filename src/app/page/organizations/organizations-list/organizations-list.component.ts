@@ -5,6 +5,7 @@ import {OrganizationService} from "../../../shared/services/organization.service
 import {alertDeleteEvent} from "../../../shared/library/alert";
 import Swal from "sweetalert2";
 import {NgxSpinnerService} from "ngx-spinner";
+import { UsersService } from '../../../shared/services/users.service';
 
 
 @Component({
@@ -16,10 +17,12 @@ export class OrganizationsListComponent implements OnInit {
   public page: Number;
   public organizationList: any = [];
   public inputSearch = "";
+  public canAddOrganization= false
 
   constructor(
     private organizationService: OrganizationService,
     private spinner: NgxSpinnerService,
+    private usersService: UsersService
   ) {
   }
 
@@ -29,6 +32,7 @@ export class OrganizationsListComponent implements OnInit {
       (await this.organizationService.getOrganizationAll().toPromise()).data
     );
     this.spinner.hide();
+    this.canAddOrganization = this.usersService.canAddOrganization();
   }
 
   public mapCorperation(corperationList) {
@@ -105,5 +109,14 @@ export class OrganizationsListComponent implements OnInit {
       });
       this.spinner.hide()
     }
+  }
+
+  canEdit(url, checkNext = null){
+    var ret = this.usersService.canEdit(url)
+    if (ret){
+      if (checkNext !== null)
+        return checkNext;
+    }
+    return ret;
   }
 }

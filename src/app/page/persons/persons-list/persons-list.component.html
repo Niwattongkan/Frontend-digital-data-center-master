@@ -7,7 +7,8 @@
           <h2 class="text-bold"> ข้อมูลบุคคล </h2>
         </div>
         <div class="col-md-6 text-right">
-          <button class="btn btn-success" routerLink="/persons/insert" ngbTooltip="เพิ่มข้อมูลบุคคล">
+          <button class="btn btn-success" routerLink="/persons/insert" ngbTooltip="เพิ่มข้อมูลบุคคล"
+          [ngClass]="{'disabled noevent':!canEdit('/persons', canAddPerson)}">
             <i class="fas fa-plus mr-1"></i>เพิ่มข้อมูลบุคคล
           </button>
         </div>

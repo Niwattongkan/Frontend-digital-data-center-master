@@ -20,6 +20,8 @@ import { PersonsStudiesComponent } from './persons-studies/persons-studies.compo
 import { PersonsService } from '../../shared/services/persons.service';
 import {NgxSpinnerModule} from "ngx-spinner";
 
+import { AuthGuard } from '../../shared/component/guards/auth-guard.service';
+
 @NgModule({
   imports: [
     SharedModule,

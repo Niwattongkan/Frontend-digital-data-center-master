@@ -5,6 +5,6 @@ export const environment = {
   
   ssoAuthUrl: "https://sso-uat.thaihealth.or.th/authorize?redirect_uri=$redirect_uri&client_id=$client_id&state=&response_type=code",
   logoutUrl: "https://sso-uat.thaihealth.or.th/logout",
-  redirect_uri: "https://tc.thaihealth.or.th/#/callback",
+  redirect_uri: "https://tc.thaihealth.or.th/callback",
   client_id: "THDataCenter"
 };

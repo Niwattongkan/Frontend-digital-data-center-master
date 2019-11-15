@@ -14,6 +14,7 @@ import { OrganizationsDetailAddressComponent } from './organizations-detail/orga
 
 import { OrganizationService } from '../../shared/services/organization.service';
 import {NgxSpinnerModule} from "ngx-spinner";
+import { AuthGuard } from '../../shared/component/guards/auth-guard.service';
 
 @NgModule({
 
@@ -33,7 +34,8 @@ import {NgxSpinnerModule} from "ngx-spinner";
     OrganizationsDetailAddressComponent,
   ],
   providers: [
-    OrganizationService
+    OrganizationService,
+    AuthGuard
   ]
 })
 export class OrganizationsModule { }

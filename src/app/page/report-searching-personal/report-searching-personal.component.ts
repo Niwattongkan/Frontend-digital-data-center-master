@@ -5,6 +5,7 @@ import { ExcelService } from "../../shared/services/excel.service";
 import { ReportService } from "../../shared/services/report.service";
 import { PdfService } from "../../shared/services/pdf.service";
 import { NgxSpinnerService } from "ngx-spinner";
+import { UsersService } from '../../shared/services/users.service';
 
 import * as jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -28,12 +29,15 @@ export class ReportSearchingPersonalComponent implements OnInit {
     dateFormat: "dd/mm/yyyy"
   };
 
+  public canExportReport = false;
+
   constructor(
     private spinner: NgxSpinnerService,
     private formBuilder: FormBuilder,
     private reportService: ReportService,
     private excelService: ExcelService,
-    private pdfService: PdfService
+    private pdfService: PdfService,
+    private usersService: UsersService
   ) {
     this.searchform = this.setSerachForm();
   }
@@ -44,6 +48,7 @@ export class ReportSearchingPersonalComponent implements OnInit {
       .getreportperson(this.searchform.value)
       .toPromise()).data;
     this.reportList = mapPersons(result);
+    this.canExportReport = this.usersService.canExportSearchingPersonalReport();
     this.spinner.hide();
   }
 

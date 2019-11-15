@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CookieService } from 'ngx-cookie-service';
 import { environment } from '../../../environments/environment';
 import { Router, ActivatedRoute } from '@angular/router';
+import { UsersService } from '../../shared/services/users.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private modalService: NgbModal,
     private cookieService: CookieService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private usersService: UsersService
   ) { }
 
   ngOnInit() {
@@ -32,33 +34,40 @@ export class LoginComponent implements OnInit {
   }
 
   private callback() {
-    // debugger
     var url = new URL(document.location.href);
     var code = url.searchParams.get("code");
     var error = url.searchParams.get("error");
 
     if (typeof code !== 'undefined' && code != null) { // Logon
       this.cookieService.set('code', code);
-      document.location.href = "/#/home";
+
+      this.usersService.getSSOUserInfo().subscribe((data:any)=>{
+        if (data.successful){
+          localStorage.setItem('userinfo', JSON.stringify(data.data));
+          localStorage.setItem('roles', (data.data.roles || []).join(','));
+        }
+      }).add(()=>{
+        this.usersService.getPermissionById().subscribe((data: any) => {
+          localStorage.setItem('u_permission', JSON.stringify(data));
+          document.location.href = "/#/home";
+        });  
+      })
+
+      
     } else if (typeof error !== 'undefined' && error != null) { // Error access_denined, logout
       alert(error);
       this.cookieService.delete('code');
+      localStorage.removeItem('u_permission');
       document.location.href = environment.logoutUrl
     } else { // Reqest login
       document.location.href = environment.ssoAuthUrl
         .replace("$redirect_uri", environment.redirect_uri)
         .replace("$client_id", environment.client_id);
     }
-
-    this.setPermission();
   }
 
   public openModal(content) {
     return this.modalService.open(content);
   }
-
-  private setPermission() {
-    const mockPermission = '{ "successful": true, "data": [ { "PView": 1, "MenuName": "ข้อมูลบุคคล", "MenuNameEng": "persons" } ] }';
-    this.cookieService.set('u_permission', mockPermission);
-  }
 }
+

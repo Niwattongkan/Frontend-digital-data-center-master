@@ -6,6 +6,7 @@ import { mapPersons, createdNamePersons } from '../../shared/library/mapList';
 
 import { alertEvent, alertDeleteEvent } from '../../shared/library/alert';
 import { NgxSpinnerService } from "ngx-spinner";
+import { UsersService } from '../../shared/services/users.service';
 
 @Component({
   selector: 'app-setting-license',
@@ -19,11 +20,15 @@ export class SettingLicenseComponent implements OnInit {
 
   public inputSearch = '';
   public page: number;
+  public canAddLicense = false;
+  public canEditLicense= false;
+  public canDeleteLicense = false;
 
   constructor(
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
-    private permissionService: PermissionsService
+    private permissionService: PermissionsService,
+    private usersService: UsersService
   ) { }
 
   async ngOnInit() {
@@ -32,6 +37,9 @@ export class SettingLicenseComponent implements OnInit {
     this.roleList.map(async element => {
       element.Persons = await this.mapRole(element.PermissionId);
     });
+    this.canAddLicense = this.usersService.canAddLicense();
+    this.canEditLicense = this.usersService.canEditLicense();
+    this.canDeleteLicense = this.usersService.canDeleteLicense();
     this.spinner.hide()
   }
 

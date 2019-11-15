@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { OrganizationService } from '../../services/organization.service';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'card-organization',
@@ -21,6 +22,9 @@ export class CardOrganizationComponent implements OnInit {
 
   dataTable: any = [];
 
+  public canEditOrganization = false;
+  public canDeleteOrganization = false;
+
   @Input() data: any;
 
   @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
@@ -28,6 +32,7 @@ export class CardOrganizationComponent implements OnInit {
   constructor(
     private organizationService: OrganizationService,
     private router: Router,
+    private usersService: UsersService,
   ) { }
 
   async ngOnInit() {
@@ -35,6 +40,8 @@ export class CardOrganizationComponent implements OnInit {
     this.data.CorporationId ? this.setContact((await this.organizationService.getcorporationcontact(this.data.CorporationId).toPromise()).data) : null;
     this.organizationProject = this.data.CorporationId ? (await this.organizationService.getCorporation(this.data.CorporationId).toPromise()).data : [];
     this.dataTable = this.data.CorporationId ? this.setTable((await this.organizationService.getCorporationProject(this.data.CorporationId).toPromise()).data) : [];
+    this.canEditOrganization = this.usersService.canEditOrganization();
+    this.canDeleteOrganization = this.usersService.canDeleteOrganization();
   }
 
   setContact(list) {
@@ -70,5 +77,15 @@ export class CardOrganizationComponent implements OnInit {
     const District = value.District != '' ? 'อำเภอ/เขต ' + value.District + ' ' : '';
     const Zipcode = value.Zipcode != '' ?  'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
     return Building + Floor + Room + HouseNumber + Road + Soi + Province + District + Subdistrict + Zipcode;
+  }
+
+
+  canEdit(checkNext = null){
+    var ret = this.usersService.canEdit()
+    if (ret){
+      if (checkNext !== null)
+        return checkNext;
+    }
+    return ret;
   }
 }
