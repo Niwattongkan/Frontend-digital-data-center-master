@@ -195,9 +195,9 @@
                       </div>
                     </div>
                     <div class="col-md-2" style="text-align:center;">
-                      <ngx-avatar *ngIf="!imgURL" size="120"
+                      <ngx-avatar *ngIf="!profileOriginForm" size="120"
                                   src="../../../../assets/icon-customer/image-default.png" (clickOnAvatar)="selectNewAvatar()" ></ngx-avatar>
-                      <ngx-avatar *ngIf="imgURL" [src]="imgURL"
+                      <ngx-avatar *ngIf="profileOriginForm" [src]="imgURL"
                                   size="120" [round]="true"> </ngx-avatar>
                       <input #file ngModel  [ngModelOptions]="{standalone: true}" type="file" accept='image/*' (change)="previewImage(file.files)" multiple>
                              <!-- (change)="onImageChange($event)"> -->
@@ -426,7 +426,7 @@
                   <button type="button" class="btn btn-outline-secondary"
                           (click)="back()">ย้อนกลับ
                   </button>
-                  <button (click)="next()" class="btn btn-success">ต่อไป</button>
+                  <button (click)="next()" class="btn btn-success">บันทึก</button>
                 </div>
               </div>
             </div>

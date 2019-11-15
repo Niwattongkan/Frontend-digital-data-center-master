@@ -77,13 +77,14 @@ export class InsertPersonsComponent implements OnInit {
   ) {
     this.profileForm = this.setProfile(null);
     this.profileOriginForm = this.profileForm.value;
-    this.mode = this.personId ? 'Edit' : 'Insert';
-    this.title = this.personId ? 'แก้ไขข้อมูลบุคคล' : 'เพิ่มข้อมูลบุคคล';
   }
 
   async ngOnInit() {
     let Crypto = new SimpleCrypto('some-unique-key');
-    this.personId = Crypto.decrypt(this.activatedRoute.snapshot.paramMap.get('id'));
+    let id = this.activatedRoute.snapshot.paramMap.get('id')
+    this.personId = id != '' && id != null ? Crypto.decrypt(id) : ''
+    this.title = this.personId ? 'แก้ไขข้อมูลบุคคล' : 'เพิ่มข้อมูลบุคคล';
+    this.mode = this.personId ? 'Edit' : 'Insert';
     this.spinner.show();
     this.stepper = new Stepper(document.querySelector('#stepper1'), {
       linear: false,
@@ -106,7 +107,7 @@ export class InsertPersonsComponent implements OnInit {
       .toPromise()).data;
     const resultImage = this.personId
       ? (this.imagePerson =
-        'https://tc.thaihealth.or.th:4122/uapi/ddc/getphotoperson?PersonId=' +
+          'https://tc.thaihealth.or.th:4122/uapi/ddc/getphotoperson?PersonId=' +
         this.personId)
       : null;
     this.imgURL = resultImage ? resultImage[0] : null;

@@ -36,7 +36,7 @@ export class SettingLicenseComponent implements OnInit {
   }
 
   public openModal(content, size) {
-    this.modalService.open(content, { size: size });
+    this.modalService.open(content, { size: 'lg' , windowClass : "myCustomModalClass"});
   }
 
   async mapRole(id) {
@@ -81,26 +81,30 @@ export class SettingLicenseComponent implements OnInit {
     const permission = value.permission;
 
     const resultPermission = (await this.permissionService.insertpermission({
-      PermissionName: permission.PermissionName
+      PermissionName: permission.PermissionName,
+      IsActive:1,
+      CreateBy:'test'
     }).toPromise()).data[0];
-
-    permission.Person.forEach(async data => {
+    permission.GroupNames.forEach(async data => {
       const groupPermission = (await this.permissionService.insertgrouppermission({
         PermissionId: resultPermission.PermissionId,
-        PersonId: data.PersonId
-      }).toPromise()).data[0];
+        GroupUserId: data.GroupUserId
+      }).toPromise()).data
+      console.log(groupPermission)
       role.forEach(async element => {
-        const resultLicense = (await this.permissionService.insertpermissionmanage({
-          GroupPermissionId: groupPermission.GroupPermissionId,
+        await this.permissionService.insertpermissionmanage({
+          PView: element.View ? 1 : 0,
+          PAdd: element.Add ? 1 : 0,
+          PEdit: element.Edit ? 1 : 0,
+          PDelete: element.Delete ? 1 : 0,
+          Import: element.Import ? 1 : 0,
+          Export: element.Export ? 1 : 0,
+          CreateBy: 'test',
+          isActive: 1,
+          PermissionId: groupPermission.GroupPermissionId,
           MenuId: element.MenuId,
-          MenuName: element.MenuName,
-          InsertData: element.InsertData ? 1 : 0,
-          EditData: element.EditData ? 1 : 0,
-          DeleteData: element.DeleteData ? 1 : 0,
-          ExportData: element.ExportData ? 1 : 0,
-          ShareData: element.ShareData ? 1 : 0,
-          CopyData: element.CopyData ? 1 : 0,
-        }).toPromise()).data[0];
+
+        })
       });
     });
 
@@ -108,36 +112,39 @@ export class SettingLicenseComponent implements OnInit {
     this.roleList.map(async element => {
       element.Persons = await this.mapRole(element.PermissionId);
     });
+    alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
+
+
   }
 
 
   public async updateLicense(value) {
     const role = value.role;
+    const data = value.license;
     const permission = value.permission;
 
     const resultPermission = (await this.permissionService.updatepermission({
-      PermissionId: permission.PermissionId,
-      PermissionName: permission.PermissionName
+      PermissionName: permission.PermissionName,
+      IsActive:1,
+      CreateBy:'test'
     }).toPromise()).data[0];
-
-    await this.permissionService.deletegrouppermissionperson(permission.GroupPermissionId).toPromise();
-
-    permission.Person.forEach(async data => {
-      const groupPermission = (await this.permissionService.insertgrouppermission({
+    permission.GroupNames.forEach(async data => {
+      const groupPermission = (await this.permissionService.updategrouppermission({
         PermissionId: resultPermission.PermissionId,
-        PersonId: data.PersonId
-      }).toPromise()).data[0];
+        GroupUserId: data.GroupUserId
+      }).toPromise()).data
       role.forEach(async element => {
-        const resultLicense = (await this.permissionService.insertpermissionmanage({
-          GroupPermissionId: groupPermission.GroupPermissionId,
+         (await this.permissionService.updatepermissionmanage({
+          PView: element.View ? 1 : 0,
+          PAdd: element.Add ? 1 : 0,
+          PEdit: element.Edit ? 1 : 0,
+          PDelete: element.Delete ? 1 : 0,
+          Import: element.Import ? 1 : 0,
+          Export: element.Export ? 1 : 0,
+          CreateBy: 'test',
+          isActive: 1,
+          PermissionId: groupPermission.GroupPermissionId,
           MenuId: element.MenuId,
-          MenuName: element.MenuName,
-          InsertData: element.InsertData ? 1 : 0,
-          EditData: element.EditData ? 1 : 0,
-          DeleteData: element.DeleteData ? 1 : 0,
-          ExportData: element.ExportData ? 1 : 0,
-          ShareData: element.ShareData ? 1 : 0,
-          CopyData: element.CopyData ? 1 : 0,
         }).toPromise()).data[0];
       });
     });

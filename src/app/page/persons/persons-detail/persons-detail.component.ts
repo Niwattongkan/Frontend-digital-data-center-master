@@ -53,7 +53,7 @@ export class PersonsDetailComponent implements OnInit {
       return this.router.navigate(['/persons']);
     }
 
-    this.profile = await this.setProfile(this.detailPerson)
+    this.profile = this.detailPerson
     this.contact = await this.setContact(this.detailPerson)
     this.coordinate = await this.setCoordinate()
     this.favorite = await this.setFavorite(this.detailPerson)
@@ -118,7 +118,7 @@ export class PersonsDetailComponent implements OnInit {
       Military: data.Military ? data.Military : "",
       Religion: data.Religion ? data.Religion : "",
       Nationality: data.Nationality ? data.Nationality : "",
-      PartPhoto: data.PartPhoto ? data.PartPhoto : "",
+      PartPhoto: data.PartPhoto ? data.PartPhoto : data.PartPhoto,
       EthnicityId: data.EthnicityId ? data.EthnicityId : "",
       WorkPermitNo: data.WorkPermitNo ? data.WorkPermitNo : "",
       Soldierly: data.Soldierly ? data.Soldierly : "",

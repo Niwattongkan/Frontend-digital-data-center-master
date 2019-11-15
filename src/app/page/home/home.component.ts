@@ -24,7 +24,7 @@ export class HomeComponent implements OnInit {
   public typeCheck = [];
 
   public listStatus = null;
-
+  public noData: boolean =null;
   public inputSearch = '';
 
   constructor(
@@ -40,6 +40,7 @@ export class HomeComponent implements OnInit {
   async ngOnInit() {
     this.spinner.show();
     this.typeCheck = this.setTypeCheck();
+    this.noData = false;
     this.spinner.hide();
   }
 
@@ -140,6 +141,11 @@ export class HomeComponent implements OnInit {
             (String(person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase())
         });
         this.personList = seachPerson.length > 0 ? seachPerson : await this.mapPerson((await this.personsService.getsearchpersoncontact(this.inputSearch).toPromise()).data)
+        if(this.personList!== null && this.personList.length == 0){
+            this.noData = true
+        }else {
+          this.noData = false
+        }
       }
     } else if (this.typeCheck[1].status == true) {
       this.listStatus = 1;

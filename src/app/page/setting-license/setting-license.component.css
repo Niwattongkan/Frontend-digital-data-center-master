@@ -1,3 +1,7 @@
 .block {
     display: block;
 }
+
+.myCustomModalClass .modal-dialog {
+  max-width: 700px;
+}

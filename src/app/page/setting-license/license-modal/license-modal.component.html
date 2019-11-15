@@ -1,4 +1,4 @@
-<div class="modal-header">
+<div class="modal-header" >
   <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
   <a class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true" class="text-default"> <i class="fa fa-times"></i> </span>
@@ -13,26 +13,26 @@
           <input type="text" class="form-control" [formControl]="permissionForm.controls['PermissionName']">
         </div>
         <div class="form-group">
-          <label>ผู้มีสิทธ์ใช้งาน</label>
-          <ng-multiselect-dropdown [data]="personList" [settings]="dropdownSettings"
-            [formControl]="permissionForm.controls['Persons']">
+          <label>กลุ่มผู้มีสิทธ์ใช้งาน</label>
+          <ng-multiselect-dropdown [data]="groupname" [settings]="dropdownSettings" name="groupname" formControlName="groupname"
+            [formControl]="permissionForm.controls['GroupNames']">
           </ng-multiselect-dropdown>
         </div>
-        <div class="form-group" *ngIf="!data">
+        <div class="form-group">
           <div class="row">
             <div class="col-md-12">
 
               <table class="table table-bordered">
                 <thead class="form-group">
                   <tr role="row">
-                    <th class="text-center"><p style="font-size: 13px">เมนู</p></th>
-                    <th class="text-center"><p style="font-size: 13px">ทั้งหมด</p></th>
-                    <th class="text-center"><p style="font-size: 13px">ดู</p></th>
-                    <th class="text-center"><p style="font-size: 13px">เพิ่มข้อมูล</p></th>
-                    <th class="text-center"><p style="font-size: 13px">แก้ไขข้อมูล</p></th>
-                    <th class="text-center"><p style="font-size: 13px">ลบข้อมูล</p></th>
-                    <th class="text-center"><p style="font-size: 13px">นำเข้าข้อมูล</p></th>
-                    <th class="text-center"><p style="font-size: 13px">ส่งออกข้อมูล</p></th>
+                    <th class="text-center"><p style="font-size: 10px">เมนู</p></th>
+                    <th class="text-center"><p style="font-size: 10px">ทั้งหมด</p></th>
+                    <th class="text-center"><p style="font-size: 10px">ดู</p></th>
+                    <th class="text-center"><p style="font-size: 10px">เพิ่มข้อมูล</p></th>
+                    <th class="text-center"><p style="font-size: 10px">แก้ไขข้อมูล</p></th>
+                    <th class="text-center"><p style="font-size: 10px">ลบข้อมูล</p></th>
+                    <th class="text-center"><p style="font-size: 10px">นำเข้าข้อมูล</p></th>
+                    <th class="text-center"><p style="font-size: 10px">ส่งออกข้อมูล</p></th>
                   </tr>
                 </thead>
                 <tbody class="bg-white">

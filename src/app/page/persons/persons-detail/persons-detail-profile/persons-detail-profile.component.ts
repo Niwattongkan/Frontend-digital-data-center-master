@@ -1,7 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 
-import { calulateAge } from '../../../../shared/library/date';
+import {calulateAge} from '../../../../shared/library/date';
 import {mapPersons} from "../../../../shared/library/mapList";
+import SimpleCrypto from "simple-crypto-js/build/SimpleCrypto";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'persons-detail-profile',
@@ -13,19 +15,23 @@ export class PersonsDetailProfileComponent implements OnInit {
   public profileForm: any = {};
   public personId = ""
   public imageProfile = ""
-
+  public encype = ""
   @Input() inputForm: any;
 
   @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() { }
+  constructor(private activatedRoute: ActivatedRoute,
+  ) {
+  }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
   async ngOnChanges() {
+    this.encype = String(this.activatedRoute.snapshot.paramMap.get('id'))
     this.profileForm = this.inputForm ? this.setProfile(this.inputForm) : {}
     this.personId = this.inputForm ? this.inputForm.PersonId : ""
-    this.imageProfile = this.inputForm ? "https://tc.thaihealth.or.th:4122/uapi/ddc/getphotoperson?PersonId="+ this.inputForm.PersonId : null
+    this.imageProfile = this.inputForm ? "https://tc.thaihealth.or.th:4122/uapi/ddc/getphotoperson?PersonId=" + this.inputForm.PersonId : null
   }
 
   private setProfile(data) {
@@ -45,7 +51,7 @@ export class PersonsDetailProfileComponent implements OnInit {
   }
 
   setYear(date) {
-    if(date) {
+    if (date) {
       let temp = new Date(date)
       temp.setFullYear(temp.getFullYear() + 543)
       return temp

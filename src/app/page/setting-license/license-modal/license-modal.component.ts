@@ -1,17 +1,18 @@
-import { Component, EventEmitter, OnInit, Input, Output } from "@angular/core";
-import { FormGroup, Validators, FormBuilder } from "@angular/forms";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import {Component, EventEmitter, OnInit, Input, Output} from "@angular/core";
+import {FormGroup, Validators, FormBuilder} from "@angular/forms";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
-import { BoardService } from "../../../shared/services/board.service";
-import { PersonsService } from "../../../shared/services/persons.service";
-import { PermissionsService } from "../../../shared/services/permission.service";
+import {BoardService} from "../../../shared/services/board.service";
+import {PersonsService} from "../../../shared/services/persons.service";
+import {PermissionsService} from "../../../shared/services/permission.service";
+import {NgxSpinnerService} from "ngx-spinner";
 
 import {
   mapPersons,
   createdNamePersons
 } from "../../../shared/library/mapList";
 
-import { validForm } from "../../../shared/library/form";
+import {validForm} from "../../../shared/library/form";
 
 @Component({
   selector: "setting-license-modal",
@@ -24,16 +25,17 @@ export class LicenseModalComponent implements OnInit {
   public rolelist: any = [];
   public personList: any = [];
   public roleSublist: any = [];
-
+  public groupname
+  public groupnameupdate
   public licenseForm: FormGroup;
   public permissionForm: FormGroup;
-
+  public selectedItems: any = [];
   public alertValid = false;
 
   public dropdownSettings = {
     singleSelection: false,
-    idField: "PersonId",
-    textField: "FullnameTh",
+    idField: "GroupUserId",
+    textField: "GroupUserName",
     selectAllText: "Select All",
     unSelectAllText: "UnSelect All",
     allowSearchFilter: true
@@ -48,37 +50,41 @@ export class LicenseModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     private boardService: BoardService,
     private personsService: PersonsService,
-    private permissionService: PermissionsService
+    private permissionService: PermissionsService,
+    private spinner: NgxSpinnerService,
+    private fb: FormBuilder
   ) {
     this.licenseForm = this.setlicense(null);
-    this.permissionForm = this.setPermission(null);
   }
 
   async ngOnInit() {
+    this.spinner.show();
     this.title = this.data ? "แก้ไขสิทธิ์การใช้งาน" : "สร้างสิทธิ์การใช้งาน";
     this.rolelist = this.setRole(
       (await this.boardService.getmenu().toPromise()).data
     );
+    this.groupname = (await this.permissionService.getgroupname().toPromise()).data
     this.personList = (await this.personsService
       .getallperson()
       .toPromise()).data;
     this.mapFullNameTh();
-
     this.licenseForm = this.data
       ? this.setlicense(this.data)
       : this.setlicense(null);
-
+    this.selectedItems =  this.data ? this.data.Person : []
     this.permissionForm = this.setPermission(this.data);
     this.selectSubMenu(this.licenseForm.controls["MenuId"].value);
 
     this.licenseForm
       .get("MenuId")
       .valueChanges.subscribe(value => this.selectSubMenu(value));
+    this.spinner.hide()
+    this.licenseForm = this.fb.group({
+      groupname: [this.selectedItems]
+    });
   }
 
   mapFullNameTh() {
-    // var data = this.personList;
-
     this.personList.map(data => {
       const title =
         data.TitleNameTh == 1
@@ -89,10 +95,6 @@ export class LicenseModalComponent implements OnInit {
       const first = data.FristNameTh;
       const last = data.LastNameTh;
       data.FullnameTh = first && last ? title + first + " " + last : "";
-      // const titleEn = data.TitleNameEn == 1 ? 'Mr.' : data.TitleNameEn == 2 ? 'Mrs.' : 'Miss.';
-      // const firstEn = data.FristNameEn;
-      // const lastEn = data.LastNameEn;
-      // data.FullnameEn = firstEn && lastEn ? titleEn + firstEn + ' ' + lastEn : '';
     });
   }
 
@@ -105,10 +107,6 @@ export class LicenseModalComponent implements OnInit {
   }
 
   submit() {
-    // if (validForm(this.licenseForm).length > 0) {
-    //   this.alertValid = true;
-    //   return;
-    // }
     this.onSubmit.emit({
       license: this.licenseForm.value,
       permission: this.permissionForm.value,
@@ -120,35 +118,47 @@ export class LicenseModalComponent implements OnInit {
   closeModal() {
     this.modalService.dismissAll();
   }
-
-  selectAll(index, value) {
-    console.log(index + " " + value);
+  selectUpdate(index,value){
     value = value ? true : false;
-    // if (value) {
-    //   this.rolelist[index] = {
-    //     MenuId: this.rolelist[index].MenuId,
-    //     MenuName: this.rolelist[index].MenuName,
-    //     All: true,
-    //     View: true,
-    //     Add: true,
-    //     Edit: true,
-    //     Delete: true,
-    //     Import: true,
-    //     Export: true,
-    //   }
-    // } else {
-    //   this.rolelist[index] = {
-    //     MenuId: this.rolelist[index].MenuId,
-    //     MenuName: this.rolelist[index].MenuName,
-    //     All: false,
-    //     View: false,
-    //     Add: false,
-    //     Edit: false,
-    //     Delete: false,
-    //     Import: false,
-    //     Export: false,
-    //   }
-    // }
+      this.rolelist[index] = {
+        MenuId: this.rolelist[index].MenuId,
+        MenuName: this.rolelist[index].MenuName,
+        All: false,
+        View: true,
+        Add: true,
+        Edit: true,
+        Delete: true,
+        Import: true,
+        Export: true,
+      }
+  }
+  selectAll(index, value) {
+    value = value ? true : false;
+    if (value) {
+      this.rolelist[index] = {
+        MenuId: this.rolelist[index].MenuId,
+        MenuName: this.rolelist[index].MenuName,
+        All: true,
+        View: true,
+        Add: true,
+        Edit: true,
+        Delete: true,
+        Import: true,
+        Export: true,
+      }
+    } else {
+      this.rolelist[index] = {
+        MenuId: this.rolelist[index].MenuId,
+        MenuName: this.rolelist[index].MenuName,
+        All: false,
+        View: false,
+        Add: false,
+        Edit: false,
+        Delete: false,
+        Import: false,
+        Export: false,
+      }
+    }
   }
 
   async selectSubMenu(id) {
@@ -177,40 +187,40 @@ export class LicenseModalComponent implements OnInit {
   public setPermission(data) {
     return data
       ? this.formBuilder.group({
-          GroupPermissionId: [data.GroupPermissionId],
-          PermissionId: [data.PermissionId],
-          PermissionName: [data.PermissionName, [Validators.required]],
-          Persons: [data.Persons, [Validators.required]]
-        })
+        GroupPermissionId: [data.GroupPermissionId],
+        PermissionId: [data.PermissionId],
+        PermissionName: [data.PermissionName, [Validators.required]],
+        GroupNames: [data.GroupName, [Validators.required]]
+      })
       : this.formBuilder.group({
-          PermissionName: ["", [Validators.required]],
-          Persons: [[], [Validators.required]]
-        });
+        PermissionName: ["", [Validators.required]],
+        GroupNames: [[], [Validators.required]]
+      });
   }
 
   public setlicense(data) {
     return data
       ? this.formBuilder.group({
-          MenuId: [data.MenuId, [Validators.required]],
-          MenuDetailId: [data.MenuDetailId, [Validators.required]],
-          All: [false],
-          View: [data.View == 1 ? true : false],
-          Add: [data.Add == 1 ? true : false],
-          Edit: [data.Edit == 1 ? true : false],
-          Delete: [data.Delete == 1 ? true : false],
-          Import: [data.Import == 1 ? true : false],
-          Export: [data.Export == 1 ? true : false]
-        })
+        MenuId: [data.MenuId, [Validators.required]],
+        MenuDetailId: [data.MenuDetailId, [Validators.required]],
+        All: [false],
+        View: [data.View == 1 ? true : false],
+        Add: [data.Add == 1 ? true : false],
+        Edit: [data.Edit == 1 ? true : false],
+        Delete: [data.Delete == 1 ? true : false],
+        Import: [data.Import == 1 ? true : false],
+        Export: [data.Export == 1 ? true : false]
+      })
       : this.formBuilder.group({
-          MenuId: [1, [Validators.required]],
-          MenuDetailId: [1, [Validators.required]],
-          All: [false],
-          View: [false],
-          Add: [false],
-          Edit: [false],
-          Delete: [false],
-          Import: [false],
-          Export: [false]
-        });
+        MenuId: [1, [Validators.required]],
+        MenuDetailId: [1, [Validators.required]],
+        All: [false],
+        View: [false],
+        Add: [false],
+        Edit: [false],
+        Delete: [false],
+        Import: [false],
+        Export: [false]
+      });
   }
 }
