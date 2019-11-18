@@ -24,8 +24,8 @@ export class UsersService {
     return this.apiService.get(`getallgroupuser`);
   }
 
-  public getPermissionById(): any {
-    return this.apiService.getJSON('getpermissionbyid');
+  public getPermissionByRoles(roleName): any {
+    return this.apiService.get('getpermissionbyroles?roles=' + roleName);
   }
 
   public getLocalUserPermission(): any {

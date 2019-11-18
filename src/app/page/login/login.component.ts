@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('roles', (data.data.roles || []).join(','));
         }
       }).add(()=>{
-        this.usersService.getPermissionById().subscribe((data: any) => {
+        this.usersService.getPermissionByRoles(localStorage.getItem('roles').split(',')[0]).subscribe((data: any) => {
           localStorage.setItem('u_permission', JSON.stringify(data));
           document.location.href = "/#/home";
         });  
