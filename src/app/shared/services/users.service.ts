@@ -28,6 +28,10 @@ export class UsersService {
     return this.apiService.get('getpermissionbyroles?roles=' + roleName);
   }
 
+  public getGroupUserbyid(personId): any {
+    return this.apiService.get('getgroupuserbyid?PersonId=' + personId);
+  }
+
   public getLocalUserPermission(): any {
     try {
       const u_permissionStr = localStorage.getItem('u_permission')
