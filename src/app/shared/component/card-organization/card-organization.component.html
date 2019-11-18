@@ -10,7 +10,7 @@
     <div class="col-md-6 d-flex justify-content-between">
       <span class="text-orange text-bold mr-4"> อยู่ภายใต้องค์กร: </span>
       <label> {{data.Parent}}</label>
-      <a href="javascript:void(0)" class="ml-auto"
+      <a *ngIf="currentPath == '/organizations'" href="javascript:void(0)" class="ml-auto"
         routerLink="/organizations/insert/{{data.CorporationId}}" ngbTooltip="แก้ไขข้อมูลองค์กร"
         [ngClass]="{'disabled':!canEdit(canEditOrganization)}">
         <i class="fas fa-pencil-alt fa-lg"></i>
