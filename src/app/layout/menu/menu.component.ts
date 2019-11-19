@@ -30,7 +30,7 @@ export class MenuComponent implements OnInit {
     }
     return false;
   }
-
+  
   canView(url, checkNext = null){
     var ret = this.usersService.canView(url)
     if (ret){
