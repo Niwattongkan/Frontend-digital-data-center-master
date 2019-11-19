@@ -9,13 +9,14 @@ import { Router } from '@angular/router';
 export class UsersService {
 
   private userPermission = [];
+  private userGroup = [];
 
   constructor(
     private apiService: ApiService,
     private router: Router
   ) { }
 
-  getSSOUserInfo(){
+  getSSOUserInfo() {
     //return this.apiService.get(`ssoGetUserInfo`, new HttpParams(), "http://qdoc.ecmxpert.com:8008/uapi/sso/");
     return this.apiService.get(`ssoGetUserInfo`);
   }
@@ -28,23 +29,41 @@ export class UsersService {
     return this.apiService.get('getpermissionbyroles?roles=' + roleName);
   }
 
-  public getGroupUserbyid(personId): any {
-    return this.apiService.get('getgroupuserbyid?PersonId=' + personId);
+  public getGroupUser(): any {
+    return this.apiService.get('getgroupuserbyid');
   }
 
   public getLocalUserPermission(): any {
     try {
-      const u_permissionStr = localStorage.getItem('u_permission')
-      // console.log('u_permissionStr= ' + u_permissionStr);
-      this.userPermission = JSON.parse(u_permissionStr).data
-      return this.userPermission || [];
+      if (this.userGroup.length == 0) {
+        const u_permissionStr = localStorage.getItem('u_permission')
+        // console.log('u_permissionStr= ' + u_permissionStr);
+        this.userPermission = JSON.parse(u_permissionStr).data
+      }
     } catch (error) {
       console.log('error while get userPermission:', error);
       return [];
     }
+    return this.userPermission;
   }
 
-  private getLocalUserPagePerminssion(page, action){
+  private getLocalGroupUser(): any {
+    try {
+      if (this.userGroup.length == 0) {
+        debugger
+        const u_groupStr = localStorage.getItem('u_group')
+        // console.log('u_groupStr= ' + u_groupStr);
+        this.userGroup = JSON.parse(u_groupStr).data
+      }
+    } catch (error) {
+      console.log('error while get userGroup:', error);
+      debugger
+      return [];
+    }
+    return this.userGroup;
+  }
+
+  private getLocalUserPagePerminssion(page, action) {
     for (var i = 0; i < this.userPermission.length; i++) {
       var uMenu = this.userPermission[i].MenuNameEn;
       if ([page].includes(uMenu)) {
@@ -69,6 +88,22 @@ export class UsersService {
     return false;
   }
 
+  private getLocalGroupUserAcess(page, value) {
+    for (var i = 0; i < this.getLocalGroupUser().length; i++) {
+      var group = this.userGroup[i];
+      if(page == 'persons' && group.PersonIdBoard == value ) {//isInt(a)
+        return true;
+      } else if(page == 'users' && group.GroupUserId == value ) {//isInt(a)
+        debugger
+        return true;
+      } else if(page == 'permission' && group.BoardId == value ) {//isInt(a)
+        debugger
+        return true;
+      }
+    }
+    return false;
+  }
+
   //  Person Page
   public canAddPerson() {
     return this.getLocalUserPagePerminssion('persons', 'Add');
@@ -78,10 +113,14 @@ export class UsersService {
     return this.getLocalUserPagePerminssion('persons', 'Edit');
   }
 
+  public canAccessPersonWithCurrentGroup(personId) {
+    return this.getLocalGroupUserAcess('persons', personId);
+  }
+
   public canDeletePerson() {
     return this.getLocalUserPagePerminssion('persons', 'Delete');
   }
-  
+
   //  Organization Page
   public canAddOrganization() {
     return this.getLocalUserPagePerminssion('organizations', 'Add');
@@ -159,6 +198,10 @@ export class UsersService {
     return this.getLocalUserPagePerminssion('users', 'Edit');
   }
 
+  public canAccessUserWithCurrentGroup(GroupUserId) {
+    return this.getLocalGroupUserAcess('users', GroupUserId);
+  }
+
   public canDeleteUser() {
     return this.getLocalUserPagePerminssion('users', 'Delete');
   }
@@ -170,6 +213,10 @@ export class UsersService {
 
   public canEditPermission() {
     return this.getLocalUserPagePerminssion('permission', 'Edit');
+  }
+
+  public canAccessPermissionWithCurrentGroup(GroupUserId) {
+    return this.getLocalGroupUserAcess('permission', GroupUserId);
   }
 
   public canDeletePermission() {
@@ -189,40 +236,40 @@ export class UsersService {
     return this.getLocalUserPagePerminssion('license', 'Delete');
   }
 
-  public canDo(url:string, action:string){
+  public canDo(url: string, action: string) {
     if (!window['ACLS']) return true;
     let acls = window['ACLS'];
-    let roles:any = localStorage.getItem('roles')|| '';
+    let roles: any = localStorage.getItem('roles') || '';
     url = url || this.router.url
     roles = roles.split(',')
 
-    for(let i = 0; i < roles.length; i++){
+    for (let i = 0; i < roles.length; i++) {
       let roleName = roles[i];
       let aclUrls = acls[roleName];
       if (!aclUrls) continue;
       let acl = null;
-      for(let j = 0; j < aclUrls.length; j++){
+      for (let j = 0; j < aclUrls.length; j++) {
         acl = aclUrls[j]
         if (acl.url == url) break;
         else acl = null;
       }
-      if (acl){
+      if (acl) {
         let ret = acl[action] || false;
         if (ret) return ret;
-      } 
+      }
     }
     return false
   }
 
-  public canEdit(url: string = null){
+  public canEdit(url: string = null) {
     return this.canDo(url, 'edit');
   }
 
-  public canView(url: string = null){
+  public canView(url: string = null) {
     return this.canDo(url, 'view');
   }
 
-  public getUserInfo(){
+  public getUserInfo() {
     var json = localStorage.getItem('userinfo');
     if (!json) return null;
     return JSON.parse(json)

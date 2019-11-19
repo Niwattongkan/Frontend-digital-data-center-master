@@ -137,4 +137,12 @@ export class SettingPermissionComponent implements OnInit {
       }
     })
   }
+
+  canEdit(BoardId){
+    return this.canEditPermission && this.usersService.canAccessPermissionWithCurrentGroup(BoardId);
+  }
+
+  canDelete(BoardId){
+    return this.canDeletePermission && this.usersService.canAccessPermissionWithCurrentGroup(BoardId);
+  }
 }

@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
         }
       })
       .add(()=>{
-        this.usersService.getGroupUserbyid('36').subscribe((data: any) => {
+        this.usersService.getGroupUser().subscribe((data: any) => {
           localStorage.setItem('u_group', JSON.stringify(data));
         });  
       })

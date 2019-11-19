@@ -220,7 +220,6 @@ export class HomeComponent implements OnInit {
   }
 
   canSelect(menuNameTH) {
-    debugger
     if (menuNameTH == 'บุคคล') {
       return this.usersService.canView('/persons')
     } else if (menuNameTH == 'องค์กร') {

@@ -138,4 +138,11 @@ export class SettingUsersComponent implements OnInit {
     });
   }
 
+  canEdit(GroupUserId){
+    return this.canEditUser && this.usersService.canAccessUserWithCurrentGroup(GroupUserId);
+  }
+
+  canDelete(GroupUserId){
+    return this.canDeleteUser && this.usersService.canAccessUserWithCurrentGroup(GroupUserId);
+  }
 }
