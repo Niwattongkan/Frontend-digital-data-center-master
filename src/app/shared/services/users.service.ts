@@ -94,10 +94,8 @@ export class UsersService {
       if(page == 'persons' && group.PersonIdBoard == value ) {//isInt(a)
         return true;
       } else if(page == 'users' && group.GroupUserId == value ) {//isInt(a)
-        debugger
         return true;
       } else if(page == 'permission' && group.BoardId == value ) {//isInt(a)
-        debugger
         return true;
       }
     }
