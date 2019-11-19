@@ -3,12 +3,12 @@ import {map} from 'rxjs/operators';
 
 export function mapPersons(personList) {
     personList.map(data => {
-        const title = data.TitleNameTh == 1 ? 'นาย' : data.TitleNameTh == 2 ? 'นางสาว' : data.TitleNameTh == 3 ? 'นาง' :data.TitleNameTh
+        const title = data.TitleNameTh == 1 ? 'นาย ' : data.TitleNameTh == 2 ? 'นางสาว ' : data.TitleNameTh == 3 ? 'นาง ' :data.TitleNameTh
         const first = data.FristNameTh;
         const last = data.LastNameTh;
         const orther = data.TitleNameOther;
         data.FullnameTh = (orther) ? first && last ? orther + first + ' ' + last : '' : first && last ? title + first + ' ' + last : '';
-        const titleEn = data.TitleNameEn == 1 ? 'Mr.' : data.TitleNameEn == 2 ? 'Mrs.' : 'Miss.';
+        const titleEn = data.TitleNameEn == 1 ? 'Mr. ' : data.TitleNameEn == 2 ? 'Mrs. ' : 'Miss. ';
         const firstEn = data.FristNameEn;
         const lastEn = data.LastNameEn;
         data.FullnameEn = (orther) ? firstEn && lastEn ? orther + firstEn + ' ' + lastEn : '' : firstEn && lastEn ? titleEn + firstEn + ' ' + lastEn : '';
