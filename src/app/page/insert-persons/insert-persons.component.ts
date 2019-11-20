@@ -78,15 +78,16 @@ export class InsertPersonsComponent implements OnInit {
   ) {
     this.profileForm = this.setProfile(null);
     this.profileOriginForm = this.profileForm.value;
-  }
-
-  async ngOnInit() {
-    this.spinner.show();
     let Crypto = new SimpleCrypto('some-unique-key');
     let id = this.activatedRoute.snapshot.paramMap.get('id')
     this.personId = id != '' && id != null ? Crypto.decrypt(id) : ''
     this.title = this.personId ? 'แก้ไขข้อมูลบุคคล' : 'เพิ่มข้อมูลบุคคล';
     this.mode = this.personId ? 'Edit' : 'Insert';
+  }
+
+  async ngOnInit() {
+    this.spinner.show();
+
     this.stepper = new Stepper(document.querySelector('#stepper1'), {
       linear: false,
       animation: true

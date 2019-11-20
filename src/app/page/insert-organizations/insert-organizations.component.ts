@@ -9,7 +9,7 @@ import { OrganizationService } from "../../shared/services/organization.service"
 import { DropdownService } from "../../shared/services/dropdown.service";
 import { AuthlogService } from "../../shared/services/authlog.service";
 
-import { alertEvent } from "../../shared/library/alert";
+import {alertDeleteEvent, alertEvent} from "../../shared/library/alert";
 import { calulateAge } from "../../shared/library/date";
 import { validForm } from "../../shared/library/form";
 
@@ -571,6 +571,7 @@ export class InsertOrganizationsComponent implements OnInit {
     } else {
       return this.router.navigate(["/organizations"]);
     }
+
 
   }
 
