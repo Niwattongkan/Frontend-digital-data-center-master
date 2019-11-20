@@ -52,11 +52,11 @@
             <td>{{ data.BoardName }}</td>
             <td
               class="text-center">
-              <a [ngClass]="{'link-disabled disabled': !canEditUser}" href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
+              <a [ngClass]="{'link-disabled disabled': !canEdit(data.GroupUserId)}" href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
                 (click)="openModal(editModal, 'md')" (click)="groupUsersOrigin = data">
                 <i class="fas fa-pencil-alt"></i>
               </a>
-              <a [ngClass]="{'link-disabled disabled': !canDeleteUser}" href="javascript:void(0)" class="btn btn-outline-danger btn-sm"
+              <a [ngClass]="{'link-disabled disabled': !canDelete(data.GroupUserId)}" href="javascript:void(0)" class="btn btn-outline-danger btn-sm"
                 (click)="delete(data)">
                 <i class="fas fa-trash"></i>
               </a>

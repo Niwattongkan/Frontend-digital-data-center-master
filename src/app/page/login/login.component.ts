@@ -46,13 +46,18 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('userinfo', JSON.stringify(data.data));
           localStorage.setItem('roles', (data.data.roles || []).join(','));
         }
-      }).add(()=>{
-        this.usersService.getPermissionById().subscribe((data: any) => {
+      })
+      .add(()=>{
+        this.usersService.getGroupUser().subscribe((data: any) => {
+          localStorage.setItem('u_group', JSON.stringify(data));
+        });  
+      })
+      .add(()=>{
+        this.usersService.getPermissionByRoles(localStorage.getItem('roles').split(',')[0]).subscribe((data: any) => {
           localStorage.setItem('u_permission', JSON.stringify(data));
           document.location.href = "/#/home";
         });  
       })
-
       
     } else if (typeof error !== 'undefined' && error != null) { // Error access_denined, logout
       alert(error);

@@ -10,7 +10,7 @@
           <div class="input-group input-group-alternative">
             <input type="text" class="form-control" placeholder="กรอกข้อมูลเพื่อค้นหา" [(ngModel)]="inputSearch">
             <div class="input-group-append">
-              <button class="btn btn-success" type="button" (click)="onSearchData()" (keyup.enter)="onSearchData()"
+              <button [disabled]="!canSearch()" class="btn btn-success" type="button" (click)="onSearchData()" (keyup.enter)="onSearchData()"
                 ngbTooltip="ค้นหาข้อมูล">
                 <i class="fas fa-search fa-md"></i>
               </button>
@@ -28,7 +28,7 @@
               <div class="row">
                 <div *ngFor="let check of typeCheck; let i = index;"
                   class="custom-control custom-control-alternative custom-checkbox mr-4">
-                  <input type="checkbox" class="custom-control-input" [id]="i" [checked]="check.status"
+                  <input type="checkbox" class="custom-control-input" [disabled]="!canSelect(check.name)" [id]="i" [checked]="check.status"
                     (click)="onSelectedType(i,check)">
                   <label class="custom-control-label" [for]="i">{{check.name}}</label>
                 </div>

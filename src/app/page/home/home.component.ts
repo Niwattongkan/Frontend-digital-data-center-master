@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   public typeCheck = [];
 
   public listStatus = null;
-  public noData: boolean =null;
+  public noData: boolean = null;
   public inputSearch = '';
 
   constructor(
@@ -51,13 +51,13 @@ export class HomeComponent implements OnInit {
   }
 
   private hasAuthorize() {
-    if(this.usersService.getLocalUserPermission().length == 0){
-      this.modalService.open(HomeModalComponent, {size: 'sm'});
+    if (this.usersService.getLocalUserPermission().length == 0) {
+      this.modalService.open(HomeModalComponent, { size: 'sm' });
     }
   }
 
   public openModal(content, size) {
-    this.modalService.open(content, {size: size});
+    this.modalService.open(content, { size: size });
   }
 
   public mapPersonAddress(persons) {
@@ -130,10 +130,22 @@ export class HomeComponent implements OnInit {
   }
 
   private setTypeCheck() {
+    var checkedPerson = this.canSelect('บุคคล');
+    var checkedOrganize = this.canSelect('องค์กร');
+    var checkedProgram = this.canSelect('โครงการ');
+    
+    if (checkedPerson) {
+      checkedOrganize = false;
+      checkedProgram = false;
+    }
+    else if (checkedOrganize) {
+      checkedProgram = false;
+    }
+
     return [
-      { name: 'บุคคล', status: true, },
-      { name: 'องค์กร', status: false, },
-      { name: 'โครงการ', status: false, },
+      { name: 'บุคคล', status: checkedPerson },
+      { name: 'องค์กร', status: checkedOrganize },
+      { name: 'โครงการ', status: checkedProgram },
     ];
   }
 
@@ -157,9 +169,9 @@ export class HomeComponent implements OnInit {
             (String(person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase())
         });
         this.personList = seachPerson.length > 0 ? seachPerson : await this.mapPerson((await this.personsService.getsearchpersoncontact(this.inputSearch).toPromise()).data)
-        if(this.personList!== null && this.personList.length == 0){
-            this.noData = true
-        }else {
+        if (this.personList !== null && this.personList.length == 0) {
+          this.noData = true
+        } else {
           this.noData = false
         }
       }
@@ -203,7 +215,19 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  public canEdit(){
-    return this.usersService.canEdit()
+  canSearch() {
+    return this.usersService.canView('/persons') || this.usersService.canView('/organizations') || this.usersService.canView('/program')
+  }
+
+  canSelect(menuNameTH) {
+    if (menuNameTH == 'บุคคล') {
+      return this.usersService.canView('/persons')
+    } else if (menuNameTH == 'องค์กร') {
+      return this.usersService.canView('/organizations')
+    }
+    else if (menuNameTH == 'โครงการ') {
+      return this.usersService.canView('/program')
+    }
+    return false;
   }
 }
