@@ -10,3 +10,7 @@ button#step-trigger:hover {
 button#step-trigger:active {
   border-bottom: 4px solid #027070;
 }
+table {
+  width: 100%;
+  border-collapse: collapse;
+}

@@ -46,6 +46,7 @@ export class InsertPersonsComponent implements OnInit {
   public workingList = [];
   public academyList = [];
   public imagePerson = '';
+  public isimagePerson = '';
   public nametitle = [];
 
   // checkTitleTh = '';
@@ -77,20 +78,20 @@ export class InsertPersonsComponent implements OnInit {
   ) {
     this.profileForm = this.setProfile(null);
     this.profileOriginForm = this.profileForm.value;
-  }
-
-  async ngOnInit() {
     let Crypto = new SimpleCrypto('some-unique-key');
     let id = this.activatedRoute.snapshot.paramMap.get('id')
     this.personId = id != '' && id != null ? Crypto.decrypt(id) : ''
     this.title = this.personId ? 'แก้ไขข้อมูลบุคคล' : 'เพิ่มข้อมูลบุคคล';
     this.mode = this.personId ? 'Edit' : 'Insert';
+  }
+
+  async ngOnInit() {
     this.spinner.show();
+
     this.stepper = new Stepper(document.querySelector('#stepper1'), {
       linear: false,
       animation: true
     });
-
     const resultPerson = this.personId
       ? (await this.personsService.getDetailById(this.personId).toPromise())
         .data[0]
@@ -100,7 +101,8 @@ export class InsertPersonsComponent implements OnInit {
       .getOrganizationAll()
       .toPromise()).data;
     this.profileOriginForm = resultPerson ? resultPerson : null;
-    this.profileForm = await this.setProfile(resultPerson);
+    this.isimagePerson = this.personId ? this.profileOriginForm.PathPhoto : null;
+      this.profileForm = await this.setProfile(resultPerson);
     this.personId ? await this.setList() : null;
     this.academyList = (await this.dropdownService
       .getacademyAll()

@@ -30,15 +30,17 @@
 
 <div class="container">
   <div id="stepper1" class="bs-stepper ">
-    <div class="bs-stepper-header" >
-      <div class="step " data-target="#step-1"  >
-        <button [disabled]="notNext==2  && personId==null" class="step-trigger" style="color: #e49227; border-bottom: 4px solid #e49227;  padding-left: 60px; padding-right: 60px;">
+    <div class="bs-stepper-header">
+      <div class="step " data-target="#step-1">
+        <button class="step-trigger"
+                style="color: #e49227; border-bottom: 4px solid #e49227;  padding-left: 60px; padding-right: 60px;">
           <span class="bs-stepper-label ">ข้อมูลส่วนตัว</span>
         </button>
       </div>
       <div style="padding-left: 60px;"></div>
-      <div class="step" data-target="#step-2" >
-        <button [disabled]="notNext==1 && personId==null " class="step-trigger" style="color: #e49227; border-bottom: 4px solid #e49227;  padding-left: 60px; padding-right: 60px;">
+      <div class="step" data-target="#step-2">
+        <button [disabled]=" personId==''  " class="step-trigger"
+                style="color: #e49227; border-bottom: 4px solid #e49227;  padding-left: 60px; padding-right: 60px;">
           <span class="bs-stepper-label">ข้อมูลส่วนตัว(เพิ่มเติม)</span>
         </button>
       </div>
@@ -195,13 +197,14 @@
                       </div>
                     </div>
                     <div class="col-md-2" style="text-align:center;">
-                      <ngx-avatar *ngIf="!profileOriginForm" size="120"
-                                  src="../../../../assets/icon-customer/image-default.png" (clickOnAvatar)="selectNewAvatar()" ></ngx-avatar>
-                      <ngx-avatar *ngIf="profileOriginForm" [src]="imgURL"
-                                  size="120" [round]="true"> </ngx-avatar>
-                      <input #file ngModel  [ngModelOptions]="{standalone: true}" type="file" accept='image/*' (change)="previewImage(file.files)" multiple>
-                             <!-- (change)="onImageChange($event)"> -->
-
+                      <ngx-avatar *ngIf="!isimagePerson" size="120"
+                                  src="../../../../assets/icon-customer/image-default.png"
+                                  (clickOnAvatar)="selectNewAvatar()"></ngx-avatar>
+                      <ngx-avatar *ngIf="isimagePerson" [src]="imgURL"
+                                  size="120" [round]="true"></ngx-avatar>
+                      <input #file ngModel [ngModelOptions]="{standalone: true}" type="file" accept='image/*'
+                             (change)="previewImage(file.files)" multiple>
+                      <!-- (change)="onImageChange($event)"> -->
                     </div>
                   </div>
                   <div class="container">
@@ -434,58 +437,52 @@
         </div>
       </div>
       <div id="step-2" class="content">
-        <div class="container mb-4">
-          <div class="row mb-2">
-            <h2 class="col-md-6">ข้อมูลที่อยู่</h2>
-            <div class="col-md-6 text-right"
-                 (click)="openModalClass(insertAddress)">
-              <button class="btn btn-success">
-                <i class="fas fa-plus mr-1"></i>เพิ่มข้อมูลที่อยู่
-              </button>
-            </div>
+        <div class="row mb-2">
+          <h2 class="col-md-6">ข้อมูลที่อยู่</h2>
+          <div class="col-md-6 text-right"
+               (click)="openModalClass(insertAddress)">
+            <button class="btn btn-success">
+              <i class="fas fa-plus mr-1"></i>เพิ่มข้อมูลที่อยู่
+            </button>
           </div>
-          <div class="table-responsive">
-            <table class="table table-bordered" cellspacing="0" role="grid">
-              <thead class="bg-custom-green text-white" class="bg-custom-green
-                text-white">
-              <tr role="row">
-                <th class="text-center"> ที่อยู่</th>
-                <th class="text-center"> ประเภทที่อยู่</th>
-                <th class="text-center"> เครื่องมือ</th>
-              </tr>
-              </thead>
-              <tbody class="bg-white">
-              <tr *ngFor="let data of addressList; let i= index">
-                <td>{{showAddress(data)}}</td>
-                <td>
-                  <label *ngIf="data.TypeAddress == 1">ทะเบียนบ้าน</label>
-                  <label *ngIf="data.TypeAddress == 2">บัตรประชาชน</label>
-                  <label *ngIf="data.TypeAddress == 3">ที่อยู่ปัจจุบัน</label>
-                  <label *ngIf="data.TypeAddress == 4">ที่อยู่จัดส่ง</label>
-                </td>
-                <td style="text-align: center">
-                  <a href="javascript:void(0)" class="btn btn-outline-success
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="table table-bordered" cellspacing="0">
+            <thead class="bg-custom-green text-white">
+            <tr role="row">
+              <th class="text-center"> ที่อยู่</th>
+              <th class="text-center"> ประเภทที่อยู่</th>
+              <th class="text-center"> เครื่องมือ</th>
+            </tr>
+            </thead>
+            <tbody class="bg-white">
+            <tr *ngFor="let data of addressList; let i= index">
+              <td>{{showAddress(data)}}</td>
+              <td>
+                <label>{{data.TypeAddress}}</label>
+              </td>
+              <td style="text-align: center">
+                <a href="javascript:void(0)" class="btn btn-outline-success
                       btn-sm mr-2"
-                     (click)="openModalClass(updatePersonAddress, 'xlModal')">
-                    <i class="fas fa-pencil-alt icon-prop"></i>
-                  </a>
-                  <a href="javascript:void(0)" class="btn btn-outline-danger
+                   (click)="openModalClass(updatePersonAddress, 'xlModal')">
+                  <i class="fas fa-pencil-alt icon-prop"></i>
+                </a>
+                <a href="javascript:void(0)" class="btn btn-outline-danger
                       btn-sm" (click)="deleteAddress(i)">
-                    <i class="fas fa-times icon-prop"></i>
-                  </a>
-                </td>
-                <ng-template #updatePersonAddress let-modal>
-                  <modal-address-information [data]="data"
-                                             (onSubmit)="updateAddress($event)">
-                  </modal-address-information>
-                </ng-template>
-              </tr>
-              <tr *ngIf="addressList.length == 0">
-                <td class="text-center" colspan="4">ไม่พบข้อมูล</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
+                  <i class="fas fa-times icon-prop"></i>
+                </a>
+              </td>
+              <ng-template #updatePersonAddress let-modal>
+                <modal-address-information [data]="data"
+                                           (onSubmit)="updateAddress($event)">
+                </modal-address-information>
+              </ng-template>
+            </tr>
+            <tr *ngIf="addressList.length == 0">
+              <td class="text-center" colspan="4">ไม่พบข้อมูล</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
         <div class="container mb-4">
           <div class="row mb-2">
@@ -650,7 +647,7 @@
                   </td>
                   <ng-template #updatePersonCoordiantion let-modal>
                     <modal-coordinator-information [data]="subData"
-                                               (onSubmit)="updateCoordinator($event)">
+                                                   (onSubmit)="updateCoordinator($event)">
                     </modal-coordinator-information>
                   </ng-template>
                 </tr>
@@ -774,10 +771,11 @@
             </div>
           </div>
         </div>
-        <!-- <div class="form-group text-right">
-          <button type="button" class="btn btn-success mr-2" (click)="submitPerson()">บันทึก</button>
-        </div> -->
       </div>
+
+      <!-- <div class="form-group text-right">
+        <button type="button" class="btn btn-success mr-2" (click)="submitPerson()">บันทึก</button>
+      </div> -->
     </div>
   </div>
 </div>
