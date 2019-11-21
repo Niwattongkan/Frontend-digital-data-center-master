@@ -584,16 +584,25 @@ export class InsertPersonsComponent implements OnInit {
     return alertDeleteEvent().then(async confirm => {
       if (confirm.value) {
         if (this.personId) {
-          const model = this.coordinateList[index];
-          model.PersonId = Number(this.personId);
-          model.CoordinatorId
-            ? await this.personsService
-              .deletecoordinator(model.CoordinatorId)
+              await this.personsService
+              .deletecoordinator(index)
               .toPromise()
-            : false;
         }
         this.coordinateList.splice(index, 1);
         return alertEvent('ลบข้อมูลสำเร็จ', 'success');
+      }
+    });
+  }
+public async deleteCoordinatorcontact(index) {
+    return alertDeleteEvent().then(async confirm => {
+      if (confirm.value) {
+        if (index) {
+          await this.personsService
+              .deletecoordinatorcontact(index)
+              .toPromise()
+          // this.coordinateList.splice(index, 1);
+          return alertEvent('ลบข้อมูลสำเร็จ', 'success');
+        }
       }
     });
   }
@@ -621,7 +630,9 @@ export class InsertPersonsComponent implements OnInit {
 
       alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
     }
-    Array.prototype.push.apply(this.coordinateList, value);
+    this.coordinateList = Object.values(groupbyList(mapPersons((await this.personsService
+      .getcoordinator(this.personId)
+      .toPromise()).data), 'FullnameTh'));
   }
 //   if (this.personId) {
 //   const getcontactperson = this.personsService.getcontactperson(value[1])
@@ -660,25 +671,26 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   public async updateBursary(value) {
-    if (value.EducationId) {
-      const model = value;
-      model.PersonId = Number(this.personId);
-      await this.personsService.updateeducation(model).toPromise();
-      this.bursaryList = (await this.personsService
-        .getEducationById(this.personId)
-        .toPromise()).data;
+    if (value.AcademyId) {
+      value.PersonId = Number(this.personId);
+      await this.personsService.updateeducation(value).toPromise();
+      alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
     } else {
       if (this.personId) {
         value.PersonId = Number(this.personId);
         await this.personsService.inserteducation(value).toPromise();
         alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
-        this.bursaryList = (await this.personsService
-          .getEducationById(this.personId)
-          .toPromise()).data;
+
       } else {
         this.bursaryList.push(value);
+        alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
+
       }
     }
+    this.bursaryList = (await this.personsService
+      .getEducationById(this.personId)
+      .toPromise()).data;
+
   }
 
   public async deleteWorking(index) {
