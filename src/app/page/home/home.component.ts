@@ -72,12 +72,12 @@ export class HomeComponent implements OnInit {
   public mapPerson(personList) {
     personList.map(async data => {
       data.PersonAddress = [];
-      const title = data.TitleNameTh == 1 ? 'นาย' : data.TitleNameTh == 2 ? 'นางสาว' : 'นาง';
+      const title = data.TitleNameTh == 1 ? 'นาย ' : data.TitleNameTh == 2 ? 'นางสาว ' : 'นาง ';
       const titleOrther = await data.TitleNameOther != '' && data.TitleNameOther != null ? data.TitleNameOther : title;
       const first = data.FristNameTh;
       const last = data.LastNameTh;
 
-      const titleEn = data.TitleNameEn == 1 ? 'Mr.' : data.TitleNameEn == 2 ? 'Mrs.' : 'Miss.';
+      const titleEn = data.TitleNameEn == 1 ? 'Mr. ' : data.TitleNameEn == 2 ? 'Mrs. ' : 'Miss. ';
       const titleOrtherEn = await data.TitleNameOther != '' && data.TitleNameOther != null ? data.TitleNameOther : titleEn;
 
       const firstEn = data.FristNameEn;
@@ -119,12 +119,7 @@ export class HomeComponent implements OnInit {
       const first = data.FristNameTh;
       const last = data.LastNameTh;
 
-
-      const ParentName = ((await this.organizationService.getCorporation(data.ParentId).toPromise()).data[0]).CorporationName;
-
       data.FullnameTh = first && last ? title + first + ' ' + last : '';
-      data.ParentName = ParentName;
-
     });
     return projectList;
   }
@@ -193,7 +188,9 @@ export class HomeComponent implements OnInit {
           return (String(project.CorporationName).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
             (String(project.ProjectName).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
             (String(project.FristNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
-            (String(project.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase());
+            (String(project.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
+            (String(project.ProjectNo).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
+            (String(project.PurchaseNo).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase());
         });
       }
     }

@@ -112,11 +112,14 @@ export class OrganizationsListComponent implements OnInit {
   }
 
   canEdit(url, checkNext = null){
+    /*
     var ret = this.usersService.canEdit(url)
     if (ret){
       if (checkNext !== null)
         return checkNext;
     }
     return ret;
+    */
+   return this.canAddOrganization;
   }
 }

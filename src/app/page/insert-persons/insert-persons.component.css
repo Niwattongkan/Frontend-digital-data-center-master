@@ -10,3 +10,27 @@ button#step-trigger:hover {
 button#step-trigger:active {
   border-bottom: 4px solid #027070;
 }
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+label.file{
+  margin-left: 10px;
+  padding: 10px;
+  display: table;
+  color: #fff;
+  background-color: #ffa500;
+  border-color: #ffa500;
+  border-radius: 12px;
+}
+
+label.file:hover {
+  color: #fff;
+  background-color: #ff960b;
+  border-color: #1e7e34
+}
+
+/*input[type="file"] {*/
+/*  display: none;*/
+/*}*/

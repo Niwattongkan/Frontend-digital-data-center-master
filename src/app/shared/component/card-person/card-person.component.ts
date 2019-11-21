@@ -60,8 +60,8 @@ export class CardPersonComponent implements OnInit {
 
   private setProfile(data) {
     const result = data;
-    result.TitleNameTh = result.TitleNameTh == 1 ? 'นาย' : result.TitleNameTh == 2 ? 'นางสาว' : 'นาง';
-    result.TitleNameEn = result.TitleNameEn == 1 ? 'Mr.' : result.TitleNameEn == 2 ? 'Mrs.' : 'Miss';
+    result.TitleNameTh = result.TitleNameTh == 1 ? 'นาย ' : result.TitleNameTh == 2 ? 'นางสาว ' : 'นาง';
+    result.TitleNameEn = result.TitleNameEn == 1 ? 'Mr. ' : result.TitleNameEn == 2 ? 'Mrs. ' : 'Miss';
     result.Sex = result.Sex == 1 ? 'ชาย' : 'หญิง';
     result.Religion = result.Religion == 1 ? 'พุทธ' : result.Religion == 2 ? 'คริส' : 'อิสลาม';
     result.EthnicityId = result.EthnicityId == 1 ? 'ไทย' : 'ต่างชาติ';
@@ -72,27 +72,27 @@ export class CardPersonComponent implements OnInit {
   public showAddress(value) {
 
     const Building = value.Building ? 'อาคาร ' + value.Building + ' ' : '';
-    const Floor = value.Floor ? 'ชั้น ' + value.Floor + ' ' : '';
-    const Room = value.Room ? 'ห้อง ' + value.Room + ' ' : '';
-    const HouseNumber = value.HouseNumber ? 'เลขที่ ' + value.HouseNumber + ' ' : '';
-    const Road = value.Road ? 'ถนน ' + value.Road + ' ' : '';
-    const Soi = value.Soi ? 'ซอย ' + value.Soi + ' ' : '';
-    const Province = value.Province != '' ? 'จังหวัด ' + value.Province + ' ' : '';
-    if (value.Province == 'กรุงเทพมหานคร') {
-      const Subdistrict = value.Subdistrict != '' ? 'แขวง ' + value.Subdistrict + ' ' : '';
-      const District = value.District != '' ? 'เขต ' + value.District + ' ' : '';
-      const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+    const Floor = value.Floor ? ' ชั้น ' + value.Floor + ' ' : '';
+    const Room = value.Room ? ' ห้อง ' + value.Room + ' ' : '';
+    const HouseNumber = value.HouseNumber ? ' เลขที่ ' + value.HouseNumber + ' ' : '';
+    const Road = value.Road ? ' ถนน ' + value.Road + ' ' : '';
+    const Soi = value.Soi ? ' ซอย ' + value.Soi + ' ' : '';
+    const Province = value.Province != '' ? ' จังหวัด ' + value.Province + ' ' : '';
+    if (value.Province == ' กรุงเทพมหานคร') {
+      const Subdistrict = value.Subdistrict != '' ? ' แขวง ' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? ' เขต ' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? ' รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
       return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  Zipcode;
     } else {
-      const Subdistrict = value.Subdistrict != '' ? 'ตำบล ' + value.Subdistrict + ' ' : '';
-      const District = value.District != '' ? 'อำเภอ ' + value.District + ' ' : '';
-      const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+      const Subdistrict = value.Subdistrict != '' ? ' ตำบล ' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? ' อำเภอ ' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? ' รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
       return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  Zipcode;
     }
   }
 
   canEdit(checkNext = null, personid){
-    var ret = this.usersService.canEdit() && this.usersService.canAccessPersonWithCurrentGroup(personid);
+    var ret = this.usersService.canAccessPersonWithCurrentGroup(personid);
     if (ret){
       if (checkNext !== null)
         return checkNext;

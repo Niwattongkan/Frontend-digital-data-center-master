@@ -63,6 +63,7 @@ export class LoginComponent implements OnInit {
       alert(error);
       this.cookieService.delete('code');
       localStorage.removeItem('u_permission');
+      localStorage.removeItem('u_group');
       document.location.href = environment.logoutUrl
     } else { // Reqest login
       document.location.href = environment.ssoAuthUrl

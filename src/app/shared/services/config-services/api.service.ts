@@ -56,7 +56,7 @@ export class ApiService {
     return this.http.get(this.appendParams(`${environment.apiUrl}${path}`),
       { headers: new HttpHeaders({ 'Content-Type': 'application/json' }), params: new HttpParams(), observe: 'body' })
   }
-  
+
   getContent(path: string): Observable<any> {
     return this.http.get(this.appendParams(`${environment.apiUrl}${path}`),
       {

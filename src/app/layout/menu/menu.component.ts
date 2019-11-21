@@ -21,14 +21,7 @@ export class MenuComponent implements OnInit {
 
   }
   showMenu(menuNameEng) {
-    return true;
-    // { "PersonId": 5, "PView": 1, "PAdd": 1, "PEdit": 1, "PDelete": 1, "Import": 1, "Export": 1, "MenuId": 1, "MenuName": "หน้าแรก", "MenuNameEn": "home" }
-    for (var i = 0; i < this.userPermission.length; i++) {
-      if (menuNameEng == this.userPermission[i].MenuNameEn && this.userPermission[i].PView == 1) {
-        return true;
-      }
-    }
-    return false;
+    return this.usersService.showMenu(menuNameEng);
   }
   
   canView(url, checkNext = null){

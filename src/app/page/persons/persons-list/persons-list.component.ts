@@ -27,11 +27,10 @@ export class PersonsListComponent implements OnInit {
 
   async ngOnInit() {
     this.spinner.show();
-    setTimeout(() => {
-      this.spinner.hide();
-    }, this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data))
+    this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data)
     this.tempPersonList = this.personList
     this.canAddPerson = this.usersService.canAddPerson();
+    this.spinner.hide();
   }
 
   public async  mapPerson(personList) {
@@ -93,13 +92,13 @@ export class PersonsListComponent implements OnInit {
     })
   }
 
-  
+
   canEdit(url, checkNext = null){
-    var ret = this.usersService.canEdit(url)
+    /*var ret = this.usersService.canEdit(url)
     if (ret){
       if (checkNext !== null)
         return checkNext;
-    }
-    return ret;
+    }*/
+    return this.canAddPerson;
   }
 }
