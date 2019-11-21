@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import {NoteService} from '../../shared/services/note.service';
-import {PersonsService} from '../../shared/services/persons.service';
-import {AuthlogService} from '../../shared/services/authlog.service';
-import {NgxSpinnerService} from "ngx-spinner";
-import {alertEvent, alertDeleteEvent} from '../../shared/library/alert';
-import {mapPersons, createdNamePersons} from '../../shared/library/mapList';
+import { NoteService } from '../../shared/services/note.service';
+import { PersonsService } from '../../shared/services/persons.service';
+import { AuthlogService } from '../../shared/services/authlog.service';
+import { NgxSpinnerService } from "ngx-spinner";
+import { alertEvent, alertDeleteEvent } from '../../shared/library/alert';
+import { mapPersons, createdNamePersons } from '../../shared/library/mapList';
 import { UsersService } from '../../shared/services/users.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class EventNotebookComponent implements OnInit {
   public canAddNoteBook = false;
   public canEditNoteBook = false;
   public canDeleteNoteBook = false;
-  
+
   constructor(
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
@@ -59,7 +59,13 @@ export class EventNotebookComponent implements OnInit {
   public async insertNote(value) {
     this.spinner.show()
     await this.noteService.insertNote(value).toPromise()
+      .then((res) => {
+        alertEvent("บันทึกข้อมูลสำเร็จ", "success");
+      }, (err) => {
+        alertEvent("บันทึกข้อมูลสำเร็จ", "waraning");
+      });
     this.noteList = await mapPersons((await this.noteService.getNoteAll().toPromise()).data)
+
     this.spinner.hide()
   }
 
@@ -109,7 +115,7 @@ export class EventNotebookComponent implements OnInit {
   }
 
   public openModal(content, size) {
-    this.modalService.open(content, {size: size});
+    this.modalService.open(content, { size: size });
   }
 
   public async onSearchData() {

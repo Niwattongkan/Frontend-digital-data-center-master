@@ -51,7 +51,7 @@ export class ModalContactOrganizationComponent implements OnInit {
     this.alertValid = false;
     if (validForm(this.contactForm).length > 0) {
       this.alertValid = true;
-      this.alertMsg = " กรุณากรอกข้อมูลให้ครบถ้วน";
+      this.alertMsg = "กรุณากรอกข้อมูลให้ครบถ้วน";
       return;
     }
 
@@ -94,6 +94,7 @@ export class ModalContactOrganizationComponent implements OnInit {
   submit() {
     if (this.contactList.length == 0 && this.data == null) {
       this.alertValid = true;
+      this.alertMsg = "กรุณากรอกข้อมูลให้ครบถ้วน";
       return;
     }
     if (this.data) this.contactList.push(this.contactForm.value);

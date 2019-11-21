@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Input, Output, ViewChild } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import Swal from "sweetalert2";
 import { PersonsService } from '../../../shared/services/persons.service';
 
 import { validForm } from '../../../shared/library/form';
@@ -95,7 +95,27 @@ export class NoteModalComponent implements OnInit {
   }
 
   public closeModal() {
-    this.modalService.dismissAll()
+    Swal.fire({
+      title: '',
+      text: 'ต้องการบันทึกข้อมูลหรือไม่',
+      type: 'warning',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      showCancelButton: true,
+      confirmButtonText: 'ตกลง',
+      cancelButtonText: 'ยกเลิก',
+      reverseButtons: true
+    }).then(async result => {
+      if (result.value) {
+        this.submit();
+      }
+      else {
+        this.modalService.dismissAll()
+      }
+    });
+
+
+
   }
 
   public setNote(data) {

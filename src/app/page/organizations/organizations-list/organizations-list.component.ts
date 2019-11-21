@@ -62,14 +62,11 @@ export class OrganizationsListComponent implements OnInit {
   public async delete(data) {
     Swal.fire({
       title: '',
-      text: 'คุณต้องการลบข้อมูลนี้หรือไม่',
-      type: 'warning',
+      text: "คุณต้องการลบข้อมูลนี้หรือไม่",
+      showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      showCancelButton: true,
-      confirmButtonText: 'ตกลง',
-      cancelButtonText: 'ยกเลิก',
-      reverseButtons: true
+      confirmButtonText: 'ตกลง'
     }).then(async result => {
       if (result.value) {
         await this.organizationService
