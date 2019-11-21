@@ -36,6 +36,7 @@
     "moment": "^2.24.0",
     "mydatepicker-th": "^0.1.1",
     "ng-multiselect-dropdown": "^0.2.5",
+    "ng2-search-filter": "^0.5.1",
     "ngx-avatar": "^3.7.0",
     "ngx-cookie-service": "^2.2.0",
     "ngx-filter-pipe": "^2.1.2",
