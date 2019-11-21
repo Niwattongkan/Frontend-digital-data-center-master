@@ -258,11 +258,12 @@ export class EventGroupComponent implements OnInit {
   }
 
   canEdit(checkNext = null){
-    var ret = this.usersService.canEdit();
+    /*var ret = this.usersService.canEdit();
     if (ret){
       if (checkNext !== null)
         return checkNext;
     }
-    return ret;
+    return ret;*/
+    return checkNext;
   }
 }

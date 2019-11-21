@@ -13,11 +13,11 @@ export const routes: Routes = [
     {
         path: '',
         component: OrganizationsComponent,
-        canActivate: [AuthGuard],
         children: [
             {
                 path: '',
-                component: OrganizationsListComponent
+                component: OrganizationsListComponent,
+                canActivate: [AuthGuard],
             },
             {
                 path: 'detail/:id',

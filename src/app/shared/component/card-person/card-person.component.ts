@@ -92,7 +92,7 @@ export class CardPersonComponent implements OnInit {
   }
 
   canEdit(checkNext = null, personid){
-    var ret = this.usersService.canEdit() && this.usersService.canAccessPersonWithCurrentGroup(personid);
+    var ret = this.usersService.canAccessPersonWithCurrentGroup(personid);
     if (ret){
       if (checkNext !== null)
         return checkNext;

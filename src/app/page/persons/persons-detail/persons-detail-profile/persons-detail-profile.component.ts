@@ -5,6 +5,7 @@ import {mapPersons} from "../../../../shared/library/mapList";
 import SimpleCrypto from "simple-crypto-js/build/SimpleCrypto";
 import {ActivatedRoute} from "@angular/router";
 import { UsersService } from 'src/app/shared/services/users.service';
+import { debug } from 'util';
 
 @Component({
   selector: 'persons-detail-profile',
@@ -58,16 +59,8 @@ export class PersonsDetailProfileComponent implements OnInit {
 
   }
 
-
-  canView(url, checkNext = null){
-    var ret = this.usersService.canView(url)
-    if (ret){
-      if (checkNext !== null)
-        return checkNext;
-    }
-    return ret;
+  canEdit(personId){
+    return this.usersService.canEditPerson() && this.usersService.canAccessPersonWithCurrentGroup(personId);
   }
-
-
 
 }

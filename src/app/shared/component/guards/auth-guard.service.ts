@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate {
 
     for (var i = 0; i < this.userPermission.length; i++) {
       var uMenu = this.userPermission[i].MenuNameEn;
-      if ([mainMenuNameEng, subMenuNameEng].includes(uMenu) && this.userPermission[i].PView == 1) {
+      if ([mainMenuNameEng, subMenuNameEng].includes(uMenu) && this.userPermission[i].PView == 1 && this.usersService.canView(state.url)) {
         return true;
       }
     }

@@ -8,7 +8,7 @@
           </h5>
         </div>
         <div class="col-md-6 text-right" *ngIf="personId">
-          <button class="btn btn-success mr-2" routerLink="/persons/insert/{{personId}}" [ngClass]="{'disabled noevent':!canView('/person')}">
+          <button class="btn btn-success mr-2" routerLink="/persons/insert/{{personId}}" [ngClass]="{'disabled noevent':!canEdit(personId)}">
             <i class="fas fa-pencil-alt mr-1"></i>แก้ไขข้อมูล
           </button>
           <!-- <button class="btn btn-outline-secondary" (click)="onDelete.emit(personId)">

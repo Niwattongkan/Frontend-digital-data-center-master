@@ -76,7 +76,7 @@
                 </td>
                 <td class="text-center">
                   <a href="javascript:void(0)" class="btn btn-outline-info btn-sm mr-2"
-                    (click)="openModal(copyModal, 'md')" [ngClass]="{'disabled':!canEdit()}">
+                    (click)="openModal(copyModal, 'md')" [ngClass]="{'disabled':!canEdit(canEditGroup)}">
                     <i class="far fa-copy"></i>
                   </a>
                   <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm mr-2"
