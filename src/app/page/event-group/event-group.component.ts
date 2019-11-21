@@ -27,7 +27,7 @@ export class EventGroupComponent implements OnInit {
   public eventGroupList: any = [];
   public eventGroupOrigin: any;
 
-  public personList: any = [];
+  public personList: any[] = [];
 
   public headers: any = ['วันที่จัดกลุ่ม', 'ชื่อกลุ่ม', 'สมาชิกกลุ่ม', 'ผู้สร้าง', 'ส่งออกไฟล์', 'เครื่องมือ'];
   public page: number;
@@ -57,7 +57,7 @@ export class EventGroupComponent implements OnInit {
     this.canAddGroup = this.usersService.canAddGroup();
     this.canEditGroup = this.usersService.canEditGroup();
     this.canDeleteGroup = this.usersService.canDeleteGroup();
-    this.canExportGroup = !this.usersService.canExportGroup();
+    this.canExportGroup = this.usersService.canExportGroup();
     this.spinner.hide()
   }
 
@@ -124,9 +124,7 @@ export class EventGroupComponent implements OnInit {
   }
 
   public findPersonDetail(id) {
-    let result = this.personList.find(person => {
-      return person.PersonId == id;
-    });
+    let result = this.personList.find(d => d.perPersonId == id);
     return result ? result.FullnameTh : '-'
   }
 

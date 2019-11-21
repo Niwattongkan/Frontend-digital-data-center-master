@@ -100,6 +100,7 @@ export class SettingPermissionComponent implements OnInit {
       }
       await this.boardService.insertboardperson(model).toPromise()
     });
+    alertEvent("บันทึกข้อมูลสำเร็จ", "success");
     this.boardList = await this.groupData(await mapPersons((await this.boardService.getallboard().toPromise()).data))
 
   }

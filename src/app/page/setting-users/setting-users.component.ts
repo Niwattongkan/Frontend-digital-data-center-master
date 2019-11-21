@@ -97,9 +97,10 @@ export class SettingUsersComponent implements OnInit {
       const resultPerson = (await this.groupUserService.insertgroupuserperson(model).toPromise()).data[0];
       await this.groupUserService.insertmanagegroup({
         GroupUserPersonalId: resultPerson.GroupUserPersonalId,
-        BoardId: data.Person[index].BoardId,
+        BoardId: data.Person.BoardId,
       }).toPromise();
     }
+    alertEvent("บันทึกข้อมูลสำเร็จ", "success");
     this.groupUsersList = mapPersons((await this.groupUserService.getallgroupuser().toPromise()).data);
   }
 
@@ -115,11 +116,14 @@ export class SettingUsersComponent implements OnInit {
       const model = {
         GroupUserId: data.GroupUserId,
         GroupUserName: data.GroupUserName,
+        BoardId : data.BoardId,
         UpdateBy: 1,
         IsActive: 1
       };
       await this.groupUserService.updategroupuser(model).toPromise();
+      await this.groupUserService.updatemanagegroup(model).toPromise();
     }
+
     this.groupUsersList = mapPersons((await this.groupUserService.getallgroupuser().toPromise()).data);
   }
 

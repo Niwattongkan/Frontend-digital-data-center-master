@@ -3,7 +3,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { PersonsService } from '../../../shared/services/persons.service';
-
+import Swal from "sweetalert2";
 import { validForm } from '../../../shared/library/form';
 import { mapPersons } from '../../../shared/library/mapList';
 
@@ -68,7 +68,24 @@ export class PermissionModalComponent implements OnInit {
   }
 
   closeModal() {
-    this.modalService.dismissAll()
+    Swal.fire({
+      title: '',
+      text: 'ต้องการบันทึกข้อมูลหรือไม่',
+      type: 'warning',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      showCancelButton: true,
+      confirmButtonText: 'ตกลง',
+      cancelButtonText: 'ยกเลิก',
+      reverseButtons: true
+    }).then(async result => {
+      if (result.value) {
+        this.submit();
+      }
+      else {
+        this.modalService.dismissAll()
+      }
+    });
   }
 
   public setGroup(data) {

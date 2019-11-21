@@ -29,26 +29,22 @@ export class ReportUsingComponent implements OnInit {
   reportList: any = [];
 
   multi: any[] = [];
-
   view: any[] = [700, 400];
+
+  // options
   showXAxis = true;
   showYAxis = true;
   gradient = false;
   showLegend = true;
   showXAxisLabel = true;
-  xAxisLabel = 'Country';
+  xAxisLabel = 'วันที่';
   showYAxisLabel = true;
-  yAxisLabel = 'Population';
+  yAxisLabel = 'ผู้มาใช้ระบบ';
   colorScheme = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
-  customColors = [
-    {
-      name: 'france',
-      value: '#0000ff'
-    }
-  ];
+
 
   autoScale = true;
 
@@ -77,33 +73,24 @@ export class ReportUsingComponent implements OnInit {
 
   public async searchReport() {
     this.spinner.show()
-    const data = this.searchform.value;
+    let data = { 
+      Name : this.searchform.value.Name || '',
+      StartDate: this.setDate(this.searchform.value.StartDate.date) || '', 
+      EndDate: this.setDate(this.searchform.value.EndDate.date) || '', 
+      UpdateMenu: 'บุคคล' };
 
-    if (data.StartDate !== null) {
-      data.StartDate = this.setDate(data.StartDate.date);
-    } else {
-      data.StartDate = null;
-    }
-    if (data.EndDate !== null) {
-      data.EndDate = this.setDate(data.EndDate.date);
-    } else {
-      data.EndDate = null;
-    }
-    data.UpdateMenu='บุคคล'
+   
     const result = (await this.reportService.getreportuserlog(data).toPromise()).data;
     this.reportList = result
-    this.spinner.hide()
-    const temp = [];
-    // this.reportList.map(element => {
-    //   temp.push({
-    //     name: element.DataOriginal,
-    //     value: element.data.size
-    //   });
-    // });
-    this.multi = [...temp];
 
-    this.xAxisLabel = 'วันที่';
-    this.yAxisLabel = 'ผู้มาใช้ระบบ';
+    this.multi = [];
+    this.groupData(result).forEach(e => {
+      this.multi.push({
+        name: e.name,
+        value: e.data.length
+      });
+      this.spinner.hide();
+    });
   }
 
   public setSerachForm() {
@@ -116,14 +103,14 @@ export class ReportUsingComponent implements OnInit {
   }
 
   public groupData(data) {
-    const groups = data.reduce(function(obj, item) {
-      const customDate = item.CreateDate.split(' ');
+    const groups = data.reduce(function (obj, item) {
+      const customDate = item.DataOriginal.split(' ');
       obj[customDate[0]] = obj[customDate[0]] || [];
       obj[customDate[0]].push(item);
       return obj;
     }, {});
-    return Object.keys(groups).map(function(key) {
-      return { CreateDate: key, data: groups[key] };
+    return Object.keys(groups).map(function (key) {
+      return { name: key, data: groups[key] };
     });
   }
 
@@ -184,9 +171,9 @@ export class ReportUsingComponent implements OnInit {
     var doc = new jsPDF("p", "pt", "a4");
     doc = this.pdfService.exportAsPdfile(doc);
     doc.setFont("Kanit-Regular");
-     doc.setFontType("normal");
+    doc.setFontType("normal");
     doc.autoTable({
-      styles: { font: "Kanit-Regular", fontSize: 7 , columnWidth: 'auto'},
+      styles: { font: "Kanit-Regular", fontSize: 7, columnWidth: 'auto' },
       headerStyles: { fontStyle: 'Kanit-Regular' },
       columns: [
         { title: "ชื่อผู้ใช้งาน", dataKey: "FullnameTh" },
@@ -200,5 +187,5 @@ export class ReportUsingComponent implements OnInit {
     doc.save("report-using.pdf");
   }
 
-  public onSelect(e){}
+  public onSelect(e) { }
 }
