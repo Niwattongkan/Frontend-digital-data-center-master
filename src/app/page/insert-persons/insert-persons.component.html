@@ -20,7 +20,7 @@
 </ng-template>
 
 <ng-template #insertBursary let-modal>
-  <modal-history-of-education (onSubmit)="updateBursary($event)"></modal-history-of-education>
+  <modal-history-of-education (onSubmit)="inserteducation($event)"></modal-history-of-education>
 </ng-template>
 
 <ng-template #insertWorking let-modal>
@@ -202,7 +202,10 @@
                                   (clickOnAvatar)="selectNewAvatar()"></ngx-avatar>
                       <ngx-avatar *ngIf="isimagePerson" [src]="imgURL"
                                   size="120" [round]="true"></ngx-avatar>
+                      <div class="upload-btn-wrapper">
+                        <button class="btnz">Upload a file</button>
                         <input #file ngModel [ngModelOptions]="{standalone: true}" type="file" accept='image/*' (change)="previewImage(file.files)" multiple>
+                      </div>
 
                       <!-- (change)="onImageChange($event)"> -->
                     </div>

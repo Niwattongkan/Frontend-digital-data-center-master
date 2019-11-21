@@ -78,7 +78,7 @@ export class ModalHistoryOfEducationComponent implements OnInit {
       this.alertValid = true;
       return;
     }
-
+    this.alertValid = false;
     this.educationForm.controls['AcademyId'].setValue((this.educationForm.controls['AcademyId'].value)[0].AcademyId)
     this.onSubmit.emit(this.educationForm.value)
     return this.modalService.dismissAll()

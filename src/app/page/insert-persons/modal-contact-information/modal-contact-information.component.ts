@@ -12,6 +12,7 @@ import {validForm} from '../../../shared/library/form';
 })
 export class ModalContactInformationComponent implements OnInit {
 
+
   @Input() data: any;
 
   @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
@@ -48,9 +49,23 @@ export class ModalContactInformationComponent implements OnInit {
   }
 
   insertColumn() {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
     if ((validForm(this.contactForm).length > 0 && this.update == false) || this.contactForm.controls.Contact.value == '') {
       this.alertValid = true;
       return;
+    }
+    if(this.contactForm.controls.TypeContactId.value == '1'){
+      if(!re.test(this.contactForm.controls.Contact.value)){
+        this.alertValid = true;
+        return;
+      }
+    }
+    if(this.contactForm.controls.TypeContactId.value == '2'){
+      if(!phoneno.test(this.contactForm.controls.Contact.value)){
+        this.alertValid = true;
+        return;
+      }
     }
     if (!isNaN(this.contactForm.controls.Contact.value) && this.contactForm.controls.TypeContactId.value == 2 &&  ! /^\d{10}$/.test(this.contactForm.controls.Contact.value)) {
       if (this.data !== undefined) {
@@ -87,5 +102,4 @@ export class ModalContactInformationComponent implements OnInit {
   closeModal() {
     return this.modalService.dismissAll();
   }
-
 }

@@ -18,11 +18,16 @@
         </div>
         <div class="col-md-6">
           <label class="text-orange"> เบอร์โทร :</label>
-          <label *ngFor="let contact of contactNumberList">{{contact.Contact}}</label>
+          <span *ngFor="let contact of contactNumberList">
+                      <label> {{contact.Contact}}</label><br>
+
+          </span>
         </div>
         <div class="col-md-6">
           <label class="text-orange"> Email :</label>
-          <label *ngFor="let contact of contactEmailList">{{contact.Contact}}</label>
+          <span *ngFor="let contact of contactEmailList">
+                      <label>{{contact.Contact}}</label><br>
+          </span>
         </div>
       </div>
     </div>
