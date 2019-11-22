@@ -34,3 +34,27 @@ label.file:hover {
 /*input[type="file"] {*/
 /*  display: none;*/
 /*}*/
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btnz {
+  border: 2px solid gray;
+  color: gray;
+  background-color: white;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 50px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}

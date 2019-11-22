@@ -102,14 +102,14 @@ export class InsertPersonsComponent implements OnInit {
       .toPromise()).data;
     this.profileOriginForm = resultPerson ? resultPerson : null;
     this.isimagePerson = this.personId ? this.profileOriginForm.PathPhoto : null;
-      this.profileForm = await this.setProfile(resultPerson);
+    this.profileForm = await this.setProfile(resultPerson);
     this.personId ? await this.setList() : null;
     this.academyList = (await this.dropdownService
       .getacademyAll()
       .toPromise()).data;
     const resultImage = this.personId
       ? (this.imagePerson =
-          'https://tc.thaihealth.or.th:4122/uapi/ddc/getphotoperson?PersonId=' +
+        'https://tc.thaihealth.or.th:4122/uapi/ddc/getphotoperson?PersonId=' +
         this.personId)
       : null;
     this.imgURL = resultImage ? resultImage[0] : null;
@@ -563,7 +563,7 @@ export class InsertPersonsComponent implements OnInit {
   public async updateContact(value) {
     if (this.personId) {
       const getcontactperson = this.personsService.getcontactperson(value[1])
-      if (getcontactperson != null) {
+      if (getcontactperson != null && value[1] != undefined) {
         const element = value[0]
         element.PersonContactId = value[1]
         await this.personsService.updatePersonContact(element).toPromise()
@@ -584,22 +584,23 @@ export class InsertPersonsComponent implements OnInit {
     return alertDeleteEvent().then(async confirm => {
       if (confirm.value) {
         if (this.personId) {
-              await this.personsService
-              .deletecoordinator(index)
-              .toPromise()
+          await this.personsService
+            .deletecoordinator(index)
+            .toPromise()
         }
         this.coordinateList.splice(index, 1);
         return alertEvent('ลบข้อมูลสำเร็จ', 'success');
       }
     });
   }
-public async deleteCoordinatorcontact(index) {
+
+  public async deleteCoordinatorcontact(index) {
     return alertDeleteEvent().then(async confirm => {
       if (confirm.value) {
         if (index) {
           await this.personsService
-              .deletecoordinatorcontact(index)
-              .toPromise()
+            .deletecoordinatorcontact(index)
+            .toPromise()
           // this.coordinateList.splice(index, 1);
           return alertEvent('ลบข้อมูลสำเร็จ', 'success');
         }
@@ -609,14 +610,14 @@ public async deleteCoordinatorcontact(index) {
 
   public async updateCoordinator(value) {
     if (this.personId) {
-      if(value[0].CoordinatorId){
+      if (value[0].CoordinatorId) {
         const element = value[0];
         element.PersonId = Number(this.personId);
         const coordinate = (await this.personsService
           .updateCoordinator(element)
           .toPromise()).data[0];
         await this.personsService.updateCoordinatorcontact(element).toPromise();
-      }else{
+      } else {
         for (let index = 0; index < value.length; index++) {
           const element = value[index];
           element.PersonId = Number(this.personId);
@@ -634,6 +635,7 @@ public async deleteCoordinatorcontact(index) {
       .getcoordinator(this.personId)
       .toPromise()).data), 'FullnameTh'));
   }
+
 //   if (this.personId) {
 //   const getcontactperson = this.personsService.getcontactperson(value[1])
 //   if (getcontactperson != null) {
@@ -671,26 +673,35 @@ public async deleteCoordinatorcontact(index) {
   }
 
   public async updateBursary(value) {
-    if (value.AcademyId) {
+    // if (value.AcademyId) {
+    //   value.PersonId = Number(this.personId);
+    //   await this.personsService.updateeducation(value).toPromise();
+    // } else {
+    //     value.PersonId = Number(this.personId);
+    //     await this.personsService.inserteducation(value).toPromise();
+    //     this.bursaryList.push(value);
+    // }
+    // alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
+    // this.bursaryList = (await this.personsService
+    //   .getEducationById(this.personId)
+    //   .toPromise()).data;
+      let model = value
+      model.PersonId = Number(this.personId);
+      await this.personsService.updateeducation(model).toPromise()
+      this.bursaryList = (await this.personsService.getEducationById(this.personId).toPromise()).data
+
+  }
+
+  public async inserteducation(value) {
+    debugger
+    if (this.personId) {
       value.PersonId = Number(this.personId);
-      await this.personsService.updateeducation(value).toPromise();
-      alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
+      await this.personsService.inserteducation(value).toPromise()
+      alertEvent("บันทึกข้อมูลสำเร็จ", "success")
+      this.bursaryList = (await this.personsService.getEducationById(this.personId).toPromise()).data
     } else {
-      if (this.personId) {
-        value.PersonId = Number(this.personId);
-        await this.personsService.inserteducation(value).toPromise();
-        alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
-
-      } else {
-        this.bursaryList.push(value);
-        alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
-
-      }
+      this.bursaryList.push(value)
     }
-    this.bursaryList = (await this.personsService
-      .getEducationById(this.personId)
-      .toPromise()).data;
-
   }
 
   public async deleteWorking(index) {
@@ -738,8 +749,8 @@ public async deleteCoordinatorcontact(index) {
   public onImageChange(event) {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
-    this.imageProfile = fileList[0];
-    this.imgURL(this.imageProfile);
+      this.imageProfile = fileList[0];
+      this.imgURL(this.imageProfile);
     }
     this.profileForm.controls['PathPhoto'].setValue(this.imageProfile);
   }
@@ -759,7 +770,7 @@ public async deleteCoordinatorcontact(index) {
     reader.readAsDataURL(files[0]);
     reader.onload = (event) => {
       this.imgURL = reader.result;
-     // this.AccPic = reader.result;
+      // this.AccPic = reader.result;
     }
     this.profileForm.controls['PathPhoto'].setValue(files[0]);
 

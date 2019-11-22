@@ -65,7 +65,7 @@ export class UsersService {
       }
     } catch (error) {
       console.log('error while get userGroup:', error);
-      debugger
+      // debugger
       return [];
     }
     return this.userGroup;
