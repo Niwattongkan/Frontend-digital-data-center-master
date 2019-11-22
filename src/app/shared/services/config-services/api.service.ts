@@ -134,13 +134,11 @@ export class ApiService {
     //debugger
     try {
       if (!data.successful && data.message != undefined && data.message.toLowerCase().includes('token')){ //TODO Make sure error about token exprie, or invalid
-        debugger
         console.log(data);
         this.cookieService.delete('code');
         document.location.href = "/";
       }
     } catch (err) {
-      debugger
       console.log("Unexpected exception while checkTokenExprire");
       console.log(data);
     }
