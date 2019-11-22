@@ -97,6 +97,12 @@ export class UsersService {
   }
 
   private getLocalGroupUserAcess(page, value) {
+    let roleName = localStorage.getItem('roles').split(',')[0];
+
+    if(!["TC-Staff", "TC-Secretary"].includes(roleName)){
+      return true;
+    }
+    
     for (var i = 0; i < this.getLocalGroupUser().length; i++) {
       var group = this.userGroup[i];
       if(page == 'persons' && group.PersonIdBoard == value ) {//isInt(a)
