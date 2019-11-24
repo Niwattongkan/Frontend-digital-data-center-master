@@ -9,7 +9,7 @@ import { OrganizationService } from "../../shared/services/organization.service"
 import { DropdownService } from "../../shared/services/dropdown.service";
 import { AuthlogService } from "../../shared/services/authlog.service";
 
-import {alertDeleteEvent, alertEvent} from "../../shared/library/alert";
+import { alertDeleteEvent, alertEvent } from "../../shared/library/alert";
 import { calulateAge } from "../../shared/library/date";
 import { validForm } from "../../shared/library/form";
 
@@ -61,64 +61,70 @@ export class InsertOrganizationsComponent implements OnInit {
     this.corperationId = this.activatedRoute.snapshot.paramMap.get("id");
     this.title = this.corperationId ? "แก้ไขข้อมูลองค์กร" : "เพิ่มข้อมูลองค์กร";
     this.notNext = 2;
-
   }
 
   async ngOnInit() {
-    this.province = (await this.dropdownService
-      .getProvinceAll()
-      .toPromise()).data;
-    this.provinceContact = (await this.dropdownService
-      .getProvinceAll()
-      .toPromise()).data;
+    this.province = (
+      await this.dropdownService.getProvinceAll().toPromise()
+    ).data;
+    this.provinceContact = (
+      await this.dropdownService.getProvinceAll().toPromise()
+    ).data;
 
     this.stepper = new Stepper(document.querySelector("#stepper1"), {
       linear: false,
       animation: true
     });
+    if (this.corperationId !== null) {
+      const result = this.corperationId
+        ? (
+            await this.organizationService
+              .getCorporation(this.corperationId)
+              .toPromise()
+          ).data[0]
+        : null;
+      const resultAddress = this.corperationId
+        ? (
+            await this.organizationService
+              .getcorporationaddress(this.corperationId)
+              .toPromise()
+          ).data
+        : null;
+      this.corperationId ? await this.setLocation(resultAddress) : null;
 
-    const result = this.corperationId
-      ? (await this.organizationService
-        .getCorporation(this.corperationId)
-        .toPromise()).data[0]
-      : null;
-    const resultAddress = this.corperationId
-      ? (await this.organizationService
-        .getcorporationaddress(this.corperationId)
-        .toPromise()).data
-      : null;
-    this.corperationId ? await this.setLocation(resultAddress) : null;
+      this.setAddressCorperation(resultAddress);
 
-    this.setAddressCorperation(resultAddress);
+      this.contactList =
+        (
+          await this.organizationService
+            .getcorporationcontact(this.corperationId)
+            .toPromise()
+        ).data || [];
+      this.corperationAll = (
+        await this.organizationService.getOrganizationAll().toPromise()
+      ).data;
+      this.corperationForm = this.corperationId
+        ? await this.setCorperation(result)
+        : await this.setCorperation(null);
 
-    this.contactList =
-      (await this.organizationService
-        .getcorporationcontact(this.corperationId)
-        .toPromise()).data || [];
-    this.corperationAll = (await this.organizationService
-      .getOrganizationAll()
-      .toPromise()).data;
-    this.corperationForm = this.corperationId
-      ? await this.setCorperation(result)
-      : await this.setCorperation(null);
+      this.corperationOriginForm = this.corperationForm.value;
+      this.addressOriginForm = this.addressForm.value;
+      this.addressContactOriginForm = this.addressContactForm.value;
 
-    this.corperationOriginForm = this.corperationForm.value;
-    this.addressOriginForm = this.addressForm.value;
-    this.addressContactOriginForm = this.addressContactForm.value;
+      this.addressForm
+        .get("Province")
+        .valueChanges.subscribe(value => this.showDistrict(value));
+      this.addressForm
+        .get("District")
+        .valueChanges.subscribe(value => this.showSubdistrict(value));
 
-    this.addressForm
-      .get("Province")
-      .valueChanges.subscribe(value => this.showDistrict(value));
-    this.addressForm
-      .get("District")
-      .valueChanges.subscribe(value => this.showSubdistrict(value));
-
-    this.addressContactForm
-      .get("Province")
-      .valueChanges.subscribe(value => this.showDistrictContact(value));
-    this.addressContactForm
-      .get("District")
-      .valueChanges.subscribe(value => this.showSubdistrictContact(value));
+      this.addressContactForm
+        .get("Province")
+        .valueChanges.subscribe(value => this.showDistrictContact(value));
+      this.addressContactForm
+        .get("District")
+        .valueChanges.subscribe(value => this.showSubdistrictContact(value));
+    }
   }
 
   public setLocation(address) {
@@ -137,189 +143,189 @@ export class InsertOrganizationsComponent implements OnInit {
     const currentMenu = "เพิ่ม/แก้ไข ข้อมูลองค์กร";
     this.corperationOriginForm.CorporationName != corperation.CorporationName
       ? await this.auditLogService(
-        currentMenu,
-        "ชื่อองค์กร",
-        this.corperationOriginForm.CorporationName,
-        corperation.CorporationName
-      )
+          currentMenu,
+          "ชื่อองค์กร",
+          this.corperationOriginForm.CorporationName,
+          corperation.CorporationName
+        )
       : null;
     this.corperationOriginForm.TaxNo != corperation.TaxNo
       ? await this.auditLogService(
-        currentMenu,
-        "เลขประจำตัวผู้เสียภาษี",
-        this.corperationOriginForm.TaxNo,
-        corperation.TaxNo
-      )
+          currentMenu,
+          "เลขประจำตัวผู้เสียภาษี",
+          this.corperationOriginForm.TaxNo,
+          corperation.TaxNo
+        )
       : null;
     this.corperationOriginForm.Parent != corperation.Parent
       ? await this.auditLogService(
-        currentMenu,
-        "ภายใต้องค์กร",
-        this.corperationOriginForm.Parent,
-        corperation.Parent
-      )
+          currentMenu,
+          "ภายใต้องค์กร",
+          this.corperationOriginForm.Parent,
+          corperation.Parent
+        )
       : null;
 
     this.addressOriginForm.HouseNumber != address.HouseNumber
       ? await this.auditLogService(
-        currentMenu,
-        "เลขที่",
-        this.addressOriginForm.HouseNumber,
-        address.HouseNumber
-      )
+          currentMenu,
+          "เลขที่",
+          this.addressOriginForm.HouseNumber,
+          address.HouseNumber
+        )
       : null;
     this.addressOriginForm.Road != address.Road
       ? await this.auditLogService(
-        currentMenu,
-        "ถนน",
-        this.addressOriginForm.Road,
-        address.Road
-      )
+          currentMenu,
+          "ถนน",
+          this.addressOriginForm.Road,
+          address.Road
+        )
       : null;
     this.addressOriginForm.Building != address.Building
       ? await this.auditLogService(
-        currentMenu,
-        "อาคาร",
-        this.addressOriginForm.Building,
-        address.Building
-      )
+          currentMenu,
+          "อาคาร",
+          this.addressOriginForm.Building,
+          address.Building
+        )
       : null;
     this.addressOriginForm.Room != address.Room
       ? await this.auditLogService(
-        currentMenu,
-        "ห้อง",
-        this.addressOriginForm.Room,
-        address.Room
-      )
+          currentMenu,
+          "ห้อง",
+          this.addressOriginForm.Room,
+          address.Room
+        )
       : null;
     this.addressOriginForm.Floor != address.Floor
       ? await this.auditLogService(
-        currentMenu,
-        "ชั้น",
-        this.addressOriginForm.Floor,
-        address.Floor
-      )
+          currentMenu,
+          "ชั้น",
+          this.addressOriginForm.Floor,
+          address.Floor
+        )
       : null;
     this.addressOriginForm.Soi != address.Soi
       ? await this.auditLogService(
-        currentMenu,
-        "ตรอก/ซอย",
-        this.addressOriginForm.Soi,
-        address.Soi
-      )
+          currentMenu,
+          "ตรอก/ซอย",
+          this.addressOriginForm.Soi,
+          address.Soi
+        )
       : null;
     this.addressOriginForm.Province != address.Province
       ? await this.auditLogService(
-        currentMenu,
-        "จังหวัด",
-        this.addressOriginForm.Province,
-        address.Province
-      )
+          currentMenu,
+          "จังหวัด",
+          this.addressOriginForm.Province,
+          address.Province
+        )
       : null;
     this.addressOriginForm.District != address.District
       ? await this.auditLogService(
-        currentMenu,
-        "เขต/อำเภอ",
-        this.addressOriginForm.District,
-        address.District
-      )
+          currentMenu,
+          "เขต/อำเภอ",
+          this.addressOriginForm.District,
+          address.District
+        )
       : null;
     this.addressOriginForm.Subdistrict != address.Subdistrict
       ? await this.auditLogService(
-        currentMenu,
-        "แขวง/ตำบล",
-        this.addressOriginForm.Subdistrict,
-        address.Subdistrict
-      )
+          currentMenu,
+          "แขวง/ตำบล",
+          this.addressOriginForm.Subdistrict,
+          address.Subdistrict
+        )
       : null;
     this.addressOriginForm.Zipcode != address.Zipcode
       ? await this.auditLogService(
-        currentMenu,
-        "รหัสไปรษณีย์",
-        this.addressOriginForm.Zipcode,
-        address.Zipcode
-      )
+          currentMenu,
+          "รหัสไปรษณีย์",
+          this.addressOriginForm.Zipcode,
+          address.Zipcode
+        )
       : null;
 
     this.addressContactOriginForm.HouseNumber != addressContact.HouseNumber
       ? await this.auditLogService(
-        currentMenu,
-        "เลขที่",
-        this.addressContactOriginForm.HouseNumber,
-        addressContact.HouseNumber
-      )
+          currentMenu,
+          "เลขที่",
+          this.addressContactOriginForm.HouseNumber,
+          addressContact.HouseNumber
+        )
       : null;
     this.addressContactOriginForm.Road != addressContact.Road
       ? await this.auditLogService(
-        currentMenu,
-        "ถนน",
-        this.addressContactOriginForm.Road,
-        addressContact.Road
-      )
+          currentMenu,
+          "ถนน",
+          this.addressContactOriginForm.Road,
+          addressContact.Road
+        )
       : null;
     this.addressContactOriginForm.Building != addressContact.Building
       ? await this.auditLogService(
-        currentMenu,
-        "อาคาร",
-        this.addressContactOriginForm.Building,
-        addressContact.Building
-      )
+          currentMenu,
+          "อาคาร",
+          this.addressContactOriginForm.Building,
+          addressContact.Building
+        )
       : null;
     this.addressContactOriginForm.Room != addressContact.Room
       ? await this.auditLogService(
-        currentMenu,
-        "ห้อง",
-        this.addressContactOriginForm.Room,
-        addressContact.Room
-      )
+          currentMenu,
+          "ห้อง",
+          this.addressContactOriginForm.Room,
+          addressContact.Room
+        )
       : null;
     this.addressContactOriginForm.Floor != addressContact.Floor
       ? await this.auditLogService(
-        currentMenu,
-        "ชั้น",
-        this.addressContactOriginForm.Floor,
-        addressContact.Floor
-      )
+          currentMenu,
+          "ชั้น",
+          this.addressContactOriginForm.Floor,
+          addressContact.Floor
+        )
       : null;
     this.addressContactOriginForm.Soi != addressContact.Soi
       ? await this.auditLogService(
-        currentMenu,
-        "ตรอก/ซอย",
-        this.addressContactOriginForm.Soi,
-        addressContact.Soi
-      )
+          currentMenu,
+          "ตรอก/ซอย",
+          this.addressContactOriginForm.Soi,
+          addressContact.Soi
+        )
       : null;
     this.addressContactOriginForm.Province != addressContact.Province
       ? await this.auditLogService(
-        currentMenu,
-        "จังหวัด",
-        this.addressContactOriginForm.Province,
-        addressContact.Province
-      )
+          currentMenu,
+          "จังหวัด",
+          this.addressContactOriginForm.Province,
+          addressContact.Province
+        )
       : null;
     this.addressContactOriginForm.District != addressContact.District
       ? await this.auditLogService(
-        currentMenu,
-        "เขต/อำเภอ",
-        this.addressContactOriginForm.District,
-        addressContact.District
-      )
+          currentMenu,
+          "เขต/อำเภอ",
+          this.addressContactOriginForm.District,
+          addressContact.District
+        )
       : null;
     this.addressContactOriginForm.Subdistrict != addressContact.Subdistrict
       ? await this.auditLogService(
-        currentMenu,
-        "แขวง/ตำบล",
-        this.addressContactOriginForm.Subdistrict,
-        addressContact.Subdistrict
-      )
+          currentMenu,
+          "แขวง/ตำบล",
+          this.addressContactOriginForm.Subdistrict,
+          addressContact.Subdistrict
+        )
       : null;
     this.addressContactOriginForm.Zipcode != addressContact.Zipcode
       ? await this.auditLogService(
-        currentMenu,
-        "รหัสไปรษณีย์",
-        this.addressContactOriginForm.Zipcode,
-        addressContact.Zipcode
-      )
+          currentMenu,
+          "รหัสไปรษณีย์",
+          this.addressContactOriginForm.Zipcode,
+          addressContact.Zipcode
+        )
       : null;
   }
 
@@ -336,9 +342,9 @@ export class InsertOrganizationsComponent implements OnInit {
   }
 
   public async showDistrict(data) {
-    this.district = (await this.dropdownService
-      .getDistrictByProvince(data)
-      .toPromise()).data;
+    this.district = (
+      await this.dropdownService.getDistrictByProvince(data).toPromise()
+    ).data;
   }
 
   public async showSubdistrict(data) {
@@ -349,15 +355,15 @@ export class InsertOrganizationsComponent implements OnInit {
       ? this.addressForm.controls["Zipcode"].setValue(zipcode.ZipCode)
       : this.addressForm.controls["Zipcode"].setValue("");
 
-    this.subdistrict = (await this.dropdownService
-      .getSubdistrictByDistrict(data)
-      .toPromise()).data;
+    this.subdistrict = (
+      await this.dropdownService.getSubdistrictByDistrict(data).toPromise()
+    ).data;
   }
 
   public async showDistrictContact(data) {
-    this.districtContact = (await this.dropdownService
-      .getDistrictByProvince(data)
-      .toPromise()).data;
+    this.districtContact = (
+      await this.dropdownService.getDistrictByProvince(data).toPromise()
+    ).data;
   }
 
   public async showSubdistrictContact(data) {
@@ -368,9 +374,9 @@ export class InsertOrganizationsComponent implements OnInit {
       ? this.addressContactForm.controls["Zipcode"].setValue(zipcode.ZipCode)
       : this.addressContactForm.controls["Zipcode"].setValue("");
 
-    this.subdistrictContact = (await this.dropdownService
-      .getSubdistrictByDistrict(data)
-      .toPromise()).data;
+    this.subdistrictContact = (
+      await this.dropdownService.getSubdistrictByDistrict(data).toPromise()
+    ).data;
   }
 
   public copyAddresss() {
@@ -450,21 +456,27 @@ export class InsertOrganizationsComponent implements OnInit {
           .toPromise();
 
         const result = this.corperationId
-          ? (await this.organizationService
-            .getCorporationPerson(this.corperationId)
-            .toPromise()).data[0]
+          ? (
+              await this.organizationService
+                .getCorporationPerson(this.corperationId)
+                .toPromise()
+            ).data[0]
           : null;
         const resultAddress = this.corperationId
-          ? (await this.organizationService
-            .getcorporationaddress(this.corperationId)
-            .toPromise()).data
+          ? (
+              await this.organizationService
+                .getcorporationaddress(this.corperationId)
+                .toPromise()
+            ).data
           : null;
         this.setAddressCorperation(resultAddress);
 
         this.contactList =
-          (await this.organizationService
-            .getcorporationcontact(this.corperationId)
-            .toPromise()).data || [];
+          (
+            await this.organizationService
+              .getcorporationcontact(this.corperationId)
+              .toPromise()
+          ).data || [];
         this.corperationForm = this.corperationId
           ? await this.setCorperation(result)
           : await this.setCorperation(null);
@@ -522,9 +534,11 @@ export class InsertOrganizationsComponent implements OnInit {
   }
 
   async Insert() {
-    const result = (await this.organizationService
-      .insertCorporation(this.corperationForm.value)
-      .toPromise()).data[0];
+    const result = (
+      await this.organizationService
+        .insertCorporation(this.corperationForm.value)
+        .toPromise()
+    ).data[0];
     this.corperationId = result.CorporationId;
     this.addressForm.value.CorporationId = result.CorporationId;
     this.addressContactForm.value.CorporationId = result.CorporationId;
@@ -547,32 +561,29 @@ export class InsertOrganizationsComponent implements OnInit {
   }
 
   public back(step) {
-    if (step == '1') {
+    if (step == "1") {
       Swal.fire({
-        title: '',
-        text: 'ต้องการบันทึกข้อมูลหรือไม่',
-        type: 'warning',
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        title: "",
+        text: "ต้องการบันทึกข้อมูลหรือไม่",
+        type: "warning",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
         showCancelButton: true,
-        confirmButtonText: 'ตกลง',
-        cancelButtonText: 'ยกเลิก',
+        confirmButtonText: "ตกลง",
+        cancelButtonText: "ยกเลิก",
         reverseButtons: true
       }).then(async result => {
         if (result.value) {
           this.nextToStep2().then(() => {
             this.router.navigate(["/organizations"]);
           });
-        }
-        else {
+        } else {
           return this.router.navigate(["/organizations"]);
         }
       });
     } else {
       return this.router.navigate(["/organizations"]);
     }
-
-
   }
 
   private async setAddressCorperation(resultAddress) {
@@ -593,57 +604,57 @@ export class InsertOrganizationsComponent implements OnInit {
   private setCorperation(data) {
     return data
       ? this.formBuilder.group({
-        CorporationId: [data.CorporationId],
-        CorporationName: [data.CorporationName],
-        Parent: [data.Parent],
-        TaxNo: [data.TaxNo],
-        // Detail: [data.Detail],
-        PathFile: [data.PathFile]
-      })
+          CorporationId: [data.CorporationId],
+          CorporationName: [data.CorporationName],
+          Parent: [data.Parent],
+          TaxNo: [data.TaxNo],
+          // Detail: [data.Detail],
+          PathFile: [data.PathFile]
+        })
       : this.formBuilder.group({
-        CorporationName: ["", [Validators.required]],
-        Parent: [0],
-        TaxNo: [""],
-        // Detail: [""],
-        PathFile: [1]
-      });
+          CorporationName: ["", [Validators.required]],
+          Parent: [0],
+          TaxNo: [""],
+          // Detail: [""],
+          PathFile: [1]
+        });
   }
 
   private setAddress(data, type) {
     return data
       ? this.formBuilder.group({
-        CorporationId: [data.CorporationId],
-        CorporationAddressId: [data.CorporationAddressId],
-        TypeAddress: [data.TypeAddress, [Validators.required]],
-        HouseNumber: [data.HouseNumber, [Validators.required]],
-        Building: [""],
-        Floor: [""],
-        Room: [""],
-        Road: [""],
-        Soi: [""],
-        Subdistrict: [data.Subdistrict, [Validators.required]],
-        District: [data.District, [Validators.required]],
-        Province: [data.Province, [Validators.required]],
-        Zipcode: [data.Zipcode, [Validators.required]]
-      })
+          CorporationId: [data.CorporationId],
+          CorporationAddressId: [data.CorporationAddressId],
+          TypeAddress: [data.TypeAddress, [Validators.required]],
+          HouseNumber: [data.HouseNumber, [Validators.required]],
+          Building: [""],
+          Floor: [""],
+          Room: [""],
+          Road: [""],
+          Soi: [""],
+          Subdistrict: [data.Subdistrict, [Validators.required]],
+          District: [data.District, [Validators.required]],
+          Province: [data.Province, [Validators.required]],
+          Zipcode: [data.Zipcode, [Validators.required]]
+        })
       : this.formBuilder.group({
-        CorporationId: [null],
-        CorporationAddressId: [null],
-        TypeAddress: [type, [Validators.required]],
-        HouseNumber: ["", [Validators.required]],
-        Building: [""],
-        Floor: [""],
-        Room: [""],
-        Road: [""],
-        Soi: [""],
-        Subdistrict: [1, [Validators.required]],
-        District: [1, [Validators.required]],
-        Province: [1, [Validators.required]],
-        Zipcode: ["", [Validators.required]]
-      });
+          CorporationId: [null],
+          CorporationAddressId: [null],
+          TypeAddress: [type, [Validators.required]],
+          HouseNumber: ["", [Validators.required]],
+          Building: [""],
+          Floor: [""],
+          Room: [""],
+          Road: [""],
+          Soi: [""],
+          Subdistrict: [1, [Validators.required]],
+          District: [1, [Validators.required]],
+          Province: [1, [Validators.required]],
+          Zipcode: ["", [Validators.required]]
+        });
   }
 
-  private setContact(data) { }
+  private setContact(data) {}
 
   public async nextToStep2() {
     if (
@@ -658,7 +669,7 @@ export class InsertOrganizationsComponent implements OnInit {
     this.notNext = 2;
     const insert = this.activatedRoute.snapshot.paramMap.get("id");
     insert ? this.update() : this.Insert();
-    this.disable == true
+    this.disable == true;
     this.alertValid = false;
     alertEvent("บันทึกข้อมูลสำเร็จ", "success");
     return this.stepper.next();
@@ -673,7 +684,7 @@ export class InsertOrganizationsComponent implements OnInit {
       this.alertValid = true;
       return window.scroll(0, 300);
     }
-    this.disable == true
+    this.disable == true;
     this.alertValid = false;
     const insert = this.activatedRoute.snapshot.paramMap.get("id");
     insert ? this.update() : this.Insert();
@@ -682,5 +693,4 @@ export class InsertOrganizationsComponent implements OnInit {
 
     return this.stepper.next();
   }
-
 }

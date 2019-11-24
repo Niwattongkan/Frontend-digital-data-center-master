@@ -16,7 +16,7 @@
         </div>
         <div class="form-group">
           <label>ชื่อบุคคล <span class="important">*</span></label>
-          <ng-multiselect-dropdown [data]="personList" [settings]="dropdownSettings"
+          <ng-multiselect-dropdown [data]="personList" [settings]="dropdownSettings" [(ngModel)]="Personselected"
             [formControl]="groupUserForm.controls['Person']">
           </ng-multiselect-dropdown>
         </div>

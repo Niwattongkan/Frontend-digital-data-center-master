@@ -108,7 +108,7 @@ export class SettingUsersComponent implements OnInit {
     const groupName = {
       GroupUserId: data.GroupUserId,
       GroupUserName: data.GroupUserName,
-      CreateDate: '2019-05-31 08:08:04'
+   //   CreateDate: '2019-05-31 08:08:04'
     };
     // await this.updateLog(data)
     await this.groupUserService.updategroupuser(groupName).toPromise();
