@@ -50,14 +50,14 @@ export class UsersService {
   private getLocalGroupUser(): any {
     try {
       if (this.userGroup.length == 0) {
-        debugger
+        // debugger
         const u_groupStr = localStorage.getItem('u_group')
         // console.log('u_groupStr= ' + u_groupStr);
         this.userGroup = JSON.parse(u_groupStr).data
       }
     } catch (error) {
       console.log('error while get userGroup:', error);
-      debugger
+      // debugger
       return [];
     }
     return this.userGroup;
