@@ -27,7 +27,7 @@ export class PersonsWorkingComponent implements OnInit {
 
   async ngOnInit() {
     let Crypto = new SimpleCrypto('some-unique-key');
-    this.personId = String(Crypto.decrypt(this.activatedRoute.snapshot.paramMap.get('id')));
+    this.personId = String(Crypto.decrypt(decodeURIComponent(this.activatedRoute.snapshot.paramMap.get('id'))));
     this.workingPerson = (await this.personsService.getWorkingById(this.personId).toPromise()).data
     this.workingCorporation = (await this.personsService.getworkperson(this.personId).toPromise()).data
   }

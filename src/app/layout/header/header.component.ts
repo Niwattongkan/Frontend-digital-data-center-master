@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     let Crypto = new SimpleCrypto('some-unique-key');
-    let id = this.activatedRoute.snapshot.paramMap.get('id')
+    let id = decodeURIComponent(this.activatedRoute.snapshot.paramMap.get('id'));
     this.personId = id != '' && id != null ? Crypto.decrypt(id) : ''
     this.username = this.authlogService.getuserinfo(this.personId)
   }

@@ -50,15 +50,6 @@ export class CardPersonComponent implements OnInit {
     return 'ปี ' + (date.getFullYear() + 543);
   }
 
-  /* Unused code
-  private enCypeId(personsList){
-    let Crypto = new SimpleCrypto('some-unique-key');
-    personsList.map(data => {
-      data.idCryto = encodeURIComponent(Crypto.encrypt(data.PersonId))
-    })
-    return personsList
-  }*/
-
   private setProfile(data) {
     const result = data;
     result.TitleNameTh = result.TitleNameTh == 1 ? 'นาย ' : result.TitleNameTh == 2 ? 'นางสาว ' : 'นาง';

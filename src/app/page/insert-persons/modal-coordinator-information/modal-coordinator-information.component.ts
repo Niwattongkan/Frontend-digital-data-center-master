@@ -43,7 +43,7 @@ export class ModalCoordinatorInformationComponent implements OnInit {
       this.coordinate = this.data
 
     }
-    this.coordinateID = Crypto.decrypt(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.coordinateID = Crypto.decrypt(decodeURIComponent(this.activatedRoute.snapshot.paramMap.get('id')));
   }
 
   private setCoordinator() {

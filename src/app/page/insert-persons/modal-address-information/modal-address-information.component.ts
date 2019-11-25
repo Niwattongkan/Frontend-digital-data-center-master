@@ -42,7 +42,7 @@ export class ModalAddressInformationComponent implements OnInit {
   ) {
     this.addressForm = this.setAddress(null);
     let Crypto = new SimpleCrypto('some-unique-key');
-    this.personId = this.activatedRoute.snapshot.paramMap.get('id') ? Crypto.decrypt(this.activatedRoute.snapshot.paramMap.get('id')) : '';
+    this.personId = this.activatedRoute.snapshot.paramMap.get('id') ? Crypto.decrypt(decodeURIComponent(this.activatedRoute.snapshot.paramMap.get('id'))) : '';
   }
 
 
