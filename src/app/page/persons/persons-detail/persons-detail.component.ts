@@ -45,7 +45,7 @@ export class PersonsDetailComponent implements OnInit {
     this.setTabbar()
     let Crypto = new SimpleCrypto('some-unique-key');
     this.spinner.show();
-    this.personId = String(Crypto.decrypt(this.activatedRoute.snapshot.paramMap.get('id')));
+    this.personId = String(Crypto.decrypt(decodeURIComponent(this.activatedRoute.snapshot.paramMap.get('id'))));
     this.detailPerson = this.personId ? await mapPersons((await this.personsService.getDetailById(this.personId).toPromise()).data)[0] : null
     if (this.detailPerson.length == 0) {
       alertEvent('ไม่พบข้อมูลบุคคุลนี้', 'warning')

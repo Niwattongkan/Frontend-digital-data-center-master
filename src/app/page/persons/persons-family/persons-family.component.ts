@@ -29,7 +29,7 @@ export class PersonsFamilyComponent implements OnInit {
 
   async ngOnInit() {
     let Crypto = new SimpleCrypto('some-unique-key');
-    this.personId = String(Crypto.decrypt(this.activatedRoute.snapshot.paramMap.get('id')));
+    this.personId = String(Crypto.decrypt(decodeURIComponent(this.activatedRoute.snapshot.paramMap.get('id'))));
     this.familyPerson = this.mapPersons((await this.personsService.getFamilyById(this.personId).toPromise()).data)
     this.dataTable = await this.setDataTable(this.familyPerson)
   }

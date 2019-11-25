@@ -26,7 +26,7 @@ export class PersonsBursaryComponent implements OnInit {
 
   async ngOnInit() {
     let Crypto = new SimpleCrypto('some-unique-key');
-    this.personId = String(Crypto.decrypt(this.activatedRoute.snapshot.paramMap.get('id')));
+    this.personId = String(Crypto.decrypt(decodeURIComponent(this.activatedRoute.snapshot.paramMap.get('id'))));
     this.bursariesPerson = (await this.personsService.getProjectById(this.personId).toPromise()).data;
   }
   private setMenubar() {

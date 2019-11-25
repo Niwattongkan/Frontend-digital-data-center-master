@@ -26,7 +26,7 @@ export class PersonsStudiesComponent implements OnInit {
 
   async ngOnInit() {
     let Crypto = new SimpleCrypto('some-unique-key');
-    this.personId = String(Crypto.decrypt(this.activatedRoute.snapshot.paramMap.get('id')));
+    this.personId = String(Crypto.decrypt(decodeURIComponent(this.activatedRoute.snapshot.paramMap.get('id'))));
     this.personStudy = (await this.personsService.getEducationById(this.personId).toPromise()).data
   }
 

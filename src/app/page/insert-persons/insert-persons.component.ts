@@ -80,7 +80,7 @@ export class InsertPersonsComponent implements OnInit {
     this.profileForm = this.setProfile(null);
     this.profileOriginForm = this.profileForm.value;
     const Crypto = new SimpleCrypto('some-unique-key');
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    const id = decodeURIComponent(this.activatedRoute.snapshot.paramMap.get('id'));
     this.personId = id != '' && id != null ? Crypto.decrypt(id) : '';
     this.title = this.personId ? 'แก้ไขข้อมูลบุคคล' : 'เพิ่มข้อมูลบุคคล';
     this.mode = this.personId ? 'Edit' : 'Insert';
