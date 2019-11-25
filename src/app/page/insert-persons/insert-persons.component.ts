@@ -803,13 +803,8 @@ export class InsertPersonsComponent implements OnInit {
     reader.readAsDataURL(files[0]);
     reader.onload = _event => {
       this.imgURL = reader.result;
-<<<<<<< HEAD
     };
     this.isimagePerson = true
-=======
-      // this.AccPic = reader.result;
-    }
->>>>>>> aa1bde2519b5efb6edf0aa336837a373d47bbbd6
     this.profileForm.controls['PathPhoto'].setValue(files[0]);
 
 
