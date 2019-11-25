@@ -47,18 +47,10 @@ export class UsersService {
     return this.userPermission;
   }
 
-  showMenu(menuNameEng) {
-    for (var i = 0; i < this.getLocalUserPermission().length; i++) {
-      if (menuNameEng == this.userPermission[i].MenuNameEn && this.userPermission[i].PView == 1) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   private getLocalGroupUser(): any {
     try {
       if (this.userGroup.length == 0) {
+        // debugger
         const u_groupStr = localStorage.getItem('u_group')
         // console.log('u_groupStr= ' + u_groupStr);
         this.userGroup = JSON.parse(u_groupStr).data
@@ -97,19 +89,15 @@ export class UsersService {
   }
 
   private getLocalGroupUserAcess(page, value) {
-    let roleName = localStorage.getItem('roles').split(',')[0];
-
-    if(!["TC-Staff", "TC-Secretary"].includes(roleName)){
-      return true;
-    }
-    
     for (var i = 0; i < this.getLocalGroupUser().length; i++) {
       var group = this.userGroup[i];
       if(page == 'persons' && group.PersonIdBoard == value ) {//isInt(a)
         return true;
       } else if(page == 'users' && group.GroupUserId == value ) {//isInt(a)
+        debugger
         return true;
       } else if(page == 'permission' && group.BoardId == value ) {//isInt(a)
+        debugger
         return true;
       }
     }
@@ -273,11 +261,9 @@ export class UsersService {
     return false
   }
 
-  /*
   public canEdit(url: string = null) {
     return this.canDo(url, 'edit');
   }
-  */
 
   public canView(url: string = null) {
     return this.canDo(url, 'view');

@@ -597,11 +597,12 @@ export class InsertPersonsComponent implements OnInit {
   public async deleteCoordinatorcontact(index) {
     return alertDeleteEvent().then(async confirm => {
       if (confirm.value) {
+        debugger
         if (index) {
           await this.personsService
-            .deletecoordinatorcontact(index)
+            .deletecoordinator(index)
             .toPromise()
-          // this.coordinateList.splice(index, 1);
+          this.coordinateList.splice(index, 1);
           return alertEvent('ลบข้อมูลสำเร็จ', 'success');
         }
       }
