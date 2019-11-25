@@ -15,6 +15,12 @@
           <div class="col-md-10 alert alert-danger" role="alert" *ngIf="alertValidNumber">
             กรุณากดไม่ใส่ตัวอักษรหรือสัญลักษณ์
           </div>
+          <div class="col-md-10 alert alert-danger" role="alert" *ngIf="alertValidEmail">
+            อีเมลไม่ถูกต้อง
+          </div>
+          <div class="col-md-10 alert alert-danger" role="alert" *ngIf="alertValidPhone">
+            เบอร์โทรไม่ถูกต้อง
+          </div>
         </div>
         <div class="table-responsive" *ngIf="update == false">
           <table class="table table-hover" style="border: 1px solid #ccc;">

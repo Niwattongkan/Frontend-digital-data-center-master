@@ -15,8 +15,9 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {alertEvent, alertDeleteEvent} from '../../shared/library/alert';
 import {calulateAge} from '../../shared/library/date';
 import {validForm} from '../../shared/library/form';
-import {NgxSpinnerService} from "ngx-spinner";
-import SimpleCrypto from "simple-crypto-js/build/SimpleCrypto";
+import {NgxSpinnerService} from 'ngx-spinner';
+import SimpleCrypto from 'simple-crypto-js/build/SimpleCrypto';
+import {UsersService} from '../../shared/services/users.service';
 
 @Component({
   selector: 'app-insert-persons',
@@ -46,7 +47,7 @@ export class InsertPersonsComponent implements OnInit {
   public workingList = [];
   public academyList = [];
   public imagePerson = '';
-  public isimagePerson = false;
+  public isimagePerson = '';
   public nametitle = [];
 
   // checkTitleTh = '';
@@ -78,9 +79,9 @@ export class InsertPersonsComponent implements OnInit {
   ) {
     this.profileForm = this.setProfile(null);
     this.profileOriginForm = this.profileForm.value;
-    let Crypto = new SimpleCrypto('some-unique-key');
-    let id = this.activatedRoute.snapshot.paramMap.get('id')
-    this.personId = id != '' && id != null ? Crypto.decrypt(id) : ''
+    const Crypto = new SimpleCrypto('some-unique-key');
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.personId = id != '' && id != null ? Crypto.decrypt(id) : '';
     this.title = this.personId ? 'แก้ไขข้อมูลบุคคล' : 'เพิ่มข้อมูลบุคคล';
     this.mode = this.personId ? 'Edit' : 'Insert';
   }
@@ -101,44 +102,20 @@ export class InsertPersonsComponent implements OnInit {
       .getOrganizationAll()
       .toPromise()).data;
     this.profileOriginForm = resultPerson ? resultPerson : null;
-
-    // this.isimagePerson = this.personId ? this.profileOriginForm.PathPhoto : null;
-      this.profileForm = await this.setProfile(resultPerson);
-
+    this.isimagePerson = this.personId ? this.profileOriginForm.PathPhoto : null;
+    this.profileForm = await this.setProfile(resultPerson);
     this.personId ? await this.setList() : null;
     this.academyList = (await this.dropdownService
       .getacademyAll()
       .toPromise()).data;
+    const resultImage = this.personId
+      ? (this.imagePerson =
+        'https://tc.thaihealth.or.th:4122/uapi/ddc/getphotoperson?PersonId=' +
+        this.personId)
+      : null;
+    this.imgURL = resultImage ? resultImage[0] : null;
 
-      this.personsService.getphotoperson(this.personId).subscribe(
-        res => {
-
-          if (!this.checkImgExtension(res.headers.get("Content-Type"))) {
-            return;
-          }
-          if (res.body) {
-          var reader = new FileReader();
-          reader.readAsDataURL(res.body);
-          reader.onload = _event => {
-            this.imgURL = reader.result;
-            this.isimagePerson = true;
-          };
-        }
-        },
-        err => {
-          console.log(err);
-        }
-      );
-
-      
-    // const resultImage = this.personId
-    //   ? (this.imagePerson =
-    //       'https://tc.thaihealth.or.th:4122/uapi/ddc/getphotoperson?PersonId=' +
-    //     this.personId)
-    //   : null;
-    // this.imgURL = resultImage ? resultImage[0] : null;
-
-   // this.imgURL = this.imgURL == 'h' ? resultImage : '../../../../assets/icon-customer/image-default.png'
+    this.imgURL = this.imgURL == 'h' ? resultImage : '../../../../assets/icon-customer/image-default.png';
     if (
       this.profileForm.value['TitleNameOther'] !== null &&
       this.profileForm.value['TitleNameOther'] !== ''
@@ -146,11 +123,11 @@ export class InsertPersonsComponent implements OnInit {
     ) {
       //  this.checkTitleTh = 'checked';
       this.titleNameThCheck = true;
-      this.spinner.hide()
+      this.spinner.hide();
     } else {
       //  this.checkTitleTh = '';
       this.titleNameThCheck = false;
-      this.spinner.hide()
+      this.spinner.hide();
 
     }
 
@@ -165,20 +142,10 @@ export class InsertPersonsComponent implements OnInit {
       this.titleNameEnCheck = false;
     }
     this.notNext = 1;
-    this.spinner.hide()
+    this.spinner.hide();
 
   }
-   checkImgExtension(type: string) {
-    switch (type) {
-      case "image/jpg":
-      case "image/jpeg":
-        return true;
-      case "image/png":
-        return true;
-      default:
-        return false;
-    }
-  }
+
   get getIdCard() {
     return this.profileForm.get('email');
   }
@@ -594,33 +561,38 @@ export class InsertPersonsComponent implements OnInit {
     });
   }
 
-  public async updateContact(value) {
+  public async insertContactq(value) {
     if (this.personId) {
-      const getcontactperson = this.personsService.getcontactperson(value[1])
-      if (getcontactperson != null && value[1] != undefined) {
-        const element = value[0]
-        element.PersonContactId = value[1]
-        await this.personsService.updatePersonContact(element).toPromise()
-      } else {
+      const getcontactperson = this.personsService.getcontactperson(value[1]);
         for (let index = 0; index < value.length; index++) {
           const element = value[index];
           element.PersonId = Number(this.personId);
           await this.personsService.insertPersonContact(element).toPromise();
         }
-      }
       alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
     }
     Array.prototype.push.apply(this.contactList, value);
     // this.contactList = value
   }
+  public async updateContact(value) {
+    if (this.personId) {
+      const getcontactperson = this.personsService.getcontactperson(value[1]);
+        const element = value[0];
+        element.PersonId = value[1];
+        await this.personsService.updatePersonContact(element).toPromise();
 
+      alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
+    }
+    Array.prototype.push.apply(this.contactList, value);
+    // this.contactList = value
+  }
   public async deleteCoordinator(index) {
     return alertDeleteEvent().then(async confirm => {
       if (confirm.value) {
         if (this.personId) {
           await this.personsService
             .deletecoordinator(index)
-            .toPromise()
+            .toPromise();
         }
         this.coordinateList.splice(index, 1);
         return alertEvent('ลบข้อมูลสำเร็จ', 'success');
@@ -633,9 +605,9 @@ export class InsertPersonsComponent implements OnInit {
       if (confirm.value) {
         if (index) {
           await this.personsService
-            .deletecoordinatorcontact(index)
-            .toPromise()
-          // this.coordinateList.splice(index, 1);
+            .deletecoordinator(index)
+            .toPromise();
+          this.coordinateList.splice(index, 1);
           return alertEvent('ลบข้อมูลสำเร็จ', 'success');
         }
       }
@@ -668,6 +640,7 @@ export class InsertPersonsComponent implements OnInit {
     this.coordinateList = Object.values(groupbyList(mapPersons((await this.personsService
       .getcoordinator(this.personId)
       .toPromise()).data), 'FullnameTh'));
+
   }
 
 //   if (this.personId) {
@@ -719,22 +692,22 @@ export class InsertPersonsComponent implements OnInit {
     // this.bursaryList = (await this.personsService
     //   .getEducationById(this.personId)
     //   .toPromise()).data;
-      let model = value
+      const model = value;
       model.PersonId = Number(this.personId);
-      await this.personsService.updateeducation(model).toPromise()
-      this.bursaryList = (await this.personsService.getEducationById(this.personId).toPromise()).data
+      await this.personsService.updateeducation(model).toPromise();
+      this.bursaryList = (await this.personsService.getEducationById(this.personId).toPromise()).data;
 
   }
 
   public async inserteducation(value) {
-    debugger
+    debugger;
     if (this.personId) {
       value.PersonId = Number(this.personId);
-      await this.personsService.inserteducation(value).toPromise()
-      alertEvent("บันทึกข้อมูลสำเร็จ", "success")
-      this.bursaryList = (await this.personsService.getEducationById(this.personId).toPromise()).data
+      await this.personsService.inserteducation(value).toPromise();
+      alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
+      this.bursaryList = (await this.personsService.getEducationById(this.personId).toPromise()).data;
     } else {
-      this.bursaryList.push(value)
+      this.bursaryList.push(value);
     }
   }
 
@@ -777,7 +750,7 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   public findCorperation(corpId) {
-    return this.corperationList.find(data => data.CorporationId == corpId)
+    return this.corperationList.find(data => data.CorporationId == corpId);
   }
 
   public onImageChange(event) {
@@ -790,21 +763,23 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   public previewImage(files) {
-    if (files.length === 0) return;
-
-    var mimeType = files[0].type;
-    if (mimeType.match(/image\/*/) == null) {
-     
+    if (files.length === 0) {
       return;
     }
 
-    var reader = new FileReader();
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      // this.message = "Only images are supported.";
+      return;
+    }
+
+    const reader = new FileReader();
     this.imagePath = files;
     reader.readAsDataURL(files[0]);
-    reader.onload = _event => {
+    reader.onload = (event) => {
       this.imgURL = reader.result;
+      // this.AccPic = reader.result;
     };
-    this.isimagePerson = true
     this.profileForm.controls['PathPhoto'].setValue(files[0]);
 
 
@@ -919,7 +894,7 @@ export class InsertPersonsComponent implements OnInit {
   public async next() {
 
     if (this.profileForm.controls.TitleNameTh.value == null ||
-      this.profileForm.controls.TitleNameTh.value == "" ||
+      this.profileForm.controls.TitleNameTh.value == '' ||
       this.profileForm.controls.FristNameTh.value == null ||
       this.profileForm.controls.FristNameTh.value == '' ||
       this.profileForm.controls.LastNameTh.value == null ||

@@ -50,12 +50,14 @@ export class ModalCareerHistoryComponent implements OnInit {
       EndDate: [this.setDateEdit(data.EndMonth), [Validators.required]],
       Position: [data.Position],
       CorporationId: [data.CorporationId],
+      CorporationName: [data.CorporationName],
     })
       : this.formBuilder.group({
         StartDate: [this.setDateEdit(new Date()), [Validators.required]],
         EndDate: [this.setDateEdit(new Date()), [Validators.required]],
         Position: [""],
         CorporationId: [""],
+        CorporationName :[""]
       })
   }
 
@@ -91,8 +93,10 @@ export class ModalCareerHistoryComponent implements OnInit {
       EndYear: this.setDate(this.careerForm.get('EndDate').value),
       Position: this.careerForm.value.Position,
       CorporationId: this.careerForm.value.CorporationId,
+      CorporationName: this.careerForm.value.CorporationName
     }
-    model.WorkId ? null : delete model.WorkId
+    model.WorkId ? null : delete model.WorkId,
+
     this.onSubmit.emit(model)
     return this.modalService.dismissAll()
   }

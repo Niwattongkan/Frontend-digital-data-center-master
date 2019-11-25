@@ -26,36 +26,36 @@ export class ModalHistoryOfEducationComponent implements OnInit {
     allowSearchFilter: true
   };
 
-  public academyList = []
+  public academyList = [];
 
-  public alertValid = false
-  public educationForm: FormGroup
+  public alertValid = false;
+  public educationForm: FormGroup;
 
-  public Academy
+  public Academy;
 
   constructor(
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private dropdownService: DropdownService
   ) {
-    this.educationForm = this.setEducation(null)
+    this.educationForm = this.setEducation(null);
   }
 
   async ngOnInit() {
-    this.academyList = (await this.dropdownService.getacademyAll().toPromise()).data
-    this.educationForm = this.data ? this.setEducation(this.data) : this.setEducation(null)
-    this.data ? this.educationForm.controls['AcademyId'].setValue([this.findAcademy(this.educationForm.controls['AcademyId'].value)]) : null
-    console.log(this.educationForm.value)
+    this.academyList = (await this.dropdownService.getacademyAll().toPromise()).data;
+    this.educationForm = this.data ? this.setEducation(this.data) : this.setEducation(null);
+    this.data ? this.educationForm.controls['AcademyId'].setValue([this.findAcademy(this.educationForm.controls['AcademyId'].value)]) : null;
+    console.log(this.educationForm.value);
   }
 
   findAcademy(academyId) {
-    let result = this.academyList.find(data => {
-      return data.AcademyId == academyId
-    })
+    const result = this.academyList.find(data => {
+      return data.AcademyId == academyId;
+    });
     return {
       AcademyId: result.AcademyId,
       Academy: result.Academy,
-    }
+    };
   }
 
   private setEducation(data) {
@@ -64,13 +64,14 @@ export class ModalHistoryOfEducationComponent implements OnInit {
       GraduationYear: [data.GraduationYear, [Validators.required]],
       Major: [data.Major, [Validators.required]],
       AcademyId: [data.AcademyId, [Validators.required]],
+      EducationId: [data.EducationId]
     })
       : this.formBuilder.group({
         Degree: [1, [Validators.required]],
-        GraduationYear: ["", [Validators.required]],
-        Major: ["", [Validators.required]],
+        GraduationYear: ['', [Validators.required]],
+        Major: ['', [Validators.required]],
         AcademyId: [1, [Validators.required]],
-      })
+      });
   }
 
   submit() {
@@ -79,12 +80,12 @@ export class ModalHistoryOfEducationComponent implements OnInit {
       return;
     }
     this.alertValid = false;
-    this.educationForm.controls['AcademyId'].setValue((this.educationForm.controls['AcademyId'].value)[0].AcademyId)
-    this.onSubmit.emit(this.educationForm.value)
-    return this.modalService.dismissAll()
+    this.educationForm.controls['AcademyId'].setValue((this.educationForm.controls['AcademyId'].value)[0].AcademyId);
+    this.onSubmit.emit(this.educationForm.value);
+    return this.modalService.dismissAll();
   }
 
   closeModal() {
-    return this.modalService.dismissAll()
+    return this.modalService.dismissAll();
   }
 }

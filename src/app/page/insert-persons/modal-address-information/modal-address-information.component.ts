@@ -26,7 +26,7 @@ export class ModalAddressInformationComponent implements OnInit {
   public province: any = [];
   public subdistrict: any = [];
   public district: any = [];
-  public personId = null;
+  public personId: string | object = '';
   public addressList = [];
   public checkAccording = false;
   public checkIdCard = false;
@@ -41,13 +41,13 @@ export class ModalAddressInformationComponent implements OnInit {
 
   ) {
     this.addressForm = this.setAddress(null);
-
+    let Crypto = new SimpleCrypto('some-unique-key');
+    this.personId = this.activatedRoute.snapshot.paramMap.get('id') ? Crypto.decrypt(this.activatedRoute.snapshot.paramMap.get('id')) : '';
   }
 
 
   async ngOnInit() {
-    let Crypto = new SimpleCrypto('some-unique-key');
-    this.personId = Crypto.decrypt(this.activatedRoute.snapshot.paramMap.get('id'));
+
     this.checkTypeAddress();
     this.province = (await this.dropdownService.getProvinceAll().toPromise()).data;
     this.addressForm = this.data ? this.setAddress(this.data) : this.setAddress(null);

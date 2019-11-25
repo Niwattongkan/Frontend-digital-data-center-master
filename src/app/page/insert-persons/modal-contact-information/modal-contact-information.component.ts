@@ -24,6 +24,8 @@ export class ModalContactInformationComponent implements OnInit {
   public update = false;
   public contactList = [];
   public Contact: any
+  public alertValidEmail: boolean;
+  public alertValidPhone: boolean;
 
   constructor(
     private modalService: NgbModal,
@@ -57,13 +59,13 @@ export class ModalContactInformationComponent implements OnInit {
     }
     if(this.contactForm.controls.TypeContactId.value == '1'){
       if(!re.test(this.contactForm.controls.Contact.value)){
-        this.alertValid = true;
+        this.alertValidEmail = true;
         return;
       }
     }
     if(this.contactForm.controls.TypeContactId.value == '2'){
       if(!phoneno.test(this.contactForm.controls.Contact.value)){
-        this.alertValid = true;
+        this.alertValidPhone = true;
         return;
       }
     }

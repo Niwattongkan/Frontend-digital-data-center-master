@@ -430,7 +430,7 @@
                 </form>
                 <div class="form-group text-right">
                   <button type="button" class="btn btn-outline-secondary"
-                          (click)="back()">ย้อนกลับ
+                          (click)="back()">ยกเลิก
                   </button>
                   <button (click)="next()" class="btn btn-success">บันทึก</button>
                 </div>
@@ -654,10 +654,10 @@
                     </modal-coordinator-information>
                   </ng-template>
                 </tr>
-                <tr *ngIf="coordinateList.length <1 ">
+                </tbody>
+                <tr *ngIf="coordinateList.length == 0 ">
                   <td class="text-center" colspan="5">ไม่พบข้อมูล</td>
                 </tr>
-                </tbody>
               </table>
             </div>
           </div>
