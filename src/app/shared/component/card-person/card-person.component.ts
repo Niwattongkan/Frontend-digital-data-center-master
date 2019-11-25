@@ -28,7 +28,7 @@ export class CardPersonComponent implements OnInit {
 
   async ngOnInit() {
     let Crypto = new SimpleCrypto('some-unique-key');
-    this.cypeID = Crypto.encrypt( this.data.PersonId)
+    this.cypeID = encodeURIComponent(Crypto.encrypt( this.data.PersonId))
     this.canEditPerson = this.usersService.canEditPerson();
     this.canDeletePerson = this.usersService.canDeletePerson();
   }
@@ -50,13 +50,14 @@ export class CardPersonComponent implements OnInit {
     return 'ปี ' + (date.getFullYear() + 543);
   }
 
+  /* Unused code
   private enCypeId(personsList){
     let Crypto = new SimpleCrypto('some-unique-key');
     personsList.map(data => {
-      data.idCryto = Crypto.encrypt(data.PersonId)
+      data.idCryto = encodeURIComponent(Crypto.encrypt(data.PersonId))
     })
     return personsList
-  }
+  }*/
 
   private setProfile(data) {
     const result = data;
