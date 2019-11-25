@@ -52,6 +52,16 @@ export class ApiService {
     );
   }
 
+  getFile(path: string, params: HttpParams = new HttpParams(), apiUrl: string = null): Observable<any> {
+    apiUrl = apiUrl || environment.apiUrl;
+    return this.http.get(this.appendParams(`${apiUrl}${path}`),
+      { headers: this.setHeaders(), params: params ,responseType: "blob" , observe: "response" }).pipe(
+      tap(response => this.checkTokenExprire(response)),
+      catchError(this.formatErrors.bind(this))
+    );
+  }
+
+
   getJSON(path: string) {
     return this.http.get(this.appendParams(`${environment.apiUrl}${path}`),
       { headers: new HttpHeaders({ 'Content-Type': 'application/json' }), params: new HttpParams(), observe: 'body' })

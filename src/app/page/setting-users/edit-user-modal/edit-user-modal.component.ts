@@ -27,7 +27,7 @@ export class EditUserModalComponent implements OnInit {
   public groupUserForm: FormGroup;
 
   public personGroupList: any = [];
-
+  PersonSelect : any;
   public dropdownSettings = {
     singleSelection: true,
     idField: 'PersonId',
@@ -61,7 +61,9 @@ export class EditUserModalComponent implements OnInit {
     this.groupUsersList = (await this.groupUserService.getallgroupuser().toPromise()).data
 
     this.groupUserForm = this.data ? await this.setGroupUser(this.data) : await this.setGroupUser(null)
-    console.log(this.groupUserForm.value)
+
+    var dataPer = this.groupUserForm.value;
+    this.PersonSelect = dataPer.Person;
   }
 
   public submit() {

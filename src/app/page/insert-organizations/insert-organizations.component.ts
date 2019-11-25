@@ -403,10 +403,10 @@ export class InsertOrganizationsComponent implements OnInit {
         cancelButtonText: "ยกเลิก"
       }).then(result => {
         if (result.value) {
-          const model = this.contactList[index];
-          model.CorporationId = Number(this.corperationId);
+          // const model = this.contactList[index];
+          // model.CorporationId = Number(this.corperationId);
           this.organizationService
-            .deleteCorporationContact(model.CorporationContactId)
+            .deleteCorporationContact(index)
             .subscribe(
               res => {
                 // this.province = res.data;

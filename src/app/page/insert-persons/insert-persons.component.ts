@@ -46,7 +46,7 @@ export class InsertPersonsComponent implements OnInit {
   public workingList = [];
   public academyList = [];
   public imagePerson = '';
-  public isimagePerson = '';
+  public isimagePerson = false;
   public nametitle = [];
 
   // checkTitleTh = '';
@@ -100,20 +100,41 @@ export class InsertPersonsComponent implements OnInit {
       .getOrganizationAll()
       .toPromise()).data;
     this.profileOriginForm = resultPerson ? resultPerson : null;
-    this.isimagePerson = this.personId ? this.profileOriginForm.PathPhoto : null;
+    // this.isimagePerson = this.personId ? this.profileOriginForm.PathPhoto : null;
       this.profileForm = await this.setProfile(resultPerson);
     this.personId ? await this.setList() : null;
     this.academyList = (await this.dropdownService
       .getacademyAll()
       .toPromise()).data;
-    const resultImage = this.personId
-      ? (this.imagePerson =
-          'https://tc.thaihealth.or.th:4122/uapi/ddc/getphotoperson?PersonId=' +
-        this.personId)
-      : null;
-    this.imgURL = resultImage ? resultImage[0] : null;
+      this.personsService.getphotoperson(this.personId).subscribe(
+        res => {
 
-    this.imgURL = this.imgURL == 'h' ? resultImage : '../../../../assets/icon-customer/image-default.png'
+          if (!this.checkImgExtension(res.headers.get("Content-Type"))) {
+            return;
+          }
+          if (res.body) {
+          var reader = new FileReader();
+          reader.readAsDataURL(res.body);
+          reader.onload = _event => {
+            this.imgURL = reader.result;
+            this.isimagePerson = true;
+          };
+        }
+        },
+        err => {
+          console.log(err);
+        }
+      );
+
+      
+    // const resultImage = this.personId
+    //   ? (this.imagePerson =
+    //       'https://tc.thaihealth.or.th:4122/uapi/ddc/getphotoperson?PersonId=' +
+    //     this.personId)
+    //   : null;
+    // this.imgURL = resultImage ? resultImage[0] : null;
+
+   // this.imgURL = this.imgURL == 'h' ? resultImage : '../../../../assets/icon-customer/image-default.png'
     if (
       this.profileForm.value['TitleNameOther'] !== null &&
       this.profileForm.value['TitleNameOther'] !== ''
@@ -143,7 +164,17 @@ export class InsertPersonsComponent implements OnInit {
     this.spinner.hide()
 
   }
-
+   checkImgExtension(type: string) {
+    switch (type) {
+      case "image/jpg":
+      case "image/jpeg":
+        return true;
+      case "image/png":
+        return true;
+      default:
+        return false;
+    }
+  }
   get getIdCard() {
     return this.profileForm.get('email');
   }
@@ -732,22 +763,21 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   public previewImage(files) {
-    if (files.length === 0)
-      return;
+    if (files.length === 0) return;
 
     var mimeType = files[0].type;
     if (mimeType.match(/image\/*/) == null) {
-      // this.message = "Only images are supported.";
+     
       return;
     }
 
     var reader = new FileReader();
     this.imagePath = files;
     reader.readAsDataURL(files[0]);
-    reader.onload = (event) => {
+    reader.onload = _event => {
       this.imgURL = reader.result;
-     // this.AccPic = reader.result;
-    }
+    };
+    this.isimagePerson = true
     this.profileForm.controls['PathPhoto'].setValue(files[0]);
 
 

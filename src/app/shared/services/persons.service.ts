@@ -222,7 +222,7 @@ export class PersonsService {
 
 
   getphotoperson(id): Observable<any> {
-    return this.apiService.get(`getphotoperson?PersonId=${id}`);
+    return this.apiService.getFile(`getphotoperson?PersonId=${id}`);
   }
 
   uploadImage(image: File): Observable<Response> {

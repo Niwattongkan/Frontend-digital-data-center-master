@@ -1,35 +1,35 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ApiService } from './config-services/api.service';
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { ApiService } from "./config-services/api.service";
 
 @Injectable()
-
 export class OrganizationService {
-
-  constructor(
-    private apiService: ApiService
-  ) { }
+  constructor(private apiService: ApiService) {}
 
   setFormData(data) {
     const formData = new FormData();
     const key = Object.keys(data);
     for (let index = 0; index < key.length; index++) {
-      formData.append(key[index], (data[key[index]]) + '');
+      formData.append(key[index], data[key[index]] + "");
     }
-    formData.append('CreateBy', `${1}`);
-    formData.append('UpdateBy', `${1}`);
-    formData.append('Channel', 'xxx');
-    formData.append('Verify', `${1}`);
-    formData.append('IsActive', `${1}`);
+    // formData.append("CreateBy", `${1}`);
+    // formData.append("UpdateBy", `${1}`);
+    // formData.append("Channel", "xxx");
+    // formData.append("Verify", `${1}`);
+    // formData.append("IsActive", `${1}`);
     return formData;
   }
 
   getserchcorporationaddress(id): Observable<any> {
-    return this.apiService.get(`getserchcorporationaddress?corporationid=${id}`);
+    return this.apiService.get(
+      `getserchcorporationaddress?corporationid=${id}`
+    );
   }
 
   getserchcorporationcontact(id): Observable<any> {
-    return this.apiService.get(`getserchcorporationcontact?corporationid=${id}`);
+    return this.apiService.get(
+      `getserchcorporationcontact?corporationid=${id}`
+    );
   }
 
   getOrganizationAll(): Observable<any> {
@@ -59,7 +59,6 @@ export class OrganizationService {
   getcorporationcontact(id): Observable<any> {
     return this.apiService.get(`getcorporationcontact?corporationid=${id}`);
   }
-
 
   insertCorporation(data): Observable<any> {
     const formData = this.setFormData(data);
@@ -97,15 +96,23 @@ export class OrganizationService {
   }
 
   deleteCorporation(id): Observable<any> {
-    return this.apiService.put(`deletecorporation?IsActive=0&CorporationId=${id}`);
+    var formData = new FormData();
+    formData.append("IsActive", "0");
+    formData.append("CorporationId", id);
+    return this.apiService.put(`deletecorporation`, formData);
   }
 
-  deleteCorporationContact(id): Observable<any> {
-    return this.apiService.put(`deletecorporationcontact?IsActive=0&CorporationContactId=${id}`);
+  deleteCorporationContact(data): Observable<any> {
+    var formData = new FormData();
+    formData.append("IsActive", "0");
+    formData.append("CorporationContactId", data);
+    return this.apiService.put(`deletecorporationcontact`, formData);
   }
 
   deleteCorporationAddress(id): Observable<any> {
-    return this.apiService.put(`deletecorporationaddress?IsActive=0&CorporationAddressId=${id}`);
+    var formData = new FormData();
+    formData.append("IsActive", "0");
+    formData.append("CorporationAddressId", id);
+    return this.apiService.put(`deletecorporationaddress`, formData);
   }
-
 }
