@@ -39,9 +39,9 @@ export class LoginComponent implements OnInit {
     var error = url.searchParams.get("error");
 
     if (typeof code !== 'undefined' && code != null) { // Logon
-      this.cookieService.set('code', code);
+      //this.cookieService.set('code', code);
 
-      this.usersService.getSSOUserInfo().subscribe((data:any)=>{
+      this.usersService.getSSOUserInfo(code).subscribe((data:any)=>{
         if (data.successful){
           localStorage.setItem('userinfo', JSON.stringify(data.data));
           localStorage.setItem('roles', (data.data.roles || []).join(','));

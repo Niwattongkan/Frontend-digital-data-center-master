@@ -16,9 +16,9 @@ export class UsersService {
     private router: Router
   ) { }
 
-  getSSOUserInfo() {
+  getSSOUserInfo(code:string) {
     //return this.apiService.get(`ssoGetUserInfo`, new HttpParams(), "http://qdoc.ecmxpert.com:8008/uapi/sso/");
-    return this.apiService.get(`ssoGetUserInfo`);
+    return this.apiService.get(`ssoGetUserInfo`, new HttpParams( {fromObject:{code:code}}) );
   }
 
   getGroupUsersAll(): Observable<any> {

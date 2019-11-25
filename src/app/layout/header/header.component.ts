@@ -5,6 +5,7 @@ import {AuthlogService} from "../../shared/services/authlog.service";
 import SimpleCrypto from "simple-crypto-js/build/SimpleCrypto";
 import {ActivatedRoute} from "@angular/router";
 import { UsersService } from 'src/app/shared/services/users.service';
+import { ApiService } from 'src/app/shared/services/config-services/api.service';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +17,7 @@ export class HeaderComponent implements OnInit {
   private personId: string | object;
 
   constructor(private cookieService: CookieService,
+    private apiService: ApiService,
   private authlogService: AuthlogService,
   private activatedRoute: ActivatedRoute, private userService:UsersService) { }
 
@@ -33,7 +35,10 @@ export class HeaderComponent implements OnInit {
     localStorage.removeItem('u_group');
     localStorage.removeItem('userinfo');
     localStorage.removeItem('roles');
-    document.location.href = environment.logoutUrl
+    this.apiService.get('ssologout').subscribe(()=>{
+      document.location.href = environment.logoutUrl
+    })
+    
   }
 
   getName(){

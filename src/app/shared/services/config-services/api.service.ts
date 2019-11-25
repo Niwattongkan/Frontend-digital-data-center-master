@@ -46,7 +46,7 @@ export class ApiService {
   get(path: string, params: HttpParams = new HttpParams(), apiUrl: string = null): Observable<any> {
     apiUrl = apiUrl || environment.apiUrl;
     return this.http.get(this.appendParams(`${apiUrl}${path}`),
-      { headers: this.setHeaders(), params: params }).pipe(
+      { withCredentials:true , headers: this.setHeaders(), params: params }).pipe(
       tap(response => this.checkTokenExprire(response)),
       catchError(this.formatErrors.bind(this))
     );
@@ -54,12 +54,13 @@ export class ApiService {
 
   getJSON(path: string) {
     return this.http.get(this.appendParams(`${environment.apiUrl}${path}`),
-      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }), params: new HttpParams(), observe: 'body' })
+      { withCredentials:true , headers: new HttpHeaders({ 'Content-Type': 'application/json' }), params: new HttpParams(), observe: 'body' })
   }
 
   getContent(path: string): Observable<any> {
     return this.http.get(this.appendParams(`${environment.apiUrl}${path}`),
       {
+        withCredentials:true ,
         headers: this.setHeaders(),
         responseType: 'blob'
       }).pipe(
@@ -87,6 +88,7 @@ export class ApiService {
       this.appendParams(`${environment.apiUrl}${path}`),
       JSON.stringify(body),
       {
+        withCredentials:true ,
         headers: this.setHeaders(),
         responseType: 'blob'
       }).pipe(
@@ -97,7 +99,7 @@ export class ApiService {
     return this.http.put(
       this.appendParams(`${environment.apiUrl}${path}`),
       body,
-      { headers: this.setHeaders() }
+      { withCredentials:true , headers: this.setHeaders() }
     ).pipe(
       tap(response => this.checkTokenExprire(response)),
       catchError(this.formatErrors.bind(this)));
@@ -107,7 +109,7 @@ export class ApiService {
     return this.http.post(
       this.appendParams(`${environment.apiUrl}${path}`),
       body,
-      { headers: this.setHeaders() }
+      { withCredentials:true, headers: this.setHeaders() }
     ).pipe(
       tap(response => this.checkTokenExprire(response)),
       catchError(this.formatErrors.bind(this)));
@@ -115,7 +117,7 @@ export class ApiService {
   getFile(path: string, params: HttpParams = new HttpParams(), apiUrl: string = null): Observable<any> {
     apiUrl = apiUrl || environment.apiUrl;
     return this.http.get(this.appendParams(`${apiUrl}${path}`),
-      { headers: this.setHeaders(), params: params ,responseType: "blob" , observe: "response" }).pipe(
+      { withCredentials:true, headers: this.setHeaders(), params: params ,responseType: "blob" , observe: "response" }).pipe(
       tap(response => this.checkTokenExprire(response)),
       catchError(this.formatErrors.bind(this))
     );
@@ -124,17 +126,20 @@ export class ApiService {
   delete(path): Observable<any> {
     return this.http.delete(
       this.appendParams(`${environment.apiUrl}${path}`),
-      { headers: this.setHeaders() }
+      { withCredentials:true, headers: this.setHeaders() }
     ).pipe(
       tap(response => this.checkTokenExprire(response)),
       catchError(this.formatErrors.bind(this)));
   }
 
   appendParams(path){
-    if(path.includes('?')){
-      return path +'&code=' +this.cookieService.get('code')
-    }
-    return path +'?code=' +this.cookieService.get('code')
+    
+    return path //send 'code' with cookie
+
+    // if(path.includes('?')){
+    //   return path +'&code=' +this.cookieService.get('code')
+    // }
+    // return path +'?code=' +this.cookieService.get('code')
   }
 
 
