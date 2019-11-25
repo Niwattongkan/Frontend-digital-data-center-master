@@ -35,7 +35,7 @@ export class UsersService {
 
   public getLocalUserPermission(): any {
     try {
-      if (this.userGroup.length == 0) {
+      if (this.userPermission.length == 0) {
         const u_permissionStr = localStorage.getItem('u_permission')
         // console.log('u_permissionStr= ' + u_permissionStr);
         this.userPermission = JSON.parse(u_permissionStr).data
