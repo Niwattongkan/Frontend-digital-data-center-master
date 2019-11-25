@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-
+import {ActivatedRoute} from '@angular/router';
 import { OrganizationService } from '../../../../shared/services/organization.service';
 import { UsersService } from 'src/app/shared/services/users.service';
 
@@ -16,17 +16,18 @@ export class OrganizationsDetailProfileComponent {
   public corporationId = ''
 
   @Input() inputForm: any;
-
   constructor(
     private organizationService: OrganizationService,
-    private usersService:UsersService
+    private usersService:UsersService,
+    private activatedRoute: ActivatedRoute
   ) {
-    this.corporationId = this.inputForm ? this.inputForm.CorporationId : ""
+ //   this.corporationId = this.inputForm ? this.inputForm.CorporationId : ""
     this.profileForm = this.setCoreration(null)
   }
   async ngOnInit() {
-
+    this.corporationId = this.activatedRoute.snapshot.paramMap.get('id');
     this.profileForm = this.setCoreration(null)
+    console.log(this.inputForm);
   }
 
   async ngOnChanges() {
