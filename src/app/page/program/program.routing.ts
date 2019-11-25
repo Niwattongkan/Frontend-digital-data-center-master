@@ -11,11 +11,11 @@ export const routes: Routes = [
     {
         path: '',
         component: ProgramComponent,
-        canActivate: [AuthGuard],
         children: [
             {
                 path: '',
-                component: ProgramListComponent
+                component: ProgramListComponent,
+                canActivate: [AuthGuard],
             },
             {
                 path: 'detail/:typeProgamer/:id',
