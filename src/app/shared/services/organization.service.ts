@@ -12,11 +12,11 @@ export class OrganizationService {
     for (let index = 0; index < key.length; index++) {
       formData.append(key[index], data[key[index]] + "");
     }
-    // formData.append("CreateBy", `${1}`);
-    // formData.append("UpdateBy", `${1}`);
-    // formData.append("Channel", "xxx");
-    // formData.append("Verify", `${1}`);
-    // formData.append("IsActive", `${1}`);
+    formData.append("CreateBy", `${1}`);
+    formData.append("UpdateBy", `${1}`);
+    formData.append("Channel", "xxx");
+    formData.append("Verify", `${1}`);
+    formData.append("IsActive", `${1}`);
     return formData;
   }
 
@@ -35,8 +35,6 @@ export class OrganizationService {
   getOrganizationAll(): Observable<any> {
     return this.apiService.get(`getsearchcorporation`);
   }
-
-
 
   getCorporationAll(): Observable<any> {
     return this.apiService.get(`getcorporation`);

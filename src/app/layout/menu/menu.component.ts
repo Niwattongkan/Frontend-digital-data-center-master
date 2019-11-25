@@ -21,7 +21,7 @@ export class MenuComponent implements OnInit {
 
   }
   showMenu(menuNameEng) {
-    return this.usersService.showMenu(menuNameEng);
+   // return this.usersService.showMenu(menuNameEng);
   }
   
   canView(url, checkNext = null){

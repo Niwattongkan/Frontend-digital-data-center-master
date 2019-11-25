@@ -16,11 +16,11 @@ export class GroupUserService {
         for (let index = 0; index < key.length; index++) {
             formData.append(key[index], (data[key[index]]) + "");
         }
-        // formData.append("CreateBy", `${1}`);
-        // formData.append("UpdateBy", `${1}`);
-        // formData.append("Channel", "xxx");
-        // formData.append("Verify", `${1}`);
-        // formData.append("IsActive", `${1}`);
+        formData.append("CreateBy", `${1}`);
+        formData.append("UpdateBy", `${1}`);
+        formData.append("Channel", "xxx");
+        formData.append("Verify", `${1}`);
+        formData.append("IsActive", `${1}`);
         return formData
     }
 
@@ -50,15 +50,15 @@ export class GroupUserService {
         let formData = this.setFormData(data)
         return this.apiService.post(`insertgroupuserperson`, formData);
     }
+    updatemanagegroup(data): Observable<any> {
+        let formData = this.setFormData(data)
+        return this.apiService.put(`updatemanagegroup`, formData);
+    }
+
 
     updategroupuser(data): Observable<any> {
         let formData = this.setFormData(data)
         return this.apiService.put(`updategroupuser`, formData);
-    }
-
-    updatemanagegroup(data): Observable<any> {
-        let formData = this.setFormData(data)
-        return this.apiService.put(`updatemanagegroup`, formData);
     }
 
     updategroupuserperson(data): Observable<any> {

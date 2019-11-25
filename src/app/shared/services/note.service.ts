@@ -29,6 +29,8 @@ export class NoteService {
     }
 
     getNoteAll(): Observable<any> {
+
+        
         return this.apiService.get(`getallnote`);
     }
 
