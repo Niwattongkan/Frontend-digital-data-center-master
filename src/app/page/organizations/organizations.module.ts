@@ -2,7 +2,7 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../../shared/shared.module';
 import { RoutingModule } from './organizations.routing'
-
+import { ExcelService } from '../../shared/services/excel.service';
 import { OrganizationsComponent } from './organizations.component';
 import { OrganizationsListComponent } from './organizations-list/organizations-list.component';
 import { OrganizationsDetailComponent } from './organizations-detail/organizations-detail.component';
@@ -35,7 +35,8 @@ import { AuthGuard } from '../../shared/component/guards/auth-guard.service';
   ],
   providers: [
     OrganizationService,
-    AuthGuard
+    AuthGuard,
+    ExcelService
   ]
 })
 export class OrganizationsModule { }

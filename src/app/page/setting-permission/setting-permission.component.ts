@@ -100,6 +100,7 @@ export class SettingPermissionComponent implements OnInit {
       }
       await this.boardService.insertboardperson(model).toPromise()
     });
+    alertEvent("บันทึกข้อมูลสำเร็จ", "success");
     this.boardList = await this.groupData(await mapPersons((await this.boardService.getallboard().toPromise()).data))
 
   }
@@ -136,5 +137,13 @@ export class SettingPermissionComponent implements OnInit {
         return alertEvent("ลบข้อมูลสำเร็จ", "success")
       }
     })
+  }
+
+  canEdit(BoardId){
+    return this.canEditPermission && this.usersService.canAccessPermissionWithCurrentGroup(BoardId);
+  }
+
+  canDelete(BoardId){
+    return this.canDeletePermission && this.usersService.canAccessPermissionWithCurrentGroup(BoardId);
   }
 }

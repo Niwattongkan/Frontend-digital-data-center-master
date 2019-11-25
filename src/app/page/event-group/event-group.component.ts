@@ -1,18 +1,18 @@
-import {Component, OnInit} from '@angular/core';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NgxSpinnerService} from "ngx-spinner";
+import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from "ngx-spinner";
 
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import * as cloneDeep from 'lodash/cloneDeep';
 
-import {ContactGroupService} from '../../shared/services/contact-group.service';
-import {PersonsService} from '../../shared/services/persons.service';
-import {ExcelService} from '../../shared/services/excel.service';
-import {AuthlogService} from '../../shared/services/authlog.service';
+import { ContactGroupService } from '../../shared/services/contact-group.service';
+import { PersonsService } from '../../shared/services/persons.service';
+import { ExcelService } from '../../shared/services/excel.service';
+import { AuthlogService } from '../../shared/services/authlog.service';
 
-import {mapPersons, createdNamePersons} from '../../shared/library/mapList';
-import {alertEvent, alertDeleteEvent} from '../../shared/library/alert';
+import { mapPersons, createdNamePersons } from '../../shared/library/mapList';
+import { alertEvent, alertDeleteEvent } from '../../shared/library/alert';
 import { UsersService } from '../../shared/services/users.service';
 
 @Component({
@@ -27,7 +27,7 @@ export class EventGroupComponent implements OnInit {
   public eventGroupList: any = [];
   public eventGroupOrigin: any;
 
-  public personList: any = [];
+  public personList: any[] = [];
 
   public headers: any = ['วันที่จัดกลุ่ม', 'ชื่อกลุ่ม', 'สมาชิกกลุ่ม', 'ผู้สร้าง', 'ส่งออกไฟล์', 'เครื่องมือ'];
   public page: number;
@@ -124,9 +124,7 @@ export class EventGroupComponent implements OnInit {
   }
 
   public findPersonDetail(id) {
-    let result = this.personList.find(person => {
-      return person.PersonId == id;
-    });
+    let result = this.personList.find(d => d.perPersonId == id);
     return result ? result.FullnameTh : '-'
   }
 
@@ -141,7 +139,7 @@ export class EventGroupComponent implements OnInit {
       return obj;
     }, {});
     return Object.keys(groups).map(function (key) {
-      return {ContactGroupId: key, Person: groups[key]};
+      return { ContactGroupId: key, Person: groups[key] };
     });
   }
 
@@ -172,24 +170,41 @@ export class EventGroupComponent implements OnInit {
       })
     });
 
-    var doc = new jsPDF('p', 'pt');
-    doc.autoTable({
-      columns: [
-        {header: 'ContactGroupId', dataKey: 'ContactGroupId'},
-        {header: 'AddressPerson', dataKey: 'AddressPerson'},
-        {header: 'FullnameTh', dataKey: 'FullnameTh'},
-        {header: 'CreateBy', dataKey: 'CreateBy'},
-        {header: 'CreateDate', dataKey: 'CreateDate'},
-        {header: 'UpdateBy', dataKey: 'UpdateBy'},
-      ],
-      body: exportGroup
-    });
+    var doc = new jsPDF('landscape');
+    let x = 10, y = 10, w = 130, h = 100;
+    // doc.addFont('SukhumvitSet-Text.ttf', 'SukhumvitSet-Text', 'normal');
+    doc.setFont('SukhumvitSet-Text');
+    doc.setFontStyle("normal");
+
+    // Box 1
+    doc.rect(x, y, w, h);
+    doc.text('ถึง : ' + exportGroup[0].FullnameTh, 15, 30);
+    doc.text('เบอร์โทร์ : .......................', 15, 50);
+    doc.text('ที่อยู่ : .......................', 15, 70);
+
+    //Box 2
+    doc.rect(x + w + 15, y, w, h);
+    doc.text('ถึง : ............................', x + w + 15, 30);
+    doc.text('เบอร์โทร์ : .......................', x + w + 15, 50);
+    doc.text('ที่อยู่ : ..........................', x + w + 15, 70);
+
+    // doc.autoTable({
+    //   columns: [
+    //     { header: 'ContactGroupId', dataKey: 'ContactGroupId' },
+    //     { header: 'AddressPerson', dataKey: 'AddressPewrson' },
+    //     { header: 'FullnameTh', dataKey: 'FullnameTh' },
+    //     { header: 'CreateBy', dataKey: 'CreateBy' },
+    //     { header: 'CreateDate', dataKey: 'CreateDate' },
+    //     { header: 'UpdateBy', dataKey: 'UpdateBy' },
+    //   ],
+    //   body: exportGroup
+    // });
     doc.save('group-user.pdf');
   }
 
   public async insertGroup(value) {
 
-    let resultGroup = (await this.contactGroupService.insertcontactgroup({GroupName: value.GroupName}).toPromise()).data[0]
+    let resultGroup = (await this.contactGroupService.insertcontactgroup({ GroupName: value.GroupName }).toPromise()).data[0]
 
     value.Person.forEach(async element => {
       let model = {
@@ -198,7 +213,11 @@ export class EventGroupComponent implements OnInit {
       }
       await this.contactGroupService.insertcotactgroupperson(model).toPromise()
     });
+    alertEvent("ลบข้อมูลสำเร็จ", "success");
+
     this.eventGroupList = this.groupData(await mapPersons((await this.contactGroupService.getContactGroupAll().toPromise()).data))
+
+
   }
 
   public async updateGroup(value) {
@@ -257,12 +276,13 @@ export class EventGroupComponent implements OnInit {
     return year + "-" + month.substr(month.length - 2, month.length) + "-" + day.substr(day.length - 2, day.length)
   }
 
-  canEdit(checkNext = null){
-    var ret = this.usersService.canEdit();
+  canEdit(checkNext = null) {
+    /*var ret = this.usersService.canEdit();
     if (ret){
       if (checkNext !== null)
         return checkNext;
     }
-    return ret;
+    return ret;*/
+    return checkNext;
   }
 }

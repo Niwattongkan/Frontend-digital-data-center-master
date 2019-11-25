@@ -60,7 +60,7 @@ export class CardOrganizationComponent implements OnInit {
       list.push({
         ProjectNo: element.ProjectNo,
         ProjectName: element.ProjectName,
-        Address:  this.showAddress(((await this.organizationService.getcorporationaddress(element.CorporationId).toPromise()).data)[0])
+        Address: this.showAddress(((await this.organizationService.getcorporationaddress(element.CorporationId).toPromise()).data)[0])
       });
     });
     return list;
@@ -73,19 +73,33 @@ export class CardOrganizationComponent implements OnInit {
     const Road = value.Road ? 'ถนน ' + value.Road + ' ' : '';
     const Soi = value.Soi ? 'ซอย ' + value.Soi + ' ' : '';
     const Province = value.Province != '' ? 'จังหวัด ' + value.Province + ' ' : '';
-    const Subdistrict = value.Subdistrict != '' ? 'ตำบล/แขวง ' + value.Subdistrict + ' ' : '';
-    const District = value.District != '' ? 'อำเภอ/เขต ' + value.District + ' ' : '';
-    const Zipcode = value.Zipcode != '' ?  'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
-    return Building + Floor + Room + HouseNumber + Road + Soi + Province + District + Subdistrict + Zipcode;
+
+    if (value.Province == 'กรุงเทพมหานคร') {
+      const Subdistrict = value.Subdistrict != '' ? 'แขวง ' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? 'เขต ' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province + Zipcode;
+    } else {
+      const Subdistrict = value.Subdistrict != '' ? 'ตำบล ' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? 'อำเภอ ' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province + Zipcode;
+    }
   }
 
 
-  canEdit(checkNext = null){
+  canEdit(checkNext = null) {
+    /*
     var ret = this.usersService.canEdit()
     if (ret){
       if (checkNext !== null)
         return checkNext;
     }
     return ret;
+    */
+    if (checkNext !== null) {
+      return checkNext;
+    }
+    return this.canEditOrganization;
   }
 }

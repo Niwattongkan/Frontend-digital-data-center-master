@@ -8,6 +8,7 @@ import { BoardService } from '../../../shared/services/board.service';
 
 import { validForm } from '../../../shared/library/form';
 import { mapPersons } from '../../../shared/library/mapList';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'setting-user-modal',
@@ -67,9 +68,9 @@ export class UserModalComponent implements OnInit {
     console.log(this.groupUserForm.value)
 
   }
-  public selectedBoard(index, board) {
+  public selectedBoard(board) {
     let temp = this.groupUserForm.get('Person').value
-    temp[index].BoardId = board
+    temp.BoardId = board
     this.groupUserForm.get('Person').setValue(temp)
   }
 
@@ -83,7 +84,24 @@ export class UserModalComponent implements OnInit {
   }
 
   public closeModal() {
-    this.modalService.dismissAll()
+    Swal.fire({
+      title: '',
+      text: 'ต้องการบันทึกข้อมูลหรือไม่',
+      type: 'warning',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      showCancelButton: true,
+      confirmButtonText: 'ตกลง',
+      cancelButtonText: 'ยกเลิก',
+      reverseButtons: true
+    }).then(async result => {
+      if (result.value) {
+        this.submit();
+      }
+      else {
+        this.modalService.dismissAll()
+      }
+    });
   }
 
   public setGroupUser(data) {

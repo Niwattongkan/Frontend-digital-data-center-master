@@ -21,7 +21,7 @@
       </div>
     </div>
   </div>
-  <div class="card shadow mt-2" *ngFor="let program of programList; let i = index">
+  <div class="card shadow mt-2" *ngFor="let program of programList  | filter:inputSearch; let i = index">
     <div class="card-body">
       <card-program [data]="program"></card-program>
     </div>

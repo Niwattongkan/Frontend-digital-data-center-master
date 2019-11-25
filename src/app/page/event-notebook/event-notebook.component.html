@@ -27,7 +27,9 @@
 </div>
 <div class="container">
   <div class="row mt-4">
+
     <div class="col-md-12 text-right">
+      <button class="btn btn-success ml-2"><i class="fas fa-copy"></i> คัดลอก</button>
       <button [disabled]="!canAddNoteBook" class="btn btn-success ml-2" (click)="openModal(insertModal, 'md')">
         <i class="fas fa-plus"></i>
         สร้างบันทึกใหม่
@@ -61,15 +63,17 @@
                 (click)="openModal(sharedModal, 'md')">
                 <i class="fas fa-share-alt"></i>
               </a>
-              <a [ngClass]="{'link-disabled disabled': !canEditNoteBook}" href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
-                (click)="openModal(editModal, 'md')" (click)="noteOrigin = data">
+              <a [ngClass]="{'link-disabled disabled': !canEditNoteBook}" href="javascript:void(0)"
+                class="btn btn-outline-success btn-sm mr-2" (click)="openModal(editModal, 'md')"
+                (click)="noteOrigin = data">
                 <i class="fas fa-pencil-alt"></i>
               </a>
-              <a [ngClass]="{'link-disabled disabled': !canDeleteNoteBook}" href="javascript:void(0)" class="btn btn-outline-danger btn-sm mr-2" (click)="delete(data.NoteId)">
+              <a [ngClass]="{'link-disabled disabled': !canDeleteNoteBook}" href="javascript:void(0)"
+                class="btn btn-outline-danger btn-sm mr-2" (click)="delete(data.NoteId)">
                 <i class="fas fa-trash"></i>
               </a>
             </td>
-            <ng-template #sharedModal let-modal >
+            <ng-template #sharedModal let-modal>
               <shared-note-modal [data]="data" (onSubmit)="updateShareNote($event)"></shared-note-modal>
             </ng-template>
             <ng-template #detailsharedModal let-modal>

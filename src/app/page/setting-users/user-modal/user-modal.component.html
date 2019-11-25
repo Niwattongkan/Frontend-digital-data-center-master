@@ -25,21 +25,24 @@
             <thead class="bg-custom-green text-white">
               <tr role="row">
                 <th class="text-center"> ชื่อผู้ใช้งาน</th>
-                <th class="text-center"> กลุ่มสิทธิ์ </th>
+                <!-- <th class="text-center"> กลุ่มสิทธิ์ </th> -->
               </tr>
             </thead>
             <tbody class="bg-white">
               <tr *ngFor="let data of Person; let i = index;">
                 <td>{{ data.FullnameTh }}</td>
-                <td>
-                  <select class="form-control" (change)="selectedBoard(i, $event.target.value)">
-                      <option value="">--เลือกกลุ่มสิทธิ์--</option>
-                    <option *ngFor="let data of boardList" [value]="data.BoardId">{{data.BoardName}}</option>
-                  </select>
-                </td>
+                <!-- <td>
+                 
+                </td> -->
               </tr>
             </tbody>
+            
           </table>
+          <label >กลุ่มสิทธิ์</label>
+          <select class="form-control" (change)="selectedBoard($event.target.value)">
+            <option value="">--เลือกกลุ่มสิทธิ์--</option>
+          <option *ngFor="let data of boardList" [value]="data.BoardId">{{data.BoardName}}</option>
+        </select>
         </div>
         <!-- <div class="form-group">
           <label>กลุ่มสิทธิ์</label>

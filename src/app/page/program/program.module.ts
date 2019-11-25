@@ -7,13 +7,15 @@ import { ProgramListComponent } from './program-list/program-list.component';
 import { ProgramDetailComponent } from './program-detail/program-detail.component';
 
 import { ProgramService } from './../../shared/services/program.service';
-import {NgxSpinnerModule} from "ngx-spinner";
+import { NgxSpinnerModule } from "ngx-spinner";
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
   imports: [
     SharedModule,
     RoutingModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    Ng2SearchPipeModule
   ],
   declarations: [
     ProgramComponent,

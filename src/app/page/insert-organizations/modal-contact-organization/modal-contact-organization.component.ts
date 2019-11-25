@@ -16,10 +16,11 @@ export class ModalContactOrganizationComponent implements OnInit {
 
   @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
 
-  public alertValid = false
-  public contactForm: FormGroup
+  public alertValid = false;
+  alertMsg: string;
+  public contactForm: FormGroup;
 
-  public contactList = []
+  public contactList = [];
 
   constructor(
     private modalService: NgbModal,
@@ -29,8 +30,7 @@ export class ModalContactOrganizationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.contactForm = this.data ? this.setContact(this.data) : this.setContact(null)
-    console.log(this.contactForm.value)
+    this.contactForm = this.data ? this.setContact(this.data) : this.setContact(null);
   }
 
   private setContact(data) {
@@ -48,10 +48,41 @@ export class ModalContactOrganizationComponent implements OnInit {
   }
 
   insertColumn() {
+    this.alertValid = false;
     if (validForm(this.contactForm).length > 0) {
       this.alertValid = true;
+      this.alertMsg = "กรุณากรอกข้อมูลให้ครบถ้วน";
       return;
     }
+
+    let v = this.contactForm.get('Contact').value;
+    let type: string = this.contactForm.get('TypeContactId').value.toString();
+    switch (type) {
+      case '1':
+        var reg = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!reg.test(v)) {
+          this.alertValid = true;
+          this.alertMsg = "อีเมลล์ไม่ถูกต้อง";
+          return;
+        }
+        break;
+      case '2':
+        if (!/^[0-9]*$/.test(v) || v.length < 9) {
+          this.alertValid = true;
+          this.alertMsg = "เบอร์โทรไม่ถูกต้อง";
+          return;
+        }
+        break;
+      case '7':
+        if (!/^[0-9]*$/.test(v)) {
+          this.alertValid = true;
+          this.alertMsg = "โทรสารไม่ถูกต้อง";
+          return;
+        }
+        break;
+      default: break;
+    }
+
     this.contactList.push(this.contactForm.value)
     this.contactForm = this.setContact(null)
   }
@@ -61,11 +92,13 @@ export class ModalContactOrganizationComponent implements OnInit {
   }
 
   submit() {
-    if (this.contactList.length == 0) {
+    if (this.contactList.length == 0 && this.data == null) {
       this.alertValid = true;
+      this.alertMsg = "กรุณากรอกข้อมูลให้ครบถ้วน";
       return;
     }
-    this.onSubmit.emit(this.contactList)
+    if (this.data) this.contactList.push(this.contactForm.value);
+    this.onSubmit.emit(this.contactList);
     return this.modalService.dismissAll()
   }
 

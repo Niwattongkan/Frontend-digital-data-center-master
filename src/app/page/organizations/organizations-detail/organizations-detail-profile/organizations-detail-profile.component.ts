@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { OrganizationService } from '../../../../shared/services/organization.service';
+import { UsersService } from 'src/app/shared/services/users.service';
 
 @Component({
   selector: 'organizations-detail-profile',
@@ -17,7 +18,8 @@ export class OrganizationsDetailProfileComponent {
   @Input() inputForm: any;
 
   constructor(
-    private organizationService: OrganizationService
+    private organizationService: OrganizationService,
+    private usersService:UsersService
   ) {
     this.corporationId = this.inputForm ? this.inputForm.CorporationId : ""
     this.profileForm = this.setCoreration(null)
@@ -45,4 +47,10 @@ export class OrganizationsDetailProfileComponent {
       TaxNo: "",
     }
   }
+
+  canEdit(){
+    debugger
+    return this.usersService.canEditOrganization();
+  }
+
 }

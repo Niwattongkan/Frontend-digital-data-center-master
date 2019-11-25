@@ -34,6 +34,7 @@ export class CardPersonComponent implements OnInit {
   }
 
   async ngOnChanges() {
+    
     this.currentPath = this.router.url;
     this.data = await this.setProfile(this.data);
     // this.data = await this.setProfile(this.enCypeId(this.data));
@@ -90,8 +91,8 @@ export class CardPersonComponent implements OnInit {
     }
   }
 
-  canEdit(checkNext = null){
-    var ret = this.usersService.canEdit()
+  canEdit(checkNext = null, personid){
+    var ret = this.usersService.canAccessPersonWithCurrentGroup(personid);
     if (ret){
       if (checkNext !== null)
         return checkNext;

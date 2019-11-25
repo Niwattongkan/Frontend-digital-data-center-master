@@ -7,7 +7,7 @@
         </h5>
       </div>
       <div class="col-md-6 text-right">
-        <button class="btn btn-success" routerLink="/organizations/insert/{{corporationId}}">
+        <button class="btn btn-success" routerLink="/organizations/insert/{{corporationId}}" [ngClass]="{'disabled noevent':!canEdit()}">
           <i class="fas fa-pencil-alt mr-1"></i>แก้ไขข้อมูล
         </button>
       </div>

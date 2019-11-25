@@ -50,9 +50,9 @@
         <tbody class="bg-white">
           <tr *ngFor="let data of roleList | paginate: { itemsPerPage: 10, currentPage: page }" >
             <td>{{ data.PermissionName }}</td>
-            <td>
+            <!-- <td>
               <span class="block">{{data.GroupUserName}}</span>
-            </td>
+            </td> -->
             <td class="text-center">
               <a [ngClass]="{'link-disabled disabled': !canEditLicense}" href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
                 (click)="openModal(updateModal, 'lg')">

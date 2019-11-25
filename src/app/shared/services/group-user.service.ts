@@ -56,6 +56,11 @@ export class GroupUserService {
         return this.apiService.put(`updategroupuser`, formData);
     }
 
+    updatemanagegroup(data): Observable<any> {
+        let formData = this.setFormData(data)
+        return this.apiService.put(`updatemanagegroup`, formData);
+    }
+
     updategroupuserperson(data): Observable<any> {
         let formData = this.setFormData(data)
         return this.apiService.put(`updategroupuserperson`, formData);

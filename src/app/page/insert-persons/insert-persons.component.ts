@@ -78,15 +78,16 @@ export class InsertPersonsComponent implements OnInit {
   ) {
     this.profileForm = this.setProfile(null);
     this.profileOriginForm = this.profileForm.value;
-  }
-
-  async ngOnInit() {
-    this.spinner.show();
     let Crypto = new SimpleCrypto('some-unique-key');
     let id = this.activatedRoute.snapshot.paramMap.get('id')
     this.personId = id != '' && id != null ? Crypto.decrypt(id) : ''
     this.title = this.personId ? 'แก้ไขข้อมูลบุคคล' : 'เพิ่มข้อมูลบุคคล';
     this.mode = this.personId ? 'Edit' : 'Insert';
+  }
+
+  async ngOnInit() {
+    this.spinner.show();
+
     this.stepper = new Stepper(document.querySelector('#stepper1'), {
       linear: false,
       animation: true
@@ -100,12 +101,15 @@ export class InsertPersonsComponent implements OnInit {
       .getOrganizationAll()
       .toPromise()).data;
     this.profileOriginForm = resultPerson ? resultPerson : null;
+
     // this.isimagePerson = this.personId ? this.profileOriginForm.PathPhoto : null;
       this.profileForm = await this.setProfile(resultPerson);
+
     this.personId ? await this.setList() : null;
     this.academyList = (await this.dropdownService
       .getacademyAll()
       .toPromise()).data;
+
       this.personsService.getphotoperson(this.personId).subscribe(
         res => {
 
@@ -593,7 +597,7 @@ export class InsertPersonsComponent implements OnInit {
   public async updateContact(value) {
     if (this.personId) {
       const getcontactperson = this.personsService.getcontactperson(value[1])
-      if (getcontactperson != null) {
+      if (getcontactperson != null && value[1] != undefined) {
         const element = value[0]
         element.PersonContactId = value[1]
         await this.personsService.updatePersonContact(element).toPromise()
@@ -614,13 +618,9 @@ export class InsertPersonsComponent implements OnInit {
     return alertDeleteEvent().then(async confirm => {
       if (confirm.value) {
         if (this.personId) {
-          const model = this.coordinateList[index];
-          model.PersonId = Number(this.personId);
-          model.CoordinatorId
-            ? await this.personsService
-              .deletecoordinator(model.CoordinatorId)
-              .toPromise()
-            : false;
+          await this.personsService
+            .deletecoordinator(index)
+            .toPromise()
         }
         this.coordinateList.splice(index, 1);
         return alertEvent('ลบข้อมูลสำเร็จ', 'success');
@@ -628,16 +628,30 @@ export class InsertPersonsComponent implements OnInit {
     });
   }
 
+  public async deleteCoordinatorcontact(index) {
+    return alertDeleteEvent().then(async confirm => {
+      if (confirm.value) {
+        if (index) {
+          await this.personsService
+            .deletecoordinatorcontact(index)
+            .toPromise()
+          // this.coordinateList.splice(index, 1);
+          return alertEvent('ลบข้อมูลสำเร็จ', 'success');
+        }
+      }
+    });
+  }
+
   public async updateCoordinator(value) {
     if (this.personId) {
-      if(value[0].CoordinatorId){
+      if (value[0].CoordinatorId) {
         const element = value[0];
         element.PersonId = Number(this.personId);
         const coordinate = (await this.personsService
           .updateCoordinator(element)
           .toPromise()).data[0];
         await this.personsService.updateCoordinatorcontact(element).toPromise();
-      }else{
+      } else {
         for (let index = 0; index < value.length; index++) {
           const element = value[index];
           element.PersonId = Number(this.personId);
@@ -651,8 +665,11 @@ export class InsertPersonsComponent implements OnInit {
 
       alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
     }
-    Array.prototype.push.apply(this.coordinateList, value);
+    this.coordinateList = Object.values(groupbyList(mapPersons((await this.personsService
+      .getcoordinator(this.personId)
+      .toPromise()).data), 'FullnameTh'));
   }
+
 //   if (this.personId) {
 //   const getcontactperson = this.personsService.getcontactperson(value[1])
 //   if (getcontactperson != null) {
@@ -690,24 +707,34 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   public async updateBursary(value) {
-    if (value.EducationId) {
-      const model = value;
+    // if (value.AcademyId) {
+    //   value.PersonId = Number(this.personId);
+    //   await this.personsService.updateeducation(value).toPromise();
+    // } else {
+    //     value.PersonId = Number(this.personId);
+    //     await this.personsService.inserteducation(value).toPromise();
+    //     this.bursaryList.push(value);
+    // }
+    // alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
+    // this.bursaryList = (await this.personsService
+    //   .getEducationById(this.personId)
+    //   .toPromise()).data;
+      let model = value
       model.PersonId = Number(this.personId);
-      await this.personsService.updateeducation(model).toPromise();
-      this.bursaryList = (await this.personsService
-        .getEducationById(this.personId)
-        .toPromise()).data;
+      await this.personsService.updateeducation(model).toPromise()
+      this.bursaryList = (await this.personsService.getEducationById(this.personId).toPromise()).data
+
+  }
+
+  public async inserteducation(value) {
+    debugger
+    if (this.personId) {
+      value.PersonId = Number(this.personId);
+      await this.personsService.inserteducation(value).toPromise()
+      alertEvent("บันทึกข้อมูลสำเร็จ", "success")
+      this.bursaryList = (await this.personsService.getEducationById(this.personId).toPromise()).data
     } else {
-      if (this.personId) {
-        value.PersonId = Number(this.personId);
-        await this.personsService.inserteducation(value).toPromise();
-        alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
-        this.bursaryList = (await this.personsService
-          .getEducationById(this.personId)
-          .toPromise()).data;
-      } else {
-        this.bursaryList.push(value);
-      }
+      this.bursaryList.push(value)
     }
   }
 
@@ -756,8 +783,8 @@ export class InsertPersonsComponent implements OnInit {
   public onImageChange(event) {
     const fileList: FileList = event.target.files;
     if (fileList.length > 0) {
-    this.imageProfile = fileList[0];
-    this.imgURL(this.imageProfile);
+      this.imageProfile = fileList[0];
+      this.imgURL(this.imageProfile);
     }
     this.profileForm.controls['PathPhoto'].setValue(this.imageProfile);
   }
@@ -776,8 +803,13 @@ export class InsertPersonsComponent implements OnInit {
     reader.readAsDataURL(files[0]);
     reader.onload = _event => {
       this.imgURL = reader.result;
+<<<<<<< HEAD
     };
     this.isimagePerson = true
+=======
+      // this.AccPic = reader.result;
+    }
+>>>>>>> aa1bde2519b5efb6edf0aa336837a373d47bbbd6
     this.profileForm.controls['PathPhoto'].setValue(files[0]);
 
 

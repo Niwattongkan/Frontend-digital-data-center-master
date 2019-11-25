@@ -36,9 +36,20 @@ export class OrganizationService {
     return this.apiService.get(`getsearchcorporation`);
   }
 
+
+
   getCorporationAll(): Observable<any> {
     return this.apiService.get(`getcorporation`);
   }
+
+  getallcorporationaddress(): Observable<any> {
+    return this.apiService.get(`getallcorporationaddress`);
+  }
+
+  getallcorporationcontact(): Observable<any> {
+    return this.apiService.get(`getallcorporationcontact`);
+  }
+
 
   getCorporation(id): Observable<any> {
     return this.apiService.get(`getcorporation?id=${id}`);

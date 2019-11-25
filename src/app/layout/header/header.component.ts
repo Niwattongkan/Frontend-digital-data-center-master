@@ -30,6 +30,7 @@ export class HeaderComponent implements OnInit {
     // debugger
     this.cookieService.delete('code');
     localStorage.removeItem('u_permission');
+    localStorage.removeItem('u_group');
     localStorage.removeItem('userinfo');
     localStorage.removeItem('roles');
     document.location.href = environment.logoutUrl

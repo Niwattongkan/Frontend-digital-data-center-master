@@ -10,7 +10,7 @@
         </div>
         <div class="col-md-6 text-right">
           <button class="btn btn-success" routerLink="/organizations/insert" ngbTooltip="เพิ่มข้อมูลองค์กร"
-          [ngClass]="{'disabled noevent':!canEdit('/persons', canAddOrganization)}">
+          [ngClass]="{'disabled noevent':!canEdit('/organizations', canAddOrganization)}">
             <i class="fas fa-plus mr-1"></i>เพิ่มข้อมูลองค์กร
           </button>
         </div>
@@ -27,6 +27,23 @@
                 <i class="fas fa-search fa-md"></i>
               </button>
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-center mt-4">
+        <div class="col-md-10 text-right">
+          <a  href="javascript:void(0)" class="dropdown-toggle btn btn-outline-warning btn-sm"
+             data-toggle="dropdown">
+            Export <i class="fas fa-download"></i>
+          </a>
+          <div class="dropdown-menu">
+            <button class="dropdown-item" (click)="exportExcel();">
+              <i class="fas fa-file-excel"></i>
+              Excel
+            </button>
+            <!-- <button class="dropdown-item" (click)="exportPDF(organizationList);">
+              <i class="far fa-file-pdf"></i> PDF
+            </button> -->
           </div>
         </div>
       </div>

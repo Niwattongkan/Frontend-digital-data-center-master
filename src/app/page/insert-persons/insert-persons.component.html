@@ -20,7 +20,7 @@
 </ng-template>
 
 <ng-template #insertBursary let-modal>
-  <modal-history-of-education (onSubmit)="updateBursary($event)"></modal-history-of-education>
+  <modal-history-of-education (onSubmit)="inserteducation($event)"></modal-history-of-education>
 </ng-template>
 
 <ng-template #insertWorking let-modal>
@@ -203,8 +203,11 @@
                                   ></ngx-avatar>
                       <ngx-avatar *ngIf="isimagePerson" [src]="imgURL"
                                   size="120" [round]="true"></ngx-avatar>
-                      <input #file ngModel [ngModelOptions]="{standalone: true}" type="file" accept='image/*'
-                             (change)="previewImage(file.files)" multiple>
+                      <div class="upload-btn-wrapper">
+                        <button class="btnz">Upload a file</button>
+                        <input #file ngModel [ngModelOptions]="{standalone: true}" type="file" accept='image/*' (change)="previewImage(file.files)" multiple>
+                      </div>
+
                       <!-- (change)="onImageChange($event)"> -->
                     </div>
                   </div>
@@ -449,8 +452,7 @@
         </div>
         <div style="overflow-x:auto;">
           <table class="table table-bordered" cellspacing="0">
-            <thead class="bg-custom-green text-white" class="bg-custom-green
-                text-white">
+            <thead class="bg-custom-green text-white">
             <tr role="row">
               <th class="text-center"> ที่อยู่</th>
               <th class="text-center"> ประเภทที่อยู่</th>
@@ -461,10 +463,7 @@
             <tr *ngFor="let data of addressList; let i= index">
               <td>{{showAddress(data)}}</td>
               <td>
-                <label *ngIf="data.TypeAddress == 1">ทะเบียนบ้าน</label>
-                <label *ngIf="data.TypeAddress == 2">บัตรประชาชน</label>
-                <label *ngIf="data.TypeAddress == 3">ที่อยู่ปัจจุบัน</label>
-                <label *ngIf="data.TypeAddress == 4">ที่อยู่จัดส่ง</label>
+                <label>{{data.TypeAddress}}</label>
               </td>
               <td style="text-align: center">
                 <a href="javascript:void(0)" class="btn btn-outline-success
@@ -489,234 +488,287 @@
             </tbody>
           </table>
         </div>
-      </div>
-      <div class="container mb-4">
-        <div class="row mb-2">
-          <h2 class="col-md-6">สมาชิกในครอบครัว</h2>
-          <div class="col-md-6 text-right" (click)="openModal(insertFamily,
+        <div class="container mb-4">
+          <div class="row mb-2">
+            <h2 class="col-md-6">สมาชิกในครอบครัว</h2>
+            <div class="col-md-6 text-right" (click)="openModal(insertFamily,
               'lg')">
-            <button class="btn btn-success">
-              <i class="fas fa-plus mr-1"></i>เพิ่มสมาชิกในครอบครัว
-            </button>
+              <button class="btn btn-success">
+                <i class="fas fa-plus mr-1"></i>เพิ่มสมาชิกในครอบครัว
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <table class="table table-bordered" cellspacing="0" role="grid">
-              <thead class="bg-custom-green text-white">
-              <tr role="row">
-                <th class="text-center"> ชื่อ-นามสกุล</th>
-                <th class="text-center"> ความสัมพันธ์</th>
-                <th class="text-center"> เบอร์โทร</th>
-                <th class="text-center"> เครื่องมือ</th>
-              </tr>
-              </thead>
-              <tbody class="bg-white">
-              <tr *ngFor="let data of familyList; let i= index">
-                <td>
-                      <span *ngIf="data.TitleNameTh1">{{data.TitleNameTh1 == 1 ?
-                          'นาย' : data.TitleNameTh1 == 2 ? 'นาวสาว' : 'นาง'}}{{
-                          data.FristNameTh1 + " " + data.LastNameTh1}}</span>
-                  <span *ngIf="!data.TitleNameTh1">{{data.TitleNameTh == 1 ?
-                      'นาย' : data.TitleNameTh == 2 ? 'นาวสาว' : 'นาง'}}{{
-                      data.FristNameTh + " " + data.LastNameTh}}</span>
-                </td>
-                <td>{{data.Relation}}</td>
-                <td>{{data.Contact}}</td>
-                <td style="text-align: center">
-                  <a href="javascript:void(0)" class="btn
-                        btn-outline-success btn-sm mr-2"
-                     (click)="openModal(updatePersonFamily, 'lg')">
-                    <i class="fas fa-pencil-alt icon-prop"></i>
-                  </a>
-                  <a href="javascript:void(0)" class="btn btn-outline-danger
-                        btn-sm" (click)="deleteFamily(i)">
-                    <i class="fas fa-times icon-prop"></i>
-                  </a>
-                </td>
-                <ng-template #updatePersonFamily let-modal>
-                  <modal-family-information [data]="data"
-                                            (onSubmit)="updateFamily($event)">
-                  </modal-family-information>
-                </ng-template>
-              </tr>
-              <tr *ngIf="familyList.length == 0">
-                <td class="text-center" colspan="5">ไม่พบข้อมูล</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="container mb-4">
-        <div class="row mb-2">
-          <h2 class="col-md-6">ข้อมูลการติดต่อ</h2>
-          <div class="col-md-6 text-right" (click)="openModal(insertContact,'lg')">
-            <button class="btn btn-success">
-              <i class="fas fa-plus mr-1"></i>เพิ่มข้อมูลการติดต่อ
-            </button>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <table class="table table-bordered" cellspacing="0" role="grid">
-              <thead class="bg-custom-green text-white">
-              <tr role="row">
-                <th class="text-center"> รายละเอียด</th>
-                <th class="text-center"> ประเภทข้อมูล</th>
-                <th class="text-center"> เครื่องมือ</th>
-              </tr>
-              </thead>
-              <tbody class="bg-white">
-              <tr *ngFor="let data of contactList; let i= index">
-                <td>{{data.Contact}}</td>
-                <td>
-                  <label *ngIf="data.TypeContactId == 1">อีเมล</label>
-                  <label *ngIf="data.TypeContactId == 2">เบอร์โทร</label>
-                  <label *ngIf="data.TypeContactId == 3">Line</label>
-                  <label *ngIf="data.TypeContactId == 4">Facebook</label>
-                  <label *ngIf="data.TypeContactId == 5">Twitter</label>
-                  <label *ngIf="data.TypeContactId == 6">Instagram</label>
-                  <label *ngIf="data.TypeContactId == 7">โทรสาร</label>
-                </td>
-                <td style="text-align: center">
-                  <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
-                     (click)="openModal(updatePersonContact, 'lg')">
-                    <i class="fas fa-pencil-alt icon-prop"></i>
-                  </a>
-                  <a href="javascript:void(0)" class="btn btn-outline-danger
-                        btn-sm" (click)="deleteContact(i)">
-                    <i class="fas fa-times icon-prop"></i>
-                  </a>
-                </td>
-                <ng-template #updatePersonContact let-modal>
-                  <modal-contact-information [data]="contactList[i]"
-                                             (onSubmit)="updateContact($event)">
-                  </modal-contact-information>
-                </ng-template>
-              </tr>
-              <tr *ngIf="contactList.length == 0">
-                <td class="text-center" colspan="4">ไม่พบข้อมูล</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="container mb-4">
-        <div class="row mb-2">
-          <h2 class="col-md-6">ข้อมูลผู้ประสานงาน</h2>
-          <div class="col-md-6 text-right"
-               (click)="openModal(insertCoordinator, 'lg')">
-            <button class="btn btn-success">
-              <i class="fas fa-plus mr-1"></i>เพิ่มข้อมูลผู้ประสานงาน
-            </button>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <table class="table table-bordered" cellspacing="0" role="grid">
-              <thead class="bg-custom-green text-white">
-              <tr role="row">
-                <th class="text-center"> ชื่อ-นามสกุล</th>
-                <th class="text-center"> ประเภทการติดต่อ</th>
-                <th class="text-center"> การติดต่อ</th>
-                <th class="text-center"> เครื่องมือ</th>
-              </tr>
-              </thead>
-              <tbody *ngFor="let data of coordinateList; let i= index" class="bg-white">
-              <tr *ngFor="let subData of data; let j=index">
-                <td [rowSpan]="coordinateList[i].length" *ngIf=" j == 0">
-                  {{nametitle[i]}}
-                </td>
-                <td>
-                  <label *ngIf="subData.TypeContactId == 1">อีเมล</label>
-                  <label *ngIf="subData.TypeContactId == 2">เบอร์โทร</label>
-                  <label *ngIf="subData.TypeContactId == 3">Line</label>
-                  <label *ngIf="subData.TypeContactId == 4">Facebook</label>
-                  <label *ngIf="subData.TypeContactId == 5">Twitter</label>
-                  <label *ngIf="subData.TypeContactId == 6">Instagram</label>
-                  <label *ngIf="subData.TypeContactId == 7">โทรสาร</label>
-                </td>
-                <td>
-                  {{subData.Contact}}
-                </td>
-                <td class="text-center">
-                  <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
-                     (click)="openModal(updatePersonCoordiantion, 'lg')">
-                    <i class="fas fa-pencil-alt icon-prop"></i>
-                  </a>
-                  <a href="javascript:void(0)" class="btn btn-outline-danger
-                        btn-sm" (click)="deleteCoordinator(i)">
-                    <i class="fas fa-times icon-prop"></i>
-                  </a>
-                </td>
-                <ng-template #updatePersonCoordiantion let-modal>
-                  <modal-coordinator-information [data]="subData"
-                                                 (onSubmit)="updateCoordinator($event)">
-                  </modal-coordinator-information>
-                </ng-template>
-              </tr>
-              <tr *ngIf="coordinateList.length == 0">
-                <td class="text-center" colspan="5">ไม่พบข้อมูล</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="container mb-4">
-        <div class="row mb-2">
-          <h2 class="col-md-6">ประวัติการศึกษา</h2>
-          <div class="col-md-6 text-right" (click)="openModal(insertBursary,
-              'lg')">
-            <button class="btn btn-success">
-              <i class="fas fa-plus mr-1"></i>เพิ่มประวัติการศึกษา
-            </button>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="table-responsive">
+          <div class="row">
+            <div class="col-md-12">
               <table class="table table-bordered" cellspacing="0" role="grid">
                 <thead class="bg-custom-green text-white">
                 <tr role="row">
-                  <th class="text-center"> ปีที่สำเร็จการศึกษา</th>
-                  <th class="text-center"> สถาบันการศึกษา</th>
-                  <th class="text-center"> วุฒิการศึกษา</th>
-                  <th class="text-center"> สาขา</th>
+                  <th class="text-center"> ชื่อ-นามสกุล</th>
+                  <th class="text-center"> ความสัมพันธ์</th>
+                  <th class="text-center"> เบอร์โทร</th>
                   <th class="text-center"> เครื่องมือ</th>
                 </tr>
                 </thead>
                 <tbody class="bg-white">
-                <tr *ngFor="let data of bursaryList; let i= index">
-                  <td>{{data.GraduationYear}}</td>
-                  <td>{{data.Academy}}</td>
+                <tr *ngFor="let data of familyList; let i= index">
                   <td>
-                    <label *ngIf="data.Degree == 1">ปริญญาตรี</label>
-                    <label *ngIf="data.Degree == 2">ปริญญาโท</label>
-                    <label *ngIf="data.Degree == 3">ปริญญาเอก</label>
+                      <span *ngIf="data.TitleNameTh1">{{data.TitleNameTh1 == 1 ?
+                          'นาย' : data.TitleNameTh1 == 2 ? 'นาวสาว' : 'นาง'}}{{
+                          data.FristNameTh1 + " " + data.LastNameTh1}}</span>
+                    <span *ngIf="!data.TitleNameTh1">{{data.TitleNameTh == 1 ?
+                        'นาย' : data.TitleNameTh == 2 ? 'นาวสาว' : 'นาง'}}{{
+                        data.FristNameTh + " " + data.LastNameTh}}</span>
                   </td>
-                  <td>{{data.Major}}</td>
-                  <td class="text-center">
+                  <td>{{data.Relation}}</td>
+                  <td>{{data.Contact}}</td>
+                  <td style="text-align: center">
                     <a href="javascript:void(0)" class="btn
-                          btn-outline-success btn-sm mr-2"
-                       (click)="openModal(updatePersonBursary, 'lg')">
+                        btn-outline-success btn-sm mr-2"
+                       (click)="openModal(updatePersonFamily, 'lg')">
                       <i class="fas fa-pencil-alt icon-prop"></i>
                     </a>
-                    <a href="javascript:void(0)" class="btn
-                          btn-outline-danger btn-sm" (click)="deleteBursary(i)">
+                    <a href="javascript:void(0)" class="btn btn-outline-danger
+                        btn-sm" (click)="deleteFamily(i)">
                       <i class="fas fa-times icon-prop"></i>
                     </a>
                   </td>
-                  <ng-template #updatePersonBursary let-modal>
-                    <modal-history-of-education [data]="data"
-                                                (onSubmit)="updateBursary($event)">
-                    </modal-history-of-education>
+                  <ng-template #updatePersonFamily let-modal>
+                    <modal-family-information [data]="data"
+                                              (onSubmit)="updateFamily($event)">
+                    </modal-family-information>
                   </ng-template>
                 </tr>
-                <tr *ngIf="bursaryList.length == 0">
-                  <td class="text-center" colspan="6">ไม่พบข้อมูล</td>
+                <tr *ngIf="familyList.length == 0">
+                  <td class="text-center" colspan="5">ไม่พบข้อมูล</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="container mb-4">
+          <div class="row mb-2">
+            <h2 class="col-md-6">ข้อมูลการติดต่อ</h2>
+            <div class="col-md-6 text-right" (click)="openModal(insertContact,'lg')">
+              <button class="btn btn-success">
+                <i class="fas fa-plus mr-1"></i>เพิ่มข้อมูลการติดต่อ
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table table-bordered" cellspacing="0" role="grid">
+                <thead class="bg-custom-green text-white">
+                <tr role="row">
+                  <th class="text-center"> รายละเอียด</th>
+                  <th class="text-center"> ประเภทข้อมูล</th>
+                  <th class="text-center"> เครื่องมือ</th>
+                </tr>
+                </thead>
+                <tbody class="bg-white">
+                <tr *ngFor="let data of contactList; let i= index">
+                  <td>{{data.Contact}}</td>
+                  <td>
+                    <label *ngIf="data.TypeContactId == 1">อีเมล</label>
+                    <label *ngIf="data.TypeContactId == 2">เบอร์โทร</label>
+                    <label *ngIf="data.TypeContactId == 3">Line</label>
+                    <label *ngIf="data.TypeContactId == 4">Facebook</label>
+                    <label *ngIf="data.TypeContactId == 5">Twitter</label>
+                    <label *ngIf="data.TypeContactId == 6">Instagram</label>
+                    <label *ngIf="data.TypeContactId == 7">โทรสาร</label>
+                  </td>
+                  <td style="text-align: center">
+                    <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
+                       (click)="openModal(updatePersonContact, 'lg')">
+                      <i class="fas fa-pencil-alt icon-prop"></i>
+                    </a>
+                    <a href="javascript:void(0)" class="btn btn-outline-danger
+                        btn-sm" (click)="deleteContact(i)">
+                      <i class="fas fa-times icon-prop"></i>
+                    </a>
+                  </td>
+                  <ng-template #updatePersonContact let-modal>
+                    <modal-contact-information [data]="contactList[i]"
+                                               (onSubmit)="updateContact($event)">
+                    </modal-contact-information>
+                  </ng-template>
+                </tr>
+                <tr *ngIf="contactList.length == 0">
+                  <td class="text-center" colspan="4">ไม่พบข้อมูล</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="container mb-4">
+          <div class="row mb-2">
+            <h2 class="col-md-6">ข้อมูลผู้ประสานงาน</h2>
+            <div class="col-md-6 text-right"
+                 (click)="openModal(insertCoordinator, 'lg')">
+              <button class="btn btn-success">
+                <i class="fas fa-plus mr-1"></i>เพิ่มข้อมูลผู้ประสานงาน
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table table-bordered" cellspacing="0" role="grid">
+                <thead class="bg-custom-green text-white">
+                <tr role="row">
+                  <th class="text-center"> ชื่อ-นามสกุล</th>
+                  <th class="text-center"> ประเภทการติดต่อ</th>
+                  <th class="text-center"> การติดต่อ</th>
+                  <th class="text-center"> เครื่องมือ</th>
+                </tr>
+                </thead>
+                <tbody *ngFor="let data of coordinateList; let i= index" class="bg-white">
+                <tr *ngFor="let subData of data; let j=index">
+                  <td [rowSpan]="coordinateList[i].length" *ngIf=" j == 0">
+                    {{nametitle[i]}}
+                  </td>
+                  <td>
+                    <label *ngIf="subData.TypeContactId == 1">อีเมล</label>
+                    <label *ngIf="subData.TypeContactId == 2">เบอร์โทร</label>
+                    <label *ngIf="subData.TypeContactId == 3">Line</label>
+                    <label *ngIf="subData.TypeContactId == 4">Facebook</label>
+                    <label *ngIf="subData.TypeContactId == 5">Twitter</label>
+                    <label *ngIf="subData.TypeContactId == 6">Instagram</label>
+                    <label *ngIf="subData.TypeContactId == 7">โทรสาร</label>
+                  </td>
+                  <td>
+                    {{subData.Contact}}
+                  </td>
+                  <td class="text-center">
+                    <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
+                       (click)="openModal(updatePersonCoordiantion, 'lg')">
+                      <i class="fas fa-pencil-alt icon-prop"></i>
+                    </a>
+                    <a href="javascript:void(0)" class="btn btn-outline-danger
+                        btn-sm" (click)="deleteCoordinatorcontact(subData.CoordinatorContactId)">
+                      <i class="fas fa-times icon-prop"></i>
+                    </a>
+                  </td>
+                  <ng-template #updatePersonCoordiantion let-modal>
+                    <modal-coordinator-information [data]="subData"
+                                                   (onSubmit)="updateCoordinator($event)">
+                    </modal-coordinator-information>
+                  </ng-template>
+                </tr>
+                <tr *ngIf="coordinateList.length == 0">
+                  <td class="text-center" colspan="5">ไม่พบข้อมูล</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="container mb-4">
+          <div class="row mb-2">
+            <h2 class="col-md-6">ประวัติการศึกษา</h2>
+            <div class="col-md-6 text-right" (click)="openModal(insertBursary,
+              'lg')">
+              <button class="btn btn-success">
+                <i class="fas fa-plus mr-1"></i>เพิ่มประวัติการศึกษา
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive">
+                <table class="table table-bordered" cellspacing="0" role="grid">
+                  <thead class="bg-custom-green text-white">
+                  <tr role="row">
+                    <th class="text-center"> ปีที่สำเร็จการศึกษา</th>
+                    <th class="text-center"> สถาบันการศึกษา</th>
+                    <th class="text-center"> วุฒิการศึกษา</th>
+                    <th class="text-center"> สาขา</th>
+                    <th class="text-center"> เครื่องมือ</th>
+                  </tr>
+                  </thead>
+                  <tbody class="bg-white">
+                  <tr *ngFor="let data of bursaryList; let i= index">
+                    <td>{{data.GraduationYear}}</td>
+                    <td>{{data.Academy}}</td>
+                    <td>
+                      <label *ngIf="data.Degree == 1">ปริญญาตรี</label>
+                      <label *ngIf="data.Degree == 2">ปริญญาโท</label>
+                      <label *ngIf="data.Degree == 3">ปริญญาเอก</label>
+                    </td>
+                    <td>{{data.Major}}</td>
+                    <td class="text-center">
+                      <a href="javascript:void(0)" class="btn
+                          btn-outline-success btn-sm mr-2"
+                         (click)="openModal(updatePersonBursary, 'lg')">
+                        <i class="fas fa-pencil-alt icon-prop"></i>
+                      </a>
+                      <a href="javascript:void(0)" class="btn
+                          btn-outline-danger btn-sm" (click)="deleteBursary(i)">
+                        <i class="fas fa-times icon-prop"></i>
+                      </a>
+                    </td>
+                    <ng-template #updatePersonBursary let-modal>
+                      <modal-history-of-education [data]="data"
+                                                  (onSubmit)="updateBursary($event)">
+                      </modal-history-of-education>
+                    </ng-template>
+                  </tr>
+                  <tr *ngIf="bursaryList.length == 0">
+                    <td class="text-center" colspan="6">ไม่พบข้อมูล</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container mb-4">
+          <div class="row mb-2">
+            <h2 class="col-md-6">ประวัติการทำงาน</h2>
+            <div class="col-md-6 text-right" (click)="openModal(insertWorking,
+              'md')">
+              <button class="btn btn-success">
+                <i class="fas fa-plus mr-1"></i>เพิ่มประวัติการทำงาน
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table table-bordered" cellspacing="0" role="grid">
+                <thead class="bg-custom-green text-white">
+                <tr role="row">
+                  <th class="text-center"> ระยะเวลา</th>
+                  <th class="text-center"> ชื่อองค์กร</th>
+                  <th class="text-center"> ตำแหน่ง</th>
+                  <th class="text-center"> เครื่องมือ</th>
+                </tr>
+                </thead>
+                <tbody class="bg-white">
+                <tr *ngFor="let data of workingList">
+                  <td>{{data.StartMonth | date: 'dd/MM/yyyy'}} ถึง
+                    {{data.EndMonth | date: 'dd/MM/yyyy'}}
+                  </td>
+                  <td>{{data.CorporationName}}</td>
+                  <td>{{data.Position}}</td>
+                  <td class="text-center">
+                    <a href="javascript:void(0)" class="btn
+                        btn-outline-success btn-sm mr-2"
+                       (click)="openModal(updatePersonWorking, 'md')">
+                      <i class="fas fa-pencil-alt icon-prop"></i>
+                    </a>
+                    <a href="javascript:void(0)" class="btn btn-outline-danger
+                        btn-sm" (click)="deleteWorking(i)">
+                      <i class="fas fa-times icon-prop"></i>
+                    </a>
+                  </td>
+                  <ng-template #updatePersonWorking let-modal>
+                    <modal-career-history [data]="data"
+                                          (onSubmit)="updateWorking($event)">
+                    </modal-career-history>
+                  </ng-template>
+                </tr>
+                <tr *ngIf="workingList.length == 0">
+                  <td class="text-center" colspan="5">ไม่พบข้อมูล</td>
                 </tr>
                 </tbody>
               </table>
@@ -724,59 +776,7 @@
           </div>
         </div>
       </div>
-      <div class="container mb-4">
-        <div class="row mb-2">
-          <h2 class="col-md-6">ประวัติการทำงาน</h2>
-          <div class="col-md-6 text-right" (click)="openModal(insertWorking,
-              'md')">
-            <button class="btn btn-success">
-              <i class="fas fa-plus mr-1"></i>เพิ่มประวัติการทำงาน
-            </button>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <table class="table table-bordered" cellspacing="0" role="grid">
-              <thead class="bg-custom-green text-white">
-              <tr role="row">
-                <th class="text-center"> ระยะเวลา</th>
-                <th class="text-center"> ชื่อองค์กร</th>
-                <th class="text-center"> ตำแหน่ง</th>
-                <th class="text-center"> เครื่องมือ</th>
-              </tr>
-              </thead>
-              <tbody class="bg-white">
-              <tr *ngFor="let data of workingList">
-                <td>{{data.StartMonth | date: 'dd/MM/yyyy'}} ถึง
-                  {{data.EndMonth | date: 'dd/MM/yyyy'}}
-                </td>
-                <td>{{data.CorporationName}}</td>
-                <td>{{data.Position}}</td>
-                <td class="text-center">
-                  <a href="javascript:void(0)" class="btn
-                        btn-outline-success btn-sm mr-2"
-                     (click)="openModal(updatePersonWorking, 'md')">
-                    <i class="fas fa-pencil-alt icon-prop"></i>
-                  </a>
-                  <a href="javascript:void(0)" class="btn btn-outline-danger
-                        btn-sm" (click)="deleteWorking(i)">
-                    <i class="fas fa-times icon-prop"></i>
-                  </a>
-                </td>
-                <ng-template #updatePersonWorking let-modal>
-                  <modal-career-history [data]="data"
-                                        (onSubmit)="updateWorking($event)">
-                  </modal-career-history>
-                </ng-template>
-              </tr>
-              <tr *ngIf="workingList.length == 0">
-                <td class="text-center" colspan="5">ไม่พบข้อมูล</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+
       <!-- <div class="form-group text-right">
         <button type="button" class="btn btn-success mr-2" (click)="submitPerson()">บันทึก</button>
       </div> -->

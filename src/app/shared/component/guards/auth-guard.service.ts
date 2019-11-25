@@ -28,20 +28,11 @@ export class AuthGuard implements CanActivate {
 
     for (var i = 0; i < this.userPermission.length; i++) {
       var uMenu = this.userPermission[i].MenuNameEn;
-      if ([mainMenuNameEng, subMenuNameEng].includes(uMenu) && this.userPermission[i].PView == 1) {
+      if ([mainMenuNameEng, subMenuNameEng].includes(uMenu) && this.userPermission[i].PView == 1 && this.usersService.canView(state.url)) {
         return true;
       }
     }
     return false;
-
-    //if (this._authService.isAuthenticated()) {
-        //return true;
-    //}
-
-    // navigate to login page
-    //this._router.navigate(['/login']);
-    // you can save redirect url so after authing we can move them back to the page they requested
-    //return false;
   }
 
 }
