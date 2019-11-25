@@ -8,7 +8,7 @@
 </ng-template>
 
 <ng-template #insertContact let-modal>
-  <modal-contact-information (onSubmit)="updateContact($event)"></modal-contact-information>
+  <modal-contact-information (onSubmit)="insertContactq($event)"></modal-contact-information>
 </ng-template>
 
 <ng-template #updatePersonContact let-modal>
@@ -654,7 +654,7 @@
                     </modal-coordinator-information>
                   </ng-template>
                 </tr>
-                <tr *ngIf="coordinateList.length == 0">
+                <tr *ngIf="coordinateList.length <1 ">
                   <td class="text-center" colspan="5">ไม่พบข้อมูล</td>
                 </tr>
                 </tbody>
