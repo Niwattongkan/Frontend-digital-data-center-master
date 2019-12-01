@@ -84,13 +84,7 @@
       <div class="card card-body shadow mb-2" *ngFor="let address of data.PersonAddress">
         <div class="row">
           <label class="col-md-2 text-orange"> ประเภทที่อยู่ </label>
-          <label class="col-md-10">
-            {{
-              address.AddressType == 1 ? "ตามทะเบียนบ้าน" :
-              address.AddressType == 2 ? "ตามบัตรประชาชน" :
-              address.AddressType == 3 ? "ตามที่อยู่ปัจจุบัน" : "ตามที่อยู่จัดส่ง"
-            }}
-          </label>
+          <label class="col-md-10"> {{ address.TypeAddress  }} </label>
         </div>
         <div class="row">
           <label class="col-md-2 text-orange"> ที่อยู่ </label>

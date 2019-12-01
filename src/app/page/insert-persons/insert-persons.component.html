@@ -462,6 +462,11 @@
             <tr *ngFor="let data of addressList; let i= index">
               <td>{{showAddress(data)}}</td>
               <td>
+                <label *ngIf="data.TypeAddress == 1">ทะเบียนบ้าน</label>
+                <label *ngIf="data.TypeAddress == 2">บัตรประชาชน</label>
+                <label *ngIf="data.TypeAddress == 3">ที่อยู่ปัจจุบัน</label>
+                <label *ngIf="data.TypeAddress == 4">ที่อยู่จัดส่ง</label>
+                <label *ngIf="data.TypeAddress == 1 && data.TypeAddress == 2 && data.TypeAddress == 3 && data.TypeAddress == 4 ">{{data.TypeAddress}}</label>
                 <label>{{data.TypeAddress}}</label>
               </td>
               <td style="text-align: center">

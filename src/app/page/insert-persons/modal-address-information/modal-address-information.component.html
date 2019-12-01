@@ -17,10 +17,10 @@
         <div class="col-md-6">
           <div class="input-group input-group-sm mb-3">
             <select class="form-control" formControlName="TypeAddress">
-              <option *ngIf="checkAccording == false" [value]="1">ตามทะเบียนบ้าน</option>
-              <option *ngIf="checkIdCard == false" [value]="2">ตามบัตรประชาชน</option>
-              <option *ngIf="checkNowaddress == false" [value]="3">ตามที่อยู่ปัจจุบัน</option>
-              <option [value]="4">ตามที่อยู่จัดส่ง</option>
+              <option *ngIf="checkAccording == false" value="ตามทะเบียนบ้าน">ตามทะเบียนบ้าน</option>
+              <option *ngIf="checkIdCard == false" value="ตามบัตรประชาชน">ตามบัตรประชาชน</option>
+              <option *ngIf="checkNowaddress == false" value="ตามที่อยู่ปัจจุบัน">ตามที่อยู่ปัจจุบัน</option>
+              <option value="ตามที่อยู่จัดส่ง">ตามที่อยู่จัดส่ง</option>
             </select>
           </div>
         </div>

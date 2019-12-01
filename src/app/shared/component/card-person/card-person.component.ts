@@ -34,7 +34,7 @@ export class CardPersonComponent implements OnInit {
   }
 
   async ngOnChanges() {
-    
+
     this.currentPath = this.router.url;
     this.data = await this.setProfile(this.data);
     // this.data = await this.setProfile(this.enCypeId(this.data));
@@ -67,18 +67,19 @@ export class CardPersonComponent implements OnInit {
     const Floor = value.Floor ? ' ชั้น ' + value.Floor + ' ' : '';
     const Room = value.Room ? ' ห้อง ' + value.Room + ' ' : '';
     const HouseNumber = value.HouseNumber ? ' เลขที่ ' + value.HouseNumber + ' ' : '';
-    const Road = value.Road ? ' ถนน ' + value.Road + ' ' : '';
-    const Soi = value.Soi ? ' ซอย ' + value.Soi + ' ' : '';
-    const Province = value.Province != '' ? ' จังหวัด ' + value.Province + ' ' : '';
+    const Road = value.Road ? ' ถนน' + value.Road + ' ' : '';
+    const Soi = value.Soi ? ' ซอย' + value.Soi + ' ' : '';
     if (value.Province == ' กรุงเทพมหานคร') {
-      const Subdistrict = value.Subdistrict != '' ? ' แขวง ' + value.Subdistrict + ' ' : '';
-      const District = value.District != '' ? ' เขต ' + value.District + ' ' : '';
-      const Zipcode = value.Zipcode != '' ? ' รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+      const Province = value.Province != '' ? ' ' + value.Province + ' ' : '';
+      const Subdistrict = value.Subdistrict != '' ? ' แขวง' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? ' เขต' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? ' รหัสไปรษณีย์' + value.Zipcode + ' ' : '';
       return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  Zipcode;
     } else {
-      const Subdistrict = value.Subdistrict != '' ? ' ตำบล ' + value.Subdistrict + ' ' : '';
-      const District = value.District != '' ? ' อำเภอ ' + value.District + ' ' : '';
-      const Zipcode = value.Zipcode != '' ? ' รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
+      const Province = value.Province != '' ? ' จังหวัด' + value.Province + ' ' : '';
+      const Subdistrict = value.Subdistrict != '' ? ' ตำบล' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? ' อำเภอ' + value.District + ' ' : '';
+      const Zipcode = value.Zipcode != '' ? ' รหัสไปรษณีย์' + value.Zipcode + ' ' : '';
       return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  Zipcode;
     }
   }

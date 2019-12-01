@@ -12,6 +12,12 @@
           <div class="col-md-10 alert alert-danger" role="alert" *ngIf="alertValid">
             กรุณากดเพิ่มข้อมูลก่อนบันทึก
           </div>
+          <div class="col-md-10 alert alert-danger" role="alert" *ngIf="alertValidPhone">
+            กรุณากดไม่ใส่ตัวอักษรหรือสัญลักษณ์
+          </div>
+          <div class="col-md-10 alert alert-danger" role="alert" *ngIf="alertValidEmail">
+            อีเมลไม่ถูกต้อง
+          </div>
         </div>
         <div class="row">
           <div class="col-md-2 text-right">

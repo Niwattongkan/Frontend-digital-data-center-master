@@ -37,7 +37,15 @@ export class ModalFamilyInformationComponent implements OnInit {
   }
 
   submit() {
-    if (validForm(this.familyForm).length > 0) {
+    if (!this.familyForm.controls.FristNameTh.value) {
+      this.alertValid = true;
+      return;
+    }
+    if (!this.familyForm.controls.LastNameTh.value) {
+      this.alertValid = true;
+      return;
+    }
+    if (!this.familyForm.controls.Relation.value) {
       this.alertValid = true;
       return;
     }

@@ -23,9 +23,10 @@ export class ModalContactInformationComponent implements OnInit {
   public contactForm: FormGroup;
   public update = false;
   public contactList = [];
-  public Contact: any
+  public Contact: any;
   public alertValidEmail: boolean;
   public alertValidPhone: boolean;
+  public title: string;
 
   constructor(
     private modalService: NgbModal,
@@ -36,9 +37,11 @@ export class ModalContactInformationComponent implements OnInit {
 
   ngOnInit() {
     this.contactForm = this.setContact();
+    this.title = 'เพิ่มข้อมูลการติดต่อ';
     if (this.data != null) {
       this.update = true;
-      this.Contact = this.data.TypeContact
+      this.Contact = this.data.TypeContact;
+      this.title = 'แก้ไขข้อมูลการติดต่อ';
     }
   }
 
@@ -51,20 +54,20 @@ export class ModalContactInformationComponent implements OnInit {
   }
 
   insertColumn() {
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    var phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const phoneno = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
     if ((validForm(this.contactForm).length > 0 && this.update == false) || this.contactForm.controls.Contact.value == '') {
       this.alertValid = true;
       return;
     }
-    if(this.contactForm.controls.TypeContactId.value == '1'){
-      if(!re.test(this.contactForm.controls.Contact.value)){
+    if (this.contactForm.controls.TypeContactId.value == '1') {
+      if (!re.test(this.contactForm.controls.Contact.value)) {
         this.alertValidEmail = true;
         return;
       }
     }
-    if(this.contactForm.controls.TypeContactId.value == '2'){
-      if(!phoneno.test(this.contactForm.controls.Contact.value)){
+    if (this.contactForm.controls.TypeContactId.value == '2') {
+      if (!phoneno.test(this.contactForm.controls.Contact.value)) {
         this.alertValidPhone = true;
         return;
       }
@@ -80,10 +83,10 @@ export class ModalContactInformationComponent implements OnInit {
       return false;
     }
     this.contactList.push(this.contactForm.value);
-    this.contactList.push(this.data.PersonContactId ? this.data.PersonContactId : null)
+    this.contactList.push(this.data.PersonContactId ? this.data.PersonContactId : null);
     this.contactForm = this.setContact();
     if (this.update) {
-      this.submit()
+      this.submit();
     }
   }
 

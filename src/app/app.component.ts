@@ -25,7 +25,7 @@ export class AppComponent implements AfterViewInit, OnInit {
     // configDate.maxDate = {year: 2699, month: 12, day: 31};
   }
 
-  ngOnInit() { 
+  ngOnInit() {
   }
 
   ngAfterViewInit() {

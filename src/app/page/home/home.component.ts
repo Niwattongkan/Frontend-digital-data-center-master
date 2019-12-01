@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { PersonsService } from '../../shared/services/persons.service';
 import { OrganizationService } from '../../shared/services/organization.service';
 import { ProgramService } from '../../shared/services/program.service';
-import { NgxSpinnerService } from "ngx-spinner";
+import { NgxSpinnerService } from 'ngx-spinner';
 import { HomeModalComponent } from './home-modal/home-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UsersService } from '../../shared/services/users.service';
@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit {
     this.typeCheck = this.setTypeCheck();
     this.noData = false;
     this.spinner.hide();
-    this.hasAuthorize()
+    this.hasAuthorize();
   }
 
   private hasAuthorize() {
@@ -72,12 +72,12 @@ export class HomeComponent implements OnInit {
   public mapPerson(personList) {
     personList.map(async data => {
       data.PersonAddress = [];
-      const title = data.TitleNameTh == 1 ? 'นาย ' : data.TitleNameTh == 2 ? 'นางสาว ' : 'นาง ';
+      const title = data.TitleNameTh == 1 ? 'นาย' : data.TitleNameTh == 2 ? 'นางสาว' : 'นาง';
       const titleOrther = await data.TitleNameOther != '' && data.TitleNameOther != null ? data.TitleNameOther : title;
       const first = data.FristNameTh;
       const last = data.LastNameTh;
 
-      const titleEn = data.TitleNameEn == 1 ? 'Mr. ' : data.TitleNameEn == 2 ? 'Mrs. ' : 'Miss. ';
+      const titleEn = data.TitleNameEn == 1 ? 'Mr.' : data.TitleNameEn == 2 ? 'Mrs.' : 'Miss.';
       const titleOrtherEn = await data.TitleNameOther != '' && data.TitleNameOther != null ? data.TitleNameOther : titleEn;
 
       const firstEn = data.FristNameEn;
@@ -125,15 +125,14 @@ export class HomeComponent implements OnInit {
   }
 
   private setTypeCheck() {
-    var checkedPerson = this.canSelect('บุคคล');
-    var checkedOrganize = this.canSelect('องค์กร');
-    var checkedProgram = this.canSelect('โครงการ');
-    
+    let checkedPerson = this.canSelect('บุคคล');
+    let checkedOrganize = this.canSelect('องค์กร');
+    let checkedProgram = this.canSelect('โครงการ');
+
     if (checkedPerson) {
       checkedOrganize = false;
       checkedProgram = false;
-    }
-    else if (checkedOrganize) {
+    } else if (checkedOrganize) {
       checkedProgram = false;
     }
 
@@ -153,21 +152,27 @@ export class HomeComponent implements OnInit {
         name: 'author',
       }]
     };
-    if (this.typeCheck[0].status == true) {
+    if (this.typeCheck[0].status === true) {
       this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data);
-
       this.listStatus = 0;
       if (this.inputSearch != '') {
-
         const seachPerson = this.personList.filter(person => {
+          const title = person.TitleNameTh == 1 ? 'นาย' : person.TitleNameTh == 2 ? 'นางสาว' : 'นาง';
+          const titleOrther =  person.TitleNameOther != '' && person.TitleNameOther != null ? person.TitleNameOther : title;
+          const titleEn = person.TitleNameEn == 1 ? 'Mr.' : person.TitleNameEn == 2 ? 'Mrs.' : 'Miss.';
+          const titleOrtherEn =  person.TitleNameOther != '' && person.TitleNameOther != null ? person.TitleNameOther : titleEn;
           return (String(person.FristNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
-            (String(person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase())
-        });
-        this.personList = seachPerson.length > 0 ? seachPerson : await this.mapPerson((await this.personsService.getsearchpersoncontact(this.inputSearch).toPromise()).data)
+            (String(person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
+            (String(title + person.FristNameTh + ' ' + person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
+            (String(titleOrther + person.FristNameTh + ' ' + person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
+            (String(titleEn + person.FristNameTh + ' ' + person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
+            (String(titleOrtherEn + person.FristNameTh + ' ' + person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
+            (String(person.FristNameTh + ' ' + person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase());});
+        this.personList = seachPerson.length > 0 ? seachPerson : await this.mapPerson((await this.personsService.getsearchpersoncontact(this.inputSearch).toPromise()).data);
         if (this.personList !== null && this.personList.length == 0) {
-          this.noData = true
+          this.noData = true;
         } else {
-          this.noData = false
+          this.noData = false;
         }
       }
     } else if (this.typeCheck[1].status == true) {
@@ -194,7 +199,7 @@ export class HomeComponent implements OnInit {
         });
       }
     }
-    this.spinner.hide()
+    this.spinner.hide();
     return this.page = 1;
   }
 
@@ -213,17 +218,16 @@ export class HomeComponent implements OnInit {
   }
 
   canSearch() {
-    return this.usersService.canView('/persons') || this.usersService.canView('/organizations') || this.usersService.canView('/program')
+    return this.usersService.canView('/persons') || this.usersService.canView('/organizations') || this.usersService.canView('/program');
   }
 
   canSelect(menuNameTH) {
     if (menuNameTH == 'บุคคล') {
-      return this.usersService.canView('/persons')
+      return this.usersService.canView('/persons');
     } else if (menuNameTH == 'องค์กร') {
-      return this.usersService.canView('/organizations')
-    }
-    else if (menuNameTH == 'โครงการ') {
-      return this.usersService.canView('/program')
+      return this.usersService.canView('/organizations');
+    } else if (menuNameTH == 'โครงการ') {
+      return this.usersService.canView('/program');
     }
     return false;
   }
