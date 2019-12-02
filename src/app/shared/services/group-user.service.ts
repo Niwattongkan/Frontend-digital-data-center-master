@@ -12,7 +12,7 @@ export class GroupUserService {
     ) { }
 
     setFormData(data) {
-        var CreateBy = this.usersService.getUserInfo().uid;
+        var CreateBy = 1;
         var formData = new FormData();
         let key = Object.keys(data);
         for (let index = 0; index < key.length; index++) {

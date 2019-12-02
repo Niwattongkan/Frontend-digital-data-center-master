@@ -17,7 +17,7 @@ export class AuthlogService {
     for (let index = 0; index < key.length; index++) {
         formData.append(key[index], (data[key[index]]) + "");
     }
-    var CreateBy = this.usersService.getUserInfo().uid;
+    var CreateBy = 1;
     formData.append("CreateBy", `${CreateBy}`);
     formData.append("UpdateBy", `${CreateBy}`);
     return formData

@@ -92,7 +92,7 @@ export class BoardService {
   }
   
   deleteboard(id): Observable<any> {
-    var UpdateBy = this.usersService.getUserInfo().uid;
+    var UpdateBy = 1;
     var formData = new FormData();
     formData.append("IsActive", `${0}`);
     formData.append("UpdateBy", `${UpdateBy}`);
@@ -101,7 +101,7 @@ export class BoardService {
   }
 
   deleterole(id): Observable<any> {
-    var UpdateBy = this.usersService.getUserInfo().uid;
+    var UpdateBy = 1;
     var formData = new FormData();
     formData.append("IsActive", `${0}`);
     formData.append("UpdateBy", `${UpdateBy}`);

@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
   async ngOnInit() {
     this.spinner.show();
 
-    console.log(this.usersService.getUserInfo().uid);
+    //console.log(this.usersService.getUserInfo().email);
     this.typeCheck = this.setTypeCheck();
     this.noData = false;
     this.spinner.hide();

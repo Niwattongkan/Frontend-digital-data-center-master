@@ -78,7 +78,7 @@
                   </i>
                 </td>
               </tr>
-              <tr *ngFor="let data of contactList; let i = index">
+              <tr *ngFor="let data of contactListModal; let i = index">
                 <td>
                   <label *ngIf="data.TypeContactId == 1">อีเมล</label>
                   <label *ngIf="data.TypeContactId == 2">เบอร์โทร</label>
@@ -136,9 +136,10 @@
                 </div>
               </td>
               <td>
+                  <!-- autocomplete="on" appAutoFocus  [(ngModel)]="data.Contact"-->
                 <div class="input-group input-group-sm mb-3">
-                  <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" autocomplete="on" appAutoFocus
-                         formControlName="Contact" [(ngModel)]="data.Contact">
+                  <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" appAutoFocus
+                         formControlName="Contact">
                 </div>
               </td>
               <td>

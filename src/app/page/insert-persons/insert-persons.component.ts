@@ -47,7 +47,7 @@ export class InsertPersonsComponent implements OnInit {
   public workingList = [];
   public academyList = [];
   public imagePerson = '';
-  // public isimagePerson = '';
+  public isimagePerson = '';
   public nametitle = [];
 
   // checkTitleTh = '';
@@ -102,7 +102,7 @@ export class InsertPersonsComponent implements OnInit {
       .getOrganizationAll()
       .toPromise()).data;
     this.profileOriginForm = resultPerson ? resultPerson : null;
-    // this.isimagePerson = this.personId ? this.profileOriginForm.PathPhoto : null;
+    this.isimagePerson = this.personId ? this.profileOriginForm.PathPhoto : null;
     this.profileForm = await this.setProfile(resultPerson);
     this.personId ? await this.setList() : null;
     this.academyList = (await this.dropdownService
@@ -116,6 +116,9 @@ export class InsertPersonsComponent implements OnInit {
     this.imgURL = resultImage ? resultImage[0] : null;
 
     this.imgURL = this.imgURL == 'h' ? resultImage : '../../../../assets/icon-customer/image-default.png';
+    if(!this.isimagePerson){
+      this.imgURL = '../../../../assets/icon-customer/image-default.png';
+    }
     if (
       this.profileForm.value['TitleNameOther'] !== null &&
       this.profileForm.value['TitleNameOther'] !== ''
@@ -574,16 +577,20 @@ export class InsertPersonsComponent implements OnInit {
     Array.prototype.push.apply(this.contactList, value);
     // this.contactList = value
   }
-  public async updateContact(value) {
+  public async updateContact(value,index) {
+
     if (this.personId) {
       const getcontactperson = this.personsService.getcontactperson(value[1]);
         const element = value[0];
-        element.PersonId = value[1];
+        element.PersonId = Number(this.personId);
+      //  element.PersonId = value[1];
         await this.personsService.updatePersonContact(element).toPromise();
 
       alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
     }
-    Array.prototype.push.apply(this.contactList, value);
+
+    this.contactList[index] = value[0];
+  //  Array.prototype.push.apply(this.contactList, value[0]);
     // this.contactList = value
   }
   public async deleteCoordinator(index) {

@@ -89,7 +89,7 @@ export class SettingLicenseComponent implements OnInit {
     const permission = value.permission;
 
     
-    var CreateBy = this.usersService.getUserInfo().uid;
+    var CreateBy = 1;
     const resultPermission = (await this.permissionService.insertpermission({
       PermissionName: permission.PermissionName,
       IsActive:1,
@@ -101,7 +101,7 @@ export class SettingLicenseComponent implements OnInit {
         GroupUserId: data.GroupUserId
       }).toPromise()).data
       console.log(groupPermission)
-      var CreateBy = this.usersService.getUserInfo().uid;
+      var CreateBy = 1;
       role.forEach(async element => {
         await this.permissionService.insertpermissionmanage({
           PView: element.View ? 1 : 0,
@@ -133,14 +133,14 @@ export class SettingLicenseComponent implements OnInit {
     const role = value.role;
     const data = value.license;
     const permission = value.permission;
-    var CreateBy = this.usersService.getUserInfo().uid;
+    var CreateBy = 1;
     const resultPermission = (await this.permissionService.updatepermission({
       PermissionName: permission.PermissionName,
       IsActive:1,
       CreateBy:CreateBy
     }).toPromise()).data[0];
 
-    var CreateBy = this.usersService.getUserInfo().uid;
+    var CreateBy = 1;
     permission.GroupNames.forEach(async data => {
       const groupPermission = (await this.permissionService.updategrouppermission({
         PermissionId: resultPermission.PermissionId,

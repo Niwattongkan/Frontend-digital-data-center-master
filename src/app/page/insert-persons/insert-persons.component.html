@@ -594,7 +594,7 @@
                   </td>
                   <ng-template #updatePersonContact let-modal>
                     <modal-contact-information [data]="contactList[i]"
-                                               (onSubmit)="updateContact($event)">
+                                               (onSubmit)="updateContact($event,i)">
                     </modal-contact-information>
                   </ng-template>
                 </tr>

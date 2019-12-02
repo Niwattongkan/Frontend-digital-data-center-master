@@ -12,17 +12,17 @@ export class NoteService {
     ) { }
 
     setFormData(data) {
-        var CreateBy = this.usersService.getUserInfo().uid;
+        var CreateBy = 1;
         var formData = new FormData();
         let key = Object.keys(data);
         for (let index = 0; index < key.length; index++) {
             formData.append(key[index], (data[key[index]]) + "");
         }
-        formData.append("CreateBy", `${CreateBy}`);
-        formData.append("UpdateBy", `${CreateBy}`);
-        formData.append("Channel", "xxx");
-        formData.append("Verify", `${1}`);
-        formData.append("IsActive", `${1}`);
+        formData.append("CreateBy", `${1}`);
+        formData.append("UpdateBy", `${1}`);
+        // formData.append("Channel", "xxx");
+        // formData.append("Verify", `${1}`);
+        // formData.append("IsActive", `${1}`);
         return formData
     }
 
