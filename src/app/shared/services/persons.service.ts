@@ -1,23 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './config-services/api.service';
-
+import { UsersService } from '../../shared/services/users.service';
 @Injectable()
 
 export class PersonsService {
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    private usersService:UsersService
   ) { }
 
   setFormData(data) {
+    var CreateBy = this.usersService.getUserInfo().uid;
     var formData = new FormData();
     let key = Object.keys(data);
     for (let index = 0; index < key.length; index++) {
       formData.append(key[index], (data[key[index]]));
     }
-    formData.append("CreateBy", `${1}`);
-    formData.append("UpdateBy", `${1}`);
+    formData.append("CreateBy", `${CreateBy}`);
+    formData.append("UpdateBy", `${CreateBy}`);
     formData.append("Channel", "xxx");
     formData.append("IsActive", `${1}`);
     formData.append("Verify", `${1}`);

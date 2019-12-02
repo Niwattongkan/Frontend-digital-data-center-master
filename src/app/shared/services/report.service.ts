@@ -59,6 +59,7 @@ export class ReportService {
   }
 
   getreportnote(data): Observable<any> {
+    
     const params = new URLSearchParams();
     params.append('CreateBy', data.CreateBy ? data.CreateBy : '');
     params.append('NoteName', data.NoteName ? data.NoteName : '');

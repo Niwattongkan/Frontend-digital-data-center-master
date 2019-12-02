@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './config-services/api.service';
-
+import { UsersService } from '../../shared/services/users.service';
 @Injectable()
 
 export class AuthlogService {
 
   constructor(
-    private apiService: ApiService
+    private apiService: ApiService,
+    private usersService:UsersService
   ) { }
 
   setFormData(data) {
@@ -16,8 +17,9 @@ export class AuthlogService {
     for (let index = 0; index < key.length; index++) {
         formData.append(key[index], (data[key[index]]) + "");
     }
-    formData.append("CreateBy", `${1}`);
-    formData.append("UpdateBy", `${1}`);
+    var CreateBy = this.usersService.getUserInfo().uid;
+    formData.append("CreateBy", `${CreateBy}`);
+    formData.append("UpdateBy", `${CreateBy}`);
     return formData
 }
   getuserinfo(data):Observable<any>{

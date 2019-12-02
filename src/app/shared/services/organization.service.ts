@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { ApiService } from "./config-services/api.service";
-
+import { UsersService } from '../../shared/services/users.service';
 @Injectable()
 export class OrganizationService {
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService,  private usersService:UsersService) {}
 
   setFormData(data) {
     const formData = new FormData();
@@ -70,20 +70,23 @@ export class OrganizationService {
   }
 
   insertCorporation(data): Observable<any> {
+    var CreateBy = this.usersService.getUserInfo().uid;
     const formData = this.setFormData(data);
-    formData.append("CreateBy", `${1}`)
+    formData.append("CreateBy", `${CreateBy}`)
     return this.apiService.post(`insertcorporation`, formData);
   }
 
   insertCorporationContact(data): Observable<any> {
+    var CreateBy = this.usersService.getUserInfo().uid;
     const formData = this.setFormData(data);
-    formData.append("CreateBy", `${1}`)
+    formData.append("CreateBy", `${CreateBy}`)
     return this.apiService.post(`insertcorporationcontact`, formData);
   }
 
   insertcoordinatorcantact(data): Observable<any> {
+    var CreateBy = this.usersService.getUserInfo().uid;
     const formData = this.setFormData(data);
-    formData.append("CreateBy", `${1}`)
+    formData.append("CreateBy", `${CreateBy}`)
     return this.apiService.post(`insertcoordinatorcantact`, formData);
   }
 
@@ -93,20 +96,23 @@ export class OrganizationService {
   }
 
   updatecorporation(data): Observable<any> {
+    var UpdateBy = this.usersService.getUserInfo().uid;
     const formData = this.setFormData(data);
-    formData.append("UpdateBy", `${1}`);
+    formData.append("UpdateBy", `${UpdateBy}`);
     return this.apiService.put(`updatecorporation`, formData);
   }
 
   updateCorporationContact(data): Observable<any> {
+    var UpdateBy = this.usersService.getUserInfo().uid;
     const formData = this.setFormData(data);
-    formData.append("UpdateBy", `${1}`);
+    formData.append("UpdateBy", `${UpdateBy}`);
     return this.apiService.put(`updatecorporationcontact`, formData);
   }
 
   updateCorporationAddress(data): Observable<any> {
+    var UpdateBy = this.usersService.getUserInfo().uid;
     const formData = this.setFormData(data);
-    formData.append("UpdateBy", `${1}`);
+    formData.append("UpdateBy", `${UpdateBy}`);
     return this.apiService.put(`updatecorporationaddress`, formData);
   }
 

@@ -88,10 +88,12 @@ export class SettingLicenseComponent implements OnInit {
     const data = value.license;
     const permission = value.permission;
 
+    
+    var CreateBy = this.usersService.getUserInfo().uid;
     const resultPermission = (await this.permissionService.insertpermission({
       PermissionName: permission.PermissionName,
       IsActive:1,
-      CreateBy:'test'
+      CreateBy:CreateBy
     }).toPromise()).data[0];
     permission.GroupNames.forEach(async data => {
       const groupPermission = (await this.permissionService.insertgrouppermission({
@@ -99,6 +101,7 @@ export class SettingLicenseComponent implements OnInit {
         GroupUserId: data.GroupUserId
       }).toPromise()).data
       console.log(groupPermission)
+      var CreateBy = this.usersService.getUserInfo().uid;
       role.forEach(async element => {
         await this.permissionService.insertpermissionmanage({
           PView: element.View ? 1 : 0,
@@ -107,7 +110,7 @@ export class SettingLicenseComponent implements OnInit {
           PDelete: element.Delete ? 1 : 0,
           Import: element.Import ? 1 : 0,
           Export: element.Export ? 1 : 0,
-          CreateBy: 'test',
+          CreateBy: CreateBy,
           isActive: 1,
           PermissionId: groupPermission.GroupPermissionId,
           MenuId: element.MenuId,
@@ -130,12 +133,14 @@ export class SettingLicenseComponent implements OnInit {
     const role = value.role;
     const data = value.license;
     const permission = value.permission;
-
+    var CreateBy = this.usersService.getUserInfo().uid;
     const resultPermission = (await this.permissionService.updatepermission({
       PermissionName: permission.PermissionName,
       IsActive:1,
-      CreateBy:'test'
+      CreateBy:CreateBy
     }).toPromise()).data[0];
+
+    var CreateBy = this.usersService.getUserInfo().uid;
     permission.GroupNames.forEach(async data => {
       const groupPermission = (await this.permissionService.updategrouppermission({
         PermissionId: resultPermission.PermissionId,
@@ -149,7 +154,7 @@ export class SettingLicenseComponent implements OnInit {
           PDelete: element.Delete ? 1 : 0,
           Import: element.Import ? 1 : 0,
           Export: element.Export ? 1 : 0,
-          CreateBy: 'test',
+          CreateBy: CreateBy,
           isActive: 1,
           PermissionId: groupPermission.GroupPermissionId,
           MenuId: element.MenuId,
