@@ -47,7 +47,7 @@ export class InsertPersonsComponent implements OnInit {
   public workingList = [];
   public academyList = [];
   public imagePerson = '';
-  public isimagePerson = '';
+  // public isimagePerson = '';
   public nametitle = [];
 
   // checkTitleTh = '';
@@ -102,7 +102,7 @@ export class InsertPersonsComponent implements OnInit {
       .getOrganizationAll()
       .toPromise()).data;
     this.profileOriginForm = resultPerson ? resultPerson : null;
-    this.isimagePerson = this.personId ? this.profileOriginForm.PathPhoto : null;
+    // this.isimagePerson = this.personId ? this.profileOriginForm.PathPhoto : null;
     this.profileForm = await this.setProfile(resultPerson);
     this.personId ? await this.setList() : null;
     this.academyList = (await this.dropdownService
