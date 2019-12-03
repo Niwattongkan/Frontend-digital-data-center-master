@@ -116,7 +116,7 @@ export class InsertPersonsComponent implements OnInit {
     this.imgURL = resultImage ? resultImage[0] : null;
 
     this.imgURL = this.imgURL == 'h' ? resultImage : '../../../../assets/icon-customer/image-default.png';
-    if(!this.isimagePerson){
+    if (!this.isimagePerson) {
       this.imgURL = '../../../../assets/icon-customer/image-default.png';
     }
     if (
@@ -577,7 +577,7 @@ export class InsertPersonsComponent implements OnInit {
     Array.prototype.push.apply(this.contactList, value);
     // this.contactList = value
   }
-  public async updateContact(value,index) {
+  public async updateContact(value, index) {
 
     if (this.personId) {
       const getcontactperson = this.personsService.getcontactperson(value[1]);
@@ -647,26 +647,11 @@ export class InsertPersonsComponent implements OnInit {
     this.coordinateList = Object.values(groupbyList(mapPersons((await this.personsService
       .getcoordinator(this.personId)
       .toPromise()).data), 'FullnameTh'));
-
+    for (let i = 0; i < this.coordinateList.length; i++) {
+      this.nametitle.push(this.coordinateList[i][0].FullnameTh);
+    }
   }
 
-//   if (this.personId) {
-//   const getcontactperson = this.personsService.getcontactperson(value[1])
-//   if (getcontactperson != null) {
-//   const element = value[0]
-//   element.PersonContactId = value[1]
-//   await this.personsService.updatePersonContact(element).toPromise()
-// } else {
-//   for (let index = 0; index < value.length; index++) {
-//     const element = value[index];
-//     element.PersonId = Number(this.personId);
-//     await this.personsService.insertPersonContact(element).toPromise();
-//   }
-// }
-// alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
-// }
-// Array.prototype.push.apply(this.contactList, value);
-// // this.contactList = value
 
   public async deleteBursary(index) {
     return alertDeleteEvent().then(async confirm => {
@@ -687,18 +672,6 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   public async updateBursary(value) {
-    // if (value.AcademyId) {
-    //   value.PersonId = Number(this.personId);
-    //   await this.personsService.updateeducation(value).toPromise();
-    // } else {
-    //     value.PersonId = Number(this.personId);
-    //     await this.personsService.inserteducation(value).toPromise();
-    //     this.bursaryList.push(value);
-    // }
-    // alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
-    // this.bursaryList = (await this.personsService
-    //   .getEducationById(this.personId)
-    //   .toPromise()).data;
       const model = value;
       model.PersonId = Number(this.personId);
       await this.personsService.updateeducation(model).toPromise();
@@ -707,15 +680,19 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   public async inserteducation(value) {
-    debugger;
+    // debugger;
     if (this.personId) {
-      value.PersonId = Number(this.personId);
-      await this.personsService.inserteducation(value).toPromise();
-      alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
+      for (let index = 0; index < value.length; index++) {
+        const element = value[index];
+        element.PersonId = Number(this.personId);
+        await this.personsService.inserteducation(element).toPromise();
+      }
       this.bursaryList = (await this.personsService.getEducationById(this.personId).toPromise()).data;
-    } else {
-      this.bursaryList.push(value);
+      alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
     }
+    // else {
+    //   this.bursaryList.push(value);
+    // }
   }
 
   public async deleteWorking(index) {

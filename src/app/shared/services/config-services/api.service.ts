@@ -36,7 +36,7 @@ export class ApiService {
   }
 
   private formatErrors(error: any) {
-    debugger
+    // debugger
     if ((error.status === 401 || error.status === 403) && (window.location.href.match(/\?/g) || []).length < 2) {
       this.router.navigate(['/login']);
     }
@@ -133,7 +133,7 @@ export class ApiService {
   }
 
   appendParams(path){
-    
+
     return path //send 'code' with cookie
 
     // if(path.includes('?')){

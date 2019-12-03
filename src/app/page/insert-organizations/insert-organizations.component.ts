@@ -451,8 +451,6 @@ export class InsertOrganizationsComponent implements OnInit {
             .deleteCorporationContact(model.CorporationContactId)
             .subscribe(
               res => {
-                // this.province = res.data;
-                console.log(res.data);
                 if (res.successful) {
                   Swal.fire({
                     title: 'สำเร็จ',
@@ -664,11 +662,11 @@ export class InsertOrganizationsComponent implements OnInit {
           CorporationAddressId: [data.CorporationAddressId],
           TypeAddress: [data.TypeAddress, [Validators.required]],
           HouseNumber: [data.HouseNumber, [Validators.required]],
-          Building: [''],
-          Floor: [''],
-          Room: [''],
-          Road: [''],
-          Soi: [''],
+          Building: [data.Building],
+          Floor: [data.Floor],
+          Room: [data.Room],
+          Road: [data.Road],
+          Soi: [data.Soi],
           Subdistrict: [data.Subdistrict, [Validators.required]],
           District: [data.District, [Validators.required]],
           Province: [data.Province, [Validators.required]],

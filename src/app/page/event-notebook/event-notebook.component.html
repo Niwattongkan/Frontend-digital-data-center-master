@@ -29,7 +29,6 @@
   <div class="row mt-4">
 
     <div class="col-md-12 text-right">
-      <button class="btn btn-success ml-2"><i class="fas fa-copy"></i> คัดลอก</button>
       <button [disabled]="!canAddNoteBook" class="btn btn-success ml-2" (click)="openModal(insertModal, 'md')">
         <i class="fas fa-plus"></i>
         สร้างบันทึกใหม่
@@ -48,10 +47,10 @@
         </thead>
         <tbody class="bg-white">
           <tr *ngFor="let data of noteList | paginate: { itemsPerPage: 10, currentPage: page }; let i = index">
-            <td class="text-left">{{ data.FullnameTh }}</td>
+            <td class="text-left">{{ data.NameBoard }}</td>
             <td class="text-left">{{ data.NoteName }}</td>
             <td class="text-left">{{ data.Description }}</td>
-            <td>{{ findPersonDetail(data.CreateBy) }}</td>
+            <td>{{ data.CreateBy }}</td>
             <td>{{ data.CreateDate | date: 'dd/MM/yyyy' }}</td>
             <td>
               <a href="javascript:void(0)" (click)="openModal(detailsharedModal, 'lg')">
@@ -59,6 +58,9 @@
               </a>
             </td>
             <td class="text-center">
+              <a href="javascript:void(0)" class="btn btn-outline-info btn-sm mr-2" (click)="coppy(data)">
+                <i class="far fa-copy"></i>
+              </a>
               <a href="javascript:void(0)" class="btn btn-outline-primary btn-sm mr-2"
                 (click)="openModal(sharedModal, 'md')">
                 <i class="fas fa-share-alt"></i>

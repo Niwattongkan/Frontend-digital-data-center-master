@@ -106,16 +106,16 @@ export class EventNotebookComponent implements OnInit {
     };
     let result = (await this.noteService.insertShareNote(model).toPromise())
       .data[0];
-    
+
     for (let index = 0; index < value.Person.length; index++) {
-    
+
       let person = value.Person[index];
       let share = {
         ShareNoteId: result.ShareNoteId,
         PersonId: person.PersonId,
         StartDate: moment(result.StartDate).format('YYYY-MM-DD'),
         EndDate:  moment(result.EndDate).format('YYYY-MM-DD')
-      }; 
+      };
       await this.noteService.insertdetailShareNote(share).toPromise();
     }
     this.spinner.hide();
