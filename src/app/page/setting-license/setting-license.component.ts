@@ -17,11 +17,11 @@ export class SettingLicenseComponent implements OnInit {
 
   public roleList: any = [];
   public headers: any = ['ชื่อสิทธิ์การใช้งาน', 'เครื่องมือ'];
-
+  public getperman: any = [];
   public inputSearch = '';
   public page: number;
   public canAddLicense = false;
-  public canEditLicense= false;
+  public canEditLicense = false;
   public canDeleteLicense = false;
 
   constructor(
@@ -37,6 +37,7 @@ export class SettingLicenseComponent implements OnInit {
     this.roleList.map(async element => {
       element.Persons = await this.mapRole(element.PermissionId);
     });
+
     this.canAddLicense = this.usersService.canAddLicense();
     this.canEditLicense = this.usersService.canEditLicense();
     this.canDeleteLicense = this.usersService.canDeleteLicense();
@@ -44,7 +45,7 @@ export class SettingLicenseComponent implements OnInit {
   }
 
   public openModal(content, size) {
-    this.modalService.open(content, { size: 'lg' , windowClass : "myCustomModalClass"});
+    this.modalService.open(content, { size: 'lg', windowClass: "myCustomModalClass" });
   }
 
   async mapRole(id) {
@@ -88,35 +89,38 @@ export class SettingLicenseComponent implements OnInit {
     const data = value.license;
     const permission = value.permission;
 
-    
+    let perid;
     var CreateBy = 1;
     const resultPermission = (await this.permissionService.insertpermission({
       PermissionName: permission.PermissionName,
-      IsActive:1,
-      CreateBy:CreateBy
+      IsActive: 1,
+      CreateBy: CreateBy
     }).toPromise()).data[0];
-    permission.GroupNames.forEach(async data => {
-      const groupPermission = (await this.permissionService.insertgrouppermission({
-        PermissionId: resultPermission.PermissionId,
-        GroupUserId: data.GroupUserId
-      }).toPromise()).data
-      console.log(groupPermission)
-      var CreateBy = 1;
-      role.forEach(async element => {
-        await this.permissionService.insertpermissionmanage({
-          PView: element.View ? 1 : 0,
-          PAdd: element.Add ? 1 : 0,
-          PEdit: element.Edit ? 1 : 0,
-          PDelete: element.Delete ? 1 : 0,
-          Import: element.Import ? 1 : 0,
-          Export: element.Export ? 1 : 0,
-          CreateBy: CreateBy,
-          isActive: 1,
-          PermissionId: groupPermission.GroupPermissionId,
-          MenuId: element.MenuId,
 
-        })
-      });
+    this.roleList = (await this.permissionService.getallpermission().toPromise()).data || [];
+    this.roleList.map(async element => {
+      element.Persons = await this.mapRole(element.PermissionId);
+    });
+    this.roleList.find(function (item) {
+      if (item.PermissionName == permission.PermissionName) {
+        perid = item.PermissionId
+      }
+    })
+
+    role.forEach(async element => {
+      await this.permissionService.insertpermissionmanage({
+        PView: element.View ? 1 : 0,
+        PAdd: element.Add ? 1 : 0,
+        PEdit: element.Edit ? 1 : 0,
+        PDelete: element.Delete ? 1 : 0,
+        Import: element.Import ? 1 : 0,
+        Export: element.Export ? 1 : 0,
+        CreateBy: CreateBy,
+        isActive: 1,
+        PermissionId: perid,
+        MenuId: element.MenuId,
+
+      }).toPromise()
     });
 
     this.roleList = (await this.permissionService.getallpermission().toPromise()).data || [];
@@ -136,15 +140,20 @@ export class SettingLicenseComponent implements OnInit {
     var CreateBy = 1;
     const resultPermission = (await this.permissionService.updatepermission({
       PermissionName: permission.PermissionName,
-      PermissionId : permission.PermissionId,
-      IsActive:1,
-      CreateBy:CreateBy
+      PermissionId: permission.PermissionId,
+      IsActive: 1,
+      CreateBy: CreateBy
     }).toPromise()).data[0];
 
     var CreateBy = 1;
-  
-      role.forEach(async element => {
-         (await this.permissionService.updatepermissionmanage({
+    this.getperman = (await this.permissionService.getpermissionmanage(permission.PermissionId).toPromise()).data
+    console.log('getpermanxx', this.getperman);
+    let i = 0;
+    this.getperman.forEach(item => {
+      if (item.PermissionId == permission.PermissionId) {
+        let element = role[i];
+        i++;
+        this.permissionService.updatepermissionmanage({
           PView: element.View ? 1 : 0,
           PAdd: element.Add ? 1 : 0,
           PEdit: element.Edit ? 1 : 0,
@@ -155,13 +164,20 @@ export class SettingLicenseComponent implements OnInit {
           isActive: 1,
           PermissionId: permission.PermissionId,
           MenuId: element.MenuId,
-        }).toPromise()).data[0];
-      });
-
-
+          PermissionManageId: item.PermissionManageId
+        }).toPromise().then(
+          res => {
+            
+           }
+          , err => { }
+        );
+      }
+    });
     this.roleList = (await this.permissionService.getallpermission().toPromise()).data || [];
     this.roleList.map(async element => {
       element.Persons = await this.mapRole(element.PermissionId);
     });
   }
+
 }
+
