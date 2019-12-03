@@ -136,16 +136,13 @@ export class SettingLicenseComponent implements OnInit {
     var CreateBy = 1;
     const resultPermission = (await this.permissionService.updatepermission({
       PermissionName: permission.PermissionName,
+      PermissionId : permission.PermissionId,
       IsActive:1,
       CreateBy:CreateBy
     }).toPromise()).data[0];
 
     var CreateBy = 1;
-    permission.GroupNames.forEach(async data => {
-      const groupPermission = (await this.permissionService.updategrouppermission({
-        PermissionId: resultPermission.PermissionId,
-        GroupUserId: data.GroupUserId
-      }).toPromise()).data
+  
       role.forEach(async element => {
          (await this.permissionService.updatepermissionmanage({
           PView: element.View ? 1 : 0,
@@ -156,11 +153,11 @@ export class SettingLicenseComponent implements OnInit {
           Export: element.Export ? 1 : 0,
           CreateBy: CreateBy,
           isActive: 1,
-          PermissionId: groupPermission.GroupPermissionId,
+          PermissionId: permission.PermissionId,
           MenuId: element.MenuId,
         }).toPromise()).data[0];
       });
-    });
+
 
     this.roleList = (await this.permissionService.getallpermission().toPromise()).data || [];
     this.roleList.map(async element => {
