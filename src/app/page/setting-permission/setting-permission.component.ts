@@ -110,6 +110,7 @@ export class SettingPermissionComponent implements OnInit {
     await this.boardService.updateboard({
       BoardId: value.BoardId,
       BoardName: value.BoardName,
+      IsActive :1,
       StartDate: "2019-06-04 02:36:54.800",
       EndDate: "2019-06-04 02:36:54.800",
     }).toPromise()

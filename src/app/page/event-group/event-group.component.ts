@@ -213,7 +213,7 @@ export class EventGroupComponent implements OnInit {
       }
       await this.contactGroupService.insertcotactgroupperson(model).toPromise()
     });
-    alertEvent("ลบข้อมูลสำเร็จ", "success");
+    alertEvent("บันทึกข้อมูลสำเร็จ", "success");
 
     this.eventGroupList = this.groupData(await mapPersons((await this.contactGroupService.getContactGroupAll().toPromise()).data))
 

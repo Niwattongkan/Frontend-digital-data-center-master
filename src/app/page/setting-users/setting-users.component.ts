@@ -93,11 +93,17 @@ export class SettingUsersComponent implements OnInit {
       const model = {
         GroupUserId: result.GroupUserId,
         PersonId: data.Person[index].PersonId,
+        UpdateBy: 1,
+        IsActive: 1
       };
       const resultPerson = (await this.groupUserService.insertgroupuserperson(model).toPromise()).data[0];
       await this.groupUserService.insertmanagegroup({
         GroupUserPersonalId: resultPerson.GroupUserPersonalId,
         BoardId: data.Person.BoardId,
+        GroupUserId : result.GroupUserId,
+        CreateBy: 1,
+        UpdateBy:1,
+        IsActive: 1
       }).toPromise();
     }
     alertEvent("บันทึกข้อมูลสำเร็จ", "success");

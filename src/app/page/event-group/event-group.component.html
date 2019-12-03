@@ -58,7 +58,7 @@
                     {{ person.FullnameTh }}
                   </p>
                 </td>
-                <td>{{ findPersonDetail(data.Person[0].CreateBy) }}</td>
+                <td>{{ data.Person[0].Username }}</td>
                 <td class="text-center">
                   <a [ngClass]="{'link-disabled disabled': !canExportGroup}" href="javascript:void(0)" class="dropdown-toggle btn btn-outline-warning btn-sm"
                     data-toggle="dropdown">
