@@ -93,12 +93,16 @@ export class PersonsListComponent implements OnInit {
   }
 
 
-  canEdit(url, checkNext = null){
+  canEdit(url, checkNext = null) {
     /*var ret = this.usersService.canEdit(url)
     if (ret){
       if (checkNext !== null)
         return checkNext;
     }*/
     return this.canAddPerson;
+  }
+
+  exportImport() {
+
   }
 }

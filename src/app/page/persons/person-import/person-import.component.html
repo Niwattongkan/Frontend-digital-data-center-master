@@ -1,0 +1,119 @@
+<ngx-spinner></ngx-spinner>
+<div class="container">
+    <h2>Export/Import</h2>
+    <div class="row justify-content-center mt-4">
+        <div class="col text-right">
+            <a class="btn btn-danger" href="javascript:history.back()">Go Back</a>
+        </div>
+    </div>
+
+    <div class="card shadow mt-2">
+        <div class="card-body row">
+            <div class="col">
+                <h3>Person.xlsx</h3>
+                <input type="file" accept=".xlsx" (change)="onFileChange($event, 'person')" />
+                <p *ngIf="personData">{{personData.length}} rows.</p>
+                <button class="btn btn-info text-right" (click)="Upload('person')" *ngIf="personData">Import</button>
+            </div>
+            <div class="col">
+                <button class="btn btn-success text-right" (click)="Export('person')">Export</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mt-2">
+        <div class="card-body row">
+            <div class="col">
+                <h3>PersonAddress.xlsx</h3>
+                <input type="file" accept=".xlsx" (change)="onFileChange($event, 'PersonAddress')" />
+                <p *ngIf="PersonAddress">{{PersonAddress.length}} rows.</p>
+                <button class="btn btn-info text-right" (click)="Upload('PersonAddress')"
+                    *ngIf="PersonAddress">Import</button>
+            </div>
+            <div class="col">
+                PersonId : <input type="text" [(ngModel)]="PersonId">
+                <button class="btn btn-success text-right" (click)="Export('PersonAddress')">Export</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mt-2">
+        <div class="card-body row">
+            <div class="col">
+                <h3>PersonContact.xlsx</h3>
+                <input type="file" accept=".xlsx" (change)="onFileChange($event, 'PersonContact')" />
+                <p *ngIf="PersonContact">{{PersonContact.length}} rows.</p>
+                <button class="btn btn-info text-right" (click)="Upload('PersonContact')"
+                    *ngIf="PersonContact">Import</button>
+            </div>
+            <div class="col">
+                PersonId : <input type="text" [(ngModel)]="PersonId">
+                <button class="btn btn-success text-right" (click)="Export('PersonContact')">Export</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mt-2">
+        <div class="card-body row">
+            <div class="col">
+                <h3>PersonCoordinator.xlsx</h3>
+                <input type="file" accept=".xlsx" (change)="onFileChange($event, 'PersonCoordinator')" />
+                <p *ngIf="PersonCoordinator">{{PersonCoordinator.length}} rows.</p>
+                <button class="btn btn-info text-right" (click)="Upload('PersonCoordinator')"
+                    *ngIf="PersonCoordinator">Import</button>
+            </div>
+            <div class="col">
+                PersonId : <input type="text" [(ngModel)]="PersonId">
+                <button class="btn btn-success text-right" (click)="Export('PersonCoordinator')">Export</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mt-2">
+        <div class="card-body row">
+            <div class="col">
+                <h3>PersonEducation.xlsx</h3>
+                <input type="file" accept=".xlsx" (change)="onFileChange($event, 'PersonEducation')" />
+                <p *ngIf="PersonEducation">{{PersonEducation.length}} rows.</p>
+                <button class="btn btn-info text-right" (click)="Upload('PersonEducation')"
+                    *ngIf="PersonEducation">Import</button>
+            </div>
+            <div class="col">
+                PersonId : <input type="text" [(ngModel)]="PersonId">
+                <button class="btn btn-success text-right" (click)="Export('PersonEducation')">Export</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mt-2">
+            <div class="card-body row">
+                <div class="col">
+                    <h3>PersonFamily.xlsx</h3>
+                    <input type="file" accept=".xlsx" (change)="onFileChange($event, 'PersonFamily')" />
+                    <p *ngIf="PersonFamily">{{PersonFamily.length}} rows.</p>
+                    <button class="btn btn-info text-right" (click)="Upload('PersonFamily')"
+                        *ngIf="PersonFamily">Import</button>
+                </div>
+                <div class="col">
+                    PersonId : <input type="text" [(ngModel)]="PersonId">
+                    <button class="btn btn-success text-right" (click)="Export('PersonFamily')">Export</button>
+                </div>
+            </div>
+        </div>
+        
+    <div class="card shadow mt-2">
+            <div class="card-body row">
+                <div class="col">
+                    <h3>PersonWork.xlsx</h3>
+                    <input type="file" accept=".xlsx" (change)="onFileChange($event, 'PersonWork')" />
+                    <p *ngIf="PersonWork">{{PersonWork.length}} rows.</p>
+                    <button class="btn btn-info text-right" (click)="Upload('PersonWork')"
+                        *ngIf="PersonWork">Import</button>
+                </div>
+                <div class="col">
+                    PersonId : <input type="text" [(ngModel)]="PersonId">
+                    <button class="btn btn-success text-right" (click)="Export('PersonWork')">Export</button>
+                </div>
+            </div>
+        </div>
+</div>

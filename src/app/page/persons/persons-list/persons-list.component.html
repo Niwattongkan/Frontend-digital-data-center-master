@@ -8,7 +8,7 @@
         </div>
         <div class="col-md-6 text-right">
           <button class="btn btn-success" routerLink="/persons/insert" ngbTooltip="เพิ่มข้อมูลบุคคล"
-          [ngClass]="{'disabled noevent':!canEdit('/persons', canAddPerson)}">
+            [ngClass]="{'disabled noevent':!canEdit('/persons', canAddPerson)}">
             <i class="fas fa-plus mr-1"></i>เพิ่มข้อมูลบุคคล
           </button>
         </div>
@@ -18,8 +18,8 @@
       <div class="row mb-2">
         <div class="col-md-12">
           <div class="input-group input-group-alternative">
-            <input type="text" class="form-control" placeholder="กรอกข้อมูลบุคคลเพื่อค้นหา" name="inputSearch" [(ngModel)]="inputSearch"
-              (keyup.enter)="onSearchData()">
+            <input type="text" class="form-control" placeholder="กรอกข้อมูลบุคคลเพื่อค้นหา" name="inputSearch"
+              [(ngModel)]="inputSearch" (keyup.enter)="onSearchData()">
             <div class="input-group-append">
               <button class="btn btn-success" type="button" (click)="onSearchData()" ngbTooltip="ค้นหาข้อมูลบุคคล">
                 <i class="fas fa-search fa-md"></i>
@@ -30,6 +30,17 @@
       </div>
     </div>
   </div>
+
+  <div class="row justify-content-center mt-4">
+    <div class="col text-right">
+      <button class="btn btn-outline-warning btn-sm" [routerLink]="['/persons/import/']">
+        <i class="fas fa-file-excel"></i>
+        Import
+      </button>
+    </div>
+  </div>
+
+
   <div class="card shadow mt-2" *ngFor="let person of personList | paginate: { itemsPerPage: 10, currentPage: page }">
     <div class="card-body">
       <card-person [data]="person" (onDelete)="delete($event)"></card-person>
