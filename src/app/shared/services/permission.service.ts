@@ -33,6 +33,9 @@ export class PermissionsService {
     return this.apiService.get(`getallpermission`);
   }
 
+  getpermissionmanage(id): Observable<any>{
+    return this.apiService.get(`getpermissionmanage?PermissionId=` + id);
+  }
   getgrouppermissionperson(id): Observable<any> {
     return this.apiService.get(`getgrouppermissionperson?PermissionId=` + id);
   }
