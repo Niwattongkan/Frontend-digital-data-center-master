@@ -90,7 +90,7 @@ export class SettingLicenseComponent implements OnInit {
     const permission = value.permission;
 
     let perid;
-    var CreateBy = 1;
+    var CreateBy = this.usersService.getUserInfo().email;
     const resultPermission = (await this.permissionService.insertpermission({
       PermissionName: permission.PermissionName,
       IsActive: 1,
@@ -137,7 +137,7 @@ export class SettingLicenseComponent implements OnInit {
     const role = value.role;
     const data = value.license;
     const permission = value.permission;
-    var CreateBy = 1;
+    var CreateBy = this.usersService.getUserInfo().email;
     const resultPermission = (await this.permissionService.updatepermission({
       PermissionName: permission.PermissionName,
       PermissionId: permission.PermissionId,
@@ -145,7 +145,7 @@ export class SettingLicenseComponent implements OnInit {
       CreateBy: CreateBy
     }).toPromise()).data[0];
 
-    var CreateBy = 1;
+    var CreateBy = this.usersService.getUserInfo().email;
     this.getperman = (await this.permissionService.getpermissionmanage(permission.PermissionId).toPromise()).data
     console.log('getpermanxx', this.getperman);
     let i = 0;

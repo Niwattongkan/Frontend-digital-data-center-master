@@ -12,7 +12,7 @@ export class ContactGroupService {
     ) { }
 
     setFormData(data) {
-        var CreateBy = 1;
+        var CreateBy = this.usersService.getUserInfo().email;
         var formData = new FormData();
         let key = Object.keys(data);
         for (let index = 0; index < key.length; index++) {
@@ -69,7 +69,7 @@ export class ContactGroupService {
     }
 
     deletecontactgroup(id): Observable<any> {
-        var UpdateBy = 1;
+        var UpdateBy = this.usersService.getUserInfo().email;
         var formData = new FormData();
         formData.append("ContactGroupId", id);
         // formData.append("MemberGroupNo", id);

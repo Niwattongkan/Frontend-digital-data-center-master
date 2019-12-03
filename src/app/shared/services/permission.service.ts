@@ -13,7 +13,7 @@ export class PermissionsService {
   }
 
   setFormData(data) {
-    var CreateBy = 1;
+    var CreateBy = this.usersService.getUserInfo().email;
     var formData = new FormData();
     formData.append("CreateBy", `${CreateBy}`);
     formData.append("UpdateBy", `${CreateBy}`);

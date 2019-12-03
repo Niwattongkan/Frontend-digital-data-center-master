@@ -12,7 +12,7 @@ export class NoteService {
     ) { }
 
     setFormData(data) {
-        var CreateBy = 1;
+        var CreateBy = this.usersService.getUserInfo().email;
         var formData = new FormData();
         let key = Object.keys(data);
         for (let index = 0; index < key.length; index++) {

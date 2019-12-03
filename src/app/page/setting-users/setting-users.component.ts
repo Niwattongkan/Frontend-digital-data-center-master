@@ -118,7 +118,7 @@ export class SettingUsersComponent implements OnInit {
     };
     // await this.updateLog(data)
     await this.groupUserService.updategroupuser(groupName).toPromise();
-    var UpdateBy = 1;
+    var UpdateBy = this.usersService.getUserInfo().email;
     for (let index = 0; index < data.Person.length; index++) {
       const model = {
         GroupUserId: data.GroupUserId,
