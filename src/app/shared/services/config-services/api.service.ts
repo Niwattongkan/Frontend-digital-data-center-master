@@ -146,7 +146,10 @@ export class ApiService {
   checkTokenExprire(data) {
     //debugger
     try {
-      if (!data.successful && data.message != undefined && data.message.toLowerCase().includes('token')){ //TODO Make sure error about token exprie, or invalid
+      if (!data.successful && data.message && data.message.indexOf('Not authenticated') >= 0){
+        document.location.href = "/";
+      }
+      else if (!data.successful && data.message != undefined && data.message.toLowerCase().includes('token')){ //TODO Make sure error about token exprie, or invalid
         console.log(data);
         this.cookieService.delete('code');
         document.location.href = "/";
