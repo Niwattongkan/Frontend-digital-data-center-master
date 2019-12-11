@@ -52,7 +52,7 @@ export class EventGroupComponent implements OnInit {
       .subscribe(data => {
         console.log('th data', data);
         this.ipAddress = data
-      })
+      });
   }
 
   async ngOnInit() {
@@ -67,6 +67,8 @@ export class EventGroupComponent implements OnInit {
     this.canDeleteGroup = this.usersService.canDeleteGroup();
     this.canExportGroup = this.usersService.canExportGroup();
     this.spinner.hide()
+
+
   }
 
   mapPersons(personList) {
@@ -204,7 +206,7 @@ export class EventGroupComponent implements OnInit {
       doc.text('ถึง : ' + tite + " " + e.FristNameTh + " " + e.LastNameTh, x1, 20);
       doc.text('เบอร์โทร์ : ' + e.Contact, x1, 30);
 
-      let value =e;
+      let value = e;
       const Building = value.Building ? 'อาคาร ' + value.Building + ' ' : '';
       const Floor = value.Floor ? 'ชั้น ' + value.Floor + ' ' : '';
       const Room = value.Room ? 'ห้อง ' + value.Room + ' ' : '';
@@ -213,19 +215,19 @@ export class EventGroupComponent implements OnInit {
       const Soi = value.Soi ? 'ซอย ' + value.Soi + ' ' : '';
       const Province = value.Province != '' ? 'จังหวัด ' + value.Province + ' ' : '';
       const Zipcode = value.Zipcode != '' ? 'รหัสไปรษณีย์ ' + value.Zipcode + ' ' : '';
-      let Subdistrict ='';
-      let District= '';
+      let Subdistrict = '';
+      let District = '';
 
       if (value.Province == 'กรุงเทพมหานคร') {
         Subdistrict = value.Subdistrict != '' ? 'แขวง ' + value.Subdistrict + ' ' : '';
         District = value.District != '' ? 'เขต ' + value.District + ' ' : '';
       } else {
-         Subdistrict = value.Subdistrict != '' ? 'ตำบล ' + value.Subdistrict + ' ' : '';
-         District = value.District != '' ? 'อำเภอ ' + value.District + ' ' : '';
+        Subdistrict = value.Subdistrict != '' ? 'ตำบล ' + value.Subdistrict + ' ' : '';
+        District = value.District != '' ? 'อำเภอ ' + value.District + ' ' : '';
       }
 
       doc.text('ที่อยู่ :  ' + Building + Floor + Room + HouseNumber + Road + Soi, x1, 40);
-      doc.text('           ' + Subdistrict + District , x1, 50);
+      doc.text('           ' + Subdistrict + District, x1, 50);
       doc.text('           ' + Province + Zipcode, x1, 60);
 
       //Box 2

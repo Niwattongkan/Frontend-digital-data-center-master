@@ -38,6 +38,7 @@ export class SettingLicenseComponent implements OnInit {
       element.Persons = await this.mapRole(element.PermissionId);
     });
 
+    console.log('xxxgingrole :',this.roleList);
     this.canAddLicense = this.usersService.canAddLicense();
     this.canEditLicense = this.usersService.canEditLicense();
     this.canDeleteLicense = this.usersService.canDeleteLicense();
