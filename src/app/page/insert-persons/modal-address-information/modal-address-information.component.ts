@@ -5,9 +5,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DropdownService } from '../../../shared/services/dropdown.service';
 
 import { validForm } from '../../../shared/library/form';
-import {ActivatedRoute} from '@angular/router';
-import {PersonsService} from '../../../shared/services/persons.service';
-import {element} from 'protractor';
+import { ActivatedRoute } from '@angular/router';
+import { PersonsService } from '../../../shared/services/persons.service';
+import { element } from 'protractor';
 import SimpleCrypto from 'simple-crypto-js/build/SimpleCrypto';
 
 @Component({
@@ -20,7 +20,7 @@ export class ModalAddressInformationComponent implements OnInit {
   @Input() data: any;
 
   @Output() onSubmit: EventEmitter<any> = new EventEmitter<any>();
-
+  public title = "เพิ่มข้อมูลที่อยู่";
   public alertValid = false;
   public addressForm: FormGroup;
   public province: any = [];
@@ -40,6 +40,7 @@ export class ModalAddressInformationComponent implements OnInit {
 
 
   ) {
+
     this.addressForm = this.setAddress(null);
     const Crypto = new SimpleCrypto('some-unique-key');
     this.personId = this.activatedRoute.snapshot.paramMap.get('id') ? Crypto.decrypt(decodeURIComponent(this.activatedRoute.snapshot.paramMap.get('id'))) : '';
@@ -47,8 +48,8 @@ export class ModalAddressInformationComponent implements OnInit {
 
 
   async ngOnInit() {
-
-    this.checkTypeAddress();
+    if (this.data) this.title = 'แก้ไขข้อมูลที่อยู่';
+    //this.checkTypeAddress();
     this.province = (await this.dropdownService.getProvinceAll().toPromise()).data;
     this.addressForm = this.data ? this.setAddress(this.data) : this.setAddress(null);
 
@@ -76,40 +77,43 @@ export class ModalAddressInformationComponent implements OnInit {
     data.District ? this.showSubdistrict(data.District) : null;
   }
 
-  public async checkTypeAddress() {
-    this.addressList = (await this.personsService
-      .getAddressById(this.personId)
-      .toPromise()).data;
-    let account = 1;
-    let idCard = 1;
-    let nowaddress = 1;
-    // tslint:disable-next-line:no-shadowed-variable
-    this.addressList.forEach(element => {
-      if (element.TypeAddress === 'ตามทะเบียนบ้าน') {
-        account++;
-      } if (element.TypeAddress === 'ตามบัตรประชาชน') {
-        idCard++;
-      }
-      if (element.TypeAddress === 'ที่อยู่ปัจจุบัน') {
-        nowaddress++;
-      }
-      if (2 === account) {
-        this.checkAccording = true;
-      }
-      if (2 === idCard) {
-        this.checkIdCard = true;
-      }
-      if (2 === nowaddress) {
-        this.checkNowaddress = true;
-      }
-    });
+  // public checkTypeAddress() {
 
-  }
+  //   this.personsService
+  //     .getAddressById(this.personId)
+  //     .toPromise().then(res => {
+  //       if (!res.successful) alert(res.message);
+
+  //       this.addressList = res.data;
+  //       let account = 1;
+  //       let idCard = 1;
+  //       let nowaddress = 1;
+  //       this.addressList.forEach(element => {
+  //         if (element.TypeAddress === 'ตามทะเบียนบ้าน') {
+  //           account++;
+  //         } if (element.TypeAddress === 'ตามบัตรประชาชน') {
+  //           idCard++;
+  //         }
+  //         if (element.TypeAddress === 'ที่อยู่ปัจจุบัน') {
+  //           nowaddress++;
+  //         }
+  //         if (3 === account) {
+  //           this.checkAccording = true;
+  //         }
+  //         if (2 === idCard) {
+  //           this.checkIdCard = true;
+  //         }
+  //         if (1 === nowaddress) {
+  //           this.checkNowaddress = true;
+  //         }
+  //       });
+  //     })
+  // }
 
   private setAddress(data) {
     return data ? this.formBuilder.group({
       PersonAddressId: [data.PersonAddressId],
-      TypeAddress: [Number(data.TypeAddress), [Validators.required]],
+      TypeAddress: [data.TypeAddress, [Validators.required]],
       Subdistrict: [data.Subdistrict],
       District: [data.District, [Validators.required]],
       Province: [data.Province, [Validators.required]],

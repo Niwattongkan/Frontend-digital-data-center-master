@@ -1,5 +1,5 @@
 <div class="modal-header bg-custom-grey">
-  <h2 class="modal-title">เพิ่มข้อมูลที่อยู่</h2>
+  <h2 class="modal-title">{{title}}</h2>
   <button type="button" class="close" aria-label="Close" (click)="closeModal()">
     <span aria-hidden="true" class="text-default"> <i class="fa fa-times"></i> </span>
   </button>
@@ -13,14 +13,20 @@
         </div>
       </div>
       <div class="row mb-2">
+        {{data | json}}
         <label class="col-md-2 text-right"> ประเภทที่อยู่<span class="text-danger">*</span>: </label>
         <div class="col-md-6">
           <div class="input-group input-group-sm mb-3">
             <select class="form-control" formControlName="TypeAddress">
-              <option *ngIf="checkAccording == false" value="ตามทะเบียนบ้าน">ตามทะเบียนบ้าน</option>
+              <option value="ที่อยู่ตามทะเบียนบ้าน">ตามทะเบียนบ้าน</option>
+              <option value="ที่อยู่ตามบัตรประชาชน">ตามบัตรประชาชน</option>
+              <option value="ที่อยู่ปัจจุบัน">ตามที่อยู่ปัจจุบัน</option>
+              <option value="ที่อยู่ตามที่อยู่จัดส่ง">ตามที่อยู่จัดส่ง</option>
+
+              <!-- <option *ngIf="checkAccording == false" value="ตามทะเบียนบ้าน">ตามทะเบียนบ้าน</option>
               <option *ngIf="checkIdCard == false" value="ตามบัตรประชาชน">ตามบัตรประชาชน</option>
               <option *ngIf="checkNowaddress == false" value="ตามที่อยู่ปัจจุบัน">ตามที่อยู่ปัจจุบัน</option>
-              <option value="ตามที่อยู่จัดส่ง">ตามที่อยู่จัดส่ง</option>
+              <option value="ตามที่อยู่จัดส่ง">ตามที่อยู่จัดส่ง</option> -->
             </select>
           </div>
         </div>

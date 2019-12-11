@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {NgxSpinnerService} from "ngx-spinner";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from "ngx-spinner";
 
-import {ProgramService} from '../../../shared/services/program.service';
-import {OrganizationService} from '../../../shared/services/organization.service';
+import { ProgramService } from '../../../shared/services/program.service';
+import { OrganizationService } from '../../../shared/services/organization.service';
 
 @Component({
   selector: 'app-program-detail',
@@ -18,7 +18,13 @@ export class ProgramDetailComponent implements OnInit {
   public program: any = [];
 
   public programDetailForm: any = {};
-  public programContactForm: any = {};
+  public programContactForm: any = {
+    ContactNumber: [],
+    ContactFax: [],
+    ContactEmail: [],
+    ContactWeb: [],
+    ContactLine: []
+  };
   public projectPerson: any = {};
   public programContactManagerForm: any = {};
   public programAddress: any = {};
@@ -61,10 +67,10 @@ export class ProgramDetailComponent implements OnInit {
     this.setProjectPerson(this.activatedRoute.snapshot.paramMap.get('id'));
     this.programContactForm = await this.setContact();
     this.programAddress = await this.setAddress();
-    this.projectPersonAddressForm = await  this.setAddressPersonContact();
+    this.projectPersonAddressForm = await this.setAddressPersonContact();
     // this.projectPerson = await this.setProjectPerson(check);
     this.programContactManagerForm = await this.setContactManager(this.program);
-    this.spinner.hide()
+    this.spinner.hide();
   }
 
   private async setAddress() {
@@ -87,7 +93,8 @@ export class ProgramDetailComponent implements OnInit {
 
     return model;
   }
-private async setAddressPersonContact() {
+
+  private async setAddressPersonContact() {
     // tslint:disable-next-line:max-line-length
     const addressList = (await this.programService.getprojectpersonaddress(this.activatedRoute.snapshot.paramMap.get('id')).toPromise()).data
     const model = {
@@ -96,7 +103,7 @@ private async setAddressPersonContact() {
 
     if (addressList) {
       for (let index = 0; index < addressList.length; index++) {
-          model.Address.push(this.showAddress(addressList[index]));
+        model.Address.push(this.showAddress(addressList[index]));
       }
     }
 
@@ -110,6 +117,7 @@ private async setAddressPersonContact() {
 
   private async setContact() {
     const contactList = this.programId ? (await this.programService.getprojectcorporationcontact(this.programId).toPromise()).data : (await this.programService.getpurchasecorporationcontact(this.purchaseId).toPromise()).data;
+    if (contactList && contactList.length == 0) return;
     const model = {
       CorporationName: contactList ? contactList[0].CorporationName : '',
       ContactNumber: [],
