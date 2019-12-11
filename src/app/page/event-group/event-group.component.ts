@@ -65,6 +65,7 @@ export class EventGroupComponent implements OnInit {
     this.canExportGroup = this.usersService.canExportGroup();
     this.spinner.hide()
     
+    
   }
 
   mapPersons(personList) {
