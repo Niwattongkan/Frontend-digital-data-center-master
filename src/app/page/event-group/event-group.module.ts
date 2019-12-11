@@ -12,6 +12,7 @@ import { CopyGroupModalComponent } from './copy-group-modal/copy-group-modal.com
 import { PersonsService } from '../../shared/services/persons.service';
 import { ExcelService } from '../../shared/services/excel.service';
 import {NgxSpinnerModule} from "ngx-spinner";
+import { FontService } from './font';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import {NgxSpinnerModule} from "ngx-spinner";
   providers: [
     ContactGroupService,
     PersonsService,
-    ExcelService
+    ExcelService,
+    FontService
   ]
 })
 export class EventGroupModule { }
