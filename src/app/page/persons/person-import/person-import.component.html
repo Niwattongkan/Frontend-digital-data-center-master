@@ -13,7 +13,7 @@
                 <h3>Person.xlsx</h3>
                 <input type="file" accept=".xlsx" (change)="onFileChange($event, 'person')" />
                 <p *ngIf="personData">{{personData.length}} rows.</p>
-                <button class="btn btn-info text-right" (click)="Upload('person')" *ngIf="personData">Import</button>
+                <button class="btn btn-info text-right" (click)="Upload('person')" [ngClass]="{'disabled': !personData}" >Import</button>
             </div>
             <div class="col">
                 <button class="btn btn-success text-right" (click)="Export('person')">Export</button>
@@ -28,7 +28,7 @@
                 <input type="file" accept=".xlsx" (change)="onFileChange($event, 'PersonAddress')" />
                 <p *ngIf="PersonAddress">{{PersonAddress.length}} rows.</p>
                 <button class="btn btn-info text-right" (click)="Upload('PersonAddress')"
-                    *ngIf="PersonAddress">Import</button>
+                [ngClass]="{'disabled': !PersonAddress}">Import</button>
             </div>
             <div class="col">
                 PersonId : <input type="text" [(ngModel)]="PersonId">
@@ -44,7 +44,7 @@
                 <input type="file" accept=".xlsx" (change)="onFileChange($event, 'PersonContact')" />
                 <p *ngIf="PersonContact">{{PersonContact.length}} rows.</p>
                 <button class="btn btn-info text-right" (click)="Upload('PersonContact')"
-                    *ngIf="PersonContact">Import</button>
+                [ngClass]="{'disabled': !PersonContact}">Import</button>
             </div>
             <div class="col">
                 PersonId : <input type="text" [(ngModel)]="PersonId">
@@ -60,7 +60,7 @@
                 <input type="file" accept=".xlsx" (change)="onFileChange($event, 'PersonCoordinator')" />
                 <p *ngIf="PersonCoordinator">{{PersonCoordinator.length}} rows.</p>
                 <button class="btn btn-info text-right" (click)="Upload('PersonCoordinator')"
-                    *ngIf="PersonCoordinator">Import</button>
+                [ngClass]="{'disabled': !PersonCoordinator}" >Import</button>
             </div>
             <div class="col">
                 PersonId : <input type="text" [(ngModel)]="PersonId">
@@ -76,7 +76,7 @@
                 <input type="file" accept=".xlsx" (change)="onFileChange($event, 'PersonEducation')" />
                 <p *ngIf="PersonEducation">{{PersonEducation.length}} rows.</p>
                 <button class="btn btn-info text-right" (click)="Upload('PersonEducation')"
-                    *ngIf="PersonEducation">Import</button>
+                [ngClass]="{'disabled': !PersonEducation}"  >Import</button>
             </div>
             <div class="col">
                 PersonId : <input type="text" [(ngModel)]="PersonId">
@@ -92,7 +92,7 @@
                     <input type="file" accept=".xlsx" (change)="onFileChange($event, 'PersonFamily')" />
                     <p *ngIf="PersonFamily">{{PersonFamily.length}} rows.</p>
                     <button class="btn btn-info text-right" (click)="Upload('PersonFamily')"
-                        *ngIf="PersonFamily">Import</button>
+                    [ngClass]="{'disabled': !PersonFamily}" >Import</button>
                 </div>
                 <div class="col">
                     PersonId : <input type="text" [(ngModel)]="PersonId">
@@ -108,7 +108,7 @@
                     <input type="file" accept=".xlsx" (change)="onFileChange($event, 'PersonWork')" />
                     <p *ngIf="PersonWork">{{PersonWork.length}} rows.</p>
                     <button class="btn btn-info text-right" (click)="Upload('PersonWork')"
-                        *ngIf="PersonWork">Import</button>
+                    [ngClass]="{'disabled': !PersonWork}" >Import</button>
                 </div>
                 <div class="col">
                     PersonId : <input type="text" [(ngModel)]="PersonId">

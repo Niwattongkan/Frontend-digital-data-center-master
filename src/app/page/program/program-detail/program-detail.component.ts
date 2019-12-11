@@ -55,7 +55,7 @@ export class ProgramDetailComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.spinner.show();
+    //this.spinner.show();
     this.corpatationList = (await this.organizationService.getCorporationAll().toPromise()).data;
     const resultProgram = this.programId ? (await this.programService.getDetailProject(this.programId).toPromise()).data : {};
     const resultPurchase = this.purchaseId ? (await this.programService.getDetailPurchase(this.purchaseId).toPromise()).data : {};
@@ -70,7 +70,7 @@ export class ProgramDetailComponent implements OnInit {
     this.projectPersonAddressForm = await this.setAddressPersonContact();
     // this.projectPerson = await this.setProjectPerson(check);
     this.programContactManagerForm = await this.setContactManager(this.program);
-    this.spinner.hide();
+    //this.spinner.hide()
   }
 
   private async setAddress() {

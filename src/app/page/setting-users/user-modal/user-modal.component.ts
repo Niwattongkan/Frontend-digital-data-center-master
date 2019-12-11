@@ -23,7 +23,7 @@ export class UserModalComponent implements OnInit {
   public groupUsersList: any = [];
   public boardList: any = [];
   public permissionList: any = []
-
+ public test: any[];
   public alertValid = false
   public groupUserForm: FormGroup;
 
@@ -62,7 +62,7 @@ export class UserModalComponent implements OnInit {
 
     this.groupUsersList = (await this.groupUserService.getallgroupuser().toPromise()).data
     this.boardList = (await this.boardService.getallboard().toPromise()).data
-    this.personList = mapPersons((await this.personsService.getallperson().toPromise()).data)
+    this.personList = mapPersons((await this.personsService.getallpersonname().toPromise()).data)
 
     this.groupUserForm = this.data ? await this.setGroupUser(this.data) : await this.setGroupUser(null)
     console.log(this.groupUserForm.value)

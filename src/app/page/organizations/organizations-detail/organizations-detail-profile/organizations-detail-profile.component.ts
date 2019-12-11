@@ -27,7 +27,7 @@ export class OrganizationsDetailProfileComponent {
   async ngOnInit() {
     this.corporationId = this.activatedRoute.snapshot.paramMap.get('id');
     this.profileForm = this.setCoreration(null)
-    console.log(this.inputForm);
+   
   }
 
   async ngOnChanges() {
@@ -50,7 +50,7 @@ export class OrganizationsDetailProfileComponent {
   }
 
   canEdit(){
-    debugger
+    // debugger
     return this.usersService.canEditOrganization();
   }
 

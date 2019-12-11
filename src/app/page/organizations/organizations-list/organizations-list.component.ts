@@ -32,6 +32,7 @@ export class OrganizationsListComponent implements OnInit {
   async ngOnInit() {
     this.spinner.show();
     this.organizationList = this.mapCorperation((await this.organizationService.getOrganizationAll().toPromise()).data);
+    console.log('this.organizationList',this.organizationList);
     this.spinner.hide();
     this.canAddOrganization = this.usersService.canAddOrganization();
   }
@@ -73,12 +74,12 @@ export class OrganizationsListComponent implements OnInit {
         await this.organizationService
           .deleteCorporation(data.CorporationId)
           .toPromise();
-        await this.organizationService
-          .deleteCorporationAddress(data.CorporationAddressId)
-          .toPromise();
-        await this.organizationService
-          .deleteCorporationContact(data.CorporationContactId)
-          .toPromise();
+        // await this.organizationService
+        //   .deleteCorporationAddress(data.CorporationAddressId)
+        //   .toPromise();
+        // await this.organizationService
+        //   .deleteCorporationContact(data.CorporationContactId)
+        //   .toPromise();
         this.organizationList = this.mapCorperation(
           (await this.organizationService.getOrganizationAll().toPromise()).data
         );

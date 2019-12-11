@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RoutingModule } from './persons.routing';
 import { SharedModule } from '../../shared/shared.module';
-
+import { ExcelService } from '../../shared/services/excel.service';
 import { PersonsComponent } from './persons.component';
 import { PersonsDetailComponent } from './persons-detail/persons-detail.component';
 import { PersonsDetailProfileComponent } from './persons-detail/persons-detail-profile/persons-detail-profile.component';
@@ -45,7 +45,8 @@ import { PersonImportComponent } from './person-import/person-import.component';
     PersonImportComponent,
   ],
   providers: [
-    PersonsService
+    PersonsService,
+    ExcelService
   ]
 })
 export class PersonsModule { }

@@ -99,6 +99,7 @@ export class OrganizationService {
     var UpdateBy = this.usersService.getUserInfo().email;
     const formData = this.setFormData(data);
     formData.append("UpdateBy", `${UpdateBy}`);
+    formData.append("IsActive", `${1}`);
     return this.apiService.put(`updatecorporation`, formData);
   }
 
@@ -106,6 +107,7 @@ export class OrganizationService {
     var UpdateBy = this.usersService.getUserInfo().email;
     const formData = this.setFormData(data);
     formData.append("UpdateBy", `${UpdateBy}`);
+    formData.append("IsActive", `${1}`);
     return this.apiService.put(`updatecorporationcontact`, formData);
   }
 
@@ -113,12 +115,13 @@ export class OrganizationService {
     var UpdateBy = this.usersService.getUserInfo().email;
     const formData = this.setFormData(data);
     formData.append("UpdateBy", `${UpdateBy}`);
+    formData.append("IsActive", `${1}`);
     return this.apiService.put(`updatecorporationaddress`, formData);
   }
 
   deleteCorporation(id): Observable<any> {
     var formData = new FormData();
-    formData.append("IsActive", "0");
+    formData.append("IsActive", "0" );
     formData.append("CorporationId", id);
     return this.apiService.put(`deletecorporation`, formData);
   }
