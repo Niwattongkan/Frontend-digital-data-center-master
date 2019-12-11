@@ -123,7 +123,7 @@ export class OrganizationService {
     var formData = new FormData();
     formData.append("IsActive", "0" );
     formData.append("CorporationId", id);
-    return this.apiService.put(`deletecorporation`, formData);
+    return this.apiService.put(`deletecorporation?CorporationId=`+id, formData);
   }
 
   deleteCorporationContact(data): Observable<any> {
