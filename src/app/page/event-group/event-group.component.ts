@@ -29,7 +29,8 @@ export class EventGroupComponent implements OnInit {
   public eventGroupOrigin: any;
 
   public personList: any[] = [];
-
+  public User : any;
+  public  email: any;
   public headers: any = ['วันที่จัดกลุ่ม', 'ชื่อกลุ่ม', 'สมาชิกกลุ่ม', 'ผู้สร้าง', 'ส่งออกไฟล์', 'เครื่องมือ'];
   public page: number;
   public canAddGroup = false;
@@ -50,7 +51,6 @@ export class EventGroupComponent implements OnInit {
   ) {
     this.http.get<{ ip: string }>('https://jsonip.com')
       .subscribe(data => {
-        console.log('th data', data);
         this.ipAddress = data
       });
   }
@@ -59,14 +59,19 @@ export class EventGroupComponent implements OnInit {
     this.spinner.show()
     this.personList = this.mapPersons((await this.personsService.getallperson().toPromise()).data)
     this.eventGroupList = this.groupData((await this.contactGroupService.getContactGroupAll().toPromise()).data)
+    this.User = this.usersService.getUserInfo();
+    this.email = this.User.email;
     await this.eventGroupList.map(async element => {
       element.Person = await this.mapPersons(element.Person);
     });
+ 
+  
     this.canAddGroup = this.usersService.canAddGroup();
     this.canEditGroup = this.usersService.canEditGroup();
     this.canDeleteGroup = this.usersService.canDeleteGroup();
     this.canExportGroup = this.usersService.canExportGroup();
     this.spinner.hide();
+
   }
 
   mapPersons(personList) {
@@ -115,6 +120,11 @@ export class EventGroupComponent implements OnInit {
       UpdateData: update,
       IpAddress: ipAddress.ip
     }).toPromise()
+  }
+
+  public check (data){
+    console.log('ssss',data);
+    return true;
   }
 
   public showAddress(value) {
@@ -332,7 +342,7 @@ export class EventGroupComponent implements OnInit {
     /*var ret = this.usersService.canEdit();
     if (ret){
       if (checkNext !== null)
-        return checkNext;
+        return checkNext
     }
     return ret;*/
     return checkNext;

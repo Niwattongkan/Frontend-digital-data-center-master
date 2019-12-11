@@ -58,7 +58,7 @@
                     {{ person.FullnameTh }}
                   </p>
                 </td>
-                <td>{{ data.Person[0].Username }}</td>
+                <td>{{ data.Person[0].CreateBy}}</td>
                 <td class="text-center">
                   <a [ngClass]="{'link-disabled disabled': !canExportGroup}" href="javascript:void(0)" class="dropdown-toggle btn btn-outline-warning btn-sm"
                     data-toggle="dropdown">
@@ -85,11 +85,11 @@
                   </a>
                   <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
                     (click)="openModal(editModal, 'md')" (click)="eventGroupOrigin = data" 
-                    [ngClass]="{'disabled':!(canEdit(canEditGroup))}">
+                    [ngClass]="{'disabled': data.Person[0].CreateBy != email}">
                     <i class="fas fa-pencil-alt"></i>
                   </a>
                   <a href="javascript:void(0)" class="btn btn-outline-danger btn-sm"
-                    (click)="delete(data.ContactGroupId)" [ngClass]="{'disabled':!(canEdit(canDeleteGroup))}">
+                    (click)="delete(data.ContactGroupId)" [ngClass]="{'disabled': data.Person[0].CreateBy != email}">
                     <i class="fas fa-trash"></i>
                   </a>
                   <!-- <a href="javascript:void(0)">

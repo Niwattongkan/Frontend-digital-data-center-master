@@ -60,10 +60,20 @@ export class LicenseModalComponent implements OnInit {
   async ngOnInit() {
     this.spinner.show();
     this.title = this.data ? "แก้ไขสิทธิ์การใช้งาน" : "สร้างสิทธิ์การใช้งาน";
-    this.rolelist = this.setRole(
-      (await this.boardService.getmenu().toPromise()).data
+   if(this.title == 'แก้ไขสิทธิ์การใช้งาน'){
+    this.rolelist = this.setRole(  
+      (await this.permissionService.getpermissionmanage(this.data.PermissionId).toPromise()).data
     );
-    this.groupname = (await this.permissionService.getgroupname().toPromise()).data
+
+   }
+    if(this.title == 'สร้างสิทธิ์การใช้งาน'){
+      this.rolelist = this.setRole2(  
+        (await this.boardService.getmenu().toPromise()).data
+      );
+    }
+    
+    
+   // this.groupname = (await this.permssionService.getgroupname().toPromise()).data
     this.personList = (await this.personsService
       .getallperson()
       .toPromise()).data;
@@ -80,10 +90,7 @@ export class LicenseModalComponent implements OnInit {
       .get("MenuId")
       .valueChanges.subscribe(value => this.selectSubMenu(value));
     this.spinner.hide()
-    this.rolelist.map(async element => {
-      element.Persons = await this.mapRole(this.data.PermissionId);
-    });
-    console.log('xxxgingrole : ' ,this.rolelist);
+  
     this.licenseForm = this.fb.group({
       groupname: [this.selectedItems]
     });
@@ -172,6 +179,31 @@ export class LicenseModalComponent implements OnInit {
   }
 
   public setRole(list) {
+    let temp = [];
+    let all;
+    list.forEach(data => {
+      if(data.PView&&data.PAdd&&data.PEdit&&data.PDelete&&data.Import&&data.Export){
+          all = true;
+      }
+      else{
+        all = false;
+      }
+      temp.push({
+        MenuId: data.MenuId,
+        MenuName: data.MenuName,
+        All: all,
+        View: data.PView,
+        Add: data.PAdd,
+        Edit: data.PEdit,
+        Delete: data.PDelete,
+        Import: data.Import,
+        Export: data.Export
+      });
+    });
+    return temp;
+  }
+
+  public setRole2(list) {
     let temp = [];
     list.forEach(data => {
       temp.push({

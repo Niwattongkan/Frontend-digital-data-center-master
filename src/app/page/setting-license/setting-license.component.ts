@@ -37,6 +37,8 @@ export class SettingLicenseComponent implements OnInit {
     this.roleList.map(async element => {
       element.Persons = await this.mapRole(element.PermissionId);
     });
+
+    console.log('xxxgingrole :',this.roleList);
     this.canAddLicense = this.usersService.canAddLicense();
     this.canEditLicense = this.usersService.canEditLicense();
     this.canDeleteLicense = this.usersService.canDeleteLicense();
@@ -50,6 +52,7 @@ export class SettingLicenseComponent implements OnInit {
   async mapRole(id) {
     //const person = mapPersons((await this.permissionService.getgrouppermissionperson(id).toPromise()).data);
     const person = mapPersons((await this.permissionService.getpermissionmanage(id).toPromise()).data);
+    
     return person.length > 0 ? person : [];
   }
 
@@ -153,7 +156,7 @@ export class SettingLicenseComponent implements OnInit {
       if (item.PermissionId == permission.PermissionId) {
         let element = role[i];
         i++;
-        this.permissionService.updatepermissionmanage({
+          this.permissionService.updatepermissionmanage({
           PView: element.View ? 1 : 0,
           PAdd: element.Add ? 1 : 0,
           PEdit: element.Edit ? 1 : 0,
