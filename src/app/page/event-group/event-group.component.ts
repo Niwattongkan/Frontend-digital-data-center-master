@@ -48,7 +48,6 @@ export class EventGroupComponent implements OnInit {
   ) {
     this.http.get<{ip:string}>('https://jsonip.com')
     .subscribe( data => {
-      console.log('th data', data);
       this.ipAddress = data
     })
   }
@@ -65,6 +64,8 @@ export class EventGroupComponent implements OnInit {
     this.canDeleteGroup = this.usersService.canDeleteGroup();
     this.canExportGroup = this.usersService.canExportGroup();
     this.spinner.hide()
+
+    
   }
 
   mapPersons(personList) {
