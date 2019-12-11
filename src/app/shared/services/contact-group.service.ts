@@ -30,6 +30,10 @@ export class ContactGroupService {
         return this.apiService.get(`getallcontactgroup`);
     }
 
+    getContactGroupById(id): Observable<any> {
+        return this.apiService.get(`getallcontactgroupbyid?ContactGroupId=${id}`);
+    }
+
     getallgroupuser(): Observable<any> {
         return this.apiService.get(`getallgroupuser`);
     }
