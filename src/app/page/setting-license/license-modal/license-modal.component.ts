@@ -73,12 +73,17 @@ export class LicenseModalComponent implements OnInit {
       : this.setlicense(null);
     this.selectedItems =  this.data ? this.data.Person : []
     this.permissionForm = this.setPermission(this.data);
+   
     this.selectSubMenu(this.licenseForm.controls["MenuId"].value);
 
     this.licenseForm
       .get("MenuId")
       .valueChanges.subscribe(value => this.selectSubMenu(value));
     this.spinner.hide()
+    this.rolelist.map(async element => {
+      element.Persons = await this.mapRole(this.data.PermissionId);
+    });
+    console.log('xxxgingrole : ' ,this.rolelist);
     this.licenseForm = this.fb.group({
       groupname: [this.selectedItems]
     });
@@ -100,7 +105,7 @@ export class LicenseModalComponent implements OnInit {
 
   async mapRole(id) {
     let person = mapPersons(
-      (await this.permissionService.getgrouppermissionperson(id).toPromise())
+      (await this.permissionService.getpermissionmanage(id).toPromise())
         .data
     );
     return person.length > 0 ? person : [];
@@ -185,17 +190,20 @@ export class LicenseModalComponent implements OnInit {
   }
 
   public setPermission(data) {
+   
     return data
       ? this.formBuilder.group({
         GroupPermissionId: [data.GroupPermissionId],
         PermissionId: [data.PermissionId],
         PermissionName: [data.PermissionName, [Validators.required]],
         GroupNames: [data.GroupName, [Validators.required]]
+        
       })
       : this.formBuilder.group({
         PermissionName: ["", [Validators.required]],
         GroupNames: [[], [Validators.required]]
       });
+      
   }
 
   public setlicense(data) {
