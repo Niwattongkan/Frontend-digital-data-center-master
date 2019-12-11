@@ -80,6 +80,10 @@ export class PersonsService {
   getallperson(): Observable<any> {
     return this.apiService.get(`getallperson`);
   }
+  getallpersonname(): Observable<any> {
+    return this.apiService.get(`getallpersonname`);
+  }
+
 
   getperson(): Observable<any> {
     return this.apiService.get(`getperson`);

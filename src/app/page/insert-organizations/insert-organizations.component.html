@@ -91,10 +91,9 @@
                         <div class="col-md-6">
                           <div class="input-group input-group-sm mb-3">
                             <select class="form-control" formControlName="Parent">
-                              <option [value]="0">--องค์กร--</option>
                               <option *ngFor="let data of corperationAll"
                                       [selected]="data.CorporationName">
-                                {{data.CorporationName}}</option>
+                                {{data.CorporationName}} </option>
                             </select>
                           </div>
                         </div>

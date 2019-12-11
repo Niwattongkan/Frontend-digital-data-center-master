@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { PersonsService } from '../../../shared/services/persons.service';
-
+import { ExcelService } from "../../../shared/services/excel.service"
 import { alertEvent, alertDeleteEvent } from '../../../shared/library/alert';
 import { NgxSpinnerService } from "ngx-spinner";
 import { UsersService } from '../../../shared/services/users.service';
@@ -22,12 +22,15 @@ export class PersonsListComponent implements OnInit {
   constructor(
     private personsService: PersonsService,
     private spinner: NgxSpinnerService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private excelService: ExcelService
   ) { }
 
   async ngOnInit() {
     this.spinner.show();
     this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data)
+
+    console.log('personList :',this.personList)
     this.tempPersonList = this.personList
     this.canAddPerson = this.usersService.canAddPerson();
     this.spinner.hide();
@@ -102,7 +105,42 @@ export class PersonsListComponent implements OnInit {
     return this.canAddPerson;
   }
 
-  exportImport() {
-
+  public async  exportExcel() {
+    this.spinner.show();
+    let exportGroup = [];
+    this.personList.forEach(element => {
+      exportGroup.push({
+        'PersonId': element.PersonId,
+        'EthnicityId': element.EthnicityId,
+        'TitleNameTh': element.TitleNameTh,
+        'TitleNameOther': element.TitleNameOther,
+        'FristNameTh' : element.FristNameTh,
+        'LastNameTh' :element.LastNameTh,
+        'TitleNameEn' :element.TitleNameEn,
+        'TitleNameEnOther' :element.TitleNameEnOther,
+        'FristNameEn' : element.FristNameEn,
+        'LastNameEn' : element.LastNameEn,
+        'IdCard' : element.IdCard,
+        'Birthday' : element.Birthday,
+        'Sex' : element.Sex,
+        'Passport' : element.Passport,
+        'WorkPermitNo' : element.WorkPermitNo,
+        'Marital' : element.Marital,
+        'Soldierly' : element.Soldierly,
+        'Religion' : element.Religion,
+        'Nationality' : element.Nationality,
+        'FavoriteFood' : element.FavoriteFood,
+        'AllergicFood' : element.AllergicFood,
+        'FoodDislike' : element.FoodDislike,
+        'CongenitalDisease' : element.CongenitalDisease,
+        'VehicleRegistrationNumber' : element.VehicleRegistrationNumber,
+        'OtherPreferences' : element.OtherPreferences,
+        'AllergicDrugs' : element.AllergicDrugs,
+        'PathPhoto' : element.PathPhoto,
+        'Username' : element.Username,
+      });
+    });
+    this.excelService.exportAsExcelFile(exportGroup, 'person');
+    this.spinner.hide();
   }
 }

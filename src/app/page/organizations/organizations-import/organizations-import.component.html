@@ -13,7 +13,7 @@
                 <h3>Corporation.xlsx</h3>
                 <input type="file" accept=".xlsx" (change)="onFileChange($event, 'Corporation')" />
                 <p *ngIf="CorporationData">{{CorporationData.length}} rows.</p>
-                <button class="btn btn-info text-right" (click)="Upload('Corporation')" *ngIf="Corporation">Import</button>
+                <button class="btn btn-info text-right" (click)="Upload('Corporation')" [ngClass]="{'disabled': !Corporation}">Import</button>
             </div>
             <div class="col">
                     CorporationId : <input type="text" [(ngModel)]="Id">
@@ -29,7 +29,7 @@
                 <input type="file" accept=".xlsx" (change)="onFileChange($event, 'CorporationAddress')" />
                 <p *ngIf="CorporationAddress">{{CorporationAddress.length}} rows.</p>
                 <button class="btn btn-info text-right" (click)="Upload('CorporationAddress')"
-                    *ngIf="CorporationAddress">Import</button>
+                [ngClass]="{'disabled': !CorporationAddress}" >Import</button>
             </div>
             <div class="col">
                     CorporationId : <input type="text" [(ngModel)]="Id">
@@ -45,7 +45,7 @@
                 <input type="file" accept=".xlsx" (change)="onFileChange($event, 'CorporationContact')" />
                 <p *ngIf="CorporationContact">{{CorporationContact.length}} rows.</p>
                 <button class="btn btn-info text-right" (click)="Upload('CorporationContact')"
-                    *ngIf="CorporationContact">Import</button>
+                [ngClass]="{'disabled': !CorporationContact}" >Import</button>
             </div>
             <div class="col"> 
                     CorporationId : <input type="text" [(ngModel)]="Id">

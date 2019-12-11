@@ -66,6 +66,7 @@ export class InsertOrganizationsComponent implements OnInit {
     this.corperationId = this.activatedRoute.snapshot.paramMap.get('id');
     this.title = this.corperationId ? 'แก้ไขข้อมูลองค์กร' : 'เพิ่มข้อมูลองค์กร';
     this.notNext = 2;
+    
   }
 
   async ngOnInit() {
@@ -108,6 +109,7 @@ export class InsertOrganizationsComponent implements OnInit {
       this.corperationAll = (
         await this.organizationService.getOrganizationAll().toPromise()
       ).data;
+     
       this.corperationForm = this.corperationId
         ? await this.setCorperation(result)
         : await this.setCorperation(null);
@@ -167,6 +169,8 @@ export class InsertOrganizationsComponent implements OnInit {
         .get('District')
         .valueChanges.subscribe(value => this.showSubdistrictContact(value));
     }
+    let obj = {CorporationName : "-- องค์กร --"}
+    this.corperationAll.push(obj)
   }
 
   public setLocation(address) {
