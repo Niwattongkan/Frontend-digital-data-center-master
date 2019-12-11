@@ -7,6 +7,7 @@ import { PersonsService } from '../../shared/services/persons.service';
 import { mapPersons, createdNamePersons } from '../../shared/library/mapList';
 import { AuthlogService } from '../../shared/services/authlog.service';
 import { UsersService } from '../../shared/services/users.service';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-setting-permission',
@@ -16,7 +17,7 @@ import { UsersService } from '../../shared/services/users.service';
 export class SettingPermissionComponent implements OnInit {
 
   public page: Number
-
+  ipAddress:any;
   public boardList: any = [];
   public boardOrigin: any;
   public personList: any = [];
@@ -33,8 +34,15 @@ export class SettingPermissionComponent implements OnInit {
     private boardService: BoardService,
     private personsService: PersonsService,
     private authlogService: AuthlogService,
-    private usersService: UsersService
-  ) { }
+    private usersService: UsersService,
+    private http: HttpClient
+  ) { 
+    this.http.get<{ip:string}>('https://jsonip.com')
+    .subscribe( data => {
+      console.log('th data', data);
+      this.ipAddress = data
+    })
+  }
 
   async ngOnInit() {
     this.spinner.show()
@@ -69,16 +77,17 @@ export class SettingPermissionComponent implements OnInit {
   }
 
   async updateLog(note) {
-    this.boardOrigin.GroupUserName != note.GroupUserName ? await this.auditLogService("ชื่อกลุ่มผู้ใช้งาน", this.boardOrigin.GroupUserName, note.GroupUserName) : null
+    this.boardOrigin.GroupUserName != note.GroupUserName ? await this.auditLogService("ชื่อกลุ่มผู้ใช้งาน", this.boardOrigin.GroupUserName, note.GroupUserName,this.ipAddress) : null
   }
 
-  async auditLogService(field, origin, update) {
+  async auditLogService(field, origin, update,ipAddress) {
     await this.authlogService.insertAuditlog({
       UpdateDate: new Date(),
       UpdateMenu: "กลุ่มผู้ใช้งาน",
       UpdateField: field,
       DataOriginal: origin,
       UpdateData: update,
+      IpAddress : ipAddress.ip
     }).toPromise()
   }
 

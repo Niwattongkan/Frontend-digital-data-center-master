@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import {HttpClient} from '@angular/common/http';
 import { PersonsService } from '../../shared/services/persons.service';
 import { OrganizationService } from '../../shared/services/organization.service';
 import { ProgramService } from '../../shared/services/program.service';
@@ -7,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { HomeModalComponent } from './home-modal/home-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UsersService } from '../../shared/services/users.service';
+
 
 @Component({
   selector: 'app-home',
@@ -29,20 +30,24 @@ export class HomeComponent implements OnInit {
   public listStatus = null;
   public noData: boolean = null;
   public inputSearch = '';
-
+  ipAddress:any;
   constructor(
     private spinner: NgxSpinnerService,
     private personsService: PersonsService,
     private organizationService: OrganizationService,
     private programService: ProgramService,
     private modalService: NgbModal,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private http: HttpClient
 
   ) {
+
+   
     this.typeCheck = this.setTypeCheck();
   }
 
   async ngOnInit() {
+
     this.spinner.show();
 
     //console.log(this.usersService.getUserInfo().email);

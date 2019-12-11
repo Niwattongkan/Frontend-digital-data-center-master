@@ -3,7 +3,7 @@ import {FormGroup, Validators, FormBuilder} from '@angular/forms';
 import {Router, ActivatedRoute} from '@angular/router';
 import {IMyOptions} from 'mydatepicker-th';
 import Stepper from 'bs-stepper';
-
+import {HttpClient} from '@angular/common/http';
 import {OrganizationService} from '../../shared/services/organization.service';
 import {PersonsService} from '../../shared/services/persons.service';
 import {DropdownService} from '../../shared/services/dropdown.service';
@@ -28,7 +28,7 @@ export class InsertPersonsComponent implements OnInit {
   public alertValid = false;
   public mode = '';
   public title = '';
-
+  ipAddress:any;
   public profileForm: FormGroup;
   public profileOriginForm: any;
 
@@ -75,8 +75,14 @@ export class InsertPersonsComponent implements OnInit {
     private dropdownService: DropdownService,
     private organizationService: OrganizationService,
     private authlogService: AuthlogService,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private http: HttpClient
   ) {
+    this.http.get<{ip:string}>('https://jsonip.com')
+    .subscribe( data => {
+      console.log('th data', data);
+      this.ipAddress = data
+    })
     this.profileForm = this.setProfile(null);
     this.profileOriginForm = this.profileForm.value;
     const Crypto = new SimpleCrypto('some-unique-key');
@@ -229,7 +235,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'คำนำหน้าชื่อ (ไทย)',
       this.profileOriginForm.TitleNameTh,
-      person.TitleNameTh
+      person.TitleNameTh,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.FristNameTh != person.FristNameTh
@@ -237,7 +244,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'ชื่อ (ไทย)',
       this.profileOriginForm.FristNameTh,
-      person.FristNameTh
+      person.FristNameTh,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.LastNameTh != person.LastNameTh
@@ -245,7 +253,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'นามสกุล (ไทย)',
       this.profileOriginForm.LastNameTh,
-      person.LastNameTh
+      person.LastNameTh,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.TitleNameEn != person.TitleNameEn
@@ -253,7 +262,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'คำนำหน้าชื่อ (อังกฤษ)',
       this.profileOriginForm.TitleNameEn,
-      person.TitleNameEn
+      person.TitleNameEn,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.FristNameEn != person.FristNameEn
@@ -261,7 +271,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'ชื่อ (อังกฤษ)',
       this.profileOriginForm.FristNameEn,
-      person.FristNameEn
+      person.FristNameEn,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.LastNameEn != person.LastNameEn
@@ -269,7 +280,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'นามสกุล (อังกฤษ)',
       this.profileOriginForm.LastNameEn,
-      person.LastNameEn
+      person.LastNameEn,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.IdCard != person.IdCard
@@ -277,7 +289,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'เลขบัตรประจำตัวประชาชน',
       this.profileOriginForm.IdCard,
-      person.IdCard
+      person.IdCard,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.Passport != person.Passport
@@ -285,7 +298,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'เลขหนังสือเดินทาง',
       this.profileOriginForm.Passport,
-      person.Passport
+      person.Passport,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.WorkPermitNo != person.WorkPermitNo
@@ -293,7 +307,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'ใบอนุญาตเลขที่',
       this.profileOriginForm.WorkPermitNo,
-      person.WorkPermitNo
+      person.WorkPermitNo,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.Birthday != person.Birthday
@@ -301,7 +316,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'วันเกิด',
       this.profileOriginForm.Birthday,
-      person.Birthday
+      person.Birthday,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.Sex != person.Sex
@@ -309,7 +325,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'เพศ',
       this.profileOriginForm.Sex,
-      person.Sex
+      person.Sex,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.Religion != person.Religion
@@ -317,7 +334,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'ศาสนา',
       this.profileOriginForm.Religion,
-      person.Religion
+      person.Religion,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.Nationality != person.Nationality
@@ -325,7 +343,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'สัญชาติ',
       this.profileOriginForm.Nationality,
-      person.Nationality
+      person.Nationality,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.EthnicityId != person.EthnicityId
@@ -333,7 +352,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'เชื้อชาติ',
       this.profileOriginForm.EthnicityId,
-      person.EthnicityId
+      person.EthnicityId,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.Marital != person.Marital
@@ -341,7 +361,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'สถานภาพการสมรส',
       this.profileOriginForm.Marital,
-      person.Marital
+      person.Marital,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.FavoriteFood != person.FavoriteFood
@@ -349,7 +370,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'อาหารที่ชอบ',
       this.profileOriginForm.FavoriteFood,
-      person.FavoriteFood
+      person.FavoriteFood,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.FoodDislike != person.FoodDislike
@@ -357,7 +379,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'อาหารที่ไม่ชอบ',
       this.profileOriginForm.FoodDislike,
-      person.FoodDislike
+      person.FoodDislike,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.AllergicFood != person.AllergicFood
@@ -365,7 +388,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'อาหารที่แพ้',
       this.profileOriginForm.AllergicFood,
-      person.AllergicFood
+      person.AllergicFood,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.CongenitalDisease != person.CongenitalDisease
@@ -373,7 +397,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'โรคประจำตัว',
       this.profileOriginForm.CongenitalDisease,
-      person.CongenitalDisease
+      person.CongenitalDisease,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.AllergicDrugs != person.AllergicDrugs
@@ -381,7 +406,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'ยาที่แพ้',
       this.profileOriginForm.AllergicDrugs,
-      person.AllergicDrugs
+      person.AllergicDrugs,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.VehicleRegistrationNumber !=
@@ -390,7 +416,8 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'ทะเบียนรถ',
       this.profileOriginForm.VehicleRegistrationNumber,
-      person.VehicleRegistrationNumber
+      person.VehicleRegistrationNumber,
+      this.ipAddress
       )
       : null;
     this.profileOriginForm.OtherPreferences != person.OtherPreferences
@@ -398,19 +425,21 @@ export class InsertPersonsComponent implements OnInit {
       currentMenu,
       'อื่นๆ',
       this.profileOriginForm.OtherPreferences,
-      person.OtherPreferences
+      person.OtherPreferences,
+      this.ipAddress
       )
       : null;
   }
 
-  async auditLogService(menu, field, origin, update) {
+  async auditLogService(menu, field, origin, update,ipAddress) {
     await this.authlogService
       .insertAuditlog({
         UpdateDate: new Date(),
         UpdateMenu: menu,
         UpdateField: field,
         DataOriginal: origin,
-        UpdateData: update
+        UpdateData: update,
+        IpAddress : ipAddress.ip
       })
       .toPromise();
   }

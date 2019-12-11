@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from "ngx-spinner";
-
+import {HttpClient} from '@angular/common/http';
 import * as jsPDF from 'jspdf'
 import 'jspdf-autotable';
 import * as cloneDeep from 'lodash/cloneDeep';
@@ -23,7 +23,7 @@ import { UsersService } from '../../shared/services/users.service';
 export class EventGroupComponent implements OnInit {
 
   public inputSearch = ''
-
+  ipAddress:any;
   public eventGroupList: any = [];
   public eventGroupOrigin: any;
 
@@ -43,8 +43,14 @@ export class EventGroupComponent implements OnInit {
     private personsService: PersonsService,
     private excelService: ExcelService,
     private authlogService: AuthlogService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private http: HttpClient
   ) {
+    this.http.get<{ip:string}>('https://jsonip.com')
+    .subscribe( data => {
+      console.log('th data', data);
+      this.ipAddress = data
+    })
   }
 
   async ngOnInit() {
@@ -77,7 +83,7 @@ export class EventGroupComponent implements OnInit {
   }
 
   async updateLog(group) {
-    this.eventGroupOrigin.GroupName != group.GroupName ? await this.auditLogService("ชื่อกลุ่ม", this.eventGroupOrigin.GroupName, group.GroupName) : null
+    this.eventGroupOrigin.GroupName != group.GroupName ? await this.auditLogService("ชื่อกลุ่ม", this.eventGroupOrigin.GroupName, group.GroupName,this.ipAddress) : null
   }
 
   async onSearchData() {
@@ -98,13 +104,14 @@ export class EventGroupComponent implements OnInit {
     return this.page = 1
   }
 
-  async auditLogService(field, origin, update) {
+  async auditLogService(field, origin, update,ipAddress) {
     await this.authlogService.insertAuditlog({
       UpdateDate: new Date(),
       UpdateMenu: "กลุ่มการจัดส่งเอกสาร",
       UpdateField: field,
       DataOriginal: origin,
       UpdateData: update,
+      IpAddress : ipAddress.ip
     }).toPromise()
   }
 

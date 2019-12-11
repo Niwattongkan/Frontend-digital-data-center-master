@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import Stepper from 'bs-stepper';
-
+import {HttpClient} from '@angular/common/http';
 import { OrganizationService } from '../../shared/services/organization.service';
 import { DropdownService } from '../../shared/services/dropdown.service';
 import { AuthlogService } from '../../shared/services/authlog.service';
@@ -45,7 +45,7 @@ export class InsertOrganizationsComponent implements OnInit {
 
   private stepper: Stepper;
   private disable: boolean;
-
+  ipAddress:any;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -53,8 +53,14 @@ export class InsertOrganizationsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private organizationService: OrganizationService,
     private dropdownService: DropdownService,
-    private authlogService: AuthlogService
+    private authlogService: AuthlogService,
+    private http: HttpClient
   ) {
+    this.http.get<{ip:string}>('https://jsonip.com')
+    .subscribe( data => {
+      console.log('th data', data);
+      this.ipAddress = data
+    })
     this.corperationForm = this.setCorperation(null);
     this.addressForm = this.setAddress(null, 1);
     this.addressContactForm = this.setAddress(null, 4);
@@ -176,14 +182,15 @@ export class InsertOrganizationsComponent implements OnInit {
       }
     }
   }
-  async updateLog(corperation, address, addressContact) {
+  async updateLog(corperation, address, addressContact ,ipAddress) {
     const currentMenu = 'เพิ่ม/แก้ไข ข้อมูลองค์กร';
     this.corperationOriginForm.CorporationName != corperation.CorporationName
       ? await this.auditLogService(
           currentMenu,
           'ชื่อองค์กร',
           this.corperationOriginForm.CorporationName,
-          corperation.CorporationName
+          corperation.CorporationName,
+          ipAddress
         )
       : null;
     this.corperationOriginForm.TaxNo != corperation.TaxNo
@@ -191,7 +198,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'เลขประจำตัวผู้เสียภาษี',
           this.corperationOriginForm.TaxNo,
-          corperation.TaxNo
+          corperation.TaxNo,
+          this.ipAddress
         )
       : null;
     this.corperationOriginForm.Parent != corperation.Parent
@@ -199,7 +207,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'ภายใต้องค์กร',
           this.corperationOriginForm.Parent,
-          corperation.Parent
+          corperation.Parent,
+          this.ipAddress
         )
       : null;
 
@@ -208,7 +217,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'เลขที่',
           this.addressOriginForm.HouseNumber,
-          address.HouseNumber
+          address.HouseNumber,
+          this.ipAddress
         )
       : null;
     this.addressOriginForm.Road != address.Road
@@ -216,7 +226,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'ถนน',
           this.addressOriginForm.Road,
-          address.Road
+          address.Road,
+          this.ipAddress
         )
       : null;
     this.addressOriginForm.Building != address.Building
@@ -224,7 +235,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'อาคาร',
           this.addressOriginForm.Building,
-          address.Building
+          address.Building,
+          this.ipAddress
         )
       : null;
     this.addressOriginForm.Room != address.Room
@@ -232,7 +244,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'ห้อง',
           this.addressOriginForm.Room,
-          address.Room
+          address.Room,
+          this.ipAddress
         )
       : null;
     this.addressOriginForm.Floor != address.Floor
@@ -240,7 +253,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'ชั้น',
           this.addressOriginForm.Floor,
-          address.Floor
+          address.Floor,
+          this.ipAddress
         )
       : null;
     this.addressOriginForm.Soi != address.Soi
@@ -248,7 +262,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'ตรอก/ซอย',
           this.addressOriginForm.Soi,
-          address.Soi
+          address.Soi,
+          this.ipAddress
         )
       : null;
     this.addressOriginForm.Province != address.Province
@@ -256,7 +271,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'จังหวัด',
           this.addressOriginForm.Province,
-          address.Province
+          address.Province,
+          this.ipAddress
         )
       : null;
     this.addressOriginForm.District != address.District
@@ -264,7 +280,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'เขต/อำเภอ',
           this.addressOriginForm.District,
-          address.District
+          address.District,
+          this.ipAddress
         )
       : null;
     this.addressOriginForm.Subdistrict != address.Subdistrict
@@ -272,7 +289,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'แขวง/ตำบล',
           this.addressOriginForm.Subdistrict,
-          address.Subdistrict
+          address.Subdistrict,
+          this.ipAddress
         )
       : null;
     this.addressOriginForm.Zipcode != address.Zipcode
@@ -280,7 +298,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'รหัสไปรษณีย์',
           this.addressOriginForm.Zipcode,
-          address.Zipcode
+          address.Zipcode,
+          this.ipAddress
         )
       : null;
 
@@ -289,7 +308,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'เลขที่',
           this.addressContactOriginForm.HouseNumber,
-          addressContact.HouseNumber
+          addressContact.HouseNumber,
+          this.ipAddress
         )
       : null;
     this.addressContactOriginForm.Road != addressContact.Road
@@ -297,7 +317,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'ถนน',
           this.addressContactOriginForm.Road,
-          addressContact.Road
+          addressContact.Road,
+          this.ipAddress
         )
       : null;
     this.addressContactOriginForm.Building != addressContact.Building
@@ -305,7 +326,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'อาคาร',
           this.addressContactOriginForm.Building,
-          addressContact.Building
+          addressContact.Building,
+          this.ipAddress
         )
       : null;
     this.addressContactOriginForm.Room != addressContact.Room
@@ -313,7 +335,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'ห้อง',
           this.addressContactOriginForm.Room,
-          addressContact.Room
+          addressContact.Room,
+          this.ipAddress
         )
       : null;
     this.addressContactOriginForm.Floor != addressContact.Floor
@@ -321,7 +344,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'ชั้น',
           this.addressContactOriginForm.Floor,
-          addressContact.Floor
+          addressContact.Floor,
+          this.ipAddress
         )
       : null;
     this.addressContactOriginForm.Soi != addressContact.Soi
@@ -329,7 +353,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'ตรอก/ซอย',
           this.addressContactOriginForm.Soi,
-          addressContact.Soi
+          addressContact.Soi,
+          this.ipAddress
         )
       : null;
     this.addressContactOriginForm.Province != addressContact.Province
@@ -337,7 +362,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'จังหวัด',
           this.addressContactOriginForm.Province,
-          addressContact.Province
+          addressContact.Province,
+          this.ipAddress
         )
       : null;
     this.addressContactOriginForm.District != addressContact.District
@@ -345,7 +371,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'เขต/อำเภอ',
           this.addressContactOriginForm.District,
-          addressContact.District
+          addressContact.District,
+          this.ipAddress
         )
       : null;
     this.addressContactOriginForm.Subdistrict != addressContact.Subdistrict
@@ -353,7 +380,8 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'แขวง/ตำบล',
           this.addressContactOriginForm.Subdistrict,
-          addressContact.Subdistrict
+          addressContact.Subdistrict,
+          this.ipAddress
         )
       : null;
     this.addressContactOriginForm.Zipcode != addressContact.Zipcode
@@ -361,19 +389,22 @@ export class InsertOrganizationsComponent implements OnInit {
           currentMenu,
           'รหัสไปรษณีย์',
           this.addressContactOriginForm.Zipcode,
-          addressContact.Zipcode
+          addressContact.Zipcode,
+          this.ipAddress
         )
       : null;
   }
 
-  async auditLogService(menu, field, origin, update) {
+  async auditLogService(menu, field, origin, update,ipAddress) {
     await this.authlogService
       .insertAuditlog({
         UpdateDate: new Date(),
         UpdateMenu: menu,
         UpdateField: field,
         DataOriginal: origin,
-        UpdateData: update
+        
+        UpdateData: update,
+        IpAddress : ipAddress.ip
       })
       .toPromise();
   }
@@ -564,7 +595,8 @@ export class InsertOrganizationsComponent implements OnInit {
     await this.updateLog(
       this.corperationForm.value,
       this.addressForm.value,
-      this.addressContactForm.value
+      this.addressContactForm.value,
+      this.ipAddress
     );
   }
 

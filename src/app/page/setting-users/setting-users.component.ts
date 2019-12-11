@@ -4,7 +4,7 @@ import {alertEvent, alertDeleteEvent} from '../../shared/library/alert';
 import {NgxSpinnerService} from "ngx-spinner";
 import {GroupUserService} from '../../shared/services/group-user.service';
 import {AuthlogService} from '../../shared/services/authlog.service';
-
+import {HttpClient} from '@angular/common/http';
 import {mapPersons, createdNamePersons} from '../../shared/library/mapList';
 import { UsersService } from '../../shared/services/users.service';
 
@@ -23,14 +23,21 @@ export class SettingUsersComponent implements OnInit {
   public canAddUser = false;
   public canEditUser = false;
   public canDeleteUser = false;
-
+  ipAddress:any;
   constructor(
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
     private groupUserService: GroupUserService,
     private authlogService: AuthlogService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private http: HttpClient
   ) {
+    this.http.get<{ip:string}>('https://jsonip.com')
+    .subscribe( data => {
+      console.log('th data', data);
+      this.ipAddress = data
+    })
+    
   }
 
   async ngOnInit() {
@@ -69,16 +76,17 @@ export class SettingUsersComponent implements OnInit {
   // }
 
   async updateLog(note) {
-    this.groupUsersOrigin.Person[0].BoardName != note.BoardName ? await this.auditLogService('ชื่อกลุ่มสิทธิ์', this.groupUsersOrigin.Person[0].BoardName, note.BoardName) : null;
+    this.groupUsersOrigin.Person[0].BoardName != note.BoardName ? await this.auditLogService('ชื่อกลุ่มสิทธิ์', this.groupUsersOrigin.Person[0].BoardName, note.BoardName,this.ipAddress) : null;
   }
 
-  async auditLogService(field, origin, update) {
+  async auditLogService(field, origin, update,ipAddress) {
     await this.authlogService.insertAuditlog({
       UpdateDate: new Date(),
       UpdateMenu: 'กลุ่มผู้ใช้งาน',
       UpdateField: field,
       DataOriginal: origin,
       UpdateData: update,
+      IpAddress : ipAddress.ip
     }).toPromise();
   }
 

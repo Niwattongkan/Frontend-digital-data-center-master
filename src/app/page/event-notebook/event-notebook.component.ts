@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-
+import {HttpClient} from '@angular/common/http';
 import { NoteService } from "../../shared/services/note.service";
 import { PersonsService } from "../../shared/services/persons.service";
 import { AuthlogService } from "../../shared/services/authlog.service";
@@ -17,7 +17,7 @@ import * as moment from 'moment';
 export class EventNotebookComponent implements OnInit {
   public noteList: any = [];
   public noteOrigin: any;
-
+  ipAddress:any;
   public personList: any = [];
   public inputSearch = "";
   public page: number;
@@ -40,8 +40,15 @@ export class EventNotebookComponent implements OnInit {
     private noteService: NoteService,
     private personsService: PersonsService,
     private authlogService: AuthlogService,
-    private usersService: UsersService
-  ) {}
+    private usersService: UsersService,
+    private http: HttpClient
+  ) {
+    this.http.get<{ip:string}>('https://jsonip.com')
+    .subscribe( data => {
+      console.log('th data', data);
+      this.ipAddress = data
+    })
+  }
 
   async ngOnInit() {
     this.spinner.show();
@@ -126,26 +133,29 @@ export class EventNotebookComponent implements OnInit {
       ? await this.auditLogService(
           "ชื่อบันทึก",
           this.noteOrigin.NoteName,
-          note.NoteName
+          note.NoteName,
+          this.ipAddress
         )
       : null;
     this.noteOrigin.Description != note.Description
       ? await this.auditLogService(
           "รายละเอียด",
           this.noteOrigin.Description,
-          note.Description
+          note.Description,
+          this.ipAddress
         )
       : null;
   }
 
-  async auditLogService(field, origin, update) {
+  async auditLogService(field, origin, update,ipAddress) {
     await this.authlogService
       .insertAuditlog({
         UpdateDate: new Date(),
         UpdateMenu: "สมุดบันทึก",
         UpdateField: field,
         DataOriginal: origin,
-        UpdateData: update
+        UpdateData: update,
+        IpAddress:ipAddress.ip
       })
       .toPromise();
   }
