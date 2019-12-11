@@ -64,7 +64,6 @@ export class EventGroupComponent implements OnInit {
     this.canDeleteGroup = this.usersService.canDeleteGroup();
     this.canExportGroup = this.usersService.canExportGroup();
     this.spinner.hide()
-
     
   }
 
