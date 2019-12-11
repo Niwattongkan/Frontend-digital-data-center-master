@@ -66,6 +66,7 @@ export class CardOrganizationComponent implements OnInit {
     return list;
   }
   public showAddress(value) {
+    if(!value) return;
     const Building = value.Building ? 'อาคาร ' + value.Building + ' ' : '';
     const Floor = value.Floor ? 'ชั้น ' + value.Floor + ' ' : '';
     const Room = value.Room ? 'ห้อง ' + value.Room + ' ' : '';

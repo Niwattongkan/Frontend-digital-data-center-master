@@ -8,6 +8,7 @@ import { OrganizationsDetailComponent } from './organizations-detail/organizatio
 import { OrganizationsRelatedPersonComponent } from './organizations-related-person/organizations-related-person.component';
 import { OrganizationsBursaryComponent } from './organizations-bursary/organizations-bursary.component';
 import { AuthGuard } from '../../shared/component/guards/auth-guard.service';
+import { OrganizationsImportComponent } from './organizations-import/organizations-import.component';
 
 export const routes: Routes = [
     {
@@ -30,7 +31,12 @@ export const routes: Routes = [
             {
                 path: 'bursary/:id',
                 component: OrganizationsBursaryComponent
+            }, 
+            {
+                path: 'import',
+                component: OrganizationsImportComponent
             }
+
         ]
     }
 ];
