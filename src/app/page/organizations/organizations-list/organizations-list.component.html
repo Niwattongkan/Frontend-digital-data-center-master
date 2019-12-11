@@ -30,8 +30,9 @@
           </div>
         </div>
       </div>
+
       <div class="row justify-content-center mt-4">
-        <div class="col-md-10 text-right">
+        <div class="col text-right">
           <a  href="javascript:void(0)" class="dropdown-toggle btn btn-outline-warning btn-sm"
              data-toggle="dropdown">
             Export <i class="fas fa-download"></i>
@@ -45,6 +46,10 @@
               <i class="far fa-file-pdf"></i> PDF
             </button> -->
           </div>
+          <button class="btn btn-outline-warning btn-sm" [routerLink]="['/organizations/import/']">
+            <i class="fas fa-file-excel"></i>
+            Import
+          </button>
         </div>
       </div>
     </div>

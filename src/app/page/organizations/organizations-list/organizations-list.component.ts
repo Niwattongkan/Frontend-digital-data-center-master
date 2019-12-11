@@ -134,7 +134,7 @@ export class OrganizationsListComponent implements OnInit {
         'CorporationId': element.CorporationId,
         'TypeAddress': element.TypeAddress,
         'HouseNumber': element.HouseNumber,
-        'Building': element.Building,
+        'Building': element.Building ,
         'Floor': element.Floor,
         'Room': element.Room,
         'Road': element.Road,

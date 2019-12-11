@@ -1,0 +1,57 @@
+<ngx-spinner></ngx-spinner>
+<div class="container">
+    <h2>Export/Import</h2>
+    <div class="row justify-content-center mt-4">
+        <div class="col text-right">
+            <a class="btn btn-danger" href="javascript:history.back()">Go Back</a>
+        </div>
+    </div>
+
+    <div class="card shadow mt-2">
+        <div class="card-body row">
+            <div class="col">
+                <h3>Corporation.xlsx</h3>
+                <input type="file" accept=".xlsx" (change)="onFileChange($event, 'Corporation')" />
+                <p *ngIf="CorporationData">{{CorporationData.length}} rows.</p>
+                <button class="btn btn-info text-right" (click)="Upload('Corporation')" *ngIf="Corporation">Import</button>
+            </div>
+            <div class="col">
+                    CorporationId : <input type="text" [(ngModel)]="Id">
+                <button class="btn btn-success text-right" (click)="Export('Corporation')">Export</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mt-2">
+        <div class="card-body row">
+            <div class="col">
+                <h3>CorporationAddress.xlsx</h3>
+                <input type="file" accept=".xlsx" (change)="onFileChange($event, 'CorporationAddress')" />
+                <p *ngIf="CorporationAddress">{{CorporationAddress.length}} rows.</p>
+                <button class="btn btn-info text-right" (click)="Upload('CorporationAddress')"
+                    *ngIf="CorporationAddress">Import</button>
+            </div>
+            <div class="col">
+                    CorporationId : <input type="text" [(ngModel)]="Id">
+                <button class="btn btn-success text-right" (click)="Export('CorporationAddress')">Export</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow mt-2">
+        <div class="card-body row">
+            <div class="col">
+                <h3>CorporationContact.xlsx</h3>
+                <input type="file" accept=".xlsx" (change)="onFileChange($event, 'CorporationContact')" />
+                <p *ngIf="CorporationContact">{{CorporationContact.length}} rows.</p>
+                <button class="btn btn-info text-right" (click)="Upload('CorporationContact')"
+                    *ngIf="CorporationContact">Import</button>
+            </div>
+            <div class="col"> 
+                    CorporationId : <input type="text" [(ngModel)]="Id">
+                <button class="btn btn-success text-right" (click)="Export('CorporationContact')">Export</button>
+            </div>
+        </div>
+    </div>
+
+</div>
