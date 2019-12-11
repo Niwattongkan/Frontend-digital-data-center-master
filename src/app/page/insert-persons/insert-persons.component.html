@@ -33,14 +33,14 @@
     <div class="bs-stepper-header">
       <div class="step " data-target="#step-1">
         <button class="step-trigger"
-                style="color: #e49227; border-bottom: 4px solid #e49227;  padding-left: 60px; padding-right: 60px;">
+          style="color: #e49227; border-bottom: 4px solid #e49227;  padding-left: 60px; padding-right: 60px;">
           <span class="bs-stepper-label ">ข้อมูลส่วนตัว</span>
         </button>
       </div>
       <div style="padding-left: 60px;"></div>
       <div class="step" data-target="#step-2">
         <button [disabled]=" personId==''  " class="step-trigger"
-                style="color: #e49227; border-bottom: 4px solid #e49227;  padding-left: 60px; padding-right: 60px;">
+          style="color: #e49227; border-bottom: 4px solid #e49227;  padding-left: 60px; padding-right: 60px;">
           <span class="bs-stepper-label">ข้อมูลส่วนตัว(เพิ่มเติม)</span>
         </button>
       </div>
@@ -62,8 +62,7 @@
               </div>
               <div class="card-body">
                 <div class="row justify-content-center">
-                  <div class="col-md-10 alert alert-danger" role="alert"
-                       *ngIf="alertValid">
+                  <div class="col-md-10 alert alert-danger" role="alert" *ngIf="alertValid">
                     กรุณากรอกข้อมูลให้ครบถ้วน
                   </div>
                 </div>
@@ -84,9 +83,8 @@
                           </div>
                           <div class="col-md-4">
                             <div class="input-group input-group-sm">
-                              <select class="form-control"
-                                      formControlName="TitleNameTh"
-                                      [attr.disabled]="titleNameThCheck ? '' : null">
+                              <select class="form-control" formControlName="TitleNameTh"
+                                [attr.disabled]="titleNameThCheck ? '' : null">
                                 <option [value]="1">นาย</option>
                                 <option [value]="2">นางสาว</option>
                                 <option [value]="3">นาง</option>
@@ -96,18 +94,15 @@
                           <!-- custom-control custom-control-alternative custom-checkbox  class="custom-control-input" -->
                           <div class="custom-control custom-checkbox col-md-2 text-right" (click)="onChangeTitleTH()">
 
-                            <input type="checkbox"
-                                   class="custom-control-input position-static"
-                                   [checked]="titleNameThCheck"
-                            />
+                            <input type="checkbox" class="custom-control-input position-static"
+                              [checked]="titleNameThCheck" />
                             <label class="custom-control-label">อื่น ๆ</label>
 
                           </div>
                           <div class="col-md-4">
                             <div class="input-group input-group-sm">
-                              <input type="text" class="form-control"
-                                     formControlName="TitleNameOther"
-                                     [attr.disabled]="titleNameThCheck ? null : ''">
+                              <input type="text" class="form-control" formControlName="TitleNameOther"
+                                [attr.disabled]="titleNameThCheck ? null : ''">
                             </div>
                           </div>
                         </div>
@@ -116,16 +111,15 @@
                           </label>
                           <div class="col-md-4">
                             <div class="input-group input-group-sm">
-                              <input type="text" class="form-control"
-                                     formControlName="FristNameTh">
+                              <input type="text" class="form-control" formControlName="FristNameTh"
+                                (keypress)="onKeyTH($event)">
                             </div>
                           </div>
-                          <label class="col-md-2">นามสกุล<span
-                            class="text-danger">*</span>:</label>
+                          <label class="col-md-2">นามสกุล<span class="text-danger">*</span>:</label>
                           <div class="col-md-4">
                             <div class="input-group input-group-sm">
-                              <input type="text" class="form-control"
-                                     formControlName="LastNameTh">
+                              <input type="text" class="form-control" formControlName="LastNameTh"
+                                (keypress)="onKeyTH($event)">
                             </div>
                           </div>
                         </div>
@@ -144,9 +138,8 @@
                           </div>
                           <div class="col-md-4">
                             <div class="input-group input-group-sm">
-                              <select class="form-control"
-                                      formControlName="TitleNameEn"
-                                      [attr.disabled]="titleNameEnCheck ? '' : null">
+                              <select class="form-control" formControlName="TitleNameEn"
+                                [attr.disabled]="titleNameEnCheck ? '' : null">
                                 <option [value]="1">Mr.</option>
                                 <option [value]="2">Mrs.</option>
                                 <option [value]="3">Miss</option>
@@ -156,21 +149,16 @@
                           <!-- [checked]="titleNameThCheck"
                               (click)="onChangeTitleEN()"-->
                           <div class="custom-control custom-checkbox  col-md-2" style="text-align: right;"
-                               (click)="onChangeTitleEN()">
+                            (click)="onChangeTitleEN()">
 
-                            <input type="checkbox"
-                                   class="custom-control-input position-static"
-                                   [checked]="titleNameEnCheck"
-
-                            />
+                            <input type="checkbox" class="custom-control-input position-static"
+                              [checked]="titleNameEnCheck" />
                             <label class="custom-control-label">อื่น ๆ</label>
                           </div>
                           <div class="col-md-4">
                             <div class="input-group input-group-sm mb-3">
-                              <input type="text" class="form-control"
-                                     aria-label="Small"
-                                     formControlName="TitleNameEnOther"
-                                     [attr.disabled]="titleNameEnCheck ? null : ''">
+                              <input type="text" class="form-control" aria-label="Small"
+                                formControlName="TitleNameEnOther" [attr.disabled]="titleNameEnCheck ? null : ''">
                             </div>
                           </div>
                         </div>
@@ -180,8 +168,8 @@
                           </div>
                           <div class="col-md-4">
                             <div class="input-group input-group-sm mb-3">
-                              <input type="text" class="form-control"
-                                     formControlName="FristNameEn">
+                              <input type="text" class="form-control" formControlName="FristNameEn"
+                                (keypress)="onKeyEN($event)">
                             </div>
                           </div>
                           <div class="col-md-2 text-right">
@@ -189,8 +177,8 @@
                           </div>
                           <div class="col-md-4">
                             <div class="input-group input-group-sm mb-3">
-                              <input type="text" class="form-control"
-                                     formControlName="LastNameEn">
+                              <input type="text" class="form-control" formControlName="LastNameEn"
+                                (keypress)="onKeyEN($event)">
                             </div>
                           </div>
                         </div>
@@ -201,11 +189,11 @@
                                   [round]="true"
                                   [src]="../../../../assets/icon-customer/image-default.png"
                                  ></ngx-avatar> -->
-                      <ngx-avatar [src]="imgURL"
-                                  size="120" [round]="true"></ngx-avatar>
+                      <ngx-avatar [src]="imgURL" size="120" [round]="true"></ngx-avatar>
                       <div class="upload-btn-wrapper">
                         <button class="btnz">Upload a file</button>
-                        <input #file ngModel [ngModelOptions]="{standalone: true}" type="file" accept='image/*' (change)="previewImage(file.files)" multiple>
+                        <input #file ngModel [ngModelOptions]="{standalone: true}" type="file" accept='image/*'
+                          (change)="previewImage(file.files)" multiple>
                       </div>
 
                       <!-- (change)="onImageChange($event)"> -->
@@ -225,8 +213,7 @@
                           </label>
                           <div class="col-md-6">
                             <div class="input-group input-group-sm mb-3">
-                              <input type="text" class="form-control"
-                                     formControlName="IdCard">
+                              <input type="text" class="form-control" formControlName="IdCard">
                             </div>
                           </div>
                         </div>
@@ -238,8 +225,7 @@
                           </div>
                           <div class="col-md-6">
                             <div class="input-group input-group-sm mb-3">
-                              <input type="text" class="form-control"
-                                     formControlName="Passport">
+                              <input type="text" class="form-control" formControlName="Passport">
                             </div>
                           </div>
                         </div>
@@ -251,8 +237,7 @@
                           </div>
                           <div class="col-md-6">
                             <div class="input-group input-group-sm mb-3">
-                              <input type="text" class="form-control"
-                                     formControlName="WorkPermitNo">
+                              <input type="text" class="form-control" formControlName="WorkPermitNo">
                             </div>
                           </div>
                         </div>
@@ -261,8 +246,7 @@
                             <label>วันเกิด<span class="text-danger">*</span>:</label>
                           </div>
                           <div class="col-md-3">
-                            <my-date-picker-th [options]="myDatePickerOptions"
-                                               formControlName="Birthday">
+                            <my-date-picker-th [options]="myDatePickerOptions" formControlName="Birthday">
                             </my-date-picker-th>
                           </div>
                           <div class="col-md-1 text-right">
@@ -270,10 +254,8 @@
                           </div>
                           <div class="col-md-2">
                             <div class="input-group input-group-sm mb-3">
-                              <input type="text" class="form-control"
-                                     aria-label="Small"
-                                     [value]="showAge(profileForm.value.Birthday)"
-                                     readonly>
+                              <input type="text" class="form-control" aria-label="Small"
+                                [value]="showAge(profileForm.value.Birthday)" readonly>
                             </div>
                           </div>
                           <div class="col-md-2 text-right">
@@ -281,8 +263,7 @@
                           </div>
                           <div class="col-md-2">
                             <div class="input-group input-group-sm mb-3">
-                              <select class="form-control"
-                                      formControlName="Sex">
+                              <select class="form-control" formControlName="Sex">
                                 <option [value]="1">ชาย</option>
                                 <option [value]="2">หญิง</option>
                               </select>
@@ -295,8 +276,7 @@
                           </div>
                           <div class="col-md-3">
                             <div class="input-group input-group-sm mb-3">
-                              <select class="form-control"
-                                      formControlName="Religion">
+                              <select class="form-control" formControlName="Religion">
                                 <option [value]="0">ไม่ระบุ</option>
                                 <option [value]="1">พุทธ</option>
                                 <option [value]="2">คริส</option>
@@ -309,8 +289,7 @@
                           </div>
                           <div class="col-md-2">
                             <div class="input-group input-group-sm mb-3">
-                              <input type="text" class="form-control"
-                                     formControlName="Nationality">
+                              <input type="text" class="form-control" formControlName="Nationality">
                             </div>
                           </div>
                           <div class="col-md-2 text-right">
@@ -319,8 +298,7 @@
                           <div class="col-md-2">
                             <div class="input-group input-group-sm mb-3">
                               <div class="input-group input-group-sm mb-3">
-                                <select class="form-control"
-                                        formControlName="EthnicityId">
+                                <select class="form-control" formControlName="EthnicityId">
                                   <option [value]="1">ไทย</option>
                                   <option [value]="2">ต่างชาติ</option>
                                 </select>
@@ -334,8 +312,7 @@
                           </div>
                           <div class="col-md-5">
                             <div class="input-group input-group-sm mb-3">
-                              <select class="form-control"
-                                      formControlName="Marital">
+                              <select class="form-control" formControlName="Marital">
                                 <option [value]="1">โสด</option>
                                 <option [value]="2">แต่งงาน</option>
                                 <option [value]="3">หย่า</option>
@@ -358,8 +335,7 @@
                             </div>
                             <div class="col-md-4">
                               <div class="input-group input-group-sm mb-3">
-                                <input type="text" class="form-control"
-                                       formControlName="FavoriteFood">
+                                <input type="text" class="form-control" formControlName="FavoriteFood">
                               </div>
                             </div>
                             <div class="col-md-2 text-right">
@@ -367,8 +343,7 @@
                             </div>
                             <div class="col-md-4">
                               <div class="input-group input-group-sm mb-3">
-                                <input type="text" class="form-control"
-                                       formControlName="FoodDislike">
+                                <input type="text" class="form-control" formControlName="FoodDislike">
                               </div>
                             </div>
                           </div>
@@ -378,8 +353,7 @@
                             </div>
                             <div class="col-md-4">
                               <div class="input-group input-group-sm mb-3">
-                                <input type="text" class="form-control"
-                                       formControlName="AllergicFood">
+                                <input type="text" class="form-control" formControlName="AllergicFood">
                               </div>
                             </div>
                             <div class="col-md-2 text-right">
@@ -387,8 +361,7 @@
                             </div>
                             <div class="col-md-4">
                               <div class="input-group input-group-sm mb-3">
-                                <input type="text" class="form-control"
-                                       formControlName="CongenitalDisease">
+                                <input type="text" class="form-control" formControlName="CongenitalDisease">
                               </div>
                             </div>
                           </div>
@@ -398,8 +371,7 @@
                             </div>
                             <div class="col-md-4">
                               <div class="input-group input-group-sm mb-3">
-                                <input type="text" class="form-control"
-                                       formControlName="AllergicDrugs">
+                                <input type="text" class="form-control" formControlName="AllergicDrugs">
                               </div>
                             </div>
                             <div class="col-md-2 text-right">
@@ -407,8 +379,7 @@
                             </div>
                             <div class="col-md-4">
                               <div class="input-group input-group-sm mb-3">
-                                <input type="text" class="form-control"
-                                       formControlName="VehicleRegistrationNumber">
+                                <input type="text" class="form-control" formControlName="VehicleRegistrationNumber">
                               </div>
                             </div>
                           </div>
@@ -418,9 +389,8 @@
                             </div>
                             <div class="col-md-10">
                               <div class="input-group mb-3">
-                                <textarea type="text" class="form-control"
-                                          rows="3"
-                                          formControlName="OtherPreferences"></textarea>
+                                <textarea type="text" class="form-control" rows="3"
+                                  formControlName="OtherPreferences"></textarea>
                               </div>
                             </div>
                           </div>
@@ -430,8 +400,7 @@
                   </div>
                 </form>
                 <div class="form-group text-right">
-                  <button type="button" class="btn btn-outline-secondary"
-                          (click)="back()">ยกเลิก
+                  <button type="button" class="btn btn-outline-secondary" (click)="back()">ยกเลิก
                   </button>
                   <button (click)="next()" class="btn btn-success">บันทึก</button>
                 </div>
@@ -443,8 +412,7 @@
       <div id="step-2" class="content">
         <div class="row mb-2">
           <h2 class="col-md-6">ข้อมูลที่อยู่</h2>
-          <div class="col-md-6 text-right"
-               (click)="openModalClass(insertAddress)">
+          <div class="col-md-6 text-right" (click)="openModalClass(insertAddress)">
             <button class="btn btn-success">
               <i class="fas fa-plus mr-1"></i>เพิ่มข้อมูลที่อยู่
             </button>
@@ -453,43 +421,42 @@
         <div style="overflow-x:auto;">
           <table class="table table-bordered" cellspacing="0">
             <thead class="bg-custom-green text-white">
-            <tr role="row">
-              <th class="text-center"> ที่อยู่</th>
-              <th class="text-center"> ประเภทที่อยู่</th>
-              <th class="text-center"> เครื่องมือ</th>
-            </tr>
+              <tr role="row">
+                <th class="text-center"> ที่อยู่</th>
+                <th class="text-center"> ประเภทที่อยู่</th>
+                <th class="text-center"> เครื่องมือ</th>
+              </tr>
             </thead>
             <tbody class="bg-white">
-            <tr *ngFor="let data of addressList; let i= index">
-              <td>{{showAddress(data)}}</td>
-              <td>
-                <label *ngIf="data.TypeAddress == 1">ทะเบียนบ้าน</label>
-                <label *ngIf="data.TypeAddress == 2">บัตรประชาชน</label>
-                <label *ngIf="data.TypeAddress == 3">ที่อยู่ปัจจุบัน</label>
-                <label *ngIf="data.TypeAddress == 4">ที่อยู่จัดส่ง</label>
-                <label *ngIf="data.TypeAddress == 1 && data.TypeAddress == 2 && data.TypeAddress == 3 && data.TypeAddress == 4 ">{{data.TypeAddress}}</label>
-                <label>{{data.TypeAddress}}</label>
-              </td>
-              <td style="text-align: center">
-                <a href="javascript:void(0)" class="btn btn-outline-success
-                      btn-sm mr-2"
-                   (click)="openModalClass(updatePersonAddress, 'xlModal')">
-                  <i class="fas fa-pencil-alt icon-prop"></i>
-                </a>
-                <a href="javascript:void(0)" class="btn btn-outline-danger
+              <tr *ngFor="let data of addressList; let i= index">
+                <td>{{showAddress(data)}}</td>
+                <td>
+                  <label *ngIf="data.TypeAddress == 1">ทะเบียนบ้าน</label>
+                  <label *ngIf="data.TypeAddress == 2">บัตรประชาชน</label>
+                  <label *ngIf="data.TypeAddress == 3">ที่อยู่ปัจจุบัน</label>
+                  <label *ngIf="data.TypeAddress == 4">ที่อยู่จัดส่ง</label>
+                  <label
+                    *ngIf="data.TypeAddress == 1 && data.TypeAddress == 2 && data.TypeAddress == 3 && data.TypeAddress == 4 ">{{data.TypeAddress}}</label>
+                  <label>{{data.TypeAddress}}</label>
+                </td>
+                <td style="text-align: center">
+                  <a href="javascript:void(0)" class="btn btn-outline-success
+                      btn-sm mr-2" (click)="openModalClass(updatePersonAddress, 'xlModal')">
+                    <i class="fas fa-pencil-alt icon-prop"></i>
+                  </a>
+                  <a href="javascript:void(0)" class="btn btn-outline-danger
                       btn-sm" (click)="deleteAddress(i)">
-                  <i class="fas fa-times icon-prop"></i>
-                </a>
-              </td>
-              <ng-template #updatePersonAddress let-modal>
-                <modal-address-information [data]="data"
-                                           (onSubmit)="updateAddress($event)">
-                </modal-address-information>
-              </ng-template>
-            </tr>
-            <tr *ngIf="addressList.length == 0">
-              <td class="text-center" colspan="4">ไม่พบข้อมูล</td>
-            </tr>
+                    <i class="fas fa-times icon-prop"></i>
+                  </a>
+                </td>
+                <ng-template #updatePersonAddress let-modal>
+                  <modal-address-information [data]="data" (onSubmit)="updateAddress($event)">
+                  </modal-address-information>
+                </ng-template>
+              </tr>
+              <tr *ngIf="addressList.length == 0">
+                <td class="text-center" colspan="4">ไม่พบข้อมูล</td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -507,45 +474,43 @@
             <div class="col-md-12">
               <table class="table table-bordered" cellspacing="0" role="grid">
                 <thead class="bg-custom-green text-white">
-                <tr role="row">
-                  <th class="text-center"> ชื่อ-นามสกุล</th>
-                  <th class="text-center"> ความสัมพันธ์</th>
-                  <th class="text-center"> เบอร์โทร</th>
-                  <th class="text-center"> เครื่องมือ</th>
-                </tr>
+                  <tr role="row">
+                    <th class="text-center"> ชื่อ-นามสกุล</th>
+                    <th class="text-center"> ความสัมพันธ์</th>
+                    <th class="text-center"> เบอร์โทร</th>
+                    <th class="text-center"> เครื่องมือ</th>
+                  </tr>
                 </thead>
                 <tbody class="bg-white">
-                <tr *ngFor="let data of familyList; let i= index">
-                  <td>
+                  <tr *ngFor="let data of familyList; let i= index">
+                    <td>
                       <span *ngIf="data.TitleNameTh1">{{data.TitleNameTh1 == 1 ?
                           'นาย' : data.TitleNameTh1 == 2 ? 'นาวสาว' : 'นาง'}}{{
                           data.FristNameTh1 + " " + data.LastNameTh1}}</span>
-                    <span *ngIf="!data.TitleNameTh1">{{data.TitleNameTh == 1 ?
+                      <span *ngIf="!data.TitleNameTh1">{{data.TitleNameTh == 1 ?
                         'นาย' : data.TitleNameTh == 2 ? 'นาวสาว' : 'นาง'}}{{
                         data.FristNameTh + " " + data.LastNameTh}}</span>
-                  </td>
-                  <td>{{data.Relation}}</td>
-                  <td>{{data.Contact}}</td>
-                  <td style="text-align: center">
-                    <a href="javascript:void(0)" class="btn
-                        btn-outline-success btn-sm mr-2"
-                       (click)="openModal(updatePersonFamily, 'lg')">
-                      <i class="fas fa-pencil-alt icon-prop"></i>
-                    </a>
-                    <a href="javascript:void(0)" class="btn btn-outline-danger
+                    </td>
+                    <td>{{data.Relation}}</td>
+                    <td>{{data.Contact}}</td>
+                    <td style="text-align: center">
+                      <a href="javascript:void(0)" class="btn
+                        btn-outline-success btn-sm mr-2" (click)="openModal(updatePersonFamily, 'lg')">
+                        <i class="fas fa-pencil-alt icon-prop"></i>
+                      </a>
+                      <a href="javascript:void(0)" class="btn btn-outline-danger
                         btn-sm" (click)="deleteFamily(i)">
-                      <i class="fas fa-times icon-prop"></i>
-                    </a>
-                  </td>
-                  <ng-template #updatePersonFamily let-modal>
-                    <modal-family-information [data]="data"
-                                              (onSubmit)="updateFamily($event)">
-                    </modal-family-information>
-                  </ng-template>
-                </tr>
-                <tr *ngIf="familyList.length == 0">
-                  <td class="text-center" colspan="5">ไม่พบข้อมูล</td>
-                </tr>
+                        <i class="fas fa-times icon-prop"></i>
+                      </a>
+                    </td>
+                    <ng-template #updatePersonFamily let-modal>
+                      <modal-family-information [data]="data" (onSubmit)="updateFamily($event)">
+                      </modal-family-information>
+                    </ng-template>
+                  </tr>
+                  <tr *ngIf="familyList.length == 0">
+                    <td class="text-center" colspan="5">ไม่พบข้อมูล</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -564,43 +529,42 @@
             <div class="col-md-12">
               <table class="table table-bordered" cellspacing="0" role="grid">
                 <thead class="bg-custom-green text-white">
-                <tr role="row">
-                  <th class="text-center"> รายละเอียด</th>
-                  <th class="text-center"> ประเภทข้อมูล</th>
-                  <th class="text-center"> เครื่องมือ</th>
-                </tr>
+                  <tr role="row">
+                    <th class="text-center"> รายละเอียด</th>
+                    <th class="text-center"> ประเภทข้อมูล</th>
+                    <th class="text-center"> เครื่องมือ</th>
+                  </tr>
                 </thead>
                 <tbody class="bg-white">
-                <tr *ngFor="let data of contactList; let i= index">
-                  <td>{{data.Contact}}</td>
-                  <td>
-                    <label *ngIf="data.TypeContactId == 1">อีเมล</label>
-                    <label *ngIf="data.TypeContactId == 2">เบอร์โทร</label>
-                    <label *ngIf="data.TypeContactId == 3">Line</label>
-                    <label *ngIf="data.TypeContactId == 4">Facebook</label>
-                    <label *ngIf="data.TypeContactId == 5">Twitter</label>
-                    <label *ngIf="data.TypeContactId == 6">Instagram</label>
-                    <label *ngIf="data.TypeContactId == 7">โทรสาร</label>
-                  </td>
-                  <td style="text-align: center">
-                    <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
-                       (click)="openModal(updatePersonContact, 'lg')">
-                      <i class="fas fa-pencil-alt icon-prop"></i>
-                    </a>
-                    <a href="javascript:void(0)" class="btn btn-outline-danger
+                  <tr *ngFor="let data of contactList; let i= index">
+                    <td>{{data.Contact}}</td>
+                    <td>
+                      <label *ngIf="data.TypeContactId == 1">อีเมล</label>
+                      <label *ngIf="data.TypeContactId == 2">เบอร์โทร</label>
+                      <label *ngIf="data.TypeContactId == 3">Line</label>
+                      <label *ngIf="data.TypeContactId == 4">Facebook</label>
+                      <label *ngIf="data.TypeContactId == 5">Twitter</label>
+                      <label *ngIf="data.TypeContactId == 6">Instagram</label>
+                      <label *ngIf="data.TypeContactId == 7">โทรสาร</label>
+                    </td>
+                    <td style="text-align: center">
+                      <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
+                        (click)="openModal(updatePersonContact, 'lg')">
+                        <i class="fas fa-pencil-alt icon-prop"></i>
+                      </a>
+                      <a href="javascript:void(0)" class="btn btn-outline-danger
                         btn-sm" (click)="deleteContact(i)">
-                      <i class="fas fa-times icon-prop"></i>
-                    </a>
-                  </td>
-                  <ng-template #updatePersonContact let-modal>
-                    <modal-contact-information [data]="contactList[i]"
-                                               (onSubmit)="updateContact($event,i)">
-                    </modal-contact-information>
-                  </ng-template>
-                </tr>
-                <tr *ngIf="contactList.length == 0">
-                  <td class="text-center" colspan="4">ไม่พบข้อมูล</td>
-                </tr>
+                        <i class="fas fa-times icon-prop"></i>
+                      </a>
+                    </td>
+                    <ng-template #updatePersonContact let-modal>
+                      <modal-contact-information [data]="contactList[i]" (onSubmit)="updateContact($event,i)">
+                      </modal-contact-information>
+                    </ng-template>
+                  </tr>
+                  <tr *ngIf="contactList.length == 0">
+                    <td class="text-center" colspan="4">ไม่พบข้อมูล</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -609,8 +573,7 @@
         <div class="container mb-4">
           <div class="row mb-2">
             <h2 class="col-md-6">ข้อมูลผู้ประสานงาน</h2>
-            <div class="col-md-6 text-right"
-                 (click)="openModal(insertCoordinator, 'lg')">
+            <div class="col-md-6 text-right" (click)="openModal(insertCoordinator, 'lg')">
               <button class="btn btn-success">
                 <i class="fas fa-plus mr-1"></i>เพิ่มข้อมูลผู้ประสานงาน
               </button>
@@ -620,46 +583,45 @@
             <div class="col-md-12">
               <table class="table table-bordered" cellspacing="0" role="grid">
                 <thead class="bg-custom-green text-white">
-                <tr role="row">
-                  <th class="text-center"> ชื่อ-นามสกุล</th>
-                  <th class="text-center"> ประเภทการติดต่อ</th>
-                  <th class="text-center"> การติดต่อ</th>
-                  <th class="text-center"> เครื่องมือ</th>
-                </tr>
+                  <tr role="row">
+                    <th class="text-center"> ชื่อ-นามสกุล</th>
+                    <th class="text-center"> ประเภทการติดต่อ</th>
+                    <th class="text-center"> การติดต่อ</th>
+                    <th class="text-center"> เครื่องมือ</th>
+                  </tr>
                 </thead>
                 <tbody *ngFor="let data of coordinateList; let i= index" class="bg-white">
-                <tr *ngFor="let subData of data; let j=index">
-                  <td [rowSpan]="coordinateList[i].length" *ngIf=" j == 0">
-                    {{nametitle[i]}}
-                  </td>
-                  <td>
-                    <label *ngIf="subData.TypeContactId == 1">อีเมล</label>
-                    <label *ngIf="subData.TypeContactId == 2">เบอร์โทร</label>
-                    <label *ngIf="subData.TypeContactId == 3">Line</label>
-                    <label *ngIf="subData.TypeContactId == 4">Facebook</label>
-                    <label *ngIf="subData.TypeContactId == 5">Twitter</label>
-                    <label *ngIf="subData.TypeContactId == 6">Instagram</label>
-                    <label *ngIf="subData.TypeContactId == 7">โทรสาร</label>
-                  </td>
-                  <td>
-                    {{subData.Contact}}
-                  </td>
-                  <td class="text-center">
-                    <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
-                       (click)="openModal(updatePersonCoordiantion, 'lg')">
-                      <i class="fas fa-pencil-alt icon-prop"></i>
-                    </a>
-                    <a href="javascript:void(0)" class="btn btn-outline-danger
-                        btn-sm" (click)="deleteCoordinator(subData.CoordinatorId)">
-                      <i class="fas fa-times icon-prop"></i>
-                    </a>
-                  </td>
-                  <ng-template #updatePersonCoordiantion let-modal>
-                    <modal-coordinator-information [data]="subData"
-                                                   (onSubmit)="updateCoordinator($event)">
-                    </modal-coordinator-information>
-                  </ng-template>
-                </tr>
+                  <tr *ngFor="let subData of data; let j=index">
+                    <td [rowSpan]="coordinateList[i].length" *ngIf=" j == 0">
+                      {{nametitle[i]}}
+                    </td>
+                    <td>
+                      <label *ngIf="subData.TypeContactId == 1">อีเมล</label>
+                      <label *ngIf="subData.TypeContactId == 2">เบอร์โทร</label>
+                      <label *ngIf="subData.TypeContactId == 3">Line</label>
+                      <label *ngIf="subData.TypeContactId == 4">Facebook</label>
+                      <label *ngIf="subData.TypeContactId == 5">Twitter</label>
+                      <label *ngIf="subData.TypeContactId == 6">Instagram</label>
+                      <label *ngIf="subData.TypeContactId == 7">โทรสาร</label>
+                    </td>
+                    <td>
+                      {{subData.Contact}}
+                    </td>
+                    <td class="text-center">
+                      <a href="javascript:void(0)" class="btn btn-outline-success btn-sm mr-2"
+                        (click)="openModal(updatePersonCoordiantion, 'lg')">
+                        <i class="fas fa-pencil-alt icon-prop"></i>
+                      </a>
+                      <a href="javascript:void(0)" class="btn btn-outline-danger
+                        btn-sm" (click)="deleteCoordinator(subData.CoordinatorId, j)">
+                        <i class="fas fa-times icon-prop"></i>
+                      </a>
+                    </td>
+                    <ng-template #updatePersonCoordiantion let-modal>
+                      <modal-coordinator-information [data]="subData" (onSubmit)="updateCoordinator($event)">
+                      </modal-coordinator-information>
+                    </ng-template>
+                  </tr>
                 </tbody>
                 <tr *ngIf="coordinateList.length == 0 ">
                   <td class="text-center" colspan="5">ไม่พบข้อมูล</td>
@@ -683,44 +645,42 @@
               <div class="table-responsive">
                 <table class="table table-bordered" cellspacing="0" role="grid">
                   <thead class="bg-custom-green text-white">
-                  <tr role="row">
-                    <th class="text-center"> ปีที่สำเร็จการศึกษา</th>
-                    <th class="text-center"> สถาบันการศึกษา</th>
-                    <th class="text-center"> วุฒิการศึกษา</th>
-                    <th class="text-center"> สาขา</th>
-                    <th class="text-center"> เครื่องมือ</th>
-                  </tr>
+                    <tr role="row">
+                      <th class="text-center"> ปีที่สำเร็จการศึกษา</th>
+                      <th class="text-center"> สถาบันการศึกษา</th>
+                      <th class="text-center"> วุฒิการศึกษา</th>
+                      <th class="text-center"> สาขา</th>
+                      <th class="text-center"> เครื่องมือ</th>
+                    </tr>
                   </thead>
                   <tbody class="bg-white">
-                  <tr *ngFor="let data of bursaryList; let i= index">
-                    <td>{{data.GraduationYear}}</td>
-                    <td>{{data.Academy}}</td>
-                    <td>
-                      <label *ngIf="data.Degree == 1">ปริญญาตรี</label>
-                      <label *ngIf="data.Degree == 2">ปริญญาโท</label>
-                      <label *ngIf="data.Degree == 3">ปริญญาเอก</label>
-                    </td>
-                    <td>{{data.Major}}</td>
-                    <td class="text-center">
-                      <a href="javascript:void(0)" class="btn
-                          btn-outline-success btn-sm mr-2"
-                         (click)="openModal(updatePersonBursary, 'lg')">
-                        <i class="fas fa-pencil-alt icon-prop"></i>
-                      </a>
-                      <a href="javascript:void(0)" class="btn
+                    <tr *ngFor="let data of bursaryList; let i= index">
+                      <td>{{data.GraduationYear}}</td>
+                      <td>{{data.Academy}}</td>
+                      <td>
+                        <label *ngIf="data.Degree == 1">ปริญญาตรี</label>
+                        <label *ngIf="data.Degree == 2">ปริญญาโท</label>
+                        <label *ngIf="data.Degree == 3">ปริญญาเอก</label>
+                      </td>
+                      <td>{{data.Major}}</td>
+                      <td class="text-center">
+                        <a href="javascript:void(0)" class="btn
+                          btn-outline-success btn-sm mr-2" (click)="openModal(updatePersonBursary, 'lg')">
+                          <i class="fas fa-pencil-alt icon-prop"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="btn
                           btn-outline-danger btn-sm" (click)="deleteBursary(i)">
-                        <i class="fas fa-times icon-prop"></i>
-                      </a>
-                    </td>
-                    <ng-template #updatePersonBursary let-modal>
-                      <modal-history-of-education [data]="data"
-                                                  (onSubmit)="updateBursary($event)">
-                      </modal-history-of-education>
-                    </ng-template>
-                  </tr>
-                  <tr *ngIf="bursaryList.length == 0">
-                    <td class="text-center" colspan="6">ไม่พบข้อมูล</td>
-                  </tr>
+                          <i class="fas fa-times icon-prop"></i>
+                        </a>
+                      </td>
+                      <ng-template #updatePersonBursary let-modal>
+                        <modal-history-of-education [data]="data" (onSubmit)="updateBursary($event)">
+                        </modal-history-of-education>
+                      </ng-template>
+                    </tr>
+                    <tr *ngIf="bursaryList.length == 0">
+                      <td class="text-center" colspan="6">ไม่พบข้อมูล</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -741,40 +701,38 @@
             <div class="col-md-12">
               <table class="table table-bordered" cellspacing="0" role="grid">
                 <thead class="bg-custom-green text-white">
-                <tr role="row">
-                  <th class="text-center"> ระยะเวลา</th>
-                  <th class="text-center"> ชื่อองค์กร</th>
-                  <th class="text-center"> ตำแหน่ง</th>
-                  <th class="text-center"> เครื่องมือ</th>
-                </tr>
+                  <tr role="row">
+                    <th class="text-center"> ระยะเวลา</th>
+                    <th class="text-center"> ชื่อองค์กร</th>
+                    <th class="text-center"> ตำแหน่ง</th>
+                    <th class="text-center"> เครื่องมือ</th>
+                  </tr>
                 </thead>
                 <tbody class="bg-white">
-                <tr *ngFor="let data of workingList">
-                  <td>{{data.StartMonth | date: 'dd/MM/yyyy'}} ถึง
-                    {{data.EndMonth | date: 'dd/MM/yyyy'}}
-                  </td>
-                  <td>{{data.CorporationName}}</td>
-                  <td>{{data.Position}}</td>
-                  <td class="text-center">
-                    <a href="javascript:void(0)" class="btn
-                        btn-outline-success btn-sm mr-2"
-                       (click)="openModal(updatePersonWorking, 'md')">
-                      <i class="fas fa-pencil-alt icon-prop"></i>
-                    </a>
-                    <a href="javascript:void(0)" class="btn btn-outline-danger
+                  <tr *ngFor="let data of workingList">
+                    <td>{{data.StartMonth | date: 'dd/MM/yyyy'}} ถึง
+                      {{data.EndMonth | date: 'dd/MM/yyyy'}}
+                    </td>
+                    <td>{{data.CorporationName}}</td>
+                    <td>{{data.Position}}</td>
+                    <td class="text-center">
+                      <a href="javascript:void(0)" class="btn
+                        btn-outline-success btn-sm mr-2" (click)="openModal(updatePersonWorking, 'md')">
+                        <i class="fas fa-pencil-alt icon-prop"></i>
+                      </a>
+                      <a href="javascript:void(0)" class="btn btn-outline-danger
                         btn-sm" (click)="deleteWorking(i)">
-                      <i class="fas fa-times icon-prop"></i>
-                    </a>
-                  </td>
-                  <ng-template #updatePersonWorking let-modal>
-                    <modal-career-history [data]="data"
-                                          (onSubmit)="updateWorking($event)">
-                    </modal-career-history>
-                  </ng-template>
-                </tr>
-                <tr *ngIf="workingList.length == 0">
-                  <td class="text-center" colspan="5">ไม่พบข้อมูล</td>
-                </tr>
+                        <i class="fas fa-times icon-prop"></i>
+                      </a>
+                    </td>
+                    <ng-template #updatePersonWorking let-modal>
+                      <modal-career-history [data]="data" (onSubmit)="updateWorking($event)">
+                      </modal-career-history>
+                    </ng-template>
+                  </tr>
+                  <tr *ngIf="workingList.length == 0">
+                    <td class="text-center" colspan="5">ไม่พบข้อมูล</td>
+                  </tr>
                 </tbody>
               </table>
             </div>

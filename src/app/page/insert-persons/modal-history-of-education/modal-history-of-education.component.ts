@@ -88,4 +88,13 @@ export class ModalHistoryOfEducationComponent implements OnInit {
   closeModal() {
     return this.modalService.dismissAll();
   }
+
+  onKeypress(e) {
+    let input = String.fromCharCode(e.charCode);
+    const reg = /^\d*(?:[.,]\d{1,2})?$/;
+
+    if (!reg.test(input)) {
+      e.preventDefault();
+    }
+  }
 }

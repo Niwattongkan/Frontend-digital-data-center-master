@@ -55,7 +55,7 @@
             <div class="input-group input-group-sm mb-3">
               <select class="form-control" formControlName="CorporationName">
                 <option value="">--เลือกองค์กร--</option>
-                <option *ngFor="let data of corporationList" [(ngModel)]="data.CorporationName">
+                <option *ngFor="let data of corporationList" [value]="data.CorporationName">
                   {{data.CorporationName}}
                 </option>
               </select>
