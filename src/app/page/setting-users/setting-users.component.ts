@@ -59,6 +59,7 @@ export class SettingUsersComponent implements OnInit {
           (String(group.BoardName).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase());
       });
       this.spinner.hide()
+      this.updateLogSearch(this.inputSearch);
     }
     this.spinner.hide()
     return this.page = 1;
@@ -163,5 +164,19 @@ export class SettingUsersComponent implements OnInit {
 
   canDelete(GroupUserId){
     return this.canDeleteUser && this.usersService.canAccessUserWithCurrentGroup(GroupUserId);
+  }
+
+  async updateLogSearch(inputSearch) {
+    var menu = 'ค้นหากลุ่มผู้ใช้งาน';
+    await this.auditLogServiceSearch(inputSearch, menu, '', this.ipAddress)
+  }
+  async auditLogServiceSearch(field, menu, origin, ipAddress) {
+    await this.authlogService.insertAuditlog({
+      UpdateDate: new Date(),
+      UpdateMenu: menu,
+      UpdateField: field,
+      DataOriginal: origin,
+      IpAddress: ipAddress.ip
+    }).toPromise()
   }
 }

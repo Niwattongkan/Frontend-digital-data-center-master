@@ -10,7 +10,8 @@ import { mapPersons } from '../../shared/library/mapList';
 import { PdfService } from '../../shared/services/pdf.service';
 import { UsersService } from '../../shared/services/users.service';
 import * as moment from 'moment';
-
+import { AuthlogService } from '../../shared/services/authlog.service';
+import {HttpClient} from '@angular/common/http';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 @Component({
@@ -22,7 +23,7 @@ export class ReportNoteComponent implements OnInit {
   public searchform: FormGroup;
   public reportType = 1;
   public page = 1;
-
+  ipAddress:any;
   public reportList: any = [];
 
   public myDatePickerOptions: IMyOptions = {
@@ -37,8 +38,11 @@ export class ReportNoteComponent implements OnInit {
     private reportService: ReportService,
     private excelService: ExcelService,
     private pdfService: PdfService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private authlogService: AuthlogService,
+    private http: HttpClient
   ) {
+    this.http.get<{ip:string}>('https://jsonip.com').subscribe( data => {this.ipAddress = data})
     this.searchform = this.setSerachForm();
   }
 
@@ -112,6 +116,7 @@ export class ReportNoteComponent implements OnInit {
     const result = (await this.reportService.getreportnote(data).toPromise())
       .data;
     this.reportList = mapPersons(result);
+    this.updateLogSearch( this.searchform.value);
     this.spinner.hide();
   }
 
@@ -198,5 +203,19 @@ export class ReportNoteComponent implements OnInit {
       body: exportGroup
     });
     doc.save('report-note.pdf');
+  }
+
+  async updateLogSearch(inputSearch) {
+    var menu = 'ค้นหารายงานการสืบค้นข้อมูลบุคคล';
+    await this.auditLogServiceSearch(inputSearch, menu, '', this.ipAddress)
+  }
+  async auditLogServiceSearch(field, menu, origin, ipAddress) {
+    await this.authlogService.insertAuditlog({
+      UpdateDate: new Date(),
+      UpdateMenu: menu,
+      UpdateField: 'ชื่อสมุดบันทึก :' +field.NoteName + ',ชื่อผู้สร้างสมุดบันทึก: '+ field.CreateBy + ' ,วันที่เริ่มต้น' + field.CreateDate + ',วันที่สิ้นสุด :' + field.EndDate,
+      DataOriginal: origin,
+      IpAddress: ipAddress.ip
+    }).toPromise()
   }
 }

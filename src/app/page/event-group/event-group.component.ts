@@ -108,6 +108,7 @@ export class EventGroupComponent implements OnInit {
       this.spinner.hide()
     }
     this.spinner.hide()
+    this.updateLogSearch(this.inputSearch);
     return this.page = 1
   }
 
@@ -346,5 +347,19 @@ export class EventGroupComponent implements OnInit {
     }
     return ret;*/
     return checkNext;
+  }
+
+  async updateLogSearch(inputSearch) {
+    var menu = 'ค้นหากลุ่มการจัดส่งเอกสาร';
+    await this.auditLogServiceSearch(inputSearch, menu, '', this.ipAddress)
+  }
+  async auditLogServiceSearch(field, menu, origin, ipAddress) {
+    await this.authlogService.insertAuditlog({
+      UpdateDate: new Date(),
+      UpdateMenu: menu,
+      UpdateField: field,
+      DataOriginal: origin,
+      IpAddress: ipAddress.ip
+    }).toPromise()
   }
 }

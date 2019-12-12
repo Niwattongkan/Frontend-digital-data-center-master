@@ -7,6 +7,8 @@ import { mapPersons, createdNamePersons } from '../../shared/library/mapList';
 import { alertEvent, alertDeleteEvent } from '../../shared/library/alert';
 import { NgxSpinnerService } from "ngx-spinner";
 import { UsersService } from '../../shared/services/users.service';
+import { AuthlogService } from '../../shared/services/authlog.service';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-setting-license',
@@ -23,13 +25,17 @@ export class SettingLicenseComponent implements OnInit {
   public canAddLicense = false;
   public canEditLicense = false;
   public canDeleteLicense = false;
-
+  ipAddress:any;
   constructor(
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
     private permissionService: PermissionsService,
-    private usersService: UsersService
-  ) { }
+    private usersService: UsersService,
+    private authlogService: AuthlogService,
+    private http: HttpClient
+  ) { 
+    this.http.get<{ip:string}>('https://jsonip.com').subscribe( data => {this.ipAddress = data})
+  }
 
   async ngOnInit() {
     this.spinner.show();
@@ -37,8 +43,6 @@ export class SettingLicenseComponent implements OnInit {
     this.roleList.map(async element => {
       element.Persons = await this.mapRole(element.PermissionId);
     });
-
-    console.log('xxxgingrole :',this.roleList);
     this.canAddLicense = this.usersService.canAddLicense();
     this.canEditLicense = this.usersService.canEditLicense();
     this.canDeleteLicense = this.usersService.canDeleteLicense();
@@ -71,6 +75,7 @@ export class SettingLicenseComponent implements OnInit {
       });
       this.roleList = searchData;
       this.spinner.hide()
+      this.updateLogSearch(this.inputSearch);
     }
     this.spinner.hide()
   }
@@ -180,6 +185,20 @@ export class SettingLicenseComponent implements OnInit {
     this.roleList.map(async element => {
       element.Persons = await this.mapRole(element.PermissionId);
     });
+  }
+
+  async updateLogSearch(inputSearch) {
+    var menu = 'ค้นหาจัดการสิทธิ์การใช้งาน';
+    await this.auditLogServiceSearch(inputSearch, menu, '', this.ipAddress)
+  }
+  async auditLogServiceSearch(field, menu, origin, ipAddress) {
+    await this.authlogService.insertAuditlog({
+      UpdateDate: new Date(),
+      UpdateMenu: menu,
+      UpdateField: field,
+      DataOriginal: origin,
+      IpAddress: ipAddress.ip
+    }).toPromise()
   }
 
 }

@@ -9,6 +9,8 @@ import { alertEvent, alertDeleteEvent } from "../../shared/library/alert";
 import { mapPersons, createdNamePersons } from "../../shared/library/mapList";
 import { UsersService } from "../../shared/services/users.service";
 import * as moment from 'moment';
+
+
 @Component({
   selector: "app-event-notebook",
   templateUrl: "./event-notebook.component.html",
@@ -168,17 +170,21 @@ export class EventNotebookComponent implements OnInit {
     this.noteList = await mapPersons(
       (await this.noteService.getNoteAll().toPromise()).data
     );
+    console.log('this.noteList',this.noteList);
     if (this.inputSearch != "") {
       this.noteList = this.noteList.filter(data => {
         return (
-          data.NoteName.includes(this.inputSearch) ||
-          data.FristNameTh.includes(this.inputSearch) ||
-          data.LastNameTh.includes(this.inputSearch)
+          (String(data.NoteName).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
+          (String(data.FristNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
+          (String(data.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
+          (String(data.NameBoard).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase())
         );
       });
       this.spinner.hide();
+      this.updateLogSearch(this.inputSearch);
     }
     this.spinner.hide();
+ 
   }
 
   public delete(id) {
@@ -208,5 +214,19 @@ export class EventNotebookComponent implements OnInit {
       "-" +
       day.substr(day.length - 2, day.length)
     );
+  }
+
+  async updateLogSearch(inputSearch) {
+    var menu = 'ค้นหาสมุดบันทึก';
+    await this.auditLogServiceSearch(inputSearch, menu, '', this.ipAddress)
+  }
+  async auditLogServiceSearch(field, menu, origin, ipAddress) {
+    await this.authlogService.insertAuditlog({
+      UpdateDate: new Date(),
+      UpdateMenu: menu,
+      UpdateField: field,
+      DataOriginal: origin,
+      IpAddress: ipAddress.ip
+    }).toPromise()
   }
 }

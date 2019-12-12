@@ -5,7 +5,7 @@ import { alertEvent, alertDeleteEvent } from '../../../shared/library/alert';
 import { NgxSpinnerService } from "ngx-spinner";
 import { UsersService } from '../../../shared/services/users.service';
 import { HttpClient } from '@angular/common/http';
-
+import { AuthlogService } from '../../../shared/services/authlog.service';
 @Component({
   selector: 'app-persons-list',
   templateUrl: './persons-list.component.html',
@@ -23,17 +23,21 @@ export class PersonsListComponent implements OnInit {
     private personsService: PersonsService,
     private spinner: NgxSpinnerService,
     private usersService: UsersService,
-    private excelService: ExcelService 
+    private excelService: ExcelService ,
+    private authlogService: AuthlogService,
+    private http: HttpClient,
   ) { 
 
+    this.http.get<{ ip: string }>('https://jsonip.com')
+    .subscribe(data => {
+      this.ipAddress = data
+    });
 
   }
 
   async ngOnInit() {
     this.spinner.show();
     this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data)
-
-    //console.log('personList :',this.personList)
     this.tempPersonList = this.personList
     this.canAddPerson = this.usersService.canAddPerson();
     this.spinner.hide();
@@ -82,10 +86,10 @@ export class PersonsListComponent implements OnInit {
       this.spinner.hide()
     } else {
       this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data)
-     
+      
       this.spinner.hide()
     }
-
+    await this.updateLog(this.inputSearch)
     return this.page = 1
   }
 
@@ -101,6 +105,19 @@ export class PersonsListComponent implements OnInit {
     })
   }
 
+  async updateLog(inputSearch){
+     await this.auditLogService(inputSearch, '' , this.ipAddress)
+  }
+
+  async auditLogService(field, origin, ipAddress) {
+    await this.authlogService.insertAuditlog({
+      UpdateDate: new Date(),
+      UpdateMenu: "ค้นหาข้อมูลบุคคล",
+      UpdateField: field,
+      DataOriginal: origin,
+      IpAddress: ipAddress.ip
+    }).toPromise()
+  }
 
   canEdit(url, checkNext = null) {
     /*var ret = this.usersService.canEdit(url)

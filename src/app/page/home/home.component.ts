@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { PersonsService } from '../../shared/services/persons.service';
 import { OrganizationService } from '../../shared/services/organization.service';
 import { ProgramService } from '../../shared/services/program.service';
@@ -7,7 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { HomeModalComponent } from './home-modal/home-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UsersService } from '../../shared/services/users.service';
-
+import { AuthlogService } from '../../shared/services/authlog.service';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +17,6 @@ import { UsersService } from '../../shared/services/users.service';
 export class HomeComponent implements OnInit {
 
   public page: Number;
-
   public personList: any = [];
   public addressList: any = [];
   public organizationList: any = [];
@@ -30,7 +29,7 @@ export class HomeComponent implements OnInit {
   public listStatus = null;
   public noData: boolean = null;
   public inputSearch = '';
-  ipAddress:any;
+  ipAddress: any;
   constructor(
     private spinner: NgxSpinnerService,
     private personsService: PersonsService,
@@ -38,12 +37,12 @@ export class HomeComponent implements OnInit {
     private programService: ProgramService,
     private modalService: NgbModal,
     private usersService: UsersService,
-    private http: HttpClient
+    private http: HttpClient,
+    private authlogService: AuthlogService,
 
   ) {
-
-   
     this.typeCheck = this.setTypeCheck();
+    this.http.get<{ ip: string }>('https://jsonip.com').subscribe(data => { this.ipAddress = data });
   }
 
   async ngOnInit() {
@@ -165,16 +164,17 @@ export class HomeComponent implements OnInit {
       if (this.inputSearch != '') {
         const seachPerson = this.personList.filter(person => {
           const title = person.TitleNameTh == 1 ? 'นาย' : person.TitleNameTh == 2 ? 'นางสาว' : 'นาง';
-          const titleOrther =  person.TitleNameOther != '' && person.TitleNameOther != null ? person.TitleNameOther : title;
+          const titleOrther = person.TitleNameOther != '' && person.TitleNameOther != null ? person.TitleNameOther : title;
           const titleEn = person.TitleNameEn == 1 ? 'Mr.' : person.TitleNameEn == 2 ? 'Mrs.' : 'Miss.';
-          const titleOrtherEn =  person.TitleNameOther != '' && person.TitleNameOther != null ? person.TitleNameOther : titleEn;
+          const titleOrtherEn = person.TitleNameOther != '' && person.TitleNameOther != null ? person.TitleNameOther : titleEn;
           return (String(person.FristNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
             (String(person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
             (String(title + person.FristNameTh + ' ' + person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
             (String(titleOrther + person.FristNameTh + ' ' + person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
             (String(titleEn + person.FristNameTh + ' ' + person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
             (String(titleOrtherEn + person.FristNameTh + ' ' + person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
-            (String(person.FristNameTh + ' ' + person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase());});
+            (String(person.FristNameTh + ' ' + person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase());
+        });
         this.personList = seachPerson.length > 0 ? seachPerson : await this.mapPerson((await this.personsService.getsearchpersoncontact(this.inputSearch).toPromise()).data);
         if (this.personList !== null && this.personList.length == 0) {
           this.noData = true;
@@ -182,6 +182,7 @@ export class HomeComponent implements OnInit {
           this.noData = false;
         }
       }
+       this.updateLog1(this.inputSearch);
     } else if (this.typeCheck[1].status == true) {
       this.listStatus = 1;
       this.organizationList = this.mapCorperation((await this.organizationService.getOrganizationAll().toPromise()).data);
@@ -191,6 +192,7 @@ export class HomeComponent implements OnInit {
             (String(corperation.TaxNo).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase());
         });
       }
+      this.updateLog2(this.inputSearch);
     } else if (this.typeCheck[2].status == true) {
       this.listStatus = 2;
       this.programList = this.mapProject((await this.programService.getallproject().toPromise()).data);
@@ -205,6 +207,7 @@ export class HomeComponent implements OnInit {
             (String(project.PurchaseNo).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase());
         });
       }
+      this.updateLog3(this.inputSearch);
     }
     this.spinner.hide();
     return this.page = 1;
@@ -237,5 +240,28 @@ export class HomeComponent implements OnInit {
       return this.usersService.canView('/program');
     }
     return false;
+  }
+
+
+  async updateLog1(inputSearch) {
+    var menu = 'ค้นหาข้อมูลบุคคล';
+    await this.auditLogService(inputSearch, menu, '', this.ipAddress)
+  }
+  async updateLog2(inputSearch) {
+    var menu = 'ค้นหาข้อมูลองค์กร';
+    await this.auditLogService(inputSearch, menu, '', this.ipAddress)
+  }
+  async updateLog3(inputSearch) {
+    var menu = 'ค้นหาข้อมูลโครงการ';
+    await this.auditLogService(inputSearch, menu, '', this.ipAddress)
+  }
+  async auditLogService(field, menu, origin, ipAddress) {
+    await this.authlogService.insertAuditlog({
+      UpdateDate: new Date(),
+      UpdateMenu: menu,
+      UpdateField: field,
+      DataOriginal: origin,
+      IpAddress: ipAddress.ip
+    }).toPromise()
   }
 }

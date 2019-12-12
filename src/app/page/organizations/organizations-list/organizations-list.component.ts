@@ -6,8 +6,8 @@ import { alertDeleteEvent } from "../../../shared/library/alert";
 import Swal from "sweetalert2";
 import { NgxSpinnerService } from "ngx-spinner";
 import { UsersService } from '../../../shared/services/users.service';
-
-
+import { AuthlogService } from '../../../shared/services/authlog.service';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-organizations-list',
   templateUrl: './organizations-list.component.html',
@@ -20,13 +20,16 @@ export class OrganizationsListComponent implements OnInit {
   public getallcorporationcontact: any = [];
   public inputSearch = "";
   public canAddOrganization = false
-
+  ipAddress: any;
   constructor(
     private organizationService: OrganizationService,
     private spinner: NgxSpinnerService,
     private usersService: UsersService,
     private excelService: ExcelService,
+    private authlogService: AuthlogService,
+    private http: HttpClient,
   ) {
+    this.http.get<{ ip: string }>('https://jsonip.com').subscribe(data => {this.ipAddress = data});
   }
 
   async ngOnInit() {
@@ -108,6 +111,7 @@ export class OrganizationsListComponent implements OnInit {
       });
       this.spinner.hide()
     }
+    await this.updateLog(this.inputSearch);
   }
 
   public async  exportExcel() {
@@ -182,4 +186,18 @@ export class OrganizationsListComponent implements OnInit {
     */
     return this.canAddOrganization;
   }
+
+  async updateLog(inputSearch){
+    await this.auditLogService(inputSearch, '' , this.ipAddress)
+ }
+
+ async auditLogService(field, origin, ipAddress) {
+  await this.authlogService.insertAuditlog({
+    UpdateDate: new Date(),
+    UpdateMenu: "ค้นหาข้อมูลองค์กร",
+    UpdateField: field,
+    DataOriginal: origin,
+    IpAddress: ipAddress.ip
+  }).toPromise()
+}
 }

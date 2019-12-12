@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProgramService } from '../../../shared/services/program.service';
 import { OrganizationService } from '../../../shared/services/organization.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { HttpClient } from '@angular/common/http';
+import { AuthlogService } from '../../../shared/services/authlog.service';
 
 @Component({
   selector: 'app-program-list',
@@ -12,12 +14,16 @@ export class ProgramListComponent implements OnInit {
 
   public programList: any = [];
   public inputSearch = '';
-
+  ipAddress: any;
   constructor(
     private spinner: NgxSpinnerService,
     private programService: ProgramService,
     private organizationService: OrganizationService,
-  ) { }
+    private authlogService: AuthlogService,
+    private http: HttpClient,
+  ) { 
+    this.http.get<{ ip: string }>('https://jsonip.com').subscribe(data => {this.ipAddress = data});
+  }
 
   public mapProject(projectList) {
     projectList.map(async data => {
@@ -51,5 +57,21 @@ export class ProgramListComponent implements OnInit {
       });
     }
     this.spinner.hide()
+    await this.updateLog(this.inputSearch)
   }
+
+  async updateLog(inputSearch){
+    await this.auditLogService(inputSearch, '' , this.ipAddress)
+ }
+
+ async auditLogService(field, origin, ipAddress) {
+  await this.authlogService.insertAuditlog({
+    UpdateDate: new Date(),
+    UpdateMenu: "ค้นหาข้อมูลโครงการ",
+    UpdateField: field,
+    DataOriginal: origin,
+    IpAddress: ipAddress.ip
+  }).toPromise()
+}
+
 }

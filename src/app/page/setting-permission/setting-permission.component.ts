@@ -72,6 +72,7 @@ export class SettingPermissionComponent implements OnInit {
         return data.Person[0].BoardName.includes(this.inputSearch)
       });
       this.spinner.hide()
+      this.updateLogSearch(this.inputSearch);
     }
     this.spinner.hide()
   }
@@ -155,5 +156,19 @@ export class SettingPermissionComponent implements OnInit {
 
   canDelete(BoardId){
     return this.canDeletePermission && this.usersService.canAccessPermissionWithCurrentGroup(BoardId);
+  }
+
+  async updateLogSearch(inputSearch) {
+    var menu = 'ค้นหากลุ่มจำกัดสิทธิ์';
+    await this.auditLogServiceSearch(inputSearch, menu, '', this.ipAddress)
+  }
+  async auditLogServiceSearch(field, menu, origin, ipAddress) {
+    await this.authlogService.insertAuditlog({
+      UpdateDate: new Date(),
+      UpdateMenu: menu,
+      UpdateField: field,
+      DataOriginal: origin,
+      IpAddress: ipAddress.ip
+    }).toPromise()
   }
 }

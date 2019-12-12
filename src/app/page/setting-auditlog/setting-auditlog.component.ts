@@ -4,6 +4,8 @@ import { AuthlogService } from '../../shared/services/authlog.service';
 import { PersonsService } from '../../shared/services/persons.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { mapPersons, createdNamePersons } from '../../shared/library/mapList';
+import {HttpClient} from '@angular/common/http';
+
 @Component({
   selector: 'app-setting-auditlog',
   templateUrl: './setting-auditlog.component.html',
@@ -19,7 +21,7 @@ export class SettingAuditlogComponent implements OnInit {
 
   public authloglist: any = [];
   public personList: any = [];
-
+  ipAddress:any;
   public editlogBoardlist: any = [];
   public editlogBoardPersonallist: any = [];
   public editlogContactGrouplist: any = [];
@@ -41,8 +43,11 @@ export class SettingAuditlogComponent implements OnInit {
   constructor(
     private spinner: NgxSpinnerService,
     private authlogService: AuthlogService,
-    private personsService: PersonsService
-  ) { }
+    private personsService: PersonsService,
+    private http: HttpClient
+  ) {
+    this.http.get<{ip:string}>('https://jsonip.com').subscribe( data => {this.ipAddress = data})
+   }
 
   async ngOnInit() {
     this.spinner.show();
@@ -69,10 +74,23 @@ export class SettingAuditlogComponent implements OnInit {
       })
       this.authloglist = result
       this.spinner.hide()
+      this.updateLogSearch(this.searchData);
     }
     this.spinner.hide()
   }
-
+  async updateLogSearch(inputSearch) {
+    var menu = 'ค้นหา Audit Log';
+    await this.auditLogServiceSearch(inputSearch, menu, '', this.ipAddress)
+  }
+  async auditLogServiceSearch(field, menu, origin, ipAddress) {
+    await this.authlogService.insertAuditlog({
+      UpdateDate: new Date(),
+      UpdateMenu: menu,
+      UpdateField: field,
+      DataOriginal: origin,
+      IpAddress: ipAddress.ip
+    }).toPromise()
+  }
   // private async getAllEditlog() {
   //   this.editlogBoardlist = (await this.authlogService.getEditlogBoardAll().toPromise()).data
   //   this.editlogBoardPersonallist = (await this.authlogService.getEditlogBoardPersonalAll().toPromise()).data
