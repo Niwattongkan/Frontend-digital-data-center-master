@@ -108,7 +108,7 @@ export class InsertPersonsComponent implements OnInit {
       });
 
       let resultPerson;
-      if(!this.personId) return;
+      if (!this.personId) return;
       this.personsService.getDetailById(this.personId).toPromise().then(res => {
         if (!res.successful) { return alert(res.message) }
         resultPerson = res.data[0];
@@ -190,16 +190,16 @@ export class InsertPersonsComponent implements OnInit {
     return this.router.navigate(['/persons']);
   }
 
-  getTypeAddressNum(str): number{
+  getTypeAddressNum(str): number {
     switch (str) {
       case 'ที่อยู่ตามทะเบียนบ้าน':
-         return 1;
+        return 1;
       case 'ที่อยู่ตามบัตรประชาชน':
-          return 2;
+        return 2;
       case 'ที่อยู่ปัจจุบัน':
-          return 3;
+        return 3;
       case 'ที่อยู่ตามที่อยู่จัดส่ง':
-          return 4;
+        return 4;
     }
   }
 
@@ -587,6 +587,12 @@ export class InsertPersonsComponent implements OnInit {
         this.familyList.push(value);
       }
     }
+
+    this.personsService.getFamilyById(this.personId).toPromise().then(res => {
+      if (res.successful) this.familyList = res.data;
+      else alert(res.message);
+    });
+
   }
 
   public async deleteContact(index) {
@@ -636,16 +642,13 @@ export class InsertPersonsComponent implements OnInit {
     //  Array.prototype.push.apply(this.contactList, value[0]);
     // this.contactList = value
   }
-  public async deleteCoordinator(id, index) {
-    return alertDeleteEvent().then(async confirm => {
-      if (confirm.value) {
-        if (this.personId) {
-          await this.personsService
-            .deletecoordinator(id)
-            .toPromise();
-        }
-        this.coordinateList.splice(index, 1);
-        return alertEvent('ลบข้อมูลสำเร็จ', 'success');
+  deleteCoordinator(id) {
+    return alertDeleteEvent().then(confirm => {
+      if (confirm.value && this.personId) {
+        this.personsService.deletecoordinator(id).toPromise().then(res => {
+          this.getCoordinator();
+          alertEvent('ลบข้อมูลสำเร็จ', 'success');
+        });
       }
     });
   }
@@ -663,6 +666,8 @@ export class InsertPersonsComponent implements OnInit {
       }
     });
   }
+
+
 
   public async updateCoordinator(value) {
     if (this.personId) {
@@ -817,6 +822,20 @@ export class InsertPersonsComponent implements OnInit {
     // };
   }
 
+
+  getCoordinator() {
+    this.personsService.getcoordinator(this.personId).toPromise().then(res => {
+      if (res.successful) {
+        this.coordinateList = Object.values(groupbyList(mapPersons(res.data), 'FullnameTh'));
+        if (this.coordinateList) {
+          for (let i = 0; i < this.coordinateList.length; i++) {
+            this.nametitle.push(this.coordinateList[i][0].FullnameTh);
+          }
+        }
+      } else alert(res.message);
+    });
+  }
+
   setList() {
     this.personsService.getAddressById(this.personId).toPromise().then(res => {
       if (res.successful) this.addressList = res.data;
@@ -843,16 +862,7 @@ export class InsertPersonsComponent implements OnInit {
       else alert(res.message);
     });
 
-    this.personsService.getcoordinator(this.personId).toPromise().then(res => {
-      if (res.successful) {
-        this.coordinateList = Object.values(groupbyList(mapPersons(res.data), 'FullnameTh'));
-        if (this.coordinateList) {
-          for (let i = 0; i < this.coordinateList.length; i++) {
-            this.nametitle.push(this.coordinateList[i][0].FullnameTh);
-          }
-        }
-      } else alert(res.message);
-    });
+    this.getCoordinator();
   }
 
   private setDateEdit(data) {
