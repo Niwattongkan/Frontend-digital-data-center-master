@@ -37,8 +37,8 @@ export class PersonsListComponent implements OnInit {
 
   async ngOnInit() {
     this.spinner.show();
-    this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data)
-    this.tempPersonList = this.personList
+    // this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data)
+    // this.tempPersonList = this.personList
     this.canAddPerson = this.usersService.canAddPerson();
     this.spinner.hide();
   }
@@ -58,7 +58,6 @@ export class PersonsListComponent implements OnInit {
 
       let workperson = (await this.personsService.getworkperson(data.PersonId).toPromise()).data
       let workcontact = (await this.personsService.getcontactperson(data.PersonId).toPromise()).data
-
       data.FullnameTh = first && last ? titleOrther + first + ' ' + last : ''
       data.FullnameEn = firstEn && lastEn ? titleEn + firstEn + ' ' + lastEn : ''
       data.ContactList = workcontact
@@ -84,12 +83,13 @@ export class PersonsListComponent implements OnInit {
       });
       this.personList = seachPerson.length > 0 ? seachPerson : await this.mapPerson((await this.personsService.getsearchpersoncontact(this.inputSearch).toPromise()).data)
       this.spinner.hide()
+      await this.updateLog(this.inputSearch)
     } else {
       this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data)
       
       this.spinner.hide()
     }
-    await this.updateLog(this.inputSearch)
+    
     return this.page = 1
   }
 

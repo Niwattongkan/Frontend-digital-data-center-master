@@ -9,7 +9,8 @@ import { PdfService } from "../../shared/services/pdf.service";
 import * as moment from 'moment';
 import { NgxSpinnerService } from "ngx-spinner";
 import { UsersService } from '../../shared/services/users.service';
-
+import { AuthlogService } from '../../shared/services/authlog.service';
+import {HttpClient} from '@angular/common/http';
 import * as jsPDF from "jspdf";
 import "jspdf-autotable";
 
@@ -20,7 +21,7 @@ import "jspdf-autotable";
 })
 export class ReportUsingComponent implements OnInit {
   public searchform: FormGroup;
-
+  ipAddress:any;
   public startDate;
   public endDate;
   public reportType = 1;
@@ -60,8 +61,11 @@ export class ReportUsingComponent implements OnInit {
     private reportService: ReportService,
     private excelService: ExcelService,
     private pdfService: PdfService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private authlogService: AuthlogService,
+    private http: HttpClient
   ) {
+    this.http.get<{ip:string}>('https://jsonip.com').subscribe( data => {this.ipAddress = data})
   }
 
   async ngOnInit() {
@@ -89,6 +93,7 @@ export class ReportUsingComponent implements OnInit {
         name: e.name,
         value: e.data.length
       });
+
       this.spinner.hide();
     });
   }
@@ -188,4 +193,6 @@ export class ReportUsingComponent implements OnInit {
   }
 
   public onSelect(e) { }
+
+
 }

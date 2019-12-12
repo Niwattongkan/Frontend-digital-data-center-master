@@ -210,10 +210,14 @@ export class ReportNoteComponent implements OnInit {
     await this.auditLogServiceSearch(inputSearch, menu, '', this.ipAddress)
   }
   async auditLogServiceSearch(field, menu, origin, ipAddress) {
+    var notename = 'ชื่อสมุดบันทึก :';
+    // var CreateBy = 'ชื่อผู้สร้างสมุดบันทึก :';
+    // var StartDate = 'วันที่เริ่มต้น :';
+    // var EndDate = 'วันที่สิ้นสุด : ';
     await this.authlogService.insertAuditlog({
       UpdateDate: new Date(),
       UpdateMenu: menu,
-      UpdateField: 'ชื่อสมุดบันทึก :' +field.NoteName + ',ชื่อผู้สร้างสมุดบันทึก: '+ field.CreateBy + ' ,วันที่เริ่มต้น' + field.CreateDate + ',วันที่สิ้นสุด :' + field.EndDate,
+      UpdateField: notename + field.NoteName +',' + field.CreateBy +',' + field.StartDate +',' + field.EndDate,
       DataOriginal: origin,
       IpAddress: ipAddress.ip
     }).toPromise()

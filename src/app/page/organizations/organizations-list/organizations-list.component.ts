@@ -33,10 +33,10 @@ export class OrganizationsListComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.spinner.show();
-    this.organizationList = this.mapCorperation((await this.organizationService.getOrganizationAll().toPromise()).data);
-    //console.log('this.organizationList',this.organizationList);
-    this.spinner.hide();
+    // this.spinner.show();
+    // this.organizationList = this.mapCorperation((await this.organizationService.getOrganizationAll().toPromise()).data);
+    // //console.log('this.organizationList',this.organizationList);
+    // this.spinner.hide();
     this.canAddOrganization = this.usersService.canAddOrganization();
   }
 
@@ -98,7 +98,7 @@ export class OrganizationsListComponent implements OnInit {
   }
 
   async onSearchData() {
-    this.spinner.show();
+    // this.spinner.show();
     this.organizationList = this.mapCorperation(
       (await this.organizationService.getOrganizationAll().toPromise()).data
     );
@@ -109,9 +109,10 @@ export class OrganizationsListComponent implements OnInit {
           corperation.TaxNo.includes(this.inputSearch)
         );
       });
-      this.spinner.hide()
+      // this.spinner.hide()
+      await this.updateLog(this.inputSearch);
     }
-    await this.updateLog(this.inputSearch);
+   
   }
 
   public async  exportExcel() {
