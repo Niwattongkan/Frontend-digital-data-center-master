@@ -30,7 +30,7 @@ export class PersonsListComponent implements OnInit {
     this.spinner.show();
     this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data)
 
-    console.log('personList :',this.personList)
+    //console.log('personList :',this.personList)
     this.tempPersonList = this.personList
     this.canAddPerson = this.usersService.canAddPerson();
     this.spinner.hide();

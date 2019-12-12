@@ -32,7 +32,7 @@ export class OrganizationsListComponent implements OnInit {
   async ngOnInit() {
     this.spinner.show();
     this.organizationList = this.mapCorperation((await this.organizationService.getOrganizationAll().toPromise()).data);
-    console.log('this.organizationList',this.organizationList);
+    //console.log('this.organizationList',this.organizationList);
     this.spinner.hide();
     this.canAddOrganization = this.usersService.canAddOrganization();
   }

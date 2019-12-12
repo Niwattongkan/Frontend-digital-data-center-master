@@ -8,3 +8,7 @@ export const environment = {
   redirect_uri: "https://tc.thaihealth.or.th/callback",
   client_id: "THDataCenter"
 };
+
+/*
+   
+*/

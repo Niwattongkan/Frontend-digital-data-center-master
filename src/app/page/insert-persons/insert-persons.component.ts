@@ -108,6 +108,7 @@ export class InsertPersonsComponent implements OnInit {
       });
 
       let resultPerson;
+      if(!this.personId) return;
       this.personsService.getDetailById(this.personId).toPromise().then(res => {
         if (!res.successful) { return alert(res.message) }
         resultPerson = res.data[0];
@@ -189,10 +190,24 @@ export class InsertPersonsComponent implements OnInit {
     return this.router.navigate(['/persons']);
   }
 
+  getTypeAddressNum(str): number{
+    switch (str) {
+      case 'ที่อยู่ตามทะเบียนบ้าน':
+         return 1;
+      case 'ที่อยู่ตามบัตรประชาชน':
+          return 2;
+      case 'ที่อยู่ปัจจุบัน':
+          return 3;
+      case 'ที่อยู่ตามที่อยู่จัดส่ง':
+          return 4;
+    }
+  }
+
   public async insertPerson(person) {
     if (person.PersonId) {
       for (let i = 0; i < this.addressList.length; i++) {
         this.addressList[i].PersonId = Number(person.PersonId);
+        this.addressList[i].TypeAddress = this.getTypeAddressNum(this.addressList[i].TypeAddress);
         await this.personsService
           .insertPersonAddress(this.addressList[i])
           .toPromise();
@@ -522,7 +537,7 @@ export class InsertPersonsComponent implements OnInit {
     if (value.PersonAddressId) {
       const model = value;
       model.PersonId = Number(this.personId);
-      model.TypeAddress = Number(value.TypeAddress);
+      model.TypeAddress = this.getTypeAddressNum(value.TypeAddress);
       await this.personsService.updatePersonAddress(model).toPromise();
       this.addressList = (await this.personsService
         .getAddressById(this.personId)
@@ -530,6 +545,7 @@ export class InsertPersonsComponent implements OnInit {
     } else {
       if (this.personId) {
         value.PersonId = Number(this.personId);
+        value.TypeAddress = this.getTypeAddressNum(value.TypeAddress);
         await this.personsService.insertPersonAddress(value).toPromise();
         alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
       }
@@ -620,7 +636,7 @@ export class InsertPersonsComponent implements OnInit {
     //  Array.prototype.push.apply(this.contactList, value[0]);
     // this.contactList = value
   }
-  public async deleteCoordinator(id,index) {
+  public async deleteCoordinator(id, index) {
     return alertDeleteEvent().then(async confirm => {
       if (confirm.value) {
         if (this.personId) {

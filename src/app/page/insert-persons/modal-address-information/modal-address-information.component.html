@@ -13,7 +13,6 @@
         </div>
       </div>
       <div class="row mb-2">
-        {{data | json}}
         <label class="col-md-2 text-right"> ประเภทที่อยู่<span class="text-danger">*</span>: </label>
         <div class="col-md-6">
           <div class="input-group input-group-sm mb-3">
@@ -22,11 +21,6 @@
               <option value="ที่อยู่ตามบัตรประชาชน">ตามบัตรประชาชน</option>
               <option value="ที่อยู่ปัจจุบัน">ตามที่อยู่ปัจจุบัน</option>
               <option value="ที่อยู่ตามที่อยู่จัดส่ง">ตามที่อยู่จัดส่ง</option>
-
-              <!-- <option *ngIf="checkAccording == false" value="ตามทะเบียนบ้าน">ตามทะเบียนบ้าน</option>
-              <option *ngIf="checkIdCard == false" value="ตามบัตรประชาชน">ตามบัตรประชาชน</option>
-              <option *ngIf="checkNowaddress == false" value="ตามที่อยู่ปัจจุบัน">ตามที่อยู่ปัจจุบัน</option>
-              <option value="ตามที่อยู่จัดส่ง">ตามที่อยู่จัดส่ง</option> -->
             </select>
           </div>
         </div>
