@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-
 import { PersonsService } from '../../../shared/services/persons.service';
 import { ExcelService } from "../../../shared/services/excel.service"
 import { alertEvent, alertDeleteEvent } from '../../../shared/library/alert';
 import { NgxSpinnerService } from "ngx-spinner";
 import { UsersService } from '../../../shared/services/users.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-persons-list',
@@ -18,13 +18,16 @@ export class PersonsListComponent implements OnInit {
   public tempPersonList: any = []
   public inputSearch = ''
   public canAddPerson = false;
-
+  ipAddress: any;
   constructor(
     private personsService: PersonsService,
     private spinner: NgxSpinnerService,
     private usersService: UsersService,
-    private excelService: ExcelService
-  ) { }
+    private excelService: ExcelService 
+  ) { 
+
+
+  }
 
   async ngOnInit() {
     this.spinner.show();
@@ -77,6 +80,7 @@ export class PersonsListComponent implements OnInit {
       this.spinner.hide()
     } else {
       this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data)
+     
       this.spinner.hide()
     }
 
@@ -143,4 +147,6 @@ export class PersonsListComponent implements OnInit {
     this.excelService.exportAsExcelFile(exportGroup, 'person');
     this.spinner.hide();
   }
+
+
 }

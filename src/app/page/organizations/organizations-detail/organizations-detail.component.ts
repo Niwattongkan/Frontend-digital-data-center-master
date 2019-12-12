@@ -32,12 +32,12 @@ export class OrganizationsDetailComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.spinner.show();
+   // this.spinner.show();
     this.organizationDetail = (await this.organizationService.getCorporation(this.organizationId).toPromise()).data[0]
     this.profile = this.organizationDetail ? await this.setProfile(this.organizationDetail) : null;
     this.contact = this.organizationDetail ? await this.setContact() : null;
     this.address = this.organizationDetail ? await this.setAddress(this.organizationDetail) : null;
-    this.spinner.hide();
+    //this.spinner.hide();
 
   }
 

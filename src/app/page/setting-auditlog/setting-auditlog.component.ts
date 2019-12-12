@@ -36,7 +36,7 @@ export class SettingAuditlogComponent implements OnInit {
   public editlogPurchaselist: any = [];
   public editlogWorklist: any = [];
 
-  public headers: any = ['วันเวลาที่แก้ไข', 'เมนู', 'ส่วนที่แก้ไข', 'ข้อมูลเดิม', 'แก้ไขเป็น', 'ผู้แก้ไข'];
+  public headers: any = ['วันเวลาที่แก้ไข', 'เมนู', 'ข้อมูลที่แก้ไข/ข้อมูลที่ค้นหา', 'ข้อมูลเดิม', 'แก้ไขเป็น', 'ผู้ใช้งาน'];
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -64,7 +64,8 @@ export class SettingAuditlogComponent implements OnInit {
           (String(loging.UpdateMenu).toLocaleLowerCase()).includes(this.searchData.toLocaleLowerCase()) ||
           (String(loging.DataOriginal).toLocaleLowerCase()).includes(this.searchData.toLocaleLowerCase()) ||
           (String(loging.UpdateData).toLocaleLowerCase()).includes(this.searchData.toLocaleLowerCase()) ||
-          (String(loging.UpdateField).toLocaleLowerCase()).includes(this.searchData.toLocaleLowerCase())
+          (String(loging.UpdateField).toLocaleLowerCase()).includes(this.searchData.toLocaleLowerCase()) ||
+          (String(loging.UpdateBy).toLocaleLowerCase()).includes(this.searchData.toLocaleLowerCase())
       })
       this.authloglist = result
       this.spinner.hide()
