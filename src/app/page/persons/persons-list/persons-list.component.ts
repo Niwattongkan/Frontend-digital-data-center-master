@@ -43,7 +43,7 @@ export class PersonsListComponent implements OnInit {
     personList.map(async data => {
       data.PersonAddress = []
 
-      let title = data.TitleNameTh == 1 ? 'นาย' : data.TitleNameTh == 2 ? 'นางสาว' : 'นาง'
+      let title = data.TitleNameTh == 1 ? 'นาย': data.TitleNameTh == 2 ? 'นางสาว': 'นาง'
       let titleOrther = await data.TitleNameOther != '' && data.TitleNameOther != null ? data.TitleNameOther : title
       let first = data.FristNameTh
       let last = data.LastNameTh
@@ -70,11 +70,13 @@ export class PersonsListComponent implements OnInit {
     this.spinner.show();
     if (this.inputSearch != '') {
       this.personList = await this.mapPerson((await this.personsService.getallperson().toPromise()).data)
-
       let seachPerson = this.personList.filter(person => {
+        let title = person.TitleNameTh == 1 ? 'นาย': person.TitleNameTh == 2 ? 'นางสาว': 'นาง'
         return (String(person.FristNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
           (String(person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
-          (String(person.Contact)).includes(this.inputSearch)
+          (String(title).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
+          (String(person.Contact)).includes(this.inputSearch) 
+
       });
       this.personList = seachPerson.length > 0 ? seachPerson : await this.mapPerson((await this.personsService.getsearchpersoncontact(this.inputSearch).toPromise()).data)
       this.spinner.hide()

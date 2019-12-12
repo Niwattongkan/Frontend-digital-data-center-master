@@ -10,12 +10,12 @@
       <div class="row mb-4">
         <div class="col-md-6">
           <span class="text-orange text-bold mr-4" style="font-size: 14px"> ชื่อ-สกุล:</span>
-          <a  routerLink="/persons/detail/{{cypeID}}">
+          <a *ngIf="currentPath != '/home'" routerLink="/persons/detail/{{cypeID}}">
             {{data.FullnameTh}}
           </a>
-          <!-- <label *ngIf="currentPath == '/home'" routerLink="/persons/detail/{{cypeID}}">
+          <label *ngIf="currentPath == '/home'" routerLink="/persons/detail/{{cypeID}}">
             {{data.FullnameTh}}
-          </label> -->
+          </label>
         </div>
         <div class="col-md-6 d-flex justify-content-between">
           <span class="text-orange text-bold mr-4" style="font-size: 14px">เบอร์โทรศัพท์: </span>
@@ -37,7 +37,7 @@
           <span class="text-orange text-bold mr-4" style="font-size: 14px">อีเมล: </span>
           <span *ngFor="let contact of data.ContactList;let i = index">
             <label style="font-size: 14px" *ngIf="contact.TypeContactId == 1" >{{contact.Contact}}</label><br *ngIf="contact.Contact !== '' && contact.Contact !== null">
-            <label class="licnum" ng-if="i>0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <label class="licnum" *ngIf="i>0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
           </span>
         </div>
         <div class="col-md-5">
@@ -48,7 +48,7 @@
         </div>
         <div class="col-md-1 justify-content-end">
           <div *ngIf="data.PersonAddress && currentPath == '/home'">
-            <div *ngIf="data.PersonAddress.length > 0" class="icon-box d-flex ml-auto">
+            <div *ngIf="data.PersonAddress.length > 0 " class="icon-box d-flex ml-auto">
               <a href="javascript:void(0)" class="ml-auto" (click)="isCollapsed = !isCollapsed"
                 [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample"
                 ngbTooltip="รายละเอียดข้อมูลที่อยู่บุคคล">
