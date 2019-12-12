@@ -76,7 +76,7 @@ export class ReportUsingComponent implements OnInit {
   }
 
   public async searchReport() {
-    this.spinner.show()
+   
     let data = { 
       Name : this.searchform.value.Name || '',
       StartDate: this.setDate(this.searchform.value.StartDate.date) || '', 
@@ -86,15 +86,15 @@ export class ReportUsingComponent implements OnInit {
    
     const result = (await this.reportService.getreportuserlog(data).toPromise()).data;
     this.reportList = result
-
+    this.updateLogSearch(data);
     this.multi = [];
     this.groupData(result).forEach(e => {
       this.multi.push({
         name: e.name,
         value: e.data.length
       });
-
-      this.spinner.hide();
+      
+    
     });
   }
 
@@ -194,5 +194,18 @@ export class ReportUsingComponent implements OnInit {
 
   public onSelect(e) { }
 
+  async updateLogSearch(data) {
+    var menu = 'ค้นหารายงานการใช้งานระบบ';
+    await this.auditLogServiceSearch(data, menu, '', this.ipAddress)
+  }
+  async auditLogServiceSearch(field, menu, origin, ipAddress) {
+    await this.authlogService.insertAuditlog({
+      UpdateDate: new Date(),
+      UpdateMenu: menu,
+      UpdateField:  field.Name+',' +field.StartDate+','+ field.EndDate,
+      DataOriginal: origin,
+      IpAddress: ipAddress.ip
+    }).toPromise()
+  }
 
 }

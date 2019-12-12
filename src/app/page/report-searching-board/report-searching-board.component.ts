@@ -7,6 +7,8 @@ import { UsersService } from '../../shared/services/users.service';
 import { mapPersons } from '../../shared/library/mapList';
 import { ExcelService } from '../../shared/services/excel.service';
 import { PdfService } from '../../shared/services/pdf.service';
+import { AuthlogService } from '../../shared/services/authlog.service';
+import {HttpClient} from '@angular/common/http';
 import * as jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -18,7 +20,7 @@ import 'jspdf-autotable';
 export class ReportSearchingBoardComponent implements OnInit {
 
   public searchform: FormGroup;
-
+  ipAddress:any;
   public reportType = 1;
   public page = 1;
 
@@ -36,9 +38,12 @@ export class ReportSearchingBoardComponent implements OnInit {
     private reportService: ReportService,
     private excelService: ExcelService,
     private pdfService: PdfService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private authlogService: AuthlogService,
+    private http: HttpClient
   ) {
     this.searchform = this.setSerachForm();
+    this.http.get<{ip:string}>('https://jsonip.com').subscribe( data => {this.ipAddress = data})
   }
 
 
@@ -74,6 +79,7 @@ export class ReportSearchingBoardComponent implements OnInit {
         return (String(report.BoardName)).includes(this.searchform.value.BoardName)
       })
       this.reportList = filter
+      this.updateLogSearch(this.searchform.value);
     }
 
     this.spinner.hide();
@@ -144,6 +150,20 @@ export class ReportSearchingBoardComponent implements OnInit {
     });
     doc.save('report-board.pdf');
     this.spinner.hide();
+  }
+
+  async updateLogSearch(data) {
+    var menu = 'ค้นหารายงานการสืบค้นข้อมูลคณะกรรมการ';
+    await this.auditLogServiceSearch(data, menu, '', this.ipAddress)
+  }
+  async auditLogServiceSearch(field, menu, origin, ipAddress) {
+    await this.authlogService.insertAuditlog({
+      UpdateDate: new Date(),
+      UpdateMenu: menu,
+      UpdateField:  field.BoardName,
+      DataOriginal: origin,
+      IpAddress: ipAddress.ip
+    }).toPromise()
   }
 
 }

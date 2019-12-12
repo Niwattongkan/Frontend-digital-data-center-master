@@ -6,6 +6,8 @@ import { ReportService } from "../../shared/services/report.service";
 import { PdfService } from "../../shared/services/pdf.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import { UsersService } from '../../shared/services/users.service';
+import { AuthlogService } from '../../shared/services/authlog.service';
+import {HttpClient} from '@angular/common/http';
 
 import * as jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -22,7 +24,7 @@ export class ReportSearchingPersonalComponent implements OnInit {
 
   public reportType = 1;
   public page = 1;
-
+  ipAddress:any;
   public reportList: any = [];
   public searchresult: any
   public myDatePickerOptions: IMyOptions = {
@@ -37,9 +39,12 @@ export class ReportSearchingPersonalComponent implements OnInit {
     private reportService: ReportService,
     private excelService: ExcelService,
     private pdfService: PdfService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private authlogService: AuthlogService,
+    private http: HttpClient
   ) {
     this.searchform = this.setSerachForm();
+    this.http.get<{ip:string}>('https://jsonip.com').subscribe( data => {this.ipAddress = data})
   }
 
   async ngOnInit() {
@@ -93,6 +98,7 @@ export class ReportSearchingPersonalComponent implements OnInit {
     //
     // }
     // this.reportList = mapPersons(this.searchresult);
+    this.updateLogSearch(this.searchform.value);
      this.reportList = mapPersons(result);
     this.spinner.hide();
   }
@@ -161,6 +167,21 @@ export class ReportSearchingPersonalComponent implements OnInit {
     });
     doc.save("report-personal.pdf");
     this.spinner.hide();
+  }
+
+
+  async updateLogSearch(inputSearch) {
+    var menu = 'ค้นหารายงานการสืบค้นข้อมูลบุคคล';
+    await this.auditLogServiceSearch(inputSearch, menu, '', this.ipAddress)
+  }
+  async auditLogServiceSearch(field, menu, origin, ipAddress) {
+    await this.authlogService.insertAuditlog({
+      UpdateDate: new Date(),
+      UpdateMenu: menu,
+      UpdateField:  field.Name +','+ field.CorporationName +','+ field.StartYear +','+field.Position+','+field.ProjectName+','+field.ProjectNo,
+      DataOriginal: origin,
+      IpAddress: ipAddress.ip
+    }).toPromise()
   }
 
 }

@@ -10,6 +10,8 @@ import "jspdf-autotable";
 import { NgxSpinnerService } from "ngx-spinner";
 import { mapPersons } from '../../shared/library/mapList';
 import { UsersService } from '../../shared/services/users.service';
+import { AuthlogService } from '../../shared/services/authlog.service';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-report-searching-corperation',
@@ -19,7 +21,7 @@ import { UsersService } from '../../shared/services/users.service';
 export class ReportSearchingCorperationComponent implements OnInit {
 
   public searchform: FormGroup;
-
+  ipAddress:any;
   public startDate;
   public endDate;
   public reportType = 1;
@@ -41,9 +43,12 @@ export class ReportSearchingCorperationComponent implements OnInit {
     private excelService: ExcelService,
     private pdfService: PdfService,
     private organizationService: OrganizationService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private authlogService: AuthlogService,
+    private http: HttpClient
   ) {
     this.searchform = this.setSerachForm();
+    this.http.get<{ip:string}>('https://jsonip.com').subscribe( data => {this.ipAddress = data})
   }
 
   async ngOnInit() {
@@ -87,6 +92,7 @@ export class ReportSearchingCorperationComponent implements OnInit {
     }
     const result = (await this.reportService.getreportcorporation(data).toPromise()).data;
     this.reportList = result ? mapPersons(result) : [];
+    this.updateLogSearch(data);
     this.spinner.hide();
 
   }
@@ -181,5 +187,19 @@ export class ReportSearchingCorperationComponent implements OnInit {
         day: tempDate.getDate()
       }
     };
+  }
+
+  async updateLogSearch(inputSearch) {
+    var menu = 'ค้นหารายชื่อบุคคลตามองค์กร';
+    await this.auditLogServiceSearch(inputSearch, menu, '', this.ipAddress)
+  }
+  async auditLogServiceSearch(field, menu, origin, ipAddress) {
+    await this.authlogService.insertAuditlog({
+      UpdateDate: new Date(),
+      UpdateMenu: menu,
+      UpdateField:  field.CorporationName +','+ field.StartDate +','+ field.EndDate,
+      DataOriginal: origin,
+      IpAddress: ipAddress.ip
+    }).toPromise()
   }
 }
