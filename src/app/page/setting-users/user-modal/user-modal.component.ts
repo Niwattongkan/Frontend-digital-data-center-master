@@ -5,10 +5,13 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PersonsService } from '../../../shared/services/persons.service';
 import { GroupUserService } from '../../../shared/services/group-user.service';
 import { BoardService } from '../../../shared/services/board.service';
-
+import { HttpClient } from '@angular/common/http';
+import { AuthlogService } from "../../../shared/services/authlog.service";
 import { validForm } from '../../../shared/library/form';
 import { mapPersons } from '../../../shared/library/mapList';
 import Swal from "sweetalert2";
+
+
 
 @Component({
   selector: 'setting-user-modal',
@@ -26,7 +29,7 @@ export class UserModalComponent implements OnInit {
  public test: any[];
   public alertValid = false
   public groupUserForm: FormGroup;
-
+  ipAddress: any;
   public personGroupList: any = [];
 
   public dropdownSettings = {
@@ -52,8 +55,11 @@ export class UserModalComponent implements OnInit {
     private personsService: PersonsService,
     private groupUserService: GroupUserService,
     private formBuilder: FormBuilder,
-    private boardService: BoardService
+    private boardService: BoardService,
+    private authlogService: AuthlogService,
+    private http: HttpClient
   ) {
+    this.http.get<{ ip: string }>('https://jsonip.com').subscribe(data => { this.ipAddress = data })
     this.groupUserForm = this.setGroupUser(null)
   }
 
@@ -80,6 +86,7 @@ export class UserModalComponent implements OnInit {
       return;
     }
     this.onSubmit.emit(this.groupUserForm.value)
+    this.updateLog(this.groupUserForm.value)
     return this.modalService.dismissAll()
   }
 
@@ -114,5 +121,18 @@ export class UserModalComponent implements OnInit {
       Person: [[]],
       GroupUserName: ['', [Validators.required]],
     })
+  }
+  async updateLog(group) {
+    await this.auditLogService('ชื่อกลุ่มสิทธิ์', group.GroupUserName, "",this.ipAddress) 
+  }
+  async auditLogService(field, origin, update, ipAddress) {
+    await this.authlogService.insertAuditlog({
+      UpdateDate: new Date(),
+      UpdateMenu: "เพิ่ม/แก้ไข กลุ่มผู้ใช้งาน",
+      UpdateField: field,
+      DataOriginal: origin,
+      UpdateData: update,
+      IpAddress: ipAddress.ip
+    }).toPromise()
   }
 }

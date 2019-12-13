@@ -78,13 +78,13 @@ export class SettingPermissionComponent implements OnInit {
   }
 
   async updateLog(note) {
-    this.boardOrigin.GroupUserName != note.GroupUserName ? await this.auditLogService("ชื่อกลุ่มผู้ใช้งาน", this.boardOrigin.GroupUserName, note.GroupUserName,this.ipAddress) : null
+    this.boardOrigin.GroupUserName != note.GroupUserName ? await this.auditLogService("ชื่อกลุ่มจำกัดสิทธิ์", this.boardOrigin.GroupUserName, note.GroupUserName,this.ipAddress) : null
   }
 
   async auditLogService(field, origin, update,ipAddress) {
     await this.authlogService.insertAuditlog({
       UpdateDate: new Date(),
-      UpdateMenu: "กลุ่มผู้ใช้งาน",
+      UpdateMenu: "กลุ่มจำกัดสิทธิ์",
       UpdateField: field,
       DataOriginal: origin,
       UpdateData: update,

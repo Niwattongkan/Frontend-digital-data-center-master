@@ -182,7 +182,9 @@ export class InsertPersonsComponent implements OnInit {
       const person = (await this.personsService
         .insertPerson(this.profileForm.value)
         .toPromise()).data[0];
+        
       this.insertPerson(person);
+      this.updateLog(person);
     }
 
     alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
@@ -204,6 +206,7 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   public async insertPerson(person) {
+   
     if (person.PersonId) {
       for (let i = 0; i < this.addressList.length; i++) {
         this.addressList[i].PersonId = Number(person.PersonId);
@@ -238,6 +241,7 @@ export class InsertPersonsComponent implements OnInit {
           .insertCoordinator(this.coordinateList[i])
           .toPromise();
       }
+      
     }
   }
 
@@ -771,6 +775,7 @@ export class InsertPersonsComponent implements OnInit {
       if (this.personId) {
         value.PersonId = Number(this.personId);
         await this.personsService.insertWork(value).toPromise();
+        
         alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
       }
       this.workingList.push(value);

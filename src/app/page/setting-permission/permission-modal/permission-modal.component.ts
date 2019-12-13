@@ -6,7 +6,8 @@ import { PersonsService } from '../../../shared/services/persons.service';
 import Swal from "sweetalert2";
 import { validForm } from '../../../shared/library/form';
 import { mapPersons } from '../../../shared/library/mapList';
-
+import { HttpClient } from '@angular/common/http';
+import { AuthlogService } from "../../../shared/services/authlog.service";
 @Component({
   selector: 'setting-permission-modal',
   templateUrl: './permission-modal.component.html',
@@ -20,7 +21,7 @@ export class PermissionModalComponent implements OnInit {
 
   public alertValid = false
   public boardForm: FormGroup;
-
+  ipAddress: any;
   public dropdownSettings = {
     singleSelection: false,
     idField: 'PersonId',
@@ -38,7 +39,11 @@ export class PermissionModalComponent implements OnInit {
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private personsService: PersonsService,
-  ) { }
+    private authlogService: AuthlogService,
+    private http: HttpClient
+  ) { 
+    this.http.get<{ ip: string }>('https://jsonip.com').subscribe(data => { this.ipAddress = data })
+  }
 
   async ngOnInit() {
     this.title = this.data ? "แก้ไขกลุ่มสิทธิ์" : "สร้างกลุ่มสิทธิ์"
@@ -64,6 +69,7 @@ export class PermissionModalComponent implements OnInit {
       return;
     }
     this.onSubmit.emit(this.boardForm.value)
+    this.updateLog(this.boardForm.value)
     return this.modalService.dismissAll()
   }
 
@@ -100,5 +106,20 @@ export class PermissionModalComponent implements OnInit {
       Person: [[], [Validators.required]],
       TypeRole: [1],
     })
+  }
+
+  async updateLog(note) {
+     await this.auditLogService("ชื่อกลุ่มจำกัดสิทธิ์", note.BoardName,"",this.ipAddress) 
+  }
+
+  async auditLogService(field, origin, update,ipAddress) {
+    await this.authlogService.insertAuditlog({
+      UpdateDate: new Date(),
+      UpdateMenu: "เพิ่ม/แก้ไข กลุ่มจำกัดสิทธิ์",
+      UpdateField: field,
+      DataOriginal: origin,
+      UpdateData: update,
+      IpAddress : ipAddress.ip
+    }).toPromise()
   }
 }

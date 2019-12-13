@@ -69,19 +69,22 @@ export class CardPersonComponent implements OnInit {
     const HouseNumber = value.HouseNumber ? ' เลขที่ ' + value.HouseNumber + ' ' : '';
     const Road = value.Road ? ' ถนน' + value.Road + ' ' : '';
     const Soi = value.Soi ? ' ซอย' + value.Soi + ' ' : '';
-    if (value.Province == ' กรุงเทพมหานคร') {
+   
+    if (value.Province == 'กรุงเทพมหานคร') {
       const Province = value.Province != '' ? ' ' + value.Province + ' ' : '';
       const Subdistrict = value.Subdistrict != '' ? ' แขวง' + value.Subdistrict + ' ' : '';
-      const District = value.District != '' ? ' เขต' + value.District + ' ' : '';
-      const Zipcode = value.Zipcode != '' ? ' รหัสไปรษณีย์' + value.Zipcode + ' ' : '';
+      const District = value.District != '' ? 'เขต'+value.District+ '' : '';
+      const Zipcode = value.Zipcode != '' ? ' ' + value.Zipcode + ' ' : '';
+
       return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  Zipcode;
     } else {
-      const Province = value.Province != '' ? ' จังหวัด' + value.Province + ' ' : '';
-      const Subdistrict = value.Subdistrict != '' ? ' ตำบล' + value.Subdistrict + ' ' : '';
-      const District = value.District != '' ? ' อำเภอ' + value.District + ' ' : '';
-      const Zipcode = value.Zipcode != '' ? ' รหัสไปรษณีย์' + value.Zipcode + ' ' : '';
+      const Province = value.Province != '' ? ' จังหวัด' + value.Province + '' : '';
+      const Subdistrict = value.Subdistrict != '' ? 'ตำบล'+ value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? 'อำเภอ'+value.District+ '' : '';
+      const Zipcode = value.Zipcode != '' ? ' ' + value.Zipcode + ' ' : '';
       return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  Zipcode;
     }
+    
   }
 
   canEdit(checkNext = null, personid){

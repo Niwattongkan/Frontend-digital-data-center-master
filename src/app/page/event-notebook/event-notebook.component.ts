@@ -76,6 +76,7 @@ export class EventNotebookComponent implements OnInit {
 
   public async insertNote(value) {
     this.spinner.show();
+    
     await this.noteService
       .insertNote(value)
       .toPromise()
@@ -90,7 +91,7 @@ export class EventNotebookComponent implements OnInit {
     this.noteList = await mapPersons(
       (await this.noteService.getNoteAll().toPromise()).data
     );
-
+   
     this.spinner.hide();
   }
 
@@ -130,6 +131,7 @@ export class EventNotebookComponent implements OnInit {
   }
 
   async updateLog(note) {
+    
     this.noteOrigin.NoteName != note.NoteName
       ? await this.auditLogService(
           "ชื่อบันทึก",

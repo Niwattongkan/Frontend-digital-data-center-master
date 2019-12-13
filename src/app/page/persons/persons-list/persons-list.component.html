@@ -59,11 +59,11 @@
       <card-person [data]="person" (onDelete)="delete($event)"></card-person>
     </div>
   </div>
-  <div class="card shadow mt-2" *ngIf="personList.length == 0">
+  <!-- <div class="card shadow mt-2" *ngIf="personList.length == 0">
     <div class="card-body text-center">
       <h3>ไม่พบข้อมูล</h3>
     </div>
-  </div>
+  </div> -->
   <div class="d-flex justify-content-between mt-4">
     <span>แสดงทั้งหมด {{personList.length}} รายการ</span>
     <pagination-controls (pageChange)="page = $event"></pagination-controls>

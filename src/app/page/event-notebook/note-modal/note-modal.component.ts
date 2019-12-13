@@ -5,7 +5,8 @@ import Swal from "sweetalert2";
 import { PersonsService } from '../../../shared/services/persons.service';
 
 import { validForm } from '../../../shared/library/form';
-
+import { HttpClient } from '@angular/common/http';
+import { AuthlogService } from "../../../shared/services/authlog.service";
 @Component({
   selector: 'event-note-modal',
   templateUrl: './note-modal.component.html',
@@ -15,7 +16,7 @@ import { validForm } from '../../../shared/library/form';
 export class NoteModalComponent implements OnInit {
 
   public title = "";
-
+  ipAddress: any;
   public personList: any = [];
 
   public alertValid = false
@@ -36,8 +37,11 @@ export class NoteModalComponent implements OnInit {
     private modalService: NgbModal,
     private personsService: PersonsService,
     private formBuilder: FormBuilder,
+    private authlogService: AuthlogService,
+    private http: HttpClient
   ) {
     this.noteForm = this.setNote(null)
+    this.http.get<{ ip: string }>('https://jsonip.com').subscribe(data => { this.ipAddress = data })
   }
 
   async ngOnInit() {
@@ -91,6 +95,7 @@ export class NoteModalComponent implements OnInit {
     }
     this.data ? model.NoteId = this.data.NoteId : null
     this.onSubmit.emit(model)
+     this.updateLog(model);
     return this.modalService.dismissAll()
   }
 
@@ -131,4 +136,34 @@ export class NoteModalComponent implements OnInit {
       Description: ["", [Validators.required]],
     })
   }
+
+  async updateLog(note) {
+
+    await this.auditLogService(
+      "ชื่อบันทึก",
+      "",
+      note.NoteName,
+      this.ipAddress
+    )
+    await this.auditLogService(
+      "รายละเอียด",
+      "",
+      note.Description,
+      this.ipAddress
+    )
+
+  }
+  async auditLogService(field, origin, update, ipAddress) {
+    await this.authlogService
+      .insertAuditlog({
+        UpdateDate: new Date(),
+        UpdateMenu: "พเิ่ม/แก้ไข สมุดบันทึก",
+        UpdateField: field,
+        DataOriginal: origin,
+        UpdateData: update,
+        IpAddress: ipAddress.ip
+      })
+      .toPromise();
+  }
+
 }

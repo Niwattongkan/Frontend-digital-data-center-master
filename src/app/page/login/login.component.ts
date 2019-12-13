@@ -5,6 +5,9 @@ import { environment } from '../../../environments/environment';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UsersService } from '../../shared/services/users.service';
 
+import { AuthlogService } from '../../shared/services/authlog.service';
+import {HttpClient} from '@angular/common/http';
+
 @Component({
   selector: 'app-login',
   //templateUrl: './login.component.html',
@@ -14,14 +17,19 @@ import { UsersService } from '../../shared/services/users.service';
 export class LoginComponent implements OnInit {
 
   public alertUser = false;
-
+  ipAddress:any;
   constructor(
     private router: Router,
     private modalService: NgbModal,
     private cookieService: CookieService,
     private activatedRoute: ActivatedRoute,
-    private usersService: UsersService
-  ) { }
+    private usersService: UsersService,
+    private authlogService: AuthlogService,
+    private http: HttpClient
+  ) { 
+    this.http.get<{ip:string}>('https://jsonip.com').subscribe( data => {this.ipAddress = data})
+
+  }
 
   ngOnInit() {
     if (this.cookieService.get('code') != '') {
@@ -45,6 +53,7 @@ export class LoginComponent implements OnInit {
         if (data.successful){
           localStorage.setItem('userinfo', JSON.stringify(data.data));
           localStorage.setItem('roles', (data.data.roles || []).join(','));
+          this.updateLog(data.data);
         }
       })
       .add(()=>{
@@ -75,5 +84,19 @@ export class LoginComponent implements OnInit {
   public openModal(content) {
     return this.modalService.open(content);
   }
+
+  async updateLog(data){
+    await this.auditLogService(data, '' , this.ipAddress)
+ }
+
+ async auditLogService(field, origin, ipAddress) {
+  await this.authlogService.insertAuditlog({
+    UpdateDate: new Date(),
+    UpdateMenu: "login",
+    UpdateField: field.email,
+    DataOriginal: origin,
+    IpAddress: ipAddress.ip
+  }).toPromise()
+}
 }
 

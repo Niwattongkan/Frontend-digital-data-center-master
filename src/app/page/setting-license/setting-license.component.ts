@@ -155,7 +155,7 @@ export class SettingLicenseComponent implements OnInit {
 
     var CreateBy = this.usersService.getUserInfo().email;
     this.getperman = (await this.permissionService.getpermissionmanage(permission.PermissionId).toPromise()).data
-    console.log('getpermanxx', this.getperman);
+   
     let i = 0;
     this.getperman.forEach(item => {
       if (item.PermissionId == permission.PermissionId) {

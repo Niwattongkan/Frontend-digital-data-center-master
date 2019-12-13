@@ -99,6 +99,7 @@ export class ModalContactOrganizationComponent implements OnInit {
     }
     if (this.data) { this.contactList.push(this.contactForm.value); }
     this.onSubmit.emit(this.contactList);
+    console.log(this.contactList);
     return this.modalService.dismissAll();
   }
 

@@ -7,6 +7,9 @@ import { ContactGroupService } from '../../../shared/services/contact-group.serv
 
 import { validForm } from '../../../shared/library/form';
 import { mapPersons } from '../../../shared/library/mapList';
+import { HttpClient } from '@angular/common/http';
+import { AuthlogService } from "../../../shared/services/authlog.service";
+
 
 @Component({
   selector: 'event-group-modal',
@@ -17,7 +20,7 @@ export class EventGroupModalComponent implements OnInit {
 
   public title = ""
   public personList: any = [];
-
+  ipAddress: any;
   public alertValid = false
   public groupForm: FormGroup;
 
@@ -38,7 +41,10 @@ export class EventGroupModalComponent implements OnInit {
     private contactGroupService: ContactGroupService,
     private personsService: PersonsService,
     private formBuilder: FormBuilder,
+    private authlogService: AuthlogService,
+    private http: HttpClient
   ) {
+    this.http.get<{ ip: string }>('https://jsonip.com').subscribe(data => { this.ipAddress = data })
     this.groupForm = this.setGroup(null)
   }
 
@@ -91,6 +97,7 @@ export class EventGroupModalComponent implements OnInit {
     }
     console.log(this.groupForm.value)
     this.onSubmit.emit(this.groupForm.value)
+     this.updateLog(this.groupForm.value)
     return this.modalService.dismissAll()
   }
 
@@ -137,5 +144,19 @@ export class EventGroupModalComponent implements OnInit {
       GroupName: ["", [Validators.required]],
       Person: [[], [Validators.required]],
     })
+  }
+  async updateLog(group) {
+    await this.auditLogService("ชื่อกลุ่ม", "",  group.GroupName, this.ipAddress)
+  }
+
+  async auditLogService(field, origin, update, ipAddress) {
+    await this.authlogService.insertAuditlog({
+      UpdateDate: new Date(),
+      UpdateMenu: "เพิ่ม/แก้ไข กลุ่มการจัดส่งเอกสาร",
+      UpdateField: field,
+      DataOriginal: origin,
+      UpdateData: update,
+      IpAddress: ipAddress.ip
+    }).toPromise()
   }
 }

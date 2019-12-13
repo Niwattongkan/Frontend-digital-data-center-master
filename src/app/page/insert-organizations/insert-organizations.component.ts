@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import Stepper from 'bs-stepper';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { OrganizationService } from '../../shared/services/organization.service';
 import { DropdownService } from '../../shared/services/dropdown.service';
 import { AuthlogService } from '../../shared/services/authlog.service';
@@ -32,7 +32,7 @@ export class InsertOrganizationsComponent implements OnInit {
   public corperationId = null;
   public title = '';
   public corperationAll: any = [];
-
+  public getid: any[];
   public district: any = [];
   public province: any = [];
   public subdistrict: any = [];
@@ -42,10 +42,10 @@ export class InsertOrganizationsComponent implements OnInit {
   public subdistrictContact: any = [];
 
   public contactList: any = [];
-
+  checkb = false;
   private stepper: Stepper;
   private disable: boolean;
-  ipAddress:any;
+  ipAddress: any;
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -56,17 +56,17 @@ export class InsertOrganizationsComponent implements OnInit {
     private authlogService: AuthlogService,
     private http: HttpClient
   ) {
-    this.http.get<{ip:string}>('https://jsonip.com')
-    .subscribe( data => {
-      this.ipAddress = data
-    })
+    this.http.get<{ ip: string }>('https://jsonip.com')
+      .subscribe(data => {
+        this.ipAddress = data
+      })
     this.corperationForm = this.setCorperation(null);
     this.addressForm = this.setAddress(null, 1);
     this.addressContactForm = this.setAddress(null, 4);
     this.corperationId = this.activatedRoute.snapshot.paramMap.get('id');
     this.title = this.corperationId ? 'แก้ไขข้อมูลองค์กร' : 'เพิ่มข้อมูลองค์กร';
     this.notNext = 2;
-    
+
   }
 
   async ngOnInit() {
@@ -84,17 +84,17 @@ export class InsertOrganizationsComponent implements OnInit {
     if (this.corperationId !== null) {
       const result = this.corperationId
         ? (
-            await this.organizationService
-              .getCorporation(this.corperationId)
-              .toPromise()
-          ).data[0]
+          await this.organizationService
+            .getCorporation(this.corperationId)
+            .toPromise()
+        ).data[0]
         : null;
       const resultAddress = this.corperationId
         ? (
-            await this.organizationService
-              .getcorporationaddress(this.corperationId)
-              .toPromise()
-          ).data
+          await this.organizationService
+            .getcorporationaddress(this.corperationId)
+            .toPromise()
+        ).data
         : null;
       this.corperationId ? await this.setLocation(resultAddress) : null;
 
@@ -109,7 +109,7 @@ export class InsertOrganizationsComponent implements OnInit {
       this.corperationAll = (
         await this.organizationService.getOrganizationAll().toPromise()
       ).data;
-     
+
       this.corperationForm = this.corperationId
         ? await this.setCorperation(result)
         : await this.setCorperation(null);
@@ -169,7 +169,7 @@ export class InsertOrganizationsComponent implements OnInit {
         .get('District')
         .valueChanges.subscribe(value => this.showSubdistrictContact(value));
     }
-    let obj = {CorporationName : "-- องค์กร --"}
+    let obj = { CorporationName: "-- องค์กร --" }
     this.corperationAll.push(obj)
   }
 
@@ -185,229 +185,229 @@ export class InsertOrganizationsComponent implements OnInit {
       }
     }
   }
-  async updateLog(corperation, address, addressContact ,ipAddress) {
+  async updateLog(corperation, address, addressContact, ipAddress) {
     const currentMenu = 'เพิ่ม/แก้ไข ข้อมูลองค์กร';
     this.corperationOriginForm.CorporationName != corperation.CorporationName
       ? await this.auditLogService(
-          currentMenu,
-          'ชื่อองค์กร',
-          this.corperationOriginForm.CorporationName,
-          corperation.CorporationName,
-          ipAddress
-        )
+        currentMenu,
+        'ชื่อองค์กร',
+        this.corperationOriginForm.CorporationName,
+        corperation.CorporationName,
+        ipAddress
+      )
       : null;
     this.corperationOriginForm.TaxNo != corperation.TaxNo
       ? await this.auditLogService(
-          currentMenu,
-          'เลขประจำตัวผู้เสียภาษี',
-          this.corperationOriginForm.TaxNo,
-          corperation.TaxNo,
-          this.ipAddress
-        )
+        currentMenu,
+        'เลขประจำตัวผู้เสียภาษี',
+        this.corperationOriginForm.TaxNo,
+        corperation.TaxNo,
+        this.ipAddress
+      )
       : null;
     this.corperationOriginForm.Parent != corperation.Parent
       ? await this.auditLogService(
-          currentMenu,
-          'ภายใต้องค์กร',
-          this.corperationOriginForm.Parent,
-          corperation.Parent,
-          this.ipAddress
-        )
+        currentMenu,
+        'ภายใต้องค์กร',
+        this.corperationOriginForm.Parent,
+        corperation.Parent,
+        this.ipAddress
+      )
       : null;
 
     this.addressOriginForm.HouseNumber != address.HouseNumber
       ? await this.auditLogService(
-          currentMenu,
-          'เลขที่',
-          this.addressOriginForm.HouseNumber,
-          address.HouseNumber,
-          this.ipAddress
-        )
+        currentMenu,
+        'เลขที่',
+        this.addressOriginForm.HouseNumber,
+        address.HouseNumber,
+        this.ipAddress
+      )
       : null;
     this.addressOriginForm.Road != address.Road
       ? await this.auditLogService(
-          currentMenu,
-          'ถนน',
-          this.addressOriginForm.Road,
-          address.Road,
-          this.ipAddress
-        )
+        currentMenu,
+        'ถนน',
+        this.addressOriginForm.Road,
+        address.Road,
+        this.ipAddress
+      )
       : null;
     this.addressOriginForm.Building != address.Building
       ? await this.auditLogService(
-          currentMenu,
-          'อาคาร',
-          this.addressOriginForm.Building,
-          address.Building,
-          this.ipAddress
-        )
+        currentMenu,
+        'อาคาร',
+        this.addressOriginForm.Building,
+        address.Building,
+        this.ipAddress
+      )
       : null;
     this.addressOriginForm.Room != address.Room
       ? await this.auditLogService(
-          currentMenu,
-          'ห้อง',
-          this.addressOriginForm.Room,
-          address.Room,
-          this.ipAddress
-        )
+        currentMenu,
+        'ห้อง',
+        this.addressOriginForm.Room,
+        address.Room,
+        this.ipAddress
+      )
       : null;
     this.addressOriginForm.Floor != address.Floor
       ? await this.auditLogService(
-          currentMenu,
-          'ชั้น',
-          this.addressOriginForm.Floor,
-          address.Floor,
-          this.ipAddress
-        )
+        currentMenu,
+        'ชั้น',
+        this.addressOriginForm.Floor,
+        address.Floor,
+        this.ipAddress
+      )
       : null;
     this.addressOriginForm.Soi != address.Soi
       ? await this.auditLogService(
-          currentMenu,
-          'ตรอก/ซอย',
-          this.addressOriginForm.Soi,
-          address.Soi,
-          this.ipAddress
-        )
+        currentMenu,
+        'ตรอก/ซอย',
+        this.addressOriginForm.Soi,
+        address.Soi,
+        this.ipAddress
+      )
       : null;
     this.addressOriginForm.Province != address.Province
       ? await this.auditLogService(
-          currentMenu,
-          'จังหวัด',
-          this.addressOriginForm.Province,
-          address.Province,
-          this.ipAddress
-        )
+        currentMenu,
+        'จังหวัด',
+        this.addressOriginForm.Province,
+        address.Province,
+        this.ipAddress
+      )
       : null;
     this.addressOriginForm.District != address.District
       ? await this.auditLogService(
-          currentMenu,
-          'เขต/อำเภอ',
-          this.addressOriginForm.District,
-          address.District,
-          this.ipAddress
-        )
+        currentMenu,
+        'เขต/อำเภอ',
+        this.addressOriginForm.District,
+        address.District,
+        this.ipAddress
+      )
       : null;
     this.addressOriginForm.Subdistrict != address.Subdistrict
       ? await this.auditLogService(
-          currentMenu,
-          'แขวง/ตำบล',
-          this.addressOriginForm.Subdistrict,
-          address.Subdistrict,
-          this.ipAddress
-        )
+        currentMenu,
+        'แขวง/ตำบล',
+        this.addressOriginForm.Subdistrict,
+        address.Subdistrict,
+        this.ipAddress
+      )
       : null;
     this.addressOriginForm.Zipcode != address.Zipcode
       ? await this.auditLogService(
-          currentMenu,
-          'รหัสไปรษณีย์',
-          this.addressOriginForm.Zipcode,
-          address.Zipcode,
-          this.ipAddress
-        )
+        currentMenu,
+        'รหัสไปรษณีย์',
+        this.addressOriginForm.Zipcode,
+        address.Zipcode,
+        this.ipAddress
+      )
       : null;
 
     this.addressContactOriginForm.HouseNumber != addressContact.HouseNumber
       ? await this.auditLogService(
-          currentMenu,
-          'เลขที่',
-          this.addressContactOriginForm.HouseNumber,
-          addressContact.HouseNumber,
-          this.ipAddress
-        )
+        currentMenu,
+        'เลขที่',
+        this.addressContactOriginForm.HouseNumber,
+        addressContact.HouseNumber,
+        this.ipAddress
+      )
       : null;
     this.addressContactOriginForm.Road != addressContact.Road
       ? await this.auditLogService(
-          currentMenu,
-          'ถนน',
-          this.addressContactOriginForm.Road,
-          addressContact.Road,
-          this.ipAddress
-        )
+        currentMenu,
+        'ถนน',
+        this.addressContactOriginForm.Road,
+        addressContact.Road,
+        this.ipAddress
+      )
       : null;
     this.addressContactOriginForm.Building != addressContact.Building
       ? await this.auditLogService(
-          currentMenu,
-          'อาคาร',
-          this.addressContactOriginForm.Building,
-          addressContact.Building,
-          this.ipAddress
-        )
+        currentMenu,
+        'อาคาร',
+        this.addressContactOriginForm.Building,
+        addressContact.Building,
+        this.ipAddress
+      )
       : null;
     this.addressContactOriginForm.Room != addressContact.Room
       ? await this.auditLogService(
-          currentMenu,
-          'ห้อง',
-          this.addressContactOriginForm.Room,
-          addressContact.Room,
-          this.ipAddress
-        )
+        currentMenu,
+        'ห้อง',
+        this.addressContactOriginForm.Room,
+        addressContact.Room,
+        this.ipAddress
+      )
       : null;
     this.addressContactOriginForm.Floor != addressContact.Floor
       ? await this.auditLogService(
-          currentMenu,
-          'ชั้น',
-          this.addressContactOriginForm.Floor,
-          addressContact.Floor,
-          this.ipAddress
-        )
+        currentMenu,
+        'ชั้น',
+        this.addressContactOriginForm.Floor,
+        addressContact.Floor,
+        this.ipAddress
+      )
       : null;
     this.addressContactOriginForm.Soi != addressContact.Soi
       ? await this.auditLogService(
-          currentMenu,
-          'ตรอก/ซอย',
-          this.addressContactOriginForm.Soi,
-          addressContact.Soi,
-          this.ipAddress
-        )
+        currentMenu,
+        'ตรอก/ซอย',
+        this.addressContactOriginForm.Soi,
+        addressContact.Soi,
+        this.ipAddress
+      )
       : null;
     this.addressContactOriginForm.Province != addressContact.Province
       ? await this.auditLogService(
-          currentMenu,
-          'จังหวัด',
-          this.addressContactOriginForm.Province,
-          addressContact.Province,
-          this.ipAddress
-        )
+        currentMenu,
+        'จังหวัด',
+        this.addressContactOriginForm.Province,
+        addressContact.Province,
+        this.ipAddress
+      )
       : null;
     this.addressContactOriginForm.District != addressContact.District
       ? await this.auditLogService(
-          currentMenu,
-          'เขต/อำเภอ',
-          this.addressContactOriginForm.District,
-          addressContact.District,
-          this.ipAddress
-        )
+        currentMenu,
+        'เขต/อำเภอ',
+        this.addressContactOriginForm.District,
+        addressContact.District,
+        this.ipAddress
+      )
       : null;
     this.addressContactOriginForm.Subdistrict != addressContact.Subdistrict
       ? await this.auditLogService(
-          currentMenu,
-          'แขวง/ตำบล',
-          this.addressContactOriginForm.Subdistrict,
-          addressContact.Subdistrict,
-          this.ipAddress
-        )
+        currentMenu,
+        'แขวง/ตำบล',
+        this.addressContactOriginForm.Subdistrict,
+        addressContact.Subdistrict,
+        this.ipAddress
+      )
       : null;
     this.addressContactOriginForm.Zipcode != addressContact.Zipcode
       ? await this.auditLogService(
-          currentMenu,
-          'รหัสไปรษณีย์',
-          this.addressContactOriginForm.Zipcode,
-          addressContact.Zipcode,
-          this.ipAddress
-        )
+        currentMenu,
+        'รหัสไปรษณีย์',
+        this.addressContactOriginForm.Zipcode,
+        addressContact.Zipcode,
+        this.ipAddress
+      )
       : null;
   }
 
-  async auditLogService(menu, field, origin, update,ipAddress) {
+  async auditLogService(menu, field, origin, update, ipAddress) {
     await this.authlogService
       .insertAuditlog({
         UpdateDate: new Date(),
         UpdateMenu: menu,
         UpdateField: field,
         DataOriginal: origin,
-        
+
         UpdateData: update,
-        IpAddress : ipAddress.ip
+        IpAddress: ipAddress.ip
       })
       .toPromise();
   }
@@ -468,6 +468,7 @@ export class InsertOrganizationsComponent implements OnInit {
     // alertEvent('ลบข้อมูลสำเร็จ', 'success');
     // this.contactList.splice(index, 1);
     if (this.corperationId) {
+
       Swal.fire({
         title: '',
         text: 'คุณต้องการลบข้อมูลนี้หรือไม่',
@@ -479,8 +480,16 @@ export class InsertOrganizationsComponent implements OnInit {
         cancelButtonText: 'ยกเลิก'
       }).then(result => {
         if (result.value) {
+
           const model = this.contactList[index];
           model.CorporationId = this.corperationId;
+
+          this.getCorporationContactId(this.corperationId)
+          this.getid.find(function (item) {
+            if (item.Contact == model.Contact) {
+              model.CorporationContactId = item.CorporationContactId
+            }
+          })
           this.organizationService
             .deleteCorporationContact(model.CorporationContactId)
             .subscribe(
@@ -515,6 +524,14 @@ export class InsertOrganizationsComponent implements OnInit {
     }
   }
 
+  public async getCorporationContactId(corperationId) {
+    this.getid =
+      (
+        await this.organizationService
+          .getcorporationcontact(corperationId)
+          .toPromise()
+      ).data || [];
+  }
   public async updateContact(value) {
     for (let index = 0; index < value.length; index++) {
       if (value[index].CorporationContactId) {
@@ -526,17 +543,17 @@ export class InsertOrganizationsComponent implements OnInit {
 
         const result = this.corperationId
           ? (
-              await this.organizationService
-                .getCorporationPerson(this.corperationId)
-                .toPromise()
-            ).data[0]
+            await this.organizationService
+              .getCorporationPerson(this.corperationId)
+              .toPromise()
+          ).data[0]
           : null;
         const resultAddress = this.corperationId
           ? (
-              await this.organizationService
-                .getcorporationaddress(this.corperationId)
-                .toPromise()
-            ).data
+            await this.organizationService
+              .getcorporationaddress(this.corperationId)
+              .toPromise()
+          ).data
           : null;
         this.setAddressCorperation(resultAddress);
 
@@ -619,7 +636,12 @@ export class InsertOrganizationsComponent implements OnInit {
     await this.organizationService
       .insertCorporationAddress(this.addressContactForm.value)
       .toPromise();
-
+    await this.updateLog(
+      this.corperationForm.value,
+      this.addressForm.value,
+      this.addressContactForm.value,
+      this.ipAddress
+    );
     if (result.CorporationId) {
       for (let i = 0; i < this.contactList.length; i++) {
         this.contactList[i].CorporationId = Number(result.CorporationId);
@@ -674,57 +696,57 @@ export class InsertOrganizationsComponent implements OnInit {
   private setCorperation(data) {
     return data
       ? this.formBuilder.group({
-          CorporationId: [data.CorporationId],
-          CorporationName: [data.CorporationName],
-          Parent: [data.Parent],
-          TaxNo: [data.TaxNo],
-          // Detail: [data.Detail],
-          PathFile: [data.PathFile]
-        })
+        CorporationId: [data.CorporationId],
+        CorporationName: [data.CorporationName],
+        Parent: [data.Parent],
+        TaxNo: [data.TaxNo],
+        // Detail: [data.Detail],
+        PathFile: [data.PathFile]
+      })
       : this.formBuilder.group({
-          CorporationName: ['', [Validators.required]],
-          Parent: [0],
-          TaxNo: [''],
-          // Detail: [""],
-          PathFile: [1]
-        });
+        CorporationName: ['', [Validators.required]],
+        Parent: [0],
+        TaxNo: [''],
+        // Detail: [""],
+        PathFile: [1]
+      });
   }
 
   private setAddress(data, type) {
     return data
       ? this.formBuilder.group({
-          CorporationId: [data.CorporationId],
-          CorporationAddressId: [data.CorporationAddressId],
-          TypeAddress: [data.TypeAddress, [Validators.required]],
-          HouseNumber: [data.HouseNumber, [Validators.required]],
-          Building: [data.Building],
-          Floor: [data.Floor],
-          Room: [data.Room],
-          Road: [data.Road],
-          Soi: [data.Soi],
-          Subdistrict: [data.Subdistrict, [Validators.required]],
-          District: [data.District, [Validators.required]],
-          Province: [data.Province, [Validators.required]],
-          Zipcode: [data.Zipcode, [Validators.required]]
-        })
+        CorporationId: [data.CorporationId],
+        CorporationAddressId: [data.CorporationAddressId],
+        TypeAddress: [data.TypeAddress, [Validators.required]],
+        HouseNumber: [data.HouseNumber, [Validators.required]],
+        Building: [data.Building],
+        Floor: [data.Floor],
+        Room: [data.Room],
+        Road: [data.Road],
+        Soi: [data.Soi],
+        Subdistrict: [data.Subdistrict, [Validators.required]],
+        District: [data.District, [Validators.required]],
+        Province: [data.Province, [Validators.required]],
+        Zipcode: [data.Zipcode, [Validators.required]]
+      })
       : this.formBuilder.group({
-          CorporationId: [null],
-          CorporationAddressId: [null],
-          TypeAddress: [type, [Validators.required]],
-          HouseNumber: ['', [Validators.required]],
-          Building: [''],
-          Floor: [''],
-          Room: [''],
-          Road: [''],
-          Soi: [''],
-          Subdistrict: [1, [Validators.required]],
-          District: [1, [Validators.required]],
-          Province: [1, [Validators.required]],
-          Zipcode: ['', [Validators.required]]
-        });
+        CorporationId: [null],
+        CorporationAddressId: [null],
+        TypeAddress: [type, [Validators.required]],
+        HouseNumber: ['', [Validators.required]],
+        Building: [''],
+        Floor: [''],
+        Room: [''],
+        Road: [''],
+        Soi: [''],
+        Subdistrict: [1, [Validators.required]],
+        District: [1, [Validators.required]],
+        Province: [1, [Validators.required]],
+        Zipcode: ['', [Validators.required]]
+      });
   }
 
-  private setContact(data) {}
+  private setContact(data) { }
 
   public async nextToStep2() {
     if (
@@ -742,6 +764,8 @@ export class InsertOrganizationsComponent implements OnInit {
     this.disable == true;
     this.alertValid = false;
     alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
+    this.checkb = true;
+
     return this.stepper.next();
   }
 

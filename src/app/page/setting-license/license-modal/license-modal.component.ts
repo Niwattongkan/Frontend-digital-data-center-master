@@ -6,6 +6,8 @@ import {BoardService} from "../../../shared/services/board.service";
 import {PersonsService} from "../../../shared/services/persons.service";
 import {PermissionsService} from "../../../shared/services/permission.service";
 import {NgxSpinnerService} from "ngx-spinner";
+import { HttpClient } from '@angular/common/http';
+import { AuthlogService } from "../../../shared/services/authlog.service";
 
 import {
   mapPersons,
@@ -31,7 +33,7 @@ export class LicenseModalComponent implements OnInit {
   public permissionForm: FormGroup;
   public selectedItems: any = [];
   public alertValid = false;
-
+  ipAddress: any;
   public dropdownSettings = {
     singleSelection: false,
     idField: "GroupUserId",
@@ -52,9 +54,13 @@ export class LicenseModalComponent implements OnInit {
     private personsService: PersonsService,
     private permissionService: PermissionsService,
     private spinner: NgxSpinnerService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authlogService: AuthlogService,
+    private http: HttpClient
   ) {
+
     this.licenseForm = this.setlicense(null);
+    this.http.get<{ ip: string }>('https://jsonip.com').subscribe(data => { this.ipAddress = data })
   }
 
   async ngOnInit() {
@@ -124,6 +130,7 @@ export class LicenseModalComponent implements OnInit {
       permission: this.permissionForm.value,
       role: this.rolelist
     });
+    this.updateLog(this.permissionForm.value)
     return this.modalService.dismissAll();
   }
 
@@ -263,4 +270,19 @@ export class LicenseModalComponent implements OnInit {
         Export: [false]
       });
   }
+
+  async updateLog(data) {
+    await this.auditLogService("ชื่อสิทธิ์การใช้งาน", data.PermissionName,"",this.ipAddress) 
+ }
+
+ async auditLogService(field, origin, update,ipAddress) {
+   await this.authlogService.insertAuditlog({
+     UpdateDate: new Date(),
+     UpdateMenu: "เพิ่ม/แก้ไข จัดการสิทธิ์การใช้งาน",
+     UpdateField: field,
+     DataOriginal: origin,
+     UpdateData: update,
+     IpAddress : ipAddress.ip
+   }).toPromise()
+ }
 }
