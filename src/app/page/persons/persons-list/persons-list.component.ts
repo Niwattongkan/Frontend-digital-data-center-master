@@ -78,6 +78,8 @@ export class PersonsListComponent implements OnInit {
         return (String(person.FristNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
           (String(person.LastNameTh).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
           (String(title).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
+          (String(person.FristNameEn).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
+          (String(person.LastNameEn).toLocaleLowerCase()).includes(this.inputSearch.toLocaleLowerCase()) ||
           (String(person.Contact)).includes(this.inputSearch) 
 
       });
