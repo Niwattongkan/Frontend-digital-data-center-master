@@ -78,19 +78,19 @@
     <div class="card-header">
       <div class="row justify-content-between">
         <div class="form-group">
-          <h5 *ngIf="addressForm.TypeAddress == 1" class="font-weight-bold text-orange">
+          <h5 *ngIf="addressForm.TypeAddress == 'ที่อยู่ตามทะเบียนบ้าน'" class="font-weight-bold text-orange">
             <img class="icon-customer mr-2" src="../../../../assets/icon-customer/icon-yello/address.png">
             <label>ที่อยู่ตามทะเบียนบ้าน</label>
           </h5>
-          <h5 *ngIf="addressForm.TypeAddress == 2" class="font-weight-bold text-orange">
+          <h5 *ngIf="addressForm.TypeAddress == 'ที่อยู่ตามบัตรประชาชน'" class="font-weight-bold text-orange">
             <img class="icon-customer mr-2" src="../../../../assets/icon-customer/icon-yello/persons-id.png">
             <label>ที่อยู่ตามบัตรประชาชน</label>
           </h5>
-          <h5 *ngIf="addressForm.TypeAddress == 3" class="font-weight-bold text-orange">
+          <h5 *ngIf="addressForm.TypeAddress == 'ที่อยู่ปัจจุบัน'" class="font-weight-bold text-orange">
             <img class="icon-customer mr-2" src="../../../../assets/icon-customer/icon-yello/address.png">
             <label>ที่อยู่ปัจจุบัน</label>
           </h5>
-          <h5 *ngIf="addressForm.TypeAddress == 4" class="font-weight-bold text-orange">
+          <h5 *ngIf="addressForm.TypeAddress == 'ที่อยู่จัดส่งเอกสาร'" class="font-weight-bold text-orange">
             <img class="icon-customer mr-2" src="../../../../assets/icon-customer/icon-yello/position.png">
             <label>ที่อยู่จัดส่งเอกสาร</label>
           </h5>
