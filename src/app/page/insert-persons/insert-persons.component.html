@@ -8,15 +8,11 @@
 </ng-template>
 
 <ng-template #insertContact let-modal>
-  <modal-contact-information (onSubmit)="insertContactq($event)"></modal-contact-information>
-</ng-template>
-
-<ng-template #updatePersonContact let-modal>
-  <modal-contact-information (onSubmit)="updateContact($event)"></modal-contact-information>
+  <modal-contact-information [PersonId]="personId" (onSubmit)="updateContact($event)"></modal-contact-information>
 </ng-template>
 
 <ng-template #insertCoordinator let-modal>
-  <modal-coordinator-information (onSubmit)="updateCoordinator($event)"></modal-coordinator-information>
+  <modal-coordinator-information [PersonId]="personId" (onSubmit)="updateCoordinator($event)"></modal-coordinator-information>
 </ng-template>
 
 <ng-template #insertBursary let-modal>
@@ -26,7 +22,7 @@
 <ng-template #insertWorking let-modal>
   <modal-career-history (onSubmit)="updateWorking($event)"></modal-career-history>
 </ng-template>
-`
+
 
 <div class="container">
   <div id="stepper1" class="bs-stepper ">
@@ -558,7 +554,7 @@
                       </a>
                     </td>
                     <ng-template #updatePersonContact let-modal>
-                      <modal-contact-information [data]="contactList[i]" (onSubmit)="updateContact($event,i)">
+                      <modal-contact-information [data]="contactList[i]" [PersonId]="personId" (onSubmit)="updateContact($event)">
                       </modal-contact-information>
                     </ng-template>
                   </tr>
@@ -618,7 +614,7 @@
                       </a>
                     </td>
                     <ng-template #updatePersonCoordiantion let-modal>
-                      <modal-coordinator-information [data]="subData" (onSubmit)="updateCoordinator($event)">
+                      <modal-coordinator-information [data]="subData" [PersonId]="personId" (onSubmit)="updateCoordinator($event)">
                       </modal-coordinator-information>
                     </ng-template>
                   </tr>

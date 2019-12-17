@@ -37,7 +37,6 @@ export class PersonsService {
   }
 
   insertPersonContact(data): Observable<any> {
-    console.log(data)
     let formData = this.setFormData(data)
     return this.apiService.post(`insertpersoncontact`, formData);
   }

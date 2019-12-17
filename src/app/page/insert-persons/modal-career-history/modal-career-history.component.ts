@@ -8,6 +8,7 @@ import { validForm } from '../../../shared/library/form';
 import { convertDateToString } from '../../../shared/library/date';
 
 import { OrganizationService } from '../../../shared/services/organization.service'
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'modal-career-history',
@@ -102,7 +103,25 @@ export class ModalCareerHistoryComponent implements OnInit {
   }
 
   closeModal() {
-    return this.modalService.dismissAll()
+    if (this.careerForm.dirty)
+      Swal.fire({
+        title: '',
+        text: 'ต้องการบันทึกข้อมูลหรือไม่',
+        type: 'warning',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        showCancelButton: true,
+        confirmButtonText: 'ตกลง',
+        cancelButtonText: 'ยกเลิก',
+        reverseButtons: true
+      }).then(async result => {
+        if (!result.value) {
+          return this.modalService.dismissAll();
+        }
+      });
+    else {
+      return this.modalService.dismissAll();
+    }
   }
 
 }

@@ -50,9 +50,9 @@
           </div>
         </div>
         <div class="col-md-3">
-          <img *ngIf="!inputForm.PathPhoto" class="rounded-circle" style="width: 130px; height: 130px;"
+          <img *ngIf="inputForm && !inputForm.PathPhoto" class="rounded-circle" style="width: 130px; height: 130px;"
             src="../../../../assets/icon-customer/image-default.png">
-          <img *ngIf="inputForm.PathPhoto" class="rounded-circle" style="width: 130px; height: 130px;" [src]="imageProfile">
+          <img *ngIf="inputForm && inputForm.PathPhoto" class="rounded-circle" style="width: 130px; height: 130px;" [src]="imageProfile">
         </div>
       </div>
       <hr class="divider">

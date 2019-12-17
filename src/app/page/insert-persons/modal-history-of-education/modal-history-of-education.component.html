@@ -21,7 +21,8 @@
           </div>
           <div class="col-md-3">
             <div class="input-group input-group-sm mb-3">
-              <input type="text" maxlength="4" class="form-control" formControlName="GraduationYear" (keypress)="onKeypress($event)">
+              <input type="text" maxlength="4" class="form-control" formControlName="GraduationYear"
+                (keypress)="onKeypress($event)">
             </div>
           </div>
 
@@ -33,18 +34,18 @@
             </label>
           </div>
           <div class="col-md-9">
-              <ng-multiselect-dropdown [data]="academyList" [formControl]="educationForm.controls['AcademyId']"
-                                       [settings]="dropdownSettings">
-              </ng-multiselect-dropdown>
+            <select class="form-control" formControlName="AcademyId">
+              <option *ngFor="let v of academyList" [value]="v.AcademyId">{{v.Academy}}</option>
+            </select>
           </div>
         </div>
         <div class="row" style="margin-top: 15px">
-          <div class="col-md-3 text-right" >
+          <div class="col-md-3 text-right">
             <label>
               วุฒิการศึกษา<span class="important">*</span>:
             </label>
           </div>
-          <div class="col-md-3" >
+          <div class="col-md-3">
             <div class="input-group input-group-sm mb-3">
               <select class="form-control" formControlName="Degree">
                 <option [value]="1">ปริญาตรี</option>

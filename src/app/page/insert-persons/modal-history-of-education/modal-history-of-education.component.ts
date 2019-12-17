@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { validForm } from '../../../shared/library/form';
 
 import { DropdownService } from '../../../shared/services/dropdown.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -44,8 +45,7 @@ export class ModalHistoryOfEducationComponent implements OnInit {
   async ngOnInit() {
     this.academyList = (await this.dropdownService.getacademyAll().toPromise()).data;
     this.educationForm = this.data ? this.setEducation(this.data) : this.setEducation(null);
-    this.data ? this.educationForm.controls['AcademyId'].setValue([this.findAcademy(this.educationForm.controls['AcademyId'].value)]) : null;
-    console.log(this.educationForm.value);
+    //this.data ? this.educationForm.controls['AcademyId'].setValue([this.findAcademy(this.educationForm.controls['AcademyId'].value)]) : null;
   }
 
   findAcademy(academyId) {
@@ -70,7 +70,7 @@ export class ModalHistoryOfEducationComponent implements OnInit {
         Degree: [1, [Validators.required]],
         GraduationYear: ['', [Validators.required]],
         Major: ['', [Validators.required]],
-        AcademyId: [1, [Validators.required]],
+        AcademyId: [null, [Validators.required]],
       });
   }
 
@@ -80,13 +80,30 @@ export class ModalHistoryOfEducationComponent implements OnInit {
       return;
     }
     this.alertValid = false;
-    this.educationForm.controls['AcademyId'].setValue((this.educationForm.controls['AcademyId'].value)[0].AcademyId);
     this.onSubmit.emit(this.educationForm.value);
     return this.modalService.dismissAll();
   }
 
   closeModal() {
-    return this.modalService.dismissAll();
+    if (this.educationForm.dirty)
+      Swal.fire({
+        title: '',
+        text: 'ต้องการบันทึกข้อมูลหรือไม่',
+        type: 'warning',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        showCancelButton: true,
+        confirmButtonText: 'ตกลง',
+        cancelButtonText: 'ยกเลิก',
+        reverseButtons: true
+      }).then(async result => {
+        if (!result.value) {
+          return this.modalService.dismissAll();
+        }
+      });
+    else {
+      return this.modalService.dismissAll();
+    }
   }
 
   onKeypress(e) {

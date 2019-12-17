@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit {
     // debugger
     var userInfo = this.userService.getUserInfo();
     this.updateLog(userInfo.email);
-    
+
     this.cookieService.delete('code');
     localStorage.removeItem('u_permission');
     localStorage.removeItem('u_group');
@@ -53,20 +53,20 @@ export class HeaderComponent implements OnInit {
   getName() {
     var userInfo = this.userService.getUserInfo();
     if (!userInfo) return '';
-    return userInfo.firstname + ' ' + userInfo.lastname;
+    return userInfo.roles[0] + ' : ' + userInfo.firstname + ' ' + userInfo.lastname;
   }
 
-  async updateLog(data){
-    await this.auditLogService(data, '' , this.ipAddress)
- }
+  async updateLog(data) {
+    await this.auditLogService(data, '', this.ipAddress)
+  }
 
- async auditLogService(field, origin, ipAddress) {
-  await this.authlogService.insertAuditlog({
-    UpdateDate: new Date(),
-    UpdateMenu: "logout",
-    UpdateField: field,
-    DataOriginal: origin,
-    IpAddress: ipAddress.ip
-  }).toPromise()
-}
+  async auditLogService(field, origin, ipAddress) {
+    await this.authlogService.insertAuditlog({
+      UpdateDate: new Date(),
+      UpdateMenu: "logout",
+      UpdateField: field,
+      DataOriginal: origin,
+      IpAddress: ipAddress.ip
+    }).toPromise()
+  }
 }

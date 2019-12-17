@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import SimpleCrypto from "simple-crypto-js";
 import { UsersService } from '../../services/users.service';
+import { PersonsService } from '../../services/persons.service';
 
 @Component({
   selector: 'card-person',
@@ -10,13 +11,17 @@ import { UsersService } from '../../services/users.service';
 })
 export class CardPersonComponent implements OnInit {
 
-  public isCollapsed = true;
+  @Input() isCollapsed = true;
   public cypeID
   public currentPath = '';
   public imagePerson = '';
-  public image ='./';
+  public image = './';
   public canEditPerson = false;
   public canDeletePerson = false;
+
+  AddressList: any[] = [];
+  PositionList: any[] = [];
+  ContactList: any[] = [];
   @Input() data: any;
 
   @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
@@ -24,21 +29,41 @@ export class CardPersonComponent implements OnInit {
   constructor(
     private router: Router,
     private usersService: UsersService,
+    private personsService: PersonsService,
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     let Crypto = new SimpleCrypto('some-unique-key');
-    this.cypeID = encodeURIComponent(Crypto.encrypt( this.data.PersonId))
-    this.canEditPerson = this.usersService.canEditPerson();
-    this.canDeletePerson = this.usersService.canDeletePerson();
+    if (this.data) {
+      this.cypeID = encodeURIComponent(Crypto.encrypt(this.data.PersonId))
+      this.canEditPerson = this.usersService.canEditPerson();
+      this.canDeletePerson = this.usersService.canDeletePerson();
+    }
   }
 
-  async ngOnChanges() {
-
+  ngOnChanges() {
     this.currentPath = this.router.url;
-    this.data = await this.setProfile(this.data);
-    // this.data = await this.setProfile(this.enCypeId(this.data));
-    this.imagePerson = 'https://tc.thaihealth.or.th:4122/uapi/ddc/getphotoperson?PersonId=' +this.data.PersonId;
+    if (this.data) {
+      this.data = this.setProfile(this.data);
+      // this.data = await this.setProfile(this.enCypeId(this.data));
+      this.imagePerson = 'https://tc.thaihealth.or.th:4122/uapi/ddc/getphotoperson?PersonId=' + this.data.PersonId;
+
+      this.personsService.getAddressById(this.data.PersonId).subscribe(res => {
+        if (!res.successful) return console.error(res.message);
+        this.AddressList = res.data;
+      });
+
+      this.personsService.getworkperson(this.data.PersonId).subscribe(res => {
+        if (!res.successful) return console.error(res.message);
+        this.PositionList = res.data;
+      });
+
+      this.personsService.getcontactperson(this.data.PersonId).subscribe(res => {
+        if (!res.successful) return console.error(res.message);
+        this.ContactList = res.data;
+      });
+
+    }
   }
 
   public deletePerson(id) {
@@ -69,27 +94,27 @@ export class CardPersonComponent implements OnInit {
     const HouseNumber = value.HouseNumber ? ' เลขที่ ' + value.HouseNumber + ' ' : '';
     const Road = value.Road ? ' ถนน' + value.Road + ' ' : '';
     const Soi = value.Soi ? ' ซอย' + value.Soi + ' ' : '';
-   
+
     if (value.Province == 'กรุงเทพมหานคร') {
       const Province = value.Province != '' ? ' ' + value.Province + ' ' : '';
       const Subdistrict = value.Subdistrict != '' ? ' แขวง' + value.Subdistrict + ' ' : '';
-      const District = value.District != '' ? 'เขต'+value.District+ '' : '';
+      const District = value.District != '' ? 'เขต' + value.District + '' : '';
       const Zipcode = value.Zipcode != '' ? ' ' + value.Zipcode + ' ' : '';
 
-      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  Zipcode;
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province + Zipcode;
     } else {
       const Province = value.Province != '' ? ' จังหวัด' + value.Province + '' : '';
-      const Subdistrict = value.Subdistrict != '' ? 'ตำบล'+ value.Subdistrict + ' ' : '';
-      const District = value.District != '' ? 'อำเภอ'+value.District+ '' : '';
+      const Subdistrict = value.Subdistrict != '' ? 'ตำบล' + value.Subdistrict + ' ' : '';
+      const District = value.District != '' ? 'อำเภอ' + value.District + '' : '';
       const Zipcode = value.Zipcode != '' ? ' ' + value.Zipcode + ' ' : '';
-      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province +  Zipcode;
+      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province + Zipcode;
     }
-    
+
   }
 
-  canEdit(checkNext = null, personid){
+  canEdit(checkNext = null, personid) {
     var ret = this.usersService.canAccessPersonWithCurrentGroup(personid);
-    if (ret){
+    if (ret) {
       if (checkNext !== null)
         return checkNext;
     }

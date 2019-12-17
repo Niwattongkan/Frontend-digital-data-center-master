@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PersonsService } from '../../../shared/services/persons.service';
 import { element } from 'protractor';
 import SimpleCrypto from 'simple-crypto-js/build/SimpleCrypto';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'modal-address-information',
@@ -125,7 +126,7 @@ export class ModalAddressInformationComponent implements OnInit {
       Road: [data.Road, [Validators.required]],
       Soi: [data.Soi, [Validators.required]],
     }) : this.formBuilder.group({
-      TypeAddress: [3, [Validators.required]],
+      TypeAddress: ['', [Validators.required]],
       Subdistrict: [''],
       District: ['', [Validators.required]],
       Province: ['', [Validators.required]],
@@ -149,6 +150,24 @@ export class ModalAddressInformationComponent implements OnInit {
   }
 
   closeModal() {
-    return this.modalService.dismissAll();
+    if (this.addressForm.dirty)
+      Swal.fire({
+        title: '',
+        text: 'ต้องการบันทึกข้อมูลหรือไม่',
+        type: 'warning',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        showCancelButton: true,
+        confirmButtonText: 'ตกลง',
+        cancelButtonText: 'ยกเลิก',
+        reverseButtons: true
+      }).then(async result => {
+        if (!result.value) {
+          return this.modalService.dismissAll();
+        }
+      });
+    else {
+      return this.modalService.dismissAll();
+    }
   }
 }

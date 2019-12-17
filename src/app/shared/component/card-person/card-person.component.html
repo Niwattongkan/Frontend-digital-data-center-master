@@ -1,9 +1,10 @@
 <div class="container mt-2">
   <div class="row">
     <div class="col-md-2">
-      <ngx-avatar *ngIf="data.PathPhoto" [src]="imagePerson" size="120" [round]="true">
+      <ngx-avatar *ngIf="data && data.PathPhoto" [src]="imagePerson" size="120" [round]="true">
       </ngx-avatar>
-      <ngx-avatar *ngIf="!data.PathPhoto" src="../../../../assets/icon-customer/image-default.png" size="120" [round]="true">
+      <ngx-avatar *ngIf="data && !data.PathPhoto" src="../../../../assets/icon-customer/image-default.png" size="120"
+        [round]="true">
       </ngx-avatar>
     </div>
     <div class="col-md-10">
@@ -19,11 +20,12 @@
         </div>
         <div class="col-md-6 d-flex justify-content-between">
           <span class="text-orange text-bold mr-4" style="font-size: 14px">เบอร์โทรศัพท์: </span>
-          <span *ngFor="let contact of data.ContactList">
+          <span *ngFor="let contact of ContactList">
             <label style="font-size: 14px" *ngIf="contact.TypeContactId == 2">{{contact.Contact + ' '}}</label>
           </span>
           <a *ngIf="currentPath == '/persons'" href="javascript:void(0)" class="d-flex ml-auto"
-            routerLink="/persons/insert/{{cypeID}}" ngbTooltip="แก้ไขข้อมูลบุคคล" [ngClass]="{'disabled':!canEdit(canEditPerson, data.PersonId)}"  >
+            routerLink="/persons/insert/{{cypeID}}" ngbTooltip="แก้ไขข้อมูลบุคคล"
+            [ngClass]="{'disabled':!canEdit(canEditPerson, data.PersonId)}">
             <i class="fas fa-pencil-alt fa-lg"></i>
           </a>
           <a href="javascript:void(0)" *ngIf="currentPath == '/home'" class="d-flex ml-auto"
@@ -35,15 +37,17 @@
       <div class="row">
         <div class="col-md-6">
           <span class="text-orange text-bold mr-4" style="font-size: 14px">อีเมล: </span>
-          <span *ngFor="let contact of data.ContactList;let i = index">
-            <label style="font-size: 14px" *ngIf="contact.TypeContactId == 1" >{{contact.Contact}}</label><br *ngIf="contact.Contact !== '' && contact.Contact !== null">
+          <span *ngFor="let contact of ContactList;let i = index">
+            <label style="font-size: 14px" *ngIf="contact.TypeContactId == 1">{{contact.Contact}}</label><br
+              *ngIf="contact.Contact !== '' && contact.Contact !== null">
             <label class="licnum" *ngIf="i>0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
           </span>
         </div>
         <div class="col-md-5">
           <span class="text-orange text-bold mr-4" style="font-size: 14px"> ตำแหน่ง:</span>
-          <span *ngFor="let position of data.PositionList;let i = index">
-            <label style="font-size: 14px">{{ (i > 0 ? ', ' : '') + position.Position}}({{ getYear(position.StartYear)}})</label>
+          <span *ngFor="let position of PositionList;let i = index">
+            <label
+              style="font-size: 14px">{{ (i > 0 ? ', ' : '') + position.Position}}({{ getYear(position.StartYear)}})</label>
           </span>
         </div>
         <div class="col-md-1 justify-content-end">
@@ -58,8 +62,9 @@
             </div>
           </div>
           <div class="icon-box d-flex ml-auto">
-            <a *ngIf="currentPath == '/persons'" href="javascript:void(0)" class="ml-auto" (click)="deletePerson(data.PersonId)"
-              ngbTooltip="ลบข้อมูลบุคคล" [ngClass]="{'disabled':!canEdit(canDeletePerson, data.PersonId)}">
+            <a *ngIf="currentPath == '/persons'" href="javascript:void(0)" class="ml-auto"
+              (click)="deletePerson(data.PersonId)" ngbTooltip="ลบข้อมูลบุคคล"
+              [ngClass]="{'disabled':!canEdit(canDeletePerson, data.PersonId)}">
               <i class="fas fa-trash fa-lg"></i>
             </a>
           </div>
@@ -80,21 +85,23 @@
       </div> -->
     </div>
   </div>
-  <div class="mt-4" *ngIf="data.PersonAddress">
-    <div *ngIf="data.PersonAddress.length > 0" class="collapse" [ngbCollapse]="isCollapsed">
-      <div class="card card-body shadow mb-2" *ngFor="let address of data.PersonAddress">
-        <div class="row">
-          <label class="col-md-2 text-orange"> ประเภทที่อยู่ </label>
-          <label class="col-md-10"> {{ address.TypeAddress  }} </label>
-        </div>
-        <div class="row">
-          <label class="col-md-2 text-orange"> ที่อยู่ </label>
-          <label class="col-md-10">
-            {{showAddress(address)}}
-          </label>
-        </div>
-        <div class="row icon-box d-flex justify-content-end">
-          <label>Update: {{address.UpdateDate | date: 'dd/MM/yyyy'}}</label>
+  <div>
+    <div class="mt-4">
+      <div class="collapse" [ngbCollapse]="isCollapsed">
+        <div class="card card-body shadow mb-2" *ngFor="let address of AddressList">
+          <div class="row">
+            <label class="col-md-2 text-orange"> ประเภทที่อยู่ </label>
+            <label class="col-md-10"> {{ address.TypeAddress  }} </label>
+          </div>
+          <div class="row">
+            <label class="col-md-2 text-orange"> ที่อยู่ </label>
+            <label class="col-md-10">
+              {{showAddress(address)}}
+            </label>
+          </div>
+          <div class="row icon-box d-flex justify-content-end">
+            <label>Update: {{address.UpdateDate | date: 'dd/MM/yyyy'}}</label>
+          </div>
         </div>
       </div>
     </div>

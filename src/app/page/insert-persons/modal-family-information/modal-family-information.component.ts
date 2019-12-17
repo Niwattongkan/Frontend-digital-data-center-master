@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { validForm } from '../../../shared/library/form';
 import { PersonsService } from '../../../shared/services/persons.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'modal-family-information',
@@ -52,7 +53,25 @@ export class ModalFamilyInformationComponent implements OnInit {
   }
 
   closeModal() {
-    return this.modalService.dismissAll()
+    if (this.familyForm.dirty)
+      Swal.fire({
+        title: '',
+        text: 'ต้องการบันทึกข้อมูลหรือไม่',
+        type: 'warning',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        showCancelButton: true,
+        confirmButtonText: 'ตกลง',
+        cancelButtonText: 'ยกเลิก',
+        reverseButtons: true
+      }).then(async result => {
+        if (!result.value) {
+          return this.modalService.dismissAll();
+        }
+      });
+    else {
+      return this.modalService.dismissAll();
+    }
   }
 
   setFamily(data) {

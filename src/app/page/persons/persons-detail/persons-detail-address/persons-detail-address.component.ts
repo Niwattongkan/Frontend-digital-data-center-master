@@ -32,7 +32,6 @@ export class PersonsDetailAddressComponent {
 
   ngOnChanges() {
     this.addressList = this.inputForm ? this.inputForm : {}
-    console.log('sss',this.addressList)
   }
 
   submit() {

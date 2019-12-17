@@ -18,6 +18,7 @@ import { validForm } from '../../shared/library/form';
 import { NgxSpinnerService } from 'ngx-spinner';
 import SimpleCrypto from 'simple-crypto-js/build/SimpleCrypto';
 import { UsersService } from '../../shared/services/users.service';
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-insert-persons',
@@ -182,7 +183,7 @@ export class InsertPersonsComponent implements OnInit {
       const person = (await this.personsService
         .insertPerson(this.profileForm.value)
         .toPromise()).data[0];
-        
+
       this.insertPerson(person);
       this.updateLog(person);
     }
@@ -206,7 +207,7 @@ export class InsertPersonsComponent implements OnInit {
   }
 
   public async insertPerson(person) {
-   
+
     if (person.PersonId) {
       for (let i = 0; i < this.addressList.length; i++) {
         this.addressList[i].PersonId = Number(person.PersonId);
@@ -241,7 +242,7 @@ export class InsertPersonsComponent implements OnInit {
           .insertCoordinator(this.coordinateList[i])
           .toPromise();
       }
-      
+
     }
   }
 
@@ -475,8 +476,26 @@ export class InsertPersonsComponent implements OnInit {
     );
   }
 
-  public back() {
-    return this.router.navigate(['/persons']);
+  back() {
+    if (this.profileForm.dirty)
+      Swal.fire({
+        title: '',
+        text: 'ต้องการบันทึกข้อมูลหรือไม่',
+        type: 'warning',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        showCancelButton: true,
+        confirmButtonText: 'ตกลง',
+        cancelButtonText: 'ยกเลิก',
+        reverseButtons: true
+      }).then(async result => {
+        if (!result.value) {
+          return this.router.navigate(['/persons']);
+        }
+      });
+    else {
+      return this.router.navigate(['/persons']);
+    }
   }
 
   public openModal(content, size) {
@@ -537,119 +556,96 @@ export class InsertPersonsComponent implements OnInit {
     });
   }
 
-  public async updateAddress(value) {
+  public updateAddress(value) {
     if (value.PersonAddressId) {
       const model = value;
       model.PersonId = Number(this.personId);
       model.TypeAddress = this.getTypeAddressNum(value.TypeAddress);
-      await this.personsService.updatePersonAddress(model).toPromise();
-      this.addressList = (await this.personsService
-        .getAddressById(this.personId)
-        .toPromise()).data;
+      this.personsService.updatePersonAddress(model).toPromise().then(res => {
+        if (!res.successful) return alert(res.message);
+        alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
+        this.getAddress();
+      });
     } else {
       if (this.personId) {
         value.PersonId = Number(this.personId);
         value.TypeAddress = this.getTypeAddressNum(value.TypeAddress);
-        await this.personsService.insertPersonAddress(value).toPromise();
-        alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
+        this.personsService.insertPersonAddress(value).toPromise().then(res => {
+          if (!res.successful) return alert(res.message);
+          alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
+          this.getAddress();
+        });
+
       }
-      this.addressList.push(value);
     }
   }
 
-  public async deleteFamily(index) {
+  deleteFamily(index) {
     return alertDeleteEvent().then(async confirm => {
       if (confirm.value) {
         if (this.personId) {
           const model = this.familyList[index];
           model.PersonId = Number(this.personId);
           model.FamilyId
-            ? await this.personsService.deletefamily(model.FamilyId).toPromise()
-            : false;
+            ? this.personsService.deletefamily(model.FamilyId).toPromise().then(res => {
+              if (!res.successful) return alert(res.message);
+              this.getFamily();
+              alertEvent('ลบข้อมูลสำเร็จ', 'success');
+            }) : false;
         }
-        this.familyList.splice(index, 1);
-        return alertEvent('ลบข้อมูลสำเร็จ', 'success');
       }
     });
   }
 
-  public async updateFamily(value) {
+  updateFamily(value) {
     if (value.FamilyId) {
       const model = value;
       model.PersonId = Number(this.personId);
-      await this.personsService.updateFamily(model).toPromise();
-      this.familyList = (await this.personsService
-        .getFamilyById(this.personId)
-        .toPromise()).data;
+      this.personsService.updateFamily(model).toPromise().then(res => {
+        if (!res.successful) return alert(res.message);
+        this.getFamily();
+        alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
+      });
     } else {
       if (this.personId) {
         value.PersonId = Number(this.personId);
-        const result = (await this.personsService
-          .insertFamily(value)
-          .toPromise()).data;
-        alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
-        this.familyList.push(value);
+        this.personsService.insertFamily(value).toPromise().then(res => {
+          if (!res.successful) return alert(res.message);
+          this.getFamily();
+          alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
+        });
       }
     }
-
-    this.personsService.getFamilyById(this.personId).toPromise().then(res => {
-      if (res.successful) this.familyList = res.data;
-      else alert(res.message);
-    });
-
   }
 
-  public async deleteContact(index) {
-    return alertDeleteEvent().then(async confirm => {
+  deleteContact(index) {
+    return alertDeleteEvent().then(confirm => {
       if (confirm.value) {
         if (this.personId) {
           const model = this.contactList[index];
           model.PersonId = Number(this.personId);
-          model.PersonContactId
-            ? await this.personsService
-              .deletepersoncontact(model.PersonContactId)
-              .toPromise()
-            : false;
+          this.personsService.deletepersoncontact(model.PersonContactId).toPromise().then(res => {
+            if (!res.successful) return alert(res.message);
+            this.getContract();
+            alertEvent('ลบข้อมูลสำเร็จ', 'success');
+          });
         }
-        this.contactList.splice(index, 1);
-        return alertEvent('ลบข้อมูลสำเร็จ', 'success');
       }
     });
   }
 
-  public async insertContactq(value) {
-    if (this.personId) {
-      const getcontactperson = this.personsService.getcontactperson(value[1]);
-      for (let index = 0; index < value.length; index++) {
-        const element = value[index];
-        element.PersonId = Number(this.personId);
-        await this.personsService.insertPersonContact(element).toPromise();
-      }
+  updateContact(v) {
+    if (v) {
       alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
+      this.getContract();
     }
-    Array.prototype.push.apply(this.contactList, value);
-    // this.contactList = value
   }
-  public async updateContact(value, index) {
 
-    if (this.personId) {
-      const getcontactperson = this.personsService.getcontactperson(value[1]);
-      const element = value[0];
-      element.PersonId = Number(this.personId);
-      //  element.PersonId = value[1];
-      await this.personsService.updatePersonContact(element).toPromise();
-
-      alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
-    }
-
-    this.contactList[index] = value[0];
-    //  Array.prototype.push.apply(this.contactList, value[0]);
-    // this.contactList = value
-  }
   deleteCoordinator(id) {
     return alertDeleteEvent().then(confirm => {
       if (confirm.value && this.personId) {
         this.personsService.deletecoordinator(id).toPromise().then(res => {
+          if (!res.successful) return alert(res.message);
           this.getCoordinator();
           alertEvent('ลบข้อมูลสำเร็จ', 'success');
         });
@@ -657,15 +653,15 @@ export class InsertPersonsComponent implements OnInit {
     });
   }
 
-  public async deleteCoordinatorcontact(index) {
-    return alertDeleteEvent().then(async confirm => {
+  deleteCoordinatorcontact(index) {
+    return alertDeleteEvent().then(confirm => {
       if (confirm.value) {
         if (index) {
-          await this.personsService
-            .deletecoordinator(index)
-            .toPromise();
-          this.coordinateList.splice(index, 1);
-          return alertEvent('ลบข้อมูลสำเร็จ', 'success');
+          this.personsService.deletecoordinator(index).toPromise().then(res => {
+            if (!res.successful) return alert(res.message);
+            this.getCoordinator();
+            alertEvent('ลบข้อมูลสำเร็จ', 'success');
+          });
         }
       }
     });
@@ -673,34 +669,10 @@ export class InsertPersonsComponent implements OnInit {
 
 
 
-  public async updateCoordinator(value) {
-    if (this.personId) {
-      if (value[0].CoordinatorId) {
-        const element = value[0];
-        element.PersonId = Number(this.personId);
-        const coordinate = (await this.personsService
-          .updateCoordinator(element)
-          .toPromise()).data[0];
-        await this.personsService.updateCoordinatorcontact(element).toPromise();
-      } else {
-        for (let index = 0; index < value.length; index++) {
-          const element = value[index];
-          element.PersonId = Number(this.personId);
-          const coordinate = (await this.personsService
-            .insertCoordinator(element)
-            .toPromise()).data[0];
-          element.CoordinatorId = coordinate.CoordinatorId;
-          await this.personsService.insertcoordinatorcantact(element).toPromise();
-        }
-      }
-
+  updateCoordinator(value) {
+    if (value) {
+      this.getCoordinator();
       alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
-    }
-    this.coordinateList = Object.values(groupbyList(mapPersons((await this.personsService
-      .getcoordinator(this.personId)
-      .toPromise()).data), 'FullnameTh'));
-    for (let i = 0; i < this.coordinateList.length; i++) {
-      this.nametitle.push(this.coordinateList[i][0].FullnameTh);
     }
   }
 
@@ -723,28 +695,24 @@ export class InsertPersonsComponent implements OnInit {
     });
   }
 
-  public async updateBursary(value) {
-    const model = value;
+  updateBursary(value) {
+    let model = value;
     model.PersonId = Number(this.personId);
-    await this.personsService.updateeducation(model).toPromise();
-    this.bursaryList = (await this.personsService.getEducationById(this.personId).toPromise()).data;
-
+    this.personsService.updateeducation(model).toPromise().then(res => {
+      if (!res.successful) return alert(res.message);
+      alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
+      this.getEducation();
+    });
   }
 
-  public async inserteducation(value) {
-    // debugger;
-    if (this.personId) {
-      for (let index = 0; index < value.length; index++) {
-        const element = value[index];
-        element.PersonId = Number(this.personId);
-        await this.personsService.inserteducation(element).toPromise();
-      }
-      this.bursaryList = (await this.personsService.getEducationById(this.personId).toPromise()).data;
+  inserteducation(value) {
+    let element = value;
+    element.PersonId = Number(this.personId);
+    this.personsService.inserteducation(element).toPromise().then(res => {
+      if (!res.successful) return alert(res.message);
       alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
-    }
-    // else {
-    //   this.bursaryList.push(value);
-    // }
+      this.getEducation();
+    });
   }
 
   public async deleteWorking(index) {
@@ -775,7 +743,7 @@ export class InsertPersonsComponent implements OnInit {
       if (this.personId) {
         value.PersonId = Number(this.personId);
         await this.personsService.insertWork(value).toPromise();
-        
+
         alertEvent('บันทึกข้อมูลสำเร็จ', 'success');
       }
       this.workingList.push(value);
@@ -829,44 +797,67 @@ export class InsertPersonsComponent implements OnInit {
 
 
   getCoordinator() {
+    this.nametitle = [];
+    this.coordinateList = [];
     this.personsService.getcoordinator(this.personId).toPromise().then(res => {
-      if (res.successful) {
-        this.coordinateList = Object.values(groupbyList(mapPersons(res.data), 'FullnameTh'));
-        if (this.coordinateList) {
-          for (let i = 0; i < this.coordinateList.length; i++) {
-            this.nametitle.push(this.coordinateList[i][0].FullnameTh);
-          }
+      if (!res.successful) return alert(res.message);
+      this.coordinateList = Object.values(groupbyList(mapPersons(res.data), 'FullnameTh'));
+      if (this.coordinateList) {
+        for (let i = 0; i < this.coordinateList.length; i++) {
+          this.nametitle.push(this.coordinateList[i][0].FullnameTh);
         }
-      } else alert(res.message);
+      }
+    });
+  }
+
+  getAddress() {
+    this.addressList = [];
+    this.personsService.getAddressById(this.personId).toPromise().then(res => {
+      if (!res.successful) return alert(res.message);
+      this.addressList = res.data;
+    }, err => {
+      console.error(err);
+    });
+  }
+
+  getFamily() {
+    this.familyList = [];
+    this.personsService.getFamilyById(this.personId).toPromise().then(res => {
+      if (!res.successful) return alert(res.message);
+      this.familyList = res.data;
+    });
+  }
+
+  getEducation() {
+    this.bursaryList = [];
+    this.personsService.getEducationById(this.personId).toPromise().then(res => {
+      if (!res.successful) return alert(res.message);
+      this.bursaryList = res.data;
+    });
+  }
+
+  getWork() {
+    this.workingList = [];
+    this.personsService.getworkperson(this.personId).toPromise().then(res => {
+      if (!res.successful) return alert(res.message);
+      this.workingList = res.data;
+    });
+  }
+
+  getContract() {
+    this.contactList = [];
+    this.personsService.getcontactperson(this.personId).toPromise().then(res => {
+      if (!res.successful) return alert(res.message);
+      this.contactList = res.data;
     });
   }
 
   setList() {
-    this.personsService.getAddressById(this.personId).toPromise().then(res => {
-      if (res.successful) this.addressList = res.data;
-      else alert(res.message)
-    }, err => {
-      console.error(err);
-    });
-    this.personsService.getFamilyById(this.personId).toPromise().then(res => {
-      if (res.successful) this.familyList = res.data;
-      else alert(res.message);
-    });
-
-    this.personsService.getEducationById(this.personId).toPromise().then(res => {
-      if (res.successful) this.bursaryList = res.data;
-      else alert(res.message);
-    });
-    this.personsService.getworkperson(this.personId).toPromise().then(res => {
-      if (res.successful) this.workingList = res.data;
-      else alert(res.message);
-    });
-
-    this.personsService.getcontactperson(this.personId).toPromise().then(res => {
-      if (res.successful) this.contactList = res.data;
-      else alert(res.message);
-    });
-
+    this.getAddress();
+    this.getFamily();
+    this.getEducation();
+    this.getWork();
+    this.getContract();
     this.getCoordinator();
   }
 
