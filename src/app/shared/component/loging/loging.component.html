@@ -12,8 +12,11 @@
       <tbody>
         <tr *ngFor="let data of editlogPersonlist" role="row" class="odd bg-white">
           <td class="text-size">
-            <label class="text-left">{{ data.UpdateDate | date: 'dd/MM/yyyy'}}</label>
-            <label class="text-rigth"></label>
+            <label class="text-left">{{ data.UpdateDate | date: 'dd/MM/yyyy'}}</label><br>
+            <small>เมนู : {{data.UpdateMenu}}</small><br>
+            <small>ข้อมูล : {{data.UpdateField}}</small><br>
+            <small>ข้อมูลเดิม : {{data.DataOriginal}}</small><br>
+            <small>ข้อมูลใหม่ : {{data.UpdateData}}</small>
           </td>
         </tr>
         <tr class="odd" *ngIf="editlogPersonlist.length == 0">

@@ -8,22 +8,22 @@ export class AuthlogService {
 
   constructor(
     private apiService: ApiService,
-    private usersService:UsersService
+    private usersService: UsersService
   ) { }
 
   setFormData(data) {
     var formData = new FormData();
     let key = Object.keys(data);
     for (let index = 0; index < key.length; index++) {
-        formData.append(key[index], (data[key[index]]) + "");
+      formData.append(key[index], (data[key[index]]) + "");
     }
     var CreateBy = this.usersService.getUserInfo().email;
     formData.append("CreateBy", `${CreateBy}`);
     formData.append("UpdateBy", `${CreateBy}`);
     return formData
-}
-  getuserinfo(data):Observable<any>{
-    return this.apiService.get(`getuserinfo?PersonId=`+data)
+  }
+  getuserinfo(data): Observable<any> {
+    return this.apiService.get(`getuserinfo?PersonId=` + data)
   }
   insertAuditlog(data): Observable<any> {
     let formData = this.setFormData(data)
@@ -92,6 +92,10 @@ export class AuthlogService {
 
   getEditlogWorkAll(): Observable<any> {
     return this.apiService.get(`geteditlogwork`);
+  }
+
+  getAuditLogById(email) {
+    return this.apiService.get(`GetAuditLogById?UpdateBy=` + email);
   }
 
 }

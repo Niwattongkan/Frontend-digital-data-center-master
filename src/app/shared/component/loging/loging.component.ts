@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { AuthlogService } from '../../../shared/services/authlog.service';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-loging',
@@ -15,15 +16,14 @@ export class LogingComponent implements OnInit {
 
   constructor(
     private authlogService: AuthlogService,
+    private userService: UsersService
   ) { }
 
   async ngOnInit() {
-    this.editlogPersonlist = this.findEditLog((await this.authlogService.getEditlogPersonAll().toPromise()).data)
-  }
-
-  public findEditLog(personList) {
-    let result = []
-    personList ? personList.find(data => data.PersonId == this.personId ? result.push(data) : false) : null
-    return result
+    let user = this.userService.getUserInfo();
+    this.authlogService.getAuditLogById(user.email).subscribe(res => {
+      if (!res.successful) return alert(res.message);
+      this.editlogPersonlist = res.data;
+    })
   }
 }
