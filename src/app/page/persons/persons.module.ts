@@ -20,6 +20,7 @@ import { PersonsStudiesComponent } from './persons-studies/persons-studies.compo
 import { PersonsService } from '../../shared/services/persons.service';
 import {NgxSpinnerModule} from "ngx-spinner";
 import { PersonImportComponent } from './person-import/person-import.component';
+import { RoleService } from 'src/app/shared/services/role.service';
 
 @NgModule({
   imports: [
@@ -46,7 +47,8 @@ import { PersonImportComponent } from './person-import/person-import.component';
   ],
   providers: [
     PersonsService,
-    ExcelService
+    ExcelService,
+    RoleService
   ]
 })
 export class PersonsModule { }

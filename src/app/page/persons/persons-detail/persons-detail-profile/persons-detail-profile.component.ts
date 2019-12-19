@@ -1,11 +1,12 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-import {calulateAge} from '../../../../shared/library/date';
-import {mapPersons} from "../../../../shared/library/mapList";
+import { calulateAge } from '../../../../shared/library/date';
+import { mapPersons } from "../../../../shared/library/mapList";
 import SimpleCrypto from "simple-crypto-js/build/SimpleCrypto";
-import {ActivatedRoute} from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { UsersService } from 'src/app/shared/services/users.service';
 import { debug } from 'util';
+import { RoleService } from 'src/app/shared/services/role.service';
 
 @Component({
   selector: 'persons-detail-profile',
@@ -18,16 +19,25 @@ export class PersonsDetailProfileComponent implements OnInit {
   public personId = ""
   public imageProfile = ""
   public encype = ""
+  Role: any[] = [];
   @Input() inputForm: any;
 
   @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private activatedRoute: ActivatedRoute, private usersService:UsersService) { }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private usersService: UsersService,
+    private role: RoleService) { }
 
   ngOnInit() {
   }
 
   async ngOnChanges() {
+    this.role.getgroupuserisnull().toPromise().then(res => {
+      if (!res.successful) alert(res.message);
+      this.Role = res.data;
+    });
+
     this.encype = String(this.activatedRoute.snapshot.paramMap.get('id'))
     this.profileForm = this.inputForm ? this.setProfile(this.inputForm) : {}
     this.personId = this.inputForm ? this.inputForm.PersonId : ""
@@ -59,8 +69,11 @@ export class PersonsDetailProfileComponent implements OnInit {
 
   }
 
-  canEdit(personId){
-    return this.usersService.canEditPerson() && this.usersService.canAccessPersonWithCurrentGroup(personId);
+  canEdit(personId) {
+    let rs = this.Role.find(c => c.PersonId == personId);
+    if (!rs) return true;
+    else return false;
+    //return this.usersService.canEditPerson() && this.usersService.canAccessPersonWithCurrentGroup(personId);
   }
 
 }

@@ -52,7 +52,7 @@ import { AuthlogService } from '../../shared/services/authlog.service';
   ],
   providers: [
     OrganizationService,
-    AuthlogService,
+    AuthlogService
   ]
 })
 export class ComponentModule { }

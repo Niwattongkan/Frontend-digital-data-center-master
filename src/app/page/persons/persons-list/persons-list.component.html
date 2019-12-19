@@ -53,7 +53,7 @@
 
   <div class="card shadow mt-2" *ngFor="let person of personList | paginate: { itemsPerPage: 10, currentPage: page }">
     <div class="card-body">
-      <card-person [data]="person"  [isCollapsed]="false" (onDelete)="delete($event)"></card-person>
+      <card-person [data]="person"  [isCollapsed]="true" [Role]="roleId" (onDelete)="delete($event)"></card-person>
     </div>
   </div>
   <!-- <div class="card shadow mt-2" *ngIf="personList.length == 0">

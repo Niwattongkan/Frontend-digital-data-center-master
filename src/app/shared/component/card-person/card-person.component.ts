@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import SimpleCrypto from "simple-crypto-js";
 import { UsersService } from '../../services/users.service';
 import { PersonsService } from '../../services/persons.service';
+import { RoleService } from '../../services/role.service';
 
 @Component({
   selector: 'card-person',
@@ -12,6 +13,7 @@ import { PersonsService } from '../../services/persons.service';
 export class CardPersonComponent implements OnInit {
 
   @Input() isCollapsed = true;
+  @Input() Role: any[] = [];
   public cypeID
   public currentPath = '';
   public imagePerson = '';
@@ -22,6 +24,8 @@ export class CardPersonComponent implements OnInit {
   AddressList: any[] = [];
   PositionList: any[] = [];
   ContactList: any[] = [];
+
+
   @Input() data: any;
 
   @Output() onDelete: EventEmitter<any> = new EventEmitter<any>();
@@ -100,24 +104,25 @@ export class CardPersonComponent implements OnInit {
       const Subdistrict = value.Subdistrict != '' ? ' แขวง' + value.Subdistrict + ' ' : '';
       const District = value.District != '' ? 'เขต' + value.District + '' : '';
       const Zipcode = value.Zipcode != '' ? ' ' + value.Zipcode + ' ' : '';
-
-      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province + Zipcode;
+      return HouseNumber + Building + Floor + Room + Road + Soi + Subdistrict + District + Province + Zipcode;
     } else {
       const Province = value.Province != '' ? ' จังหวัด' + value.Province + '' : '';
       const Subdistrict = value.Subdistrict != '' ? 'ตำบล' + value.Subdistrict + ' ' : '';
       const District = value.District != '' ? 'อำเภอ' + value.District + '' : '';
       const Zipcode = value.Zipcode != '' ? ' ' + value.Zipcode + ' ' : '';
-      return Building + Floor + Room + HouseNumber + Road + Soi + Subdistrict + District + Province + Zipcode;
+      return HouseNumber + Building + Floor + Room + Road + Soi + Subdistrict + District + Province + Zipcode;
     }
-
   }
 
-  canEdit(checkNext = null, personid) {
-    var ret = this.usersService.canAccessPersonWithCurrentGroup(personid);
-    if (ret) {
-      if (checkNext !== null)
-        return checkNext;
-    }
-    return ret;
+  canEdit(personid) {
+    let rs = this.Role.find(c => c.PersonId == personid);
+    if (!rs) return true;
+    else return false;
+    // var ret = this.usersService.canAccessPersonWithCurrentGroup(personid);
+    // if (ret) {
+    //   if (checkNext !== null)
+    //     return checkNext;
+    // }
+    // return ret;
   }
 }

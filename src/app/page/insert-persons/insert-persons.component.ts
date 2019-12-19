@@ -66,6 +66,8 @@ export class InsertPersonsComponent implements OnInit {
   };
 
   private stepper: Stepper;
+  
+  roleId;
 
   constructor(
     private router: Router,
@@ -77,7 +79,8 @@ export class InsertPersonsComponent implements OnInit {
     private organizationService: OrganizationService,
     private authlogService: AuthlogService,
     private spinner: NgxSpinnerService,
-    private http: HttpClient
+    private http: HttpClient,
+   
   ) {
     this.http.get<{ ip: string }>('https://jsonip.com')
       .subscribe(data => {
@@ -92,9 +95,11 @@ export class InsertPersonsComponent implements OnInit {
     this.mode = this.personId ? 'Edit' : 'Insert';
   }
 
+
   async ngOnInit() {
     this.spinner.show();
     try {
+
       this.stepper = new Stepper(document.querySelector('#stepper1'), {
         linear: false,
         animation: true

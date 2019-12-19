@@ -6,6 +6,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { UsersService } from '../../../shared/services/users.service';
 import { HttpClient } from '@angular/common/http';
 import { AuthlogService } from '../../../shared/services/authlog.service';
+import { RoleService } from 'src/app/shared/services/role.service';
 @Component({
   selector: 'app-persons-list',
   templateUrl: './persons-list.component.html',
@@ -18,6 +19,7 @@ export class PersonsListComponent implements OnInit {
   public tempPersonList: any = []
   public inputSearch = ''
   public canAddPerson = false;
+  roleId : any[];
   ipAddress: any;
   constructor(
     private personsService: PersonsService,
@@ -26,17 +28,21 @@ export class PersonsListComponent implements OnInit {
     private excelService: ExcelService,
     private authlogService: AuthlogService,
     private http: HttpClient,
+    private role : RoleService
   ) {
 
     this.http.get<{ ip: string }>('https://jsonip.com')
       .subscribe(data => {
         this.ipAddress = data
       });
-
   }
 
   ngOnInit() {
     this.spinner.show();
+    this.role.getgroupuserisnull().toPromise().then(res => {
+      if (!res.successful) alert(res.message);
+      this.roleId = res.data;
+    });
     this.canAddPerson = this.usersService.canAddPerson();
     this.spinner.hide();
   }
